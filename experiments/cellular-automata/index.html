@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cellular Automata Lab - Ronnie's Experiments</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --text: #f0f6fc;
+      --text-muted: #8b949e;
+      --accent: #58a6ff;
+      --cell-live: #7ee787;
+      --cell-dead: #0a0e14;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      padding: 1.5rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--card-bg);
+      color: var(--text);
+      text-decoration: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      border: 1px solid var(--border);
+      transition: all 0.15s;
+    }
+
+    .back-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .stats {
+      display: flex;
+      gap: 1.5rem;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    .stat-val {
+      color: var(--text);
+      font-weight: 600;
+      font-family: monospace;
+    }
+
+    .controls-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .ctrl-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      font-size: 0.8rem;
+    }
+
+    .ctrl-item label {
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 0.7rem;
+    }
+
+    select, input[type="range"] {
+      background: #21262d;
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 4px;
+      padding: 0.35rem 0.6rem;
+      outline: none;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    button {
+      background: #21262d;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.5rem 0.9rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: all 0.15s;
+    }
+
+    button:hover {
+      background: #30363d;
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .canvas-wrapper {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      overflow: hidden;
+    }
+
+    canvas {
+      border: 1px solid var(--border);
+      background: var(--cell-dead);
+      cursor: crosshair;
+      image-rendering: pixelated;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <a href="../../" class="back-btn">&larr; Back to Experiments Hub</a>
+    <div class="stats">
+      <div>Generation: <span id="genCount" class="stat-val">0</span></div>
+      <div>Live Cells: <span id="popCount" class="stat-val">0</span></div>
+      <div>Status: <span id="simStatus" class="stat-val">Running</span></div>
+    </div>
+  </div>
+
+  <div class="controls-panel">
+    <div class="btn-group">
+      <button id="toggleBtn">Pause</button>
+      <button id="stepBtn">Step</button>
+      <button id="clearBtn">Clear</button>
+      <button id="randomBtn">Randomize</button>
+    </div>
+
+    <div class="ctrl-item">
+      <label>Pattern Presets</label>
+      <select id="presetSelect">
+        <option value="">-- Choose Preset --</option>
+        <option value="gosper">Gosper Glider Gun</option>
+        <option value="pulsar">Pulsar (Period 3)</option>
+        <option value="gliders">Glider Fleet</option>
+        <option value="acorn">Acorn (Methuselah)</option>
+      </select>
+    </div>
+
+    <div class="ctrl-item">
+      <label>Speed (FPS): <span id="fpsVal">20</span></label>
+      <input type="range" id="fpsSlider" min="2" max="60" value="20">
+    </div>
+  </div>
+
+  <div class="canvas-wrapper">
+    <canvas id="gridCanvas"></canvas>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("gridCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const CELL_SIZE = 8;
+    const COLS = 100;
+    const ROWS = 60;
+
+    canvas.width = COLS * CELL_SIZE;
+    canvas.height = ROWS * CELL_SIZE;
+
+    let grid = createGrid();
+    let isRunning = true;
+    let generation = 0;
+    let fps = 20;
+    let isDrawing = false;
+    let drawMode = 1; // 1 = alive, 0 = dead
+
+    function createGrid() {
+      return new Uint8Array(COLS * ROWS);
+    }
+
+    function getIndex(x, y) {
+      return y * COLS + x;
+    }
+
+    function randomizeGrid() {
+      for (let i = 0; i < grid.length; i++) {
+        grid[i] = Math.random() > 0.82 ? 1 : 0;
+      }
+      generation = 0;
+      updateStats();
+      draw();
+    }
+
+    function clearGrid() {
+      grid.fill(0);
+      generation = 0;
+      updateStats();
+      draw();
+    }
+
+    function countNeighbors(x, y) {
+      let count = 0;
+      for (let dy = -1; dy <= 1; dy++) {
+        for (let dx = -1; dx <= 1; dx++) {
+          if (dx === 0 && dy === 0) continue;
+          const nx = (x + dx + COLS) % COLS;
+          const ny = (y + dy + ROWS) % ROWS;
+          if (grid[getIndex(nx, ny)] === 1) count++;
+        }
+      }
+      return count;
+    }
+
+    function step() {
+      const next = createGrid();
+      let liveCount = 0;
+
+      for (let y = 0; y < ROWS; y++) {
+        for (let x = 0; x < COLS; x++) {
+          const idx = getIndex(x, y);
+          const neighbors = countNeighbors(x, y);
+          const alive = grid[idx] === 1;
+
+          if (alive && (neighbors === 2 || neighbors === 3)) {
+            next[idx] = 1;
+            liveCount++;
+          } else if (!alive && neighbors === 3) {
+            next[idx] = 1;
+            liveCount++;
+          }
+        }
+      }
+
+      grid = next;
+      generation++;
+      updateStats(liveCount);
+      draw();
+    }
+
+    function draw() {
+      ctx.fillStyle = "#0a0e14";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "#7ee787";
+      for (let y = 0; y < ROWS; y++) {
+        for (let x = 0; x < COLS; x++) {
+          if (grid[getIndex(x, y)] === 1) {
+            ctx.fillRect(x * CELL_SIZE + 0.5, y * CELL_SIZE + 0.5, CELL_SIZE - 1, CELL_SIZE - 1);
+          }
+        }
+      }
+    }
+
+    function updateStats(liveCount = null) {
+      if (liveCount === null) {
+        liveCount = grid.reduce((acc, val) => acc + val, 0);
+      }
+      document.getElementById("genCount").textContent = generation;
+      document.getElementById("popCount").textContent = liveCount;
+    }
+
+    // Interactive mouse drawing
+    function handleMouse(e) {
+      const rect = canvas.getBoundingClientRect();
+      const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+      const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+      const x = Math.floor((clientX - rect.left) / CELL_SIZE);
+      const y = Math.floor((clientY - rect.top) / CELL_SIZE);
+
+      if (x >= 0 && x < COLS && y >= 0 && y < ROWS) {
+        grid[getIndex(x, y)] = drawMode;
+        draw();
+        updateStats();
+      }
+    }
+
+    canvas.addEventListener("mousedown", (e) => {
+      isDrawing = true;
+      const rect = canvas.getBoundingClientRect();
+      const x = Math.floor((e.clientX - rect.left) / CELL_SIZE);
+      const y = Math.floor((e.clientY - rect.top) / CELL_SIZE);
+      drawMode = grid[getIndex(x, y)] === 1 ? 0 : 1;
+      handleMouse(e);
+    });
+
+    window.addEventListener("mouseup", () => isDrawing = false);
+    canvas.addEventListener("mousemove", (e) => {
+      if (isDrawing) handleMouse(e);
+    });
+
+    // Patterns
+    function loadPreset(name) {
+      clearGrid();
+      const cx = Math.floor(COLS / 2);
+      const cy = Math.floor(ROWS / 2);
+
+      if (name === "pulsar") {
+        const offsets = [-6, -1, 1, 6];
+        offsets.forEach(dx => {
+          for (let dy of [-4, -3, -2, 2, 3, 4]) {
+            grid[getIndex(cx + dx, cy + dy)] = 1;
+            grid[getIndex(cx + dy, cy + dx)] = 1;
+          }
+        });
+      } else if (name === "gliders") {
+        for (let i = 0; i < 4; i++) {
+          const gx = 10 + i * 20;
+          const gy = 10 + i * 8;
+          [[1,0], [2,1], [0,2], [1,2], [2,2]].forEach(([dx, dy]) => {
+            grid[getIndex(gx + dx, gy + dy)] = 1;
+          });
+        }
+      } else if (name === "acorn") {
+        [[1,0], [3,1], [0,2], [1,2], [4,2], [5,2], [6,2]].forEach(([dx, dy]) => {
+          grid[getIndex(cx - 3 + dx, cy + dy)] = 1;
+        });
+      } else if (name === "gosper") {
+        const pattern = [
+          [25,1], [23,2], [25,2], [13,3], [14,3], [21,3], [22,3], [35,3], [36,3],
+          [12,4], [16,4], [21,4], [22,4], [35,4], [36,4], [1,5], [2,5], [11,5],
+          [17,5], [21,5], [22,5], [1,6], [2,6], [11,6], [15,6], [17,6], [18,6],
+          [23,6], [25,6], [11,7], [17,7], [25,7], [12,8], [16,8], [13,9], [14,9]
+        ];
+        pattern.forEach(([px, py]) => {
+          if (px < COLS && py < ROWS) grid[getIndex(px + 5, py + 15)] = 1;
+        });
+      }
+      updateStats();
+      draw();
+    }
+
+    document.getElementById("toggleBtn").addEventListener("click", () => {
+      isRunning = !isRunning;
+      document.getElementById("toggleBtn").textContent = isRunning ? "Pause" : "Resume";
+      document.getElementById("simStatus").textContent = isRunning ? "Running" : "Paused";
+    });
+
+    document.getElementById("stepBtn").addEventListener("click", () => {
+      if (!isRunning) step();
+    });
+
+    document.getElementById("clearBtn").addEventListener("click", clearGrid);
+    document.getElementById("randomBtn").addEventListener("click", randomizeGrid);
+
+    document.getElementById("fpsSlider").addEventListener("input", (e) => {
+      fps = parseInt(e.target.value);
+      document.getElementById("fpsVal").textContent = fps;
+    });
+
+    document.getElementById("presetSelect").addEventListener("change", (e) => {
+      if (e.target.value) {
+        loadPreset(e.target.value);
+      }
+    });
+
+    let lastTime = 0;
+    function loop(currentTime) {
+      requestAnimationFrame(loop);
+      const interval = 1000 / fps;
+      const delta = currentTime - lastTime;
+
+      if (delta > interval) {
+        lastTime = currentTime - (delta % interval);
+        if (isRunning) {
+          step();
+        }
+      }
+    }
+
+    randomizeGrid();
+    requestAnimationFrame(loop);
+  </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+[
+  {
+    "id": "particle-field",
+    "title": "Interactive Particle Vector Field",
+    "description": "Real-time canvas flow field with simplex noise, velocity vectors, cursor gravitational attraction, and customizable palettes.",
+    "path": "experiments/particle-field/",
+    "category": "Visualizations",
+    "tags": ["Canvas", "Physics", "Generative", "Interactive"],
+    "date": "2026-10-02"
+  },
+  {
+    "id": "sorting-visualizer",
+    "title": "Sorting Algorithm Visualizer",
+    "description": "Step-by-step visualizer comparing Quicksort, Mergesort, Heapsort, and Bubble sort with real-time comparison counts, array metrics, and speed controls.",
+    "path": "experiments/sorting-visualizer/",
+    "category": "Algorithms",
+    "tags": ["Algorithms", "Data Structures", "Benchmarking", "Education"],
+    "date": "2026-10-02"
+  },
+  {
+    "id": "cellular-automata",
+    "title": "Cellular Automata Lab",
+    "description": "Conway's Game of Life, Brian's Brain, and HighLife simulators with interactive brush drawing, preset oscillators, and spaceship launchers.",
+    "path": "experiments/cellular-automata/",
+    "category": "Simulations",
+    "tags": ["Simulation", "Math", "Emergence", "Grid"],
+    "date": "2026-10-02"
+  }
+]

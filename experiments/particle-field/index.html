@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Particle Vector Field - Ronnie's Experiments</title>
+  <style>
+    :root {
+      --bg: #0a0e14;
+      --panel-bg: rgba(22, 27, 34, 0.85);
+      --border: #30363d;
+      --text: #f0f6fc;
+      --text-muted: #8b949e;
+      --accent: #58a6ff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .ui-overlay {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--panel-bg);
+      color: var(--text);
+      text-decoration: none;
+      padding: 0.5rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      border: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+      width: fit-content;
+      transition: all 0.15s;
+    }
+
+    .back-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .control-panel {
+      background: var(--panel-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      backdrop-filter: blur(8px);
+      width: 280px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .control-panel h2 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .control-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    input[type="range"], select {
+      width: 100%;
+      background: #21262d;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text);
+      outline: none;
+      padding: 0.2rem;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.4rem;
+    }
+
+    button {
+      flex: 1;
+      padding: 0.4rem 0.6rem;
+      background: #21262d;
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    button:hover {
+      background: #30363d;
+      border-color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <div class="ui-overlay">
+    <a href="../../" class="back-btn">&larr; Back to Experiments Hub</a>
+
+    <div class="control-panel">
+      <h2>Particle Vector Field</h2>
+      
+      <div class="control-group">
+        <div class="control-label">
+          <span>Particles</span>
+          <span id="countVal">1800</span>
+        </div>
+        <input type="range" id="particleCount" min="300" max="4000" step="100" value="1800">
+      </div>
+
+      <div class="control-group">
+        <div class="control-label">
+          <span>Flow Speed</span>
+          <span id="speedVal">1.5</span>
+        </div>
+        <input type="range" id="speed" min="0.5" max="4.0" step="0.1" value="1.5">
+      </div>
+
+      <div class="control-group">
+        <div class="control-label">
+          <span>Color Palette</span>
+        </div>
+        <select id="palette">
+          <option value="cyber">Cyber Neon (Cyan / Purple)</option>
+          <option value="sunset">Sunset Glow (Amber / Magenta)</option>
+          <option value="ocean">Abyssal Ocean (Deep Blue / Teal)</option>
+          <option value="mono">Matrix Green</option>
+        </select>
+      </div>
+
+      <div class="btn-row">
+        <button id="togglePlay">Pause</button>
+        <button id="resetField">Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <canvas id="canvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    window.addEventListener("resize", () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      initParticles();
+    });
+
+    const palettes = {
+      cyber: ["#58a6ff", "#79c0ff", "#bc8cff", "#d2a8ff"],
+      sunset: ["#ff7b72", "#ffa657", "#f0883e", "#d29922"],
+      ocean: ["#388bfd", "#58a6ff", "#7ee787", "#39d353"],
+      mono: ["#7ee787", "#3fb950", "#2ea043", "#56d364"]
+    };
+
+    let particles = [];
+    let particleCount = 1800;
+    let speed = 1.5;
+    let activePalette = "cyber";
+    let isRunning = true;
+    let time = 0;
+
+    let mouse = { x: -1000, y: -1000, active: false };
+
+    window.addEventListener("mousemove", (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      mouse.active = true;
+    });
+
+    window.addEventListener("mouseleave", () => {
+      mouse.active = false;
+    });
+
+    class Particle {
+      constructor() {
+        this.reset(true);
+      }
+
+      reset(randomPos = false) {
+        this.x = randomPos ? Math.random() * width : Math.random() * width;
+        this.y = randomPos ? Math.random() * height : Math.random() * height;
+        this.prevX = this.x;
+        this.prevY = this.y;
+        this.vx = 0;
+        this.vy = 0;
+        this.age = 0;
+        this.maxAge = 150 + Math.random() * 200;
+        const colors = palettes[activePalette];
+        this.color = colors[Math.floor(Math.random() * colors.length)];
+      }
+
+      update() {
+        this.prevX = this.x;
+        this.prevY = this.y;
+
+        // Trigo-field noise
+        const scale = 0.003;
+        const angle = Math.sin(this.x * scale + time) * Math.cos(this.y * scale + time) * Math.PI * 2;
+        
+        this.vx = Math.cos(angle) * speed;
+        this.vy = Math.sin(angle) * speed;
+
+        // Mouse attraction/repulsion
+        if (mouse.active) {
+          const dx = mouse.x - this.x;
+          const dy = mouse.y - this.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 180 && dist > 1) {
+            const force = (180 - dist) / 180;
+            this.vx += (dx / dist) * force * 3;
+            this.vy += (dy / dist) * force * 3;
+          }
+        }
+
+        this.x += this.vx;
+        this.y += this.vy;
+        this.age++;
+
+        if (this.age > this.maxAge || this.x < 0 || this.x > width || this.y < 0 || this.y > height) {
+          this.reset();
+        }
+      }
+
+      draw() {
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(this.prevX, this.prevY);
+        ctx.lineTo(this.x, this.y);
+        ctx.stroke();
+      }
+    }
+
+    function initParticles() {
+      particles = [];
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+      }
+      ctx.fillStyle = "#0a0e14";
+      ctx.fillRect(0, 0, width, height);
+    }
+
+    function animate() {
+      if (isRunning) {
+        // Semi-transparent overlay creates motion trails
+        ctx.fillStyle = "rgba(10, 14, 20, 0.08)";
+        ctx.fillRect(0, 0, width, height);
+
+        time += 0.004;
+        for (let i = 0; i < particles.length; i++) {
+          particles[i].update();
+          particles[i].draw();
+        }
+      }
+      requestAnimationFrame(animate);
+    }
+
+    // Controls
+    document.getElementById("particleCount").addEventListener("input", (e) => {
+      particleCount = parseInt(e.target.value);
+      document.getElementById("countVal").textContent = particleCount;
+      initParticles();
+    });
+
+    document.getElementById("speed").addEventListener("input", (e) => {
+      speed = parseFloat(e.target.value);
+      document.getElementById("speedVal").textContent = speed.toFixed(1);
+    });
+
+    document.getElementById("palette").addEventListener("change", (e) => {
+      activePalette = e.target.value;
+      initParticles();
+    });
+
+    document.getElementById("togglePlay").addEventListener("click", (e) => {
+      isRunning = !isRunning;
+      e.target.textContent = isRunning ? "Pause" : "Resume";
+    });
+
+    document.getElementById("resetField").addEventListener("click", () => {
+      initParticles();
+    });
+
+    initParticles();
+    animate();
+  </script>
+</body>
+</html>

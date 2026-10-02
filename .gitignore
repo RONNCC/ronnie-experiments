@@ -1,0 +1,15 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor directories
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node / Build artifacts (if any subproject uses them)
+node_modules/
+dist/
+.env
+.env.local
