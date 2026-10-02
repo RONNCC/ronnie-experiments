@@ -11,7 +11,7 @@
   {
     "id": "sorting-visualizer",
     "title": "Sorting Algorithm Visualizer",
-    "description": "Step-by-step visualizer comparing Quicksort, Mergesort, Heapsort, and Bubble sort with real-time comparison counts, array metrics, and speed controls.",
+    "description": "Step-by-step visualizer comparing Tim Sort, Quicksort, Mergesort, Heapsort, Shell Sort, Radix Sort (LSD), Bubble, and Selection sort with real-time metrics.",
     "path": "experiments/sorting-visualizer/",
     "category": "Algorithms",
     "tags": ["Algorithms", "Data Structures", "Benchmarking", "Education"],
