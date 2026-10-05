@@ -25,5 +25,14 @@
     "category": "Simulations",
     "tags": ["Simulation", "Math", "Emergence", "Grid"],
     "date": "2026-10-02"
+  },
+  {
+    "id": "lower-leg-circulation",
+    "title": "Lower Leg Circulation & DVT Visualizer",
+    "description": "Explore how heel raises, ankle motion, walking, and rest affect a simplified calf-muscle pump, with an educational DVT concept view.",
+    "path": "experiments/lower-leg-circulation/",
+    "category": "Simulations",
+    "tags": ["Anatomy", "Circulation", "Health Education", "Interactive"],
+    "date": "2026-10-05"
   }
 ]
