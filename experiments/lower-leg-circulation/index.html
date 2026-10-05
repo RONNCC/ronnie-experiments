@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f3f7fb">
+  <meta name="description" content="An interactive educational model showing how lower-leg movement supports venous return, with a simplified DVT concept view.">
+  <title>Lower Leg Circulation &amp; DVT Visualizer — Ronnie's Experiments</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="back-link" href="../../" aria-label="Back to experiments hub">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/><path d="M9 12h11"/></svg>
+        <span>Experiments</span>
+      </a>
+      <a class="brand" href="../../" aria-label="Ronnie's Experiments home">
+        <span class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><path d="M15.9 4.5c-1.5 4.3-5.2 6.4-4.7 11.1.2 2.1 1.4 3.8 3.3 4.6-1.5-2.2-.8-4.9 1.5-6.6-.3 3.7 4.3 4.8 4.1 8.1-.1 1.7-1.2 3.2-2.8 4.1 5.3-.7 8.2-5.5 6.8-10.2-.9-3-3.4-4.2-4.2-7.7-.7 2.1-1.7 3.2-2.7 3.8.3-2.6-.2-5.2-1.3-7.2Z"/><path d="M10 24.7h11.5"/></svg>
+        </span>
+        <span>RONNIE'S <b>EXPERIMENTS</b></span>
+      </a>
+      <span class="topbar-tag"><span class="status-dot"></span>Interactive learning lab</span>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <section class="page-heading" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow"><span class="eyebrow-line"></span> ANATOMY / CIRCULATION</p>
+        <h1 id="page-title">Lower leg circulation <span>&amp; DVT</span></h1>
+        <p class="page-intro">Explore how the calf-muscle pump helps move blood back toward the heart.</p>
+      </div>
+      <button class="reset-button" id="resetButton" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 2.6-6.4L3 8"/><path d="M3 3v5h5"/></svg>
+        Reset demo
+      </button>
+    </section>
+
+    <div class="app-grid">
+      <section class="card movement-card" aria-labelledby="movement-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">01 <span>/</span> MOVEMENT</p>
+            <h2 id="movement-title">Choose a movement</h2>
+          </div>
+          <span class="step-count" id="selectedIndex" aria-label="Selected movement 1 of 5">01</span>
+        </div>
+        <p class="section-copy">Select an action to see its effect on the simplified calf-pump model.</p>
+
+        <div class="movement-list" role="group" aria-label="Lower-leg movement options">
+          <button class="movement-option is-active" type="button" data-movement="heel-raise" aria-pressed="true">
+            <span class="movement-art" aria-hidden="true">
+              <svg viewBox="0 0 56 56"><path class="leg-line" d="M27 5c-2 9-1 16 1 23l3 8"/><path class="foot-line" d="M31 36c4 1 7 4 11 5l6 1c2 1 1 4-2 4H29c-3-2-3-5 0-8"/><path class="motion-line" d="M17 37v-9m-4 4 4-4 4 4"/><path class="ground-line" d="M26 49h24"/></svg>
+            </span>
+            <span class="movement-text"><strong>Heel raise</strong><small>Rise onto the forefoot</small></span>
+            <span class="option-check" aria-hidden="true">✓</span>
+          </button>
+          <button class="movement-option" type="button" data-movement="toe-point" aria-pressed="false">
+            <span class="movement-art" aria-hidden="true">
+              <svg viewBox="0 0 56 56"><path class="leg-line" d="M27 5c-1 10 0 19 2 27"/><path class="foot-line" d="M29 32c5 3 8 6 12 7l8 1c2 1 1 4-2 4H31c-4-2-5-6-2-12"/><path class="motion-line" d="M43 29h9m-4-4 4 4-4 4"/><path class="ground-line" d="M26 49h24"/></svg>
+            </span>
+            <span class="movement-text"><strong>Toe point</strong><small>Flex the ankle downward</small></span>
+            <span class="option-check" aria-hidden="true">✓</span>
+          </button>
+          <button class="movement-option" type="button" data-movement="ankle-circles" aria-pressed="false">
+            <span class="movement-art" aria-hidden="true">
+              <svg viewBox="0 0 56 56"><path class="leg-line" d="M27 5c-1 10 0 19 2 27"/><path class="foot-line" d="M29 33c4 2 8 6 12 7l7 1c2 1 1 4-2 4H31c-4-2-5-6-2-12"/><path class="motion-line" d="M16 34a9 9 0 1 1 4 11m-4-1 4 1 1-4"/><path class="ground-line" d="M26 49h24"/></svg>
+            </span>
+            <span class="movement-text"><strong>Ankle circles</strong><small>Move through a gentle circle</small></span>
+            <span class="option-check" aria-hidden="true">✓</span>
+          </button>
+          <button class="movement-option" type="button" data-movement="walking" aria-pressed="false">
+            <span class="movement-art" aria-hidden="true">
+              <svg viewBox="0 0 56 56"><path class="leg-line" d="M19 5c-1 9 0 17 3 24l-4 8m14-32c2 10 2 17 0 24l7 8"/><path class="foot-line" d="M18 36c-2 4-6 7-8 9-1 2 1 4 4 4h12m11-7 5 2 6 1c2 1 1 4-2 4H36c-4-2-5-4-5-7"/><path class="motion-line" d="M5 29h7m-3-3 3 3-3 3"/><path class="ground-line" d="M8 51h43"/></svg>
+            </span>
+            <span class="movement-text"><strong>Walking step</strong><small>Alternate the calf muscles</small></span>
+            <span class="option-check" aria-hidden="true">✓</span>
+          </button>
+          <button class="movement-option" type="button" data-movement="rest" aria-pressed="false">
+            <span class="movement-art" aria-hidden="true">
+              <svg viewBox="0 0 56 56"><path class="leg-line" d="M27 5c-1 11 0 20 1 29l1 9"/><path class="foot-line" d="M29 43c4 1 8 2 12 2h6c2 1 1 4-2 4H28c-3-2-3-4 1-6Z"/><path class="ground-line" d="M25 51h25"/><path class="rest-dot" d="M18 14h2m-2 7h2m-2 7h2"/></svg>
+            </span>
+            <span class="movement-text"><strong>Stationary / rest</strong><small>Calf pump relaxed</small></span>
+            <span class="option-check" aria-hidden="true">✓</span>
+          </button>
+        </div>
+
+        <div class="tip-strip">
+          <span class="tip-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 3a7 7 0 0 0-4.2 12.6c.8.6 1.2 1.4 1.2 2.4h6c0-1 .4-1.8 1.2-2.4A7 7 0 0 0 12 3Z"/><path d="M9.5 21h5M10 18h4"/></svg>
+          </span>
+          <p><strong>Try this:</strong> switch between movement and rest to compare the pump animation.</p>
+        </div>
+      </section>
+
+      <section class="card anatomy-card" aria-labelledby="anatomy-title">
+        <div class="section-heading anatomy-heading">
+          <div>
+            <p class="section-kicker">02 <span>/</span> ANATOMY</p>
+            <h2 id="anatomy-title">The calf-muscle pump</h2>
+            <p class="anatomy-subtitle">Simplified posterior view • blood-flow direction</p>
+          </div>
+          <button class="motion-toggle" id="motionToggle" type="button" aria-pressed="false" aria-label="Pause animation">
+            <span class="pause-symbol" aria-hidden="true"><i></i><i></i></span>
+            <span class="play-symbol" aria-hidden="true"></span>
+            <span id="motionToggleLabel">Pause</span>
+          </button>
+        </div>
+        <div class="diagram-legend" aria-label="Diagram legend">
+          <span><i class="legend-vein"></i> Veins · toward heart</span>
+          <span><i class="legend-artery"></i> Arteries · away from heart</span>
+        </div>
+
+        <div class="anatomy-stage" id="anatomyStage" data-mode="heel-raise" data-paused="false">
+          <svg class="leg-illustration" viewBox="0 0 640 700" role="img" aria-labelledby="leg-svg-title leg-svg-desc">
+            <title id="leg-svg-title">Simplified anatomy of the lower leg</title>
+            <desc id="leg-svg-desc">A posterior view of calf muscles, tibia, fibula, deep veins in blue, and an artery in red. The blue arrows point upward toward the heart.</desc>
+            <defs>
+              <linearGradient id="skin" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#f7d5bf"/><stop offset="1" stop-color="#e8b9a0"/></linearGradient>
+              <linearGradient id="muscleLeft" x1="0" x2="1"><stop stop-color="#df8a87"/><stop offset="1" stop-color="#c96269"/></linearGradient>
+              <linearGradient id="muscleRight" x1="0" x2="1"><stop stop-color="#cf6d74"/><stop offset="1" stop-color="#edaaa0"/></linearGradient>
+              <linearGradient id="bone" x1="0" x2="1"><stop stop-color="#fff8e9"/><stop offset=".48" stop-color="#f0dfc4"/><stop offset="1" stop-color="#d8c2a5"/></linearGradient>
+              <linearGradient id="vein" x1="0" x2="1"><stop stop-color="#1c69b1"/><stop offset=".5" stop-color="#54a4e2"/><stop offset="1" stop-color="#286eaf"/></linearGradient>
+              <linearGradient id="artery" x1="0" x2="1"><stop stop-color="#c9474b"/><stop offset=".5" stop-color="#ef7771"/><stop offset="1" stop-color="#bc393e"/></linearGradient>
+              <filter id="softShadow" x="-30%" y="-20%" width="160%" height="150%"><feGaussianBlur stdDeviation="8"/></filter>
+              <marker id="arrowVein" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 8 4 0l4 8Z" fill="#fff"/></marker>
+              <marker id="arrowArtery" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0 4 8 8 0Z" fill="#fff"/></marker>
+            </defs>
+
+            <ellipse cx="324" cy="671" rx="108" ry="16" fill="#dfe9f0" opacity=".65" filter="url(#softShadow)"/>
+
+            <g class="leg-body">
+              <path class="skin-shape" d="M278 52c-24 10-39 31-38 62 1 28 11 46 4 73-17 39-14 82-6 121 7 41 13 76 14 113 1 50 14 102 25 146 8 30 12 51 5 67l-15 17c-9 10-1 25 21 29 34 7 99 1 125-11 16-8 17-20 3-28-18-10-44-7-58-15-9-8-9-25-3-47 15-49 29-100 33-149 4-51 13-89 19-125 7-36 8-79-7-119-7-21 3-48 3-72 1-32-17-57-44-65-21-6-60-5-81 3Z"/>
+              <path class="shin-highlight" d="M265 179c-9 45-1 98 6 145 10 61 17 133 28 191"/>
+              <path class="skin-shadow" d="M392 178c18 49 11 95 3 141-12 67-17 136-34 193"/>
+            </g>
+
+            <g class="muscle-layer">
+              <path class="muscle muscle-gastro-left" d="M282 128c-24 10-39 37-43 76-5 48 6 94 17 136 7 29 15 57 26 79 11-30 18-69 21-105 5-60 0-118-8-158-3-17-6-27-13-28Z"/>
+              <path class="muscle muscle-gastro-right" d="M345 128c24 7 40 34 46 73 8 48-1 95-10 137-7 31-14 58-25 81-11-32-18-70-22-107-6-58-4-116 4-155 3-17 1-25 7-29Z"/>
+              <path class="muscle muscle-soleus-left" d="M266 338c-12 34-13 76-4 118 8 37 20 69 32 99 8-30 15-62 17-93 3-43-2-89-13-123-12-5-23-5-32-1Z"/>
+              <path class="muscle muscle-soleus-right" d="M368 336c13 36 13 78 5 120-8 38-20 71-33 100-7-29-14-62-16-93-3-43 2-89 13-124 11-5 22-5 31-3Z"/>
+              <path class="muscle-seam" d="M312 159c-3 64 5 123 5 180 0 67-5 123 5 190"/>
+              <path class="muscle-highlight" d="M252 209c-3 42 6 86 18 118m101-114c8 40 2 84-8 119"/>
+            </g>
+
+            <g class="bone-layer">
+              <path class="bone tibia" d="M310 202c-4 43 2 84 5 123l-3 135c0 48 3 96 11 145 5 13 21 14 27 1 8-47 11-94 9-146l-4-135c4-43 7-83 1-123-11-14-34-14-46 0Z"/>
+              <path class="bone fibula" d="M373 233c-8 43-9 80-12 117-6 70-6 139-12 219 1 17 10 22 18 9 14-49 20-106 22-157 2-53 9-114 7-160-5-18-15-30-23-28Z"/>
+              <path class="bone-detail" d="M322 239c-2 83 8 161 7 241 0 43 4 78 9 109m37-344c-7 81-10 171-14 252"/>
+            </g>
+
+            <g class="vessel-layer">
+              <!-- Deep venous return: paths run from ankle toward the knee. -->
+              <path class="vessel vein-vessel" d="M332 607c-5-45-13-88-9-132 4-48 0-87-8-128-8-44-8-85 3-123 5-20 15-40 25-57"/>
+              <path class="vessel vein-vessel vein-branch" d="M324 461c-21-18-34-40-42-69m31-46c-19-16-29-36-34-58"/>
+              <path class="vessel vein-vessel vein-branch" d="M320 380c22-19 36-41 41-69m-36-87c14-16 25-31 34-48"/>
+              <path class="vessel vein-flow" marker-end="url(#arrowVein)" d="M332 607c-5-45-13-88-9-132 4-48 0-87-8-128-8-44-8-85 3-123 5-20 15-40 25-57"/>
+              <path class="vessel vein-flow vein-flow-secondary" d="M324 461c-21-18-34-40-42-69m31-46c-19-16-29-36-34-58"/>
+              <path class="vessel vein-pop" d="M314 177c16-20 43-25 66-17"/>
+              <!-- Arterial supply runs down the leg, away from the heart. -->
+              <path class="vessel artery-vessel" d="M350 170c15 37 15 75 7 115-8 43-4 84 1 126 7 55 0 116-9 187"/>
+              <path class="vessel artery-flow" d="M350 170c15 37 15 75 7 115-8 43-4 84 1 126 7 55 0 116-9 187"/>
+            </g>
+
+            <g class="foot-detail" id="footDetail">
+              <path d="M287 630c20 8 45 10 70 3 12 2 32 7 48 14"/>
+              <path d="M301 651c27 8 65 5 95-4"/>
+              <path d="M286 665c36 8 83 2 110-7"/>
+              <path class="heel-mark" d="M286 633c-6 12-6 24 4 32"/>
+            </g>
+            <circle class="ankle-orbit" cx="341" cy="612" r="31"/>
+            <path class="orbit-arrow" d="M367 593a31 31 0 0 1 0 35"/>
+
+            <g class="anatomy-labels">
+              <path class="label-line" d="M112 171h87l47 19"/><text x="17" y="166">GASTROCNEMIUS</text><text class="label-small" x="17" y="183">calf muscle</text>
+              <path class="label-line" d="M113 345h95l48 10"/><text x="40" y="340">SOLEUS</text><text class="label-small" x="40" y="357">calf muscle</text>
+              <path class="label-line" d="M369 151h75"/><text x="450" y="155">POPLITEAL</text><text class="label-small" x="450" y="172">vein</text>
+              <path class="label-line" d="M337 416h104"/><text x="448" y="420">POSTERIOR</text><text class="label-small" x="448" y="437">tibial vein</text>
+              <path class="label-line" d="M356 474h84"/><text x="448" y="478">TIBIAL</text><text class="label-small" x="448" y="495">artery</text>
+              <path class="label-line" d="M348 548h92"/><text x="448" y="552">TIBIA</text>
+              <path class="label-line" d="M381 582h59"/><text x="448" y="586">FIBULA</text>
+              <path class="label-line" d="M385 644h55"/><text x="448" y="648">ACHILLES</text><text class="label-small" x="448" y="665">tendon</text>
+            </g>
+            <text class="heart-label" x="320" y="31">↑ TOWARD THE HEART</text>
+          </svg>
+          <div class="flow-callout" aria-hidden="true"><span class="flow-callout-arrow">↑</span><span>venous return</span></div>
+        </div>
+
+        <div class="anatomy-caption">
+          <span class="caption-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.5-7 10-7 10Z"/><path d="M7.5 12h2l1.2-2.5 2.2 5 1.2-2.5h2.4"/></svg>
+          </span>
+          <p><strong>What you're seeing</strong><span id="anatomyCaption">Calf muscles squeeze deep veins; one-way valves help direct blood upward.</span></p>
+          <span class="caption-tag">ILLUSTRATIVE</span>
+        </div>
+      </section>
+
+      <section class="card insight-card" aria-labelledby="insight-title">
+        <div class="section-heading compact-heading">
+          <div>
+            <p class="section-kicker">03 <span>/</span> DVT INSIGHT</p>
+            <h2 id="insight-title">A closer look</h2>
+          </div>
+          <span class="info-mark" aria-hidden="true">i</span>
+        </div>
+        <div class="switch-row">
+          <div><strong>DVT concept view</strong><small>Show a simplified vessel example</small></div>
+          <button class="switch is-on" id="insightToggle" type="button" role="switch" aria-checked="true" aria-label="DVT concept view">
+            <span class="switch-thumb"></span>
+          </button>
+        </div>
+        <div class="vessel-comparison" id="vesselComparison" data-enabled="true">
+          <div class="vessel-title"><span>DEEP VEIN EXAMPLE</span><span class="not-to-scale">NOT TO SCALE</span></div>
+          <svg class="vessel-diagram" viewBox="0 0 360 166" role="img" aria-labelledby="vessel-title-svg vessel-desc-svg">
+            <title id="vessel-title-svg">Simplified deep-vein comparison</title>
+            <desc id="vessel-desc-svg">A healthy vein with flowing blood is compared with an example of a vein partly blocked by a thrombus.</desc>
+            <defs>
+              <linearGradient id="healthyLumen" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#164c83"/><stop offset=".5" stop-color="#1e6da9"/><stop offset="1" stop-color="#164c83"/></linearGradient>
+              <linearGradient id="clotLumen" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#17497b"/><stop offset="1" stop-color="#123c69"/></linearGradient>
+            </defs>
+            <g class="vessel-left">
+              <rect x="28" y="20" width="104" height="112" rx="26" fill="#dcecf7" stroke="#9fc6e2" stroke-width="3"/>
+              <rect x="43" y="25" width="74" height="102" rx="21" fill="url(#healthyLumen)"/>
+              <path class="mini-flow" d="M80 115V41"/>
+              <circle class="blood-cell cell-one" cx="63" cy="50" r="5"/><circle class="blood-cell cell-two" cx="97" cy="82" r="5"/><circle class="blood-cell cell-three" cx="63" cy="105" r="4"/>
+              <text x="80" y="151" text-anchor="middle">STEADY FLOW</text>
+            </g>
+            <g class="vessel-right">
+              <rect x="228" y="20" width="104" height="112" rx="26" fill="#dcecf7" stroke="#9fc6e2" stroke-width="3"/>
+              <rect x="243" y="25" width="74" height="102" rx="21" fill="url(#clotLumen)"/>
+              <path class="mini-flow slow-flow" d="M280 115V41"/>
+              <path class="thrombus" d="M257 61c-8-6-8-18 2-21 8-4 12 3 18 1 8-2 14 4 12 12-1 6-6 7-6 14 0 6-4 11-10 10-6 0-7-5-13-4-8 2-14-4-12-10 1-1 4-2 9-2Zm35 32c7-4 14-1 16 5 3 6-1 10-4 15-3 6-12 7-16 1-3-5-8-9-5-15 1-3 4-5 9-6Z"/>
+              <text x="280" y="151" text-anchor="middle">THROMBUS</text>
+            </g>
+            <path class="comparison-arrow" d="M147 76h63m-12-9 12 9-12 9"/>
+            <text class="compare-note" x="180" y="58" text-anchor="middle">example</text>
+          </svg>
+          <div class="vessel-legend"><span><i class="dot-blue"></i> moving blood</span><span><i class="dot-red"></i> clot illustration</span></div>
+        </div>
+        <p class="insight-copy" id="insightCopy">A DVT is a clot in a deep vein. Reduced movement can be one contributing factor, but many factors affect an individual's risk.</p>
+        <div class="safety-chip"><span aria-hidden="true">!</span> Not a diagnosis or personal risk score</div>
+      </section>
+
+      <section class="card mechanism-card" aria-labelledby="mechanism-title" id="mechanismCard" data-phase="contract">
+        <div class="section-heading mechanism-heading">
+          <div>
+            <p class="section-kicker">04 <span>/</span> HOW IT WORKS</p>
+            <h2 id="mechanism-title">Valve &amp; pump mechanism</h2>
+          </div>
+          <span class="mechanism-state" id="mechanismState">PUMP ACTIVE</span>
+        </div>
+        <div class="mechanism-grid">
+          <article class="mechanism-step" id="contractStep">
+            <div class="mechanism-step-title"><span class="step-number">A</span><strong>Muscle contraction</strong></div>
+            <svg class="mechanism-art" viewBox="0 0 260 96" role="img" aria-label="Contracting calf muscle squeezes a vein and moves blood upward">
+              <path class="muscle-band" d="M25 24c28-18 61-11 80 0s47 18 70 4 42-11 58 0v12c-23 14-48 13-72 1s-49-13-66 0-46 17-70 1Z"/>
+              <path class="vein-tube" d="M22 55h216"/>
+              <path class="vein-lumen" d="M22 55h216"/>
+              <path class="direction-arrow" d="M56 55h131m-10-9 10 9-10 9"/>
+              <path class="valve-shape valve-open" d="M105 48 117 55 105 62m35-14-12 7 12 7"/>
+              <path class="squeeze-arrow" d="M57 20v13m-5-5 5 5 5-5m105-8v13m-5-5 5 5 5-5"/>
+            </svg>
+            <p>Calf muscles compress the vein; valves help direct blood upward.</p>
+          </article>
+          <span class="mechanism-divider" aria-hidden="true"></span>
+          <article class="mechanism-step" id="relaxStep">
+            <div class="mechanism-step-title"><span class="step-number">B</span><strong>Muscle relaxation</strong></div>
+            <svg class="mechanism-art" viewBox="0 0 260 96" role="img" aria-label="One-way valves help limit backward flow as the muscle relaxes">
+              <path class="muscle-band relaxed-band" d="M25 19c29-10 53-8 77 0 20 7 51 9 74 0s41-10 57-1v14c-22 9-47 9-70 2s-51-8-70 1-45 10-68 0Z"/>
+              <path class="vein-tube" d="M22 55h216"/>
+              <path class="vein-lumen" d="M22 55h216"/>
+              <path class="backflow-arrow" d="M187 55h-60m9-9-9 9 9 9"/>
+              <path class="valve-shape valve-closed" d="M105 47 117 55 105 63m35-16-12 8 12 8"/>
+              <path class="no-backflow" d="M199 36v38m-6-8 6 8 6-8"/>
+            </svg>
+            <p>As the muscle relaxes, one-way valves help limit backward flow.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="card feedback-card" aria-labelledby="feedback-title" aria-live="polite">
+        <div class="section-heading compact-heading">
+          <div>
+            <p class="section-kicker">05 <span>/</span> LIVE FEEDBACK</p>
+            <h2 id="feedback-title">Movement feedback</h2>
+          </div>
+          <span class="feedback-pulse" aria-hidden="true"></span>
+        </div>
+        <div class="selected-movement">
+          <span class="data-label">CURRENT MOVEMENT</span>
+          <strong id="currentMoveLabel">Heel raise</strong>
+          <p id="feedbackDetail">A calf contraction can assist venous return in this concept model.</p>
+        </div>
+        <div class="metric">
+          <div class="metric-heading"><span>Calf-pump activity</span><strong id="muscleValue">High</strong></div>
+          <div class="meter" role="meter" aria-label="Illustrated calf-pump activity" aria-valuemin="0" aria-valuemax="100" aria-valuenow="86"><span id="muscleBar" style="width:86%"></span></div>
+        </div>
+        <div class="metric">
+          <div class="metric-heading"><span>Illustrated venous return</span><strong id="flowValue">Pump-assisted</strong></div>
+          <div class="meter flow-meter" role="meter" aria-label="Illustrated venous return" aria-valuemin="0" aria-valuemax="100" aria-valuenow="86"><span id="flowBar" style="width:86%"></span></div>
+        </div>
+        <div class="model-note" id="modelNote">
+          <span class="model-note-icon" aria-hidden="true">↗</span>
+          <p>Movement can assist venous return; it does not remove every DVT risk.</p>
+        </div>
+        <p class="feedback-footnote">Qualitative teaching model only; values are not measured from a person.</p>
+      </section>
+    </div>
+
+    <aside class="medical-notice" aria-label="Health information notice">
+      <span class="notice-icon" aria-hidden="true">i</span>
+      <p><strong>Educational illustration only.</strong> This demo cannot diagnose DVT, estimate personal risk, or guide treatment. If you are concerned about symptoms or your risk, contact a healthcare professional. Sudden chest pain or shortness of breath may require emergency care.</p>
+    </aside>
+    <footer class="page-footer">Built for learning · <a href="../../">Back to Ronnie's Experiments</a></footer>
+  </main>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
+>
