@@ -29,7 +29,7 @@
   {
     "id": "lower-leg-circulation",
     "title": "Lower Leg Circulation & DVT Visualizer",
-    "description": "Explore how heel raises, ankle motion, walking, and rest affect a simplified calf-muscle pump, with an educational DVT concept view.",
+    "description": "Explore how heel raises, ankle motion, walking, and rest drive the calf-muscle pump and its one-way vein valves, with an educational DVT concept view.",
     "path": "experiments/lower-leg-circulation/",
     "category": "Simulations",
     "tags": ["Anatomy", "Circulation", "Health Education", "Interactive"],
