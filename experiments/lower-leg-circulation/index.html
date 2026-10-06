@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#f3f7fb">
-  <meta name="description" content="An interactive educational model showing how lower-leg movement supports venous return, with a simplified DVT concept view.">
+  <meta name="description" content="An interactive educational model showing how lower-leg movement drives the calf-muscle pump and its one-way vein valves, with a simplified DVT concept view.">
   <title>Lower Leg Circulation &amp; DVT Visualizer — Ronnie's Experiments</title>
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -30,7 +30,7 @@
       <div>
         <p class="eyebrow"><span class="eyebrow-line"></span> ANATOMY / CIRCULATION</p>
         <h1 id="page-title">Lower leg circulation <span>&amp; DVT</span></h1>
-        <p class="page-intro">Explore how the calf-muscle pump helps move blood back toward the heart.</p>
+        <p class="page-intro">Explore how each movement drives the calf-muscle pump — and the one-way vein valves inside it — to push blood back toward the heart.</p>
       </div>
       <button class="reset-button" id="resetButton" type="button">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 2.6-6.4L3 8"/><path d="M3 3v5h5"/></svg>
@@ -91,7 +91,7 @@
           <span class="tip-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24"><path d="M12 3a7 7 0 0 0-4.2 12.6c.8.6 1.2 1.4 1.2 2.4h6c0-1 .4-1.8 1.2-2.4A7 7 0 0 0 12 3Z"/><path d="M9.5 21h5M10 18h4"/></svg>
           </span>
-          <p><strong>Try this:</strong> switch between movement and rest to compare the pump animation.</p>
+          <p><strong>Try this:</strong> watch the white chevrons inside the blue vein — those are one-way valves. Compare walking with rest to see their rhythm change.</p>
         </div>
       </section>
 
@@ -100,7 +100,7 @@
           <div>
             <p class="section-kicker">02 <span>/</span> ANATOMY</p>
             <h2 id="anatomy-title">The calf-muscle pump</h2>
-            <p class="anatomy-subtitle">Simplified posterior view • blood-flow direction</p>
+            <p class="anatomy-subtitle">Simplified posterior view • flow direction • one-way valves</p>
           </div>
           <button class="motion-toggle" id="motionToggle" type="button" aria-pressed="false" aria-label="Pause animation">
             <span class="pause-symbol" aria-hidden="true"><i></i><i></i></span>
@@ -111,12 +111,13 @@
         <div class="diagram-legend" aria-label="Diagram legend">
           <span><i class="legend-vein"></i> Veins · toward heart</span>
           <span><i class="legend-artery"></i> Arteries · away from heart</span>
+          <span><i class="legend-valve"><svg viewBox="0 0 20 12" aria-hidden="true"><path d="M3.5 10 10 3.4l6.5 6.6"/></svg></i> Vein valves · one-way</span>
         </div>
 
         <div class="anatomy-stage" id="anatomyStage" data-mode="heel-raise" data-paused="false">
           <svg class="leg-illustration" viewBox="0 0 640 700" role="img" aria-labelledby="leg-svg-title leg-svg-desc">
             <title id="leg-svg-title">Simplified anatomy of the lower leg</title>
-            <desc id="leg-svg-desc">A posterior view of calf muscles, tibia, fibula, deep veins in blue, and an artery in red. The blue arrows point upward toward the heart.</desc>
+            <desc id="leg-svg-desc">A posterior view of calf muscles, tibia, fibula, deep veins in blue, and an artery in red. White chevrons inside the veins are one-way valves: they open while the calf squeezes blood upward toward the heart, then snap shut to block backflow.</desc>
             <defs>
               <linearGradient id="skin" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#f7d5bf"/><stop offset="1" stop-color="#e8b9a0"/></linearGradient>
               <linearGradient id="muscleLeft" x1="0" x2="1"><stop stop-color="#df8a87"/><stop offset="1" stop-color="#c96269"/></linearGradient>
@@ -127,10 +128,12 @@
               <filter id="softShadow" x="-30%" y="-20%" width="160%" height="150%"><feGaussianBlur stdDeviation="8"/></filter>
               <marker id="arrowVein" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 8 4 0l4 8Z" fill="#fff"/></marker>
               <marker id="arrowArtery" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0 4 8 8 0Z" fill="#fff"/></marker>
+              <marker id="cueArrow" markerWidth="9" markerHeight="9" refX="7.2" refY="4.5" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M1 1 8 4.5 1 8Z" fill="#3d94c6"/></marker>
             </defs>
 
-            <ellipse cx="324" cy="671" rx="108" ry="16" fill="#dfe9f0" opacity=".65" filter="url(#softShadow)"/>
+            <ellipse class="ground-shadow" cx="324" cy="671" rx="108" ry="16" fill="#dfe9f0" opacity=".65" filter="url(#softShadow)"/>
 
+            <g class="leg-rig">
             <g class="leg-body">
               <path class="skin-shape" d="M278 52c-24 10-39 31-38 62 1 28 11 46 4 73-17 39-14 82-6 121 7 41 13 76 14 113 1 50 14 102 25 146 8 30 12 51 5 67l-15 17c-9 10-1 25 21 29 34 7 99 1 125-11 16-8 17-20 3-28-18-10-44-7-58-15-9-8-9-25-3-47 15-49 29-100 33-149 4-51 13-89 19-125 7-36 8-79-7-119-7-21 3-48 3-72 1-32-17-57-44-65-21-6-60-5-81 3Z"/>
               <path class="shin-highlight" d="M265 179c-9 45-1 98 6 145 10 61 17 133 28 191"/>
@@ -154,16 +157,20 @@
 
             <g class="vessel-layer">
               <!-- Deep venous return: paths run from ankle toward the knee. -->
-              <path class="vessel vein-vessel" d="M332 607c-5-45-13-88-9-132 4-48 0-87-8-128-8-44-8-85 3-123 5-20 15-40 25-57"/>
+              <path id="deepVeinPath" class="vessel vein-vessel" d="M332 607c-5-45-13-88-9-132 4-48 0-87-8-128-8-44-8-85 3-123 5-20 15-40 25-57"/>
               <path class="vessel vein-vessel vein-branch" d="M324 461c-21-18-34-40-42-69m31-46c-19-16-29-36-34-58"/>
               <path class="vessel vein-vessel vein-branch" d="M320 380c22-19 36-41 41-69m-36-87c14-16 25-31 34-48"/>
               <path class="vessel vein-flow" marker-end="url(#arrowVein)" d="M332 607c-5-45-13-88-9-132 4-48 0-87-8-128-8-44-8-85 3-123 5-20 15-40 25-57"/>
               <path class="vessel vein-flow vein-flow-secondary" d="M324 461c-21-18-34-40-42-69m31-46c-19-16-29-36-34-58"/>
               <path class="vessel vein-pop" d="M314 177c16-20 43-25 66-17"/>
               <!-- Arterial supply runs down the leg, away from the heart. -->
-              <path class="vessel artery-vessel" d="M350 170c15 37 15 75 7 115-8 43-4 84 1 126 7 55 0 116-9 187"/>
+              <path id="arteryPath" class="vessel artery-vessel" d="M350 170c15 37 15 75 7 115-8 43-4 84 1 126 7 55 0 116-9 187"/>
               <path class="vessel artery-flow" d="M350 170c15 37 15 75 7 115-8 43-4 84 1 126 7 55 0 116-9 187"/>
             </g>
+
+            <!-- Blood cells and one-way vein valves are generated here by app.js -->
+            <g class="corpuscle-layer" id="corpuscleLayer" aria-hidden="true"></g>
+            <g class="valve-layer" id="valveLayer" aria-hidden="true"></g>
 
             <g class="foot-detail" id="footDetail">
               <path d="M287 630c20 8 45 10 70 3 12 2 32 7 48 14"/>
@@ -172,7 +179,28 @@
               <path class="heel-mark" d="M286 633c-6 12-6 24 4 32"/>
             </g>
             <circle class="ankle-orbit" cx="341" cy="612" r="31"/>
-            <path class="orbit-arrow" d="M367 593a31 31 0 0 1 0 35"/>
+            <g class="orbit-spinner"><path class="orbit-arrow" d="M367 593a31 31 0 0 1 0 35"/></g>
+            </g><!-- /.leg-rig -->
+
+            <g class="cue-layer" aria-hidden="true">
+              <g class="cue cue-heel">
+                <g class="cue-chevrons">
+                  <path d="M243 632l10-11 10 11"/>
+                  <path d="M243 650l10-11 10 11"/>
+                </g>
+                <path class="cue-contact" d="M421 672h48"/>
+              </g>
+              <g class="cue cue-toe">
+                <path d="M461 627c11 10 15 22 14 35" marker-end="url(#cueArrow)"/>
+              </g>
+              <g class="cue cue-walk">
+                <path d="M176 112a44 44 0 0 1 58-12" marker-start="url(#cueArrow)" marker-end="url(#cueArrow)"/>
+              </g>
+              <g class="cue cue-rest">
+                <path d="M299 505v33" marker-end="url(#cueArrow)"/>
+                <path d="M299 553v29" marker-end="url(#cueArrow)"/>
+              </g>
+            </g>
 
             <g class="anatomy-labels">
               <path class="label-line" d="M112 171h87l47 19"/><text x="17" y="166">GASTROCNEMIUS</text><text class="label-small" x="17" y="183">calf muscle</text>
@@ -183,6 +211,7 @@
               <path class="label-line" d="M348 548h92"/><text x="448" y="552">TIBIA</text>
               <path class="label-line" d="M381 582h59"/><text x="448" y="586">FIBULA</text>
               <path class="label-line" d="M385 644h55"/><text x="448" y="648">ACHILLES</text><text class="label-small" x="448" y="665">tendon</text>
+              <g id="valveLabelLayer"></g>
             </g>
             <text class="heart-label" x="320" y="31">↑ TOWARD THE HEART</text>
           </svg>
@@ -254,29 +283,45 @@
         </div>
         <div class="mechanism-grid">
           <article class="mechanism-step" id="contractStep">
-            <div class="mechanism-step-title"><span class="step-number">A</span><strong>Muscle contraction</strong></div>
-            <svg class="mechanism-art" viewBox="0 0 260 96" role="img" aria-label="Contracting calf muscle squeezes a vein and moves blood upward">
-              <path class="muscle-band" d="M25 24c28-18 61-11 80 0s47 18 70 4 42-11 58 0v12c-23 14-48 13-72 1s-49-13-66 0-46 17-70 1Z"/>
+            <div class="mechanism-step-title"><span class="step-number">A</span><strong>Muscle contraction — squeeze</strong></div>
+            <svg class="mechanism-art" viewBox="0 0 260 96" role="img" aria-label="Contracting calf muscle squeezes the vein, the one-way valve opens, and blood is pushed toward the heart">
+              <path class="muscle-band mech-band" d="M25 24c28-18 61-11 80 0s47 18 70 4 42-11 58 0v12c-23 14-48 13-72 1s-49-13-66 0-46 17-70 1Z"/>
+              <path class="squeeze-arrow" d="M57 20v13m-5-5 5 5 5-5m105-8v13m-5-5 5 5 5-5"/>
               <path class="vein-tube" d="M22 55h216"/>
               <path class="vein-lumen" d="M22 55h216"/>
-              <path class="direction-arrow" d="M56 55h131m-10-9 10 9-10 9"/>
-              <path class="valve-shape valve-open" d="M105 48 117 55 105 62m35-14-12 7 12 7"/>
-              <path class="squeeze-arrow" d="M57 20v13m-5-5 5 5 5-5m105-8v13m-5-5 5 5 5-5"/>
+              <g class="mech-cells">
+                <circle class="mech-cell" cx="30" cy="52" r="3.4"/>
+                <circle class="mech-cell" cx="30" cy="56" r="3"/>
+                <circle class="mech-cell" cx="30" cy="59" r="2.6"/>
+              </g>
+              <g class="mech-valve" transform="translate(120 55)">
+                <g transform="translate(-2.2 -5.8)"><path class="mech-leaflet leaflet-top" d="M0 0C2.6 1.6 4.6 3.4 5.4 5.4"/></g>
+                <g transform="translate(-2.2 5.8)"><path class="mech-leaflet leaflet-bottom" d="M0 0C2.6-1.6 4.6-3.4 5.4-5.4"/></g>
+              </g>
+              <text class="mech-chip chip-open" x="120" y="86" text-anchor="middle">VALVE OPEN</text>
+              <text class="mech-flow-label" x="238" y="86" text-anchor="end">TOWARD HEART →</text>
             </svg>
-            <p>Calf muscles compress the vein; valves help direct blood upward.</p>
+            <p>Calf contracts and squeezes the deep vein — the valve flaps open and blood shoots toward the heart.</p>
           </article>
           <span class="mechanism-divider" aria-hidden="true"></span>
           <article class="mechanism-step" id="relaxStep">
-            <div class="mechanism-step-title"><span class="step-number">B</span><strong>Muscle relaxation</strong></div>
-            <svg class="mechanism-art" viewBox="0 0 260 96" role="img" aria-label="One-way valves help limit backward flow as the muscle relaxes">
+            <div class="mechanism-step-title"><span class="step-number">B</span><strong>Muscle relaxation — refill</strong></div>
+            <svg class="mechanism-art" viewBox="0 0 260 96" role="img" aria-label="As the muscle relaxes, the valve snaps shut, blocking backward flow while the vein refills from below">
               <path class="muscle-band relaxed-band" d="M25 19c29-10 53-8 77 0 20 7 51 9 74 0s41-10 57-1v14c-22 9-47 9-70 2s-51-8-70 1-45 10-68 0Z"/>
               <path class="vein-tube" d="M22 55h216"/>
               <path class="vein-lumen" d="M22 55h216"/>
-              <path class="backflow-arrow" d="M187 55h-60m9-9-9 9 9 9"/>
-              <path class="valve-shape valve-closed" d="M105 47 117 55 105 63m35-16-12 8 12 8"/>
-              <path class="no-backflow" d="M199 36v38m-6-8 6 8 6-8"/>
+              <circle class="mech-cell refill-cell" cx="34" cy="55" r="3.2"/>
+              <path class="backflow-arrow" d="M204 55h-52m9-9-9 9 9 9"/>
+              <circle class="mech-cell back-cell" cx="212" cy="55" r="3.4"/>
+              <text class="mech-flow-label" x="238" y="44" text-anchor="end">backflow tries ←</text>
+              <g class="mech-valve" transform="translate(120 55)">
+                <g transform="translate(-2.2 -5.8)"><path class="mech-leaflet leaflet-shut-top" d="M0 0C2.6 1.6 4.6 3.4 5.4 5.4"/></g>
+                <g transform="translate(-2.2 5.8)"><path class="mech-leaflet leaflet-shut-bottom" d="M0 0C2.6-1.6 4.6-3.4 5.4-5.4"/></g>
+              </g>
+              <path class="block-mark" d="M131 50l10 10m0-10-10 10"/>
+              <text class="mech-chip chip-block" x="120" y="86" text-anchor="middle">VALVE SHUT · NO BACKFLOW</text>
             </svg>
-            <p>As the muscle relaxes, one-way valves help limit backward flow.</p>
+            <p>As the muscle relaxes, the valve snaps shut — blood can't fall back, and the vein refills from below.</p>
           </article>
         </div>
       </section>
@@ -301,6 +346,10 @@
         <div class="metric">
           <div class="metric-heading"><span>Illustrated venous return</span><strong id="flowValue">Pump-assisted</strong></div>
           <div class="meter flow-meter" role="meter" aria-label="Illustrated venous return" aria-valuemin="0" aria-valuemax="100" aria-valuenow="86"><span id="flowBar" style="width:86%"></span></div>
+        </div>
+        <div class="metric">
+          <div class="metric-heading"><span>Pump cadence (illustrative)</span><strong id="cadenceValue">≈48 /min</strong></div>
+          <div class="meter cadence-meter" role="meter" aria-label="Illustrated pump cycles per minute" aria-valuemin="0" aria-valuemax="90" aria-valuenow="48"><span id="cadenceBar" style="width:53%"></span></div>
         </div>
         <div class="model-note" id="modelNote">
           <span class="model-note-icon" aria-hidden="true">↗</span>
