@@ -5,71 +5,56 @@
     "heel-raise": {
       index: "01",
       label: "Heel raise",
-      activity: "High",
-      activityLevel: 86,
-      flow: "Pump-assisted",
-      flowLevel: 86,
-      cadence: 48,
-      pumpDuration: "1.25s",
-      flowDuration: "1.05s",
-      detail: "Rising onto the toes squeezes the calf hard — valves above the squeeze flip open and blood is pushed toward the heart.",
-      caption: "Heel raise: strong calf squeeze. Valve chevrons open upward, then snap shut so blood can't fall back.",
+      muscleCue: "Calf squeeze shown",
+      valveCue: "Proximal opens on squeeze · distal on release",
+      pumpDuration: 1.25,
+      flowDuration: 1.05,
+      detail: "The calf contracts in this model. In the body, calf-muscle contraction can compress deep veins; this animation does not measure blood flow.",
+      caption: "Heel raise: the modeled squeeze aligns with proximal-gate opening; distal gates close to limit downward reflux.",
       phase: "contract"
     },
     "toe-point": {
       index: "02",
       label: "Toe point",
-      activity: "Moderate",
-      activityLevel: 62,
-      flow: "Assisted",
-      flowLevel: 69,
-      cadence: 38,
-      pumpDuration: "1.6s",
-      flowDuration: "1.35s",
-      detail: "Pointing the toes pulses the calf — each point opens the one-way valves and steps blood a little higher.",
-      caption: "Toe point: the ankle rotates down, the calf pulses, and the valves flip open then shut each cycle.",
+      muscleCue: "Ankle flexion shown",
+      valveCue: "Proximal opens on squeeze · distal on release",
+      pumpDuration: 1.6,
+      flowDuration: 1.35,
+      detail: "The ankle points down with a calf pulse in this illustration. Actual muscle recruitment and venous flow vary with the person and movement.",
+      caption: "Toe point: the modeled calf pulse and proximal-gate opening share the same squeeze phase.",
       phase: "contract"
     },
     "ankle-circles": {
       index: "03",
       label: "Ankle circles",
-      activity: "Gentle",
-      activityLevel: 54,
-      flow: "Moving",
-      flowLevel: 64,
-      cadence: 32,
-      pumpDuration: "1.9s",
-      flowDuration: "1.6s",
-      detail: "Slow circles keep the valve cycle turning — gentler pumping, but far better than staying still.",
-      caption: "Ankle circles: the orbit shows the joint's path while valves keep cycling at an easy rhythm.",
+      muscleCue: "Gentle joint motion shown",
+      valveCue: "Simplified squeeze / refill",
+      pumpDuration: 2.85,
+      flowDuration: 1.6,
+      detail: "The ankle traces a circle with a mild calf cue. Ankle circles are not assigned a measured venous-flow value here.",
+      caption: "Ankle circles: the joint path, calf cue, and schematic valve sequence repeat on one shared loop.",
       phase: "contract"
     },
     walking: {
       index: "04",
       label: "Walking step",
-      activity: "Rhythmic",
-      activityLevel: 96,
-      flow: "Rhythmic",
-      flowLevel: 96,
-      cadence: 77,
-      pumpDuration: "0.78s",
-      flowDuration: "0.62s",
-      detail: "Heel-to-toe stepping alternates squeeze and refill — the quickest valve rhythm and strongest return in this model.",
-      caption: "Walking: the leg swings from the hip, the calf pumps every step, and valves ripple open and shut in sequence.",
+      muscleCue: "Rhythmic calf cue shown",
+      valveCue: "Proximal opens on squeeze · distal on release",
+      pumpDuration: 0.78,
+      flowDuration: 0.62,
+      detail: "Walking engages leg muscles and the calf pump. This simplified stride is not a measured gait or a prediction of venous return.",
+      caption: "Walking: the calf cue and proximal-gate opening are timed to the same modeled squeeze phase.",
       phase: "contract"
     },
     rest: {
       index: "05",
       label: "Stationary / rest",
-      activity: "Relaxed",
-      activityLevel: 18,
-      flow: "Reduced pump action",
-      flowLevel: 28,
-      cadence: 17,
-      pumpDuration: "3.6s",
-      flowDuration: "3.8s",
-      detail: "With the calf still, the valves idle nearly shut and blood only drifts — prolonged stasis is what raises DVT concern.",
-      caption: "At rest: no squeeze, valves barely flutter, and flow slows to a drift. Movement restarts the pump.",
+      muscleCue: "No active squeeze shown",
+      valveCue: "Gates nearly closed",
+      pumpDuration: 3.6,
+      flowDuration: 3.8,
+      detail: "This pose removes the active squeeze cue. Blood continues to circulate at rest; a still animation cannot indicate DVT risk.",
+      caption: "Rest: the calf squeeze stops and the gates stay mostly closed; this is a simplified, non-measured view.",
       phase: "relax"
     }
   };
@@ -81,9 +66,20 @@
   const vesselComparison = document.getElementById("vesselComparison");
   const insightCopy = document.getElementById("insightCopy");
   const mechanismCard = document.getElementById("mechanismCard");
+  const settingsToggle = document.getElementById("settingsToggle");
+  const settingsPanel = document.getElementById("animationSettings");
+  const settingsClose = document.getElementById("settingsClose");
+  const speedControl = document.getElementById("speedControl");
+  const speedValue = document.getElementById("speedValue");
+  const speedReset = document.getElementById("speedReset");
+  const DEFAULT_SPEED = 0.85;
+  const MIN_SPEED = 0.6;
+  const MAX_SPEED = 1.2;
+  const SPEED_STORAGE_KEY = "lower-leg-circulation.animation-speed";
   let currentMovement = "heel-raise";
   let motionPaused = false;
   let insightEnabled = true;
+  let animationSpeed = DEFAULT_SPEED;
 
   function svgEl(name, attrs) {
     const node = document.createElementNS(SVG_NS, name);
@@ -91,10 +87,9 @@
     return node;
   }
 
-  /* Place one-way valve leaflets along the deep vein. Each valve is a pair of
-     cusps hinged at the vessel wall: they swing open while the calf squeezes
-     blood toward the heart, then snap shut to block backflow. Valves alternate
-     phase (A/B) so the blood is stepped upward segment by segment. */
+  /* Add schematic valve pairs along the vein. Gates nearer the heart (proximal)
+     open during the modeled squeeze; lower (distal) gates close, then reopen
+     during refill. This simplified sequence is not a patient-specific flow model. */
   function buildVeinValves() {
     const vein = document.getElementById("deepVeinPath");
     const layer = document.getElementById("valveLayer");
@@ -112,7 +107,7 @@
     const fracs = [0.14, 0.36, 0.58, 0.8];
     const valves = [];
 
-    fracs.forEach((frac, i) => {
+    fracs.forEach((frac) => {
       const len = total * frac;
       const p = vein.getPointAtLength(len);
       const before = vein.getPointAtLength(Math.max(0, len - 1.5));
@@ -121,10 +116,10 @@
       const ty = after.y - before.y;
       // Rotate so the valve's local "up" (-y) points along flow, toward the heart.
       const angle = (Math.atan2(tx, -ty) * 180) / Math.PI;
-      const phase = i % 2 === 1 ? "valve-a" : "valve-b";
+      const valveType = frac >= 0.5 ? "valve-proximal" : "valve-distal";
 
       const group = svgEl("g", {
-        class: `vein-valve ${phase}`,
+        class: `vein-valve ${valveType}`,
         transform: `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) rotate(${angle.toFixed(1)})`
       });
       const hingeLeft = svgEl("g", { transform: "translate(-5.8 2.2)" });
@@ -136,17 +131,17 @@
       valves.push({ point: p, group });
     });
 
-    // Highlight one valve with a pulsing ring and an explanatory callout.
-    const focus = valves[1];
+    // Highlight a proximal valve so its opening can be compared with the squeeze.
+    const focus = valves.find((valve) => valve.group.classList.contains("valve-proximal"));
     if (focus && labelLayer) {
       const { x, y } = focus.point;
       layer.appendChild(svgEl("circle", { class: "valve-focus-ring", cx: x.toFixed(1), cy: y.toFixed(1), r: "13" }));
       const lineY = Math.round(y + 26);
       labelLayer.appendChild(svgEl("path", { class: "label-line", d: `M160 ${lineY}L${(x - 14).toFixed(0)} ${y.toFixed(0)}` }));
       const title = svgEl("text", { x: "40", y: String(lineY - 5) });
-      title.textContent = "ONE-WAY VALVE";
+      title.textContent = "PROXIMAL VALVE";
       const sub = svgEl("text", { class: "label-small", x: "40", y: String(lineY + 12) });
-      sub.textContent = "opens toward heart · snaps shut";
+      sub.textContent = "opens with the calf squeeze";
       labelLayer.append(title, sub);
     }
   }
@@ -179,15 +174,74 @@
     });
   }
 
-  function setMeter(id, valueId, level, label, description) {
-    const bar = document.getElementById(id);
-    const value = document.getElementById(valueId);
-    if (!bar || !value) return;
-    const meter = bar.parentElement;
-    bar.style.width = `${level}%`;
-    value.textContent = label;
-    meter.setAttribute("aria-valuenow", String(level));
-    meter.setAttribute("aria-valuetext", description);
+  function formatSpeed(speed) {
+    return `${Number(speed).toFixed(2).replace(/\.?0+$/, "")}×`;
+  }
+
+  function readSavedSpeed() {
+    try {
+      const saved = window.localStorage.getItem(SPEED_STORAGE_KEY);
+      const parsed = Number(saved);
+      if (saved !== null && Number.isFinite(parsed) && parsed >= MIN_SPEED && parsed <= MAX_SPEED) {
+        return parsed;
+      }
+    } catch (error) {
+      // Storage may be unavailable in private browsing; use the default instead.
+    }
+    return DEFAULT_SPEED;
+  }
+
+  function setMovementTiming(movement) {
+    const rootStyle = document.documentElement.style;
+    rootStyle.setProperty("--pump-duration", `${(movement.pumpDuration / animationSpeed).toFixed(3)}s`);
+    rootStyle.setProperty("--flow-duration", `${(movement.flowDuration / animationSpeed).toFixed(3)}s`);
+  }
+
+  function updateMovementFeedback(movement) {
+    document.getElementById("muscleValue").textContent = movement.muscleCue;
+    document.getElementById("flowValue").textContent = movement.valveCue;
+    document.getElementById("cycleValue").textContent = `${(movement.pumpDuration / animationSpeed).toFixed(2)} s`;
+
+    const note = document.querySelector("#modelNote p");
+    const noteIcon = document.querySelector(".model-note-icon");
+    if (movement.phase === "relax") {
+      note.textContent = "A still pose cannot tell us a person's DVT risk; real blood continues to circulate at rest.";
+      noteIcon.textContent = "i";
+    } else {
+      note.textContent = "Calf-muscle contraction can assist venous return; this animation does not measure it.";
+      noteIcon.textContent = "↗";
+    }
+  }
+
+  function setAnimationSpeed(value, persist = true) {
+    const parsed = Number(value);
+    animationSpeed = Number.isFinite(parsed)
+      ? Math.min(MAX_SPEED, Math.max(MIN_SPEED, parsed))
+      : DEFAULT_SPEED;
+    speedControl.value = animationSpeed.toFixed(2);
+    speedControl.setAttribute("aria-valuetext", `${formatSpeed(animationSpeed)} of the original animation rate`);
+    speedValue.textContent = formatSpeed(animationSpeed);
+    document.documentElement.style.setProperty("--animation-duration-scale", String(1 / animationSpeed));
+
+    const movement = movements[currentMovement];
+    if (movement) {
+      setMovementTiming(movement);
+      updateMovementFeedback(movement);
+    }
+
+    if (persist) {
+      try {
+        window.localStorage.setItem(SPEED_STORAGE_KEY, String(animationSpeed));
+      } catch (error) {
+        // The control still works for this visit if storage is unavailable.
+      }
+    }
+  }
+
+  function setSettingsOpen(open) {
+    settingsPanel.hidden = !open;
+    settingsToggle.setAttribute("aria-expanded", String(open));
+    settingsToggle.setAttribute("aria-label", open ? "Close animation settings" : "Open animation settings");
   }
 
   function selectMovement(key) {
@@ -201,11 +255,9 @@
       button.setAttribute("aria-pressed", String(isSelected));
     });
 
-    // Every animation (muscles, valves, flow, cues) reads these two variables,
-    // so the whole scene speeds up or slows down with the chosen movement.
-    const rootStyle = document.documentElement.style;
-    rootStyle.setProperty("--pump-duration", movement.pumpDuration);
-    rootStyle.setProperty("--flow-duration", movement.flowDuration);
+    // Muscle, vessel, and valve animations share one movement-cycle duration.
+    // The speed control scales this cycle without changing the movement's phase.
+    setMovementTiming(movement);
 
     document.getElementById("selectedIndex").textContent = movement.index;
     document.getElementById("selectedIndex").setAttribute("aria-label", `Selected movement ${Number(movement.index)} of 5`);
@@ -216,23 +268,7 @@
     mechanismCard.dataset.phase = movement.phase;
     document.getElementById("mechanismState").textContent = movement.phase === "relax" ? "PUMP RESTING" : "PUMP ACTIVE";
 
-    setMeter("muscleBar", "muscleValue", movement.activityLevel, movement.activity, `${movement.activityLevel} percent in this illustrative model`);
-    setMeter("flowBar", "flowValue", movement.flowLevel, movement.flow, `${movement.flowLevel} percent in this illustrative model`);
-    const cadenceLevel = Math.min(100, Math.round((movement.cadence / 90) * 100));
-    const cadenceLabel = key === "rest" ? `≈${movement.cadence} /min · idle` : `≈${movement.cadence} /min`;
-    setMeter("cadenceBar", "cadenceValue", cadenceLevel, cadenceLabel, `About ${movement.cadence} illustrated pump cycles per minute`);
-    const cadenceMeter = document.getElementById("cadenceBar") && document.getElementById("cadenceBar").parentElement;
-    if (cadenceMeter) cadenceMeter.setAttribute("aria-valuenow", String(movement.cadence));
-
-    const note = document.querySelector("#modelNote p");
-    const noteIcon = document.querySelector(".model-note-icon");
-    if (key === "rest") {
-      note.textContent = "Less calf-pump action in this snapshot. DVT risk depends on many factors—not this animation.";
-      noteIcon.textContent = "↓";
-    } else {
-      note.textContent = "Movement can assist venous return; it does not remove every DVT risk.";
-      noteIcon.textContent = "↗";
-    }
+    updateMovementFeedback(movement);
   }
 
   function setMotionPaused(paused) {
@@ -260,10 +296,30 @@
     button.addEventListener("click", () => selectMovement(button.dataset.movement));
   });
 
+  settingsToggle.addEventListener("click", () => setSettingsOpen(settingsPanel.hidden));
+  settingsClose.addEventListener("click", () => {
+    setSettingsOpen(false);
+    settingsToggle.focus();
+  });
+  speedControl.addEventListener("input", () => setAnimationSpeed(speedControl.value));
+  speedReset.addEventListener("click", () => setAnimationSpeed(DEFAULT_SPEED));
+  document.addEventListener("pointerdown", (event) => {
+    if (!settingsPanel.hidden && !settingsPanel.contains(event.target) && !settingsToggle.contains(event.target)) {
+      setSettingsOpen(false);
+    }
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !settingsPanel.hidden) {
+      setSettingsOpen(false);
+      settingsToggle.focus();
+    }
+  });
+
   motionToggle.addEventListener("click", () => setMotionPaused(!motionPaused));
   insightToggle.addEventListener("click", () => setInsightEnabled(!insightEnabled));
   document.getElementById("resetButton").addEventListener("click", () => {
     selectMovement("heel-raise");
+    setAnimationSpeed(DEFAULT_SPEED);
     setMotionPaused(false);
     setInsightEnabled(true);
   });
@@ -275,6 +331,7 @@
     /* Decorative enhancement only — the page still works without it. */
   }
 
+  setAnimationSpeed(readSavedSpeed(), false);
   selectMovement(currentMovement);
   setMotionPaused(false);
   setInsightEnabled(true);

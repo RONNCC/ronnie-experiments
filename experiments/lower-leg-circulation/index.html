@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#f3f7fb">
-  <meta name="description" content="An interactive educational model showing how lower-leg movement drives the calf-muscle pump and its one-way vein valves, with a simplified DVT concept view.">
+  <meta name="description" content="An interactive educational model of the calf-muscle pump and one-way vein valves, with a simplified DVT concept view."
   <title>Lower Leg Circulation &amp; DVT Visualizer — Ronnie's Experiments</title>
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -21,7 +21,29 @@
         </span>
         <span>RONNIE'S <b>EXPERIMENTS</b></span>
       </a>
-      <span class="topbar-tag"><span class="status-dot"></span>Interactive learning lab</span>
+      <div class="topbar-actions">
+        <span class="topbar-tag"><span class="status-dot"></span>Interactive learning lab</span>
+        <button class="settings-toggle" id="settingsToggle" type="button" aria-label="Open animation settings" aria-expanded="false" aria-controls="animationSettings">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.25a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5Z"/><path d="m19.4 13.5 1.3 1-1.4 2.4-1.6-.6a7.8 7.8 0 0 1-1.4.8l-.3 1.7h-2.8l-.3-1.7a7.8 7.8 0 0 1-1.4-.8l-1.6.6-1.4-2.4 1.3-1a6.9 6.9 0 0 1 0-1.6l-1.3-1 1.4-2.4 1.6.6a7.8 7.8 0 0 1 1.4-.8l.3-1.7H16l.3 1.7a7.8 7.8 0 0 1 1.4.8l1.6-.6 1.4 2.4-1.3 1a6.9 6.9 0 0 1 0 1.6Z"/></svg>
+        </button>
+        <div class="settings-panel" id="animationSettings" hidden role="region" aria-labelledby="settingsTitle">
+          <div class="settings-heading">
+            <div>
+              <p class="settings-kicker">DISPLAY OPTIONS</p>
+              <h2 id="settingsTitle">Animation speed</h2>
+            </div>
+            <button class="settings-close" id="settingsClose" type="button" aria-label="Close animation settings">×</button>
+          </div>
+          <label class="speed-control-label" for="speedControl">
+            <span>Animation rate</span>
+            <output id="speedValue" for="speedControl">0.85×</output>
+          </label>
+          <input id="speedControl" class="speed-control" type="range" min="0.6" max="1.2" step="0.05" value="0.85" aria-label="Animation speed multiplier" aria-describedby="speedHelp">
+          <div class="speed-range-labels" aria-hidden="true"><span>Slower</span><span>Faster</span></div>
+          <p class="speed-help" id="speedHelp">0.85× is slightly slower than the original. Adjust the slider to taste; your choice is saved on this device.</p>
+          <button class="speed-reset" id="speedReset" type="button">Use default speed</button>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -30,7 +52,7 @@
       <div>
         <p class="eyebrow"><span class="eyebrow-line"></span> ANATOMY / CIRCULATION</p>
         <h1 id="page-title">Lower leg circulation <span>&amp; DVT</span></h1>
-        <p class="page-intro">Explore how each movement drives the calf-muscle pump — and the one-way vein valves inside it — to push blood back toward the heart.</p>
+        <p class="page-intro">Explore a simplified model of how lower-leg muscle movement and one-way vein valves can assist venous return.</p>
       </div>
       <button class="reset-button" id="resetButton" type="button">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 2.6-6.4L3 8"/><path d="M3 3v5h5"/></svg>
@@ -117,7 +139,7 @@
         <div class="anatomy-stage" id="anatomyStage" data-mode="heel-raise" data-paused="false">
           <svg class="leg-illustration" viewBox="0 0 640 700" role="img" aria-labelledby="leg-svg-title leg-svg-desc">
             <title id="leg-svg-title">Simplified anatomy of the lower leg</title>
-            <desc id="leg-svg-desc">A posterior view of calf muscles, tibia, fibula, deep veins in blue, and an artery in red. White chevrons inside the veins are one-way valves: they open while the calf squeezes blood upward toward the heart, then snap shut to block backflow.</desc>
+              <desc id="leg-svg-desc">A simplified posterior view of calf muscles, bones, deep veins, and an artery. During the modeled squeeze, upper proximal valve gates open while lower distal gates close; during release, the proximal gates close and distal gates reopen for refill. Exact valve timing varies along real veins, so this schematic is not a blood-flow measurement.</desc>
             <defs>
               <linearGradient id="skin" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#f7d5bf"/><stop offset="1" stop-color="#e8b9a0"/></linearGradient>
               <linearGradient id="muscleLeft" x1="0" x2="1"><stop stop-color="#df8a87"/><stop offset="1" stop-color="#c96269"/></linearGradient>
@@ -270,7 +292,6 @@
           <div class="vessel-legend"><span><i class="dot-blue"></i> moving blood</span><span><i class="dot-red"></i> clot illustration</span></div>
         </div>
         <p class="insight-copy" id="insightCopy">A DVT is a clot in a deep vein. Reduced movement can be one contributing factor, but many factors affect an individual's risk.</p>
-        <div class="safety-chip"><span aria-hidden="true">!</span> Not a diagnosis or personal risk score</div>
       </section>
 
       <section class="card mechanism-card" aria-labelledby="mechanism-title" id="mechanismCard" data-phase="contract">
@@ -284,7 +305,7 @@
         <div class="mechanism-grid">
           <article class="mechanism-step" id="contractStep">
             <div class="mechanism-step-title"><span class="step-number">A</span><strong>Muscle contraction — squeeze</strong></div>
-            <svg class="mechanism-art" viewBox="0 0 260 96" role="img" aria-label="Contracting calf muscle squeezes the vein, the one-way valve opens, and blood is pushed toward the heart">
+            <svg class="mechanism-art" viewBox="0 0 260 96" role="img" aria-label="During a calf squeeze, the proximal valve opens and blood is directed toward the heart">
               <path class="muscle-band mech-band" d="M25 24c28-18 61-11 80 0s47 18 70 4 42-11 58 0v12c-23 14-48 13-72 1s-49-13-66 0-46 17-70 1Z"/>
               <path class="squeeze-arrow" d="M57 20v13m-5-5 5 5 5-5m105-8v13m-5-5 5 5 5-5"/>
               <path class="vein-tube" d="M22 55h216"/>
@@ -301,12 +322,12 @@
               <text class="mech-chip chip-open" x="120" y="86" text-anchor="middle">VALVE OPEN</text>
               <text class="mech-flow-label" x="238" y="86" text-anchor="end">TOWARD HEART →</text>
             </svg>
-            <p>Calf contracts and squeezes the deep vein — the valve flaps open and blood shoots toward the heart.</p>
+            <p>During the modeled calf squeeze, a proximal gate opens while a distal gate closes to limit backflow.</p>
           </article>
           <span class="mechanism-divider" aria-hidden="true"></span>
           <article class="mechanism-step" id="relaxStep">
             <div class="mechanism-step-title"><span class="step-number">B</span><strong>Muscle relaxation — refill</strong></div>
-            <svg class="mechanism-art" viewBox="0 0 260 96" role="img" aria-label="As the muscle relaxes, the valve snaps shut, blocking backward flow while the vein refills from below">
+            <svg class="mechanism-art" viewBox="0 0 260 96" role="img" aria-label="As the calf relaxes, the proximal valve closes against backflow while the distal vein segment refills from below">
               <path class="muscle-band relaxed-band" d="M25 19c29-10 53-8 77 0 20 7 51 9 74 0s41-10 57-1v14c-22 9-47 9-70 2s-51-8-70 1-45 10-68 0Z"/>
               <path class="vein-tube" d="M22 55h216"/>
               <path class="vein-lumen" d="M22 55h216"/>
@@ -321,7 +342,7 @@
               <path class="block-mark" d="M131 50l10 10m0-10-10 10"/>
               <text class="mech-chip chip-block" x="120" y="86" text-anchor="middle">VALVE SHUT · NO BACKFLOW</text>
             </svg>
-            <p>As the muscle relaxes, the valve snaps shut — blood can't fall back, and the vein refills from below.</p>
+            <p>As the calf relaxes, the proximal gate closes; a distal gate can open to let the vein refill from below.</p>
           </article>
         </div>
       </section>
@@ -329,7 +350,7 @@
       <section class="card feedback-card" aria-labelledby="feedback-title" aria-live="polite">
         <div class="section-heading compact-heading">
           <div>
-            <p class="section-kicker">05 <span>/</span> LIVE FEEDBACK</p>
+            <p class="section-kicker">05 <span>/</span> MODEL FEEDBACK</p>
             <h2 id="feedback-title">Movement feedback</h2>
           </div>
           <span class="feedback-pulse" aria-hidden="true"></span>
@@ -337,25 +358,36 @@
         <div class="selected-movement">
           <span class="data-label">CURRENT MOVEMENT</span>
           <strong id="currentMoveLabel">Heel raise</strong>
-          <p id="feedbackDetail">A calf contraction can assist venous return in this concept model.</p>
+          <p id="feedbackDetail">The calf contracts in this animation; real venous flow is not measured.</p>
         </div>
-        <div class="metric">
-          <div class="metric-heading"><span>Calf-pump activity</span><strong id="muscleValue">High</strong></div>
-          <div class="meter" role="meter" aria-label="Illustrated calf-pump activity" aria-valuemin="0" aria-valuemax="100" aria-valuenow="86"><span id="muscleBar" style="width:86%"></span></div>
-        </div>
-        <div class="metric">
-          <div class="metric-heading"><span>Illustrated venous return</span><strong id="flowValue">Pump-assisted</strong></div>
-          <div class="meter flow-meter" role="meter" aria-label="Illustrated venous return" aria-valuemin="0" aria-valuemax="100" aria-valuenow="86"><span id="flowBar" style="width:86%"></span></div>
-        </div>
-        <div class="metric">
-          <div class="metric-heading"><span>Pump cadence (illustrative)</span><strong id="cadenceValue">≈48 /min</strong></div>
-          <div class="meter cadence-meter" role="meter" aria-label="Illustrated pump cycles per minute" aria-valuemin="0" aria-valuemax="90" aria-valuenow="48"><span id="cadenceBar" style="width:53%"></span></div>
-        </div>
+        <dl class="feedback-facts" aria-label="Illustrated movement cues">
+          <div class="feedback-fact">
+            <dt>Muscle cue</dt>
+            <dd id="muscleValue">Calf squeeze shown</dd>
+          </div>
+          <div class="feedback-fact">
+            <dt>Valve sequence</dt>
+            <dd id="flowValue">Proximal opens on squeeze · distal on release</dd>
+          </div>
+          <div class="feedback-fact">
+            <dt>Model loop length</dt>
+            <dd id="cycleValue">1.47 s</dd>
+          </div>
+        </dl>
         <div class="model-note" id="modelNote">
           <span class="model-note-icon" aria-hidden="true">↗</span>
-          <p>Movement can assist venous return; it does not remove every DVT risk.</p>
+          <p>This is a schematic, not a measurement of blood flow or an individual's circulation.</p>
         </div>
-        <p class="feedback-footnote">Qualitative teaching model only; values are not measured from a person.</p>
+        <p class="feedback-footnote">Loop length is an animation setting, not an exercise cadence or clinical value.</p>
+        <details class="research-note">
+          <summary>Research basis &amp; model limits</summary>
+          <p>Research supports the general calf-pump mechanism, but does not establish one flow score for each action here. No clinical values are shown; the valve sequence is simplified.</p>
+          <ul>
+            <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3699225/" target="_blank" rel="noopener">Recek (2013), review of calf-pump hemodynamics</a></li>
+            <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4676919/" target="_blank" rel="noopener">Keijsers et al. (2015), 1-D calf-pump model</a></li>
+            <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7510250/" target="_blank" rel="noopener">Niccolini et al. (2020), CFD calf-pump model</a></li>
+          </ul>
+        </details>
       </section>
     </div>
 

@@ -17,6 +17,7 @@
   --red-soft: #fff0ef;
   --pump-duration: 1.25s;
   --flow-duration: 1.05s;
+  --animation-duration-scale: 1;
   --shadow: 0 14px 36px rgba(38, 71, 101, 0.07), 0 2px 8px rgba(38, 71, 101, 0.035);
   --radius: 18px;
 }
@@ -39,6 +40,8 @@ button { color: inherit; }
 button:focus-visible, a:focus-visible { outline: 3px solid rgba(36, 123, 185, .36); outline-offset: 3px; }
 
 .topbar {
+  position: relative;
+  z-index: 10;
   height: 66px;
   background: rgba(255, 255, 255, .9);
   border-bottom: 1px solid rgba(203, 216, 227, .9);
@@ -88,8 +91,14 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(36, 123, 185, .3
   color: var(--blue);
 }
 .brand-icon svg { width: 21px; height: 21px; fill: currentColor; }
-.topbar-tag {
+.topbar-actions {
+  position: relative;
   justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.topbar-tag {
   color: var(--muted);
   border: 1px solid var(--line);
   border-radius: 99px;
@@ -101,7 +110,69 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(36, 123, 185, .3
   font-size: 11px;
   font-weight: 650;
   letter-spacing: .025em;
+  white-space: nowrap;
 }
+.settings-toggle {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 35px;
+  height: 35px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  color: #60788b;
+  cursor: pointer;
+  transition: color .18s, border-color .18s, background .18s, transform .18s;
+}
+.settings-toggle:hover, .settings-toggle[aria-expanded="true"] {
+  color: var(--blue);
+  border-color: #a7c7dd;
+  background: #f5fafe;
+}
+.settings-toggle:hover { transform: translateY(-1px); }
+.settings-toggle svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.55; stroke-linecap: round; stroke-linejoin: round; }
+.settings-panel {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 9px);
+  right: 0;
+  width: min(290px, calc(100vw - 24px));
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 18px 40px rgba(31, 62, 86, .17), 0 3px 10px rgba(31, 62, 86, .08);
+}
+.settings-panel[hidden] { display: none; }
+.settings-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 15px; }
+.settings-kicker { margin: 0 0 4px; color: #8295a4; font-size: 8px; font-weight: 800; letter-spacing: .12em; }
+.settings-heading h2 { margin: 0; color: #263f54; font-size: 15px; font-weight: 760; letter-spacing: -.02em; }
+.settings-close {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  padding: 0 0 2px;
+  border: 1px solid #e4ebf0;
+  border-radius: 8px;
+  background: #f9fbfc;
+  color: #6c8090;
+  cursor: pointer;
+  font-size: 19px;
+  line-height: 1;
+}
+.settings-close:hover { color: var(--blue); border-color: #a7c7dd; }
+.speed-control-label { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; color: #405a70; font-size: 10px; font-weight: 750; }
+.speed-control-label output { color: var(--blue-dark); font-size: 12px; font-variant-numeric: tabular-nums; }
+.speed-control { display: block; width: 100%; margin: 12px 0 0; accent-color: var(--blue); cursor: pointer; }
+.speed-control:focus-visible { outline: 3px solid rgba(36, 123, 185, .28); outline-offset: 4px; }
+.speed-range-labels { display: flex; justify-content: space-between; margin-top: 2px; color: #91a0ac; font-size: 8px; }
+.speed-help { margin: 11px 0 10px; color: #758797; font-size: 9px; line-height: 1.45; }
+.speed-reset { padding: 0; border: 0; background: transparent; color: var(--blue-dark); font-size: 9px; font-weight: 750; cursor: pointer; }
+.speed-reset:hover { text-decoration: underline; }
 .status-dot, .feedback-pulse {
   display: inline-block;
   width: 7px;
@@ -341,7 +412,7 @@ h1 span { color: var(--blue); }
 .artery-flow { stroke: rgba(255, 235, 224, .9); stroke-width: 2.5; stroke-dasharray: 2 20; animation-duration: calc(var(--flow-duration, 1.05s) * 1.4); }
 .foot-detail { fill: none; stroke: rgba(177, 112, 94, .48); stroke-width: 2; stroke-linecap: round; transition: transform .3s ease; transform-box: view-box; transform-origin: 340px 616px; }
 .foot-detail .heel-mark { stroke: rgba(177, 112, 94, .35); }
-.ankle-orbit { fill: none; stroke: #378ebc; stroke-width: 2; stroke-dasharray: 3 4; opacity: 0; transform-origin: 341px 612px; animation: orbit calc(var(--pump-duration, 1.25s) * 1.5) linear infinite; }
+.ankle-orbit { fill: none; stroke: #378ebc; stroke-width: 2; stroke-dasharray: 3 4; opacity: 0; transform-origin: 341px 612px; animation: orbit var(--pump-duration, 1.25s) linear infinite; }
 .orbit-spinner { transform-box: view-box; transform-origin: 341px 612px; opacity: 0; }
 .orbit-arrow { fill: none; stroke: #378ebc; stroke-width: 2.6; stroke-linecap: round; }
 .leg-rig { transform-box: view-box; transform-origin: 320px 350px; }
@@ -358,10 +429,11 @@ h1 span { color: var(--blue); }
   animation-iteration-count: infinite;
   animation-timing-function: cubic-bezier(.45, .05, .3, 1);
 }
-.leaflet-left { transform-origin: 0% 100%; animation-name: leaflet-left-cycle; }
-.leaflet-right { transform-origin: 100% 100%; animation-name: leaflet-right-cycle; }
-.valve-b .valve-leaflet { animation-delay: calc(var(--pump-duration, 1.25s) * -0.5); }
-.valve-focus-ring { fill: none; stroke: var(--teal); stroke-width: 2; stroke-dasharray: 3 5; transform-box: fill-box; transform-origin: center; animation: ring-pulse 2.6s ease-out infinite; }
+.leaflet-left { transform-origin: 0% 100%; animation-name: leaflet-proximal-left; }
+.leaflet-right { transform-origin: 100% 100%; animation-name: leaflet-proximal-right; }
+.valve-distal .leaflet-left { animation-name: leaflet-distal-left; }
+.valve-distal .leaflet-right { animation-name: leaflet-distal-right; }
+.valve-focus-ring { fill: none; stroke: var(--teal); stroke-width: 2; stroke-dasharray: 3 5; transform-box: fill-box; transform-origin: center; animation: ring-pulse calc(2.6s * var(--animation-duration-scale, 1)) ease-out infinite; }
 
 /* Blood cells travelling the vessels (generated by app.js, offset-path) */
 .corpuscle { transform-box: fill-box; transform-origin: center; offset-rotate: 0deg; animation: corpuscle-travel var(--flow-duration, 1.05s) linear infinite; }
@@ -396,11 +468,11 @@ h1 span { color: var(--blue); }
 .anatomy-stage[data-mode="toe-point"] .cue-toe { opacity: 1; animation: cue-fade var(--pump-duration) ease-in-out infinite alternate; }
 
 /* --- Ankle circles: foot traces a slow orbit --- */
-.anatomy-stage[data-mode="ankle-circles"] .foot-detail { transform-origin: 340px 612px; animation: ankle-circle calc(var(--pump-duration) * 1.5) ease-in-out infinite; }
-.anatomy-stage[data-mode="ankle-circles"] .muscle-layer { animation: calf-contract-gentle calc(var(--pump-duration) * 1.5) ease-in-out infinite; }
+.anatomy-stage[data-mode="ankle-circles"] .foot-detail { transform-origin: 340px 612px; animation: ankle-circle var(--pump-duration) ease-in-out infinite; }
+.anatomy-stage[data-mode="ankle-circles"] .muscle-layer { animation: calf-contract-gentle var(--pump-duration) ease-in-out infinite; }
 .anatomy-stage[data-mode="ankle-circles"] .ankle-orbit,
 .anatomy-stage[data-mode="ankle-circles"] .orbit-spinner { opacity: .9; }
-.anatomy-stage[data-mode="ankle-circles"] .orbit-spinner { animation: orbit calc(var(--pump-duration) * 1.5) linear infinite; }
+.anatomy-stage[data-mode="ankle-circles"] .orbit-spinner { animation: orbit var(--pump-duration) linear infinite; }
 
 /* --- Walking: leg swings from the hip, calf pumps each step --- */
 .anatomy-stage[data-mode="walking"] .leg-rig { transform-origin: 330px 64px; animation: leg-swing calc(var(--pump-duration) * .5) ease-in-out infinite alternate; }
@@ -417,8 +489,7 @@ h1 span { color: var(--blue); }
 .anatomy-stage[data-mode="rest"] #arteryPath { animation: none; }
 .anatomy-stage[data-mode="rest"] .leaflet-left { animation-name: leaflet-idle-left; }
 .anatomy-stage[data-mode="rest"] .leaflet-right { animation-name: leaflet-idle-right; }
-.anatomy-stage[data-mode="rest"] .valve-b .valve-leaflet { animation-delay: calc(var(--pump-duration) * -.33); }
-.anatomy-stage[data-mode="rest"] .cue-rest { opacity: .7; animation: cue-settle 3.8s ease-in-out infinite; }
+.anatomy-stage[data-mode="rest"] .cue-rest { opacity: .7; animation: cue-settle calc(3.8s * var(--animation-duration-scale, 1)) ease-in-out infinite; }
 
 .anatomy-stage[data-paused="true"] .muscle-layer,
 .anatomy-stage[data-paused="true"] .foot-detail,
@@ -472,11 +543,11 @@ body[data-motion-paused="true"] .mechanism-art * { animation-play-state: paused 
 .vessel-diagram text { fill: #52718a; font-family: inherit; font-size: 9px; font-weight: 800; letter-spacing: .03em; }
 .vessel-diagram .comparison-arrow { fill: none; stroke: #82a3bc; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .vessel-diagram .compare-note { fill: #8297a8; font-size: 8px; font-weight: 600; letter-spacing: 0; }
-.mini-flow { fill: none; stroke: #8bd6ec; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 3 10; animation: flow-up 1s linear infinite; }
-.slow-flow { opacity: .48; animation-duration: 3.4s; }
-.blood-cell { fill: #4dc1e1; stroke: #b8eff6; stroke-width: 1; animation: drift 2.5s ease-in-out infinite alternate; }
-.cell-two { animation-delay: -.8s; }
-.cell-three { animation-delay: -1.5s; }
+.mini-flow { fill: none; stroke: #8bd6ec; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 3 10; animation: flow-up calc(1s * var(--animation-duration-scale, 1)) linear infinite; }
+.slow-flow { opacity: .48; animation-duration: calc(3.4s * var(--animation-duration-scale, 1)); }
+.blood-cell { fill: #4dc1e1; stroke: #b8eff6; stroke-width: 1; animation: drift calc(2.5s * var(--animation-duration-scale, 1)) ease-in-out infinite alternate; }
+.cell-two { animation-delay: calc(-.8s * var(--animation-duration-scale, 1)); }
+.cell-three { animation-delay: calc(-1.5s * var(--animation-duration-scale, 1)); }
 .thrombus { fill: #d84e53; stroke: #a9343d; stroke-width: 1.5; transition: opacity .2s; }
 .vessel-comparison[data-enabled="false"] .thrombus,
 .vessel-comparison[data-enabled="false"] .thrombus-label { opacity: .08; }
@@ -486,10 +557,7 @@ body[data-motion-paused="true"] .mechanism-art * { animation-play-state: paused 
 .vessel-legend i { width: 7px; height: 7px; display: inline-block; border-radius: 50%; }
 .dot-blue { background: #53aed7; }
 .dot-red { background: var(--red); }
-.insight-copy { margin: 11px 1px 10px; color: #6b7b8a; font-size: 10px; line-height: 1.55; }
-.safety-chip { display: flex; align-items: center; gap: 6px; margin-top: auto; padding: 7px 8px; border: 1px solid #f2e5cd; border-radius: 8px; background: #fffaf0; color: #8e713e; font-size: 8px; font-weight: 700; }
-.safety-chip span { display: grid; place-items: center; width: 13px; height: 13px; border-radius: 50%; background: #edd9af; color: #80602b; font-size: 9px; font-weight: 900; }
-
+.insight-copy { margin: auto 1px 0; color: #6b7b8a; font-size: 10px; line-height: 1.55; }
 .mechanism-heading { align-items: center; margin-bottom: 11px; }
 .mechanism-state { border-radius: 99px; padding: 5px 8px; background: var(--teal-soft); color: #31837f; font-size: 8px; font-weight: 800; letter-spacing: .06em; white-space: nowrap; }
 .mechanism-card[data-phase="relax"] .mechanism-state { background: #f1f4f6; color: #7a8b99; }
@@ -538,8 +606,8 @@ body[data-motion-paused="true"] .mechanism-art * { animation-play-state: paused 
 
 @keyframes mech-squeeze { 0%, 12% { transform: scale(1, 1); } 40%, 56% { transform: scale(1.03, .72); } 82%, 100% { transform: scale(1, 1); } }
 @keyframes squeeze-pulse { 0%, 14% { opacity: .25; } 40%, 56% { opacity: 1; } 76%, 100% { opacity: .25; } }
-@keyframes mech-leaflet-top { 0%, 14% { transform: rotate(0deg); } 24%, 58% { transform: rotate(-52deg); } 70%, 100% { transform: rotate(0deg); } }
-@keyframes mech-leaflet-bottom { 0%, 14% { transform: rotate(0deg); } 24%, 58% { transform: rotate(52deg); } 70%, 100% { transform: rotate(0deg); } }
+@keyframes mech-leaflet-top { 0%, 38% { transform: rotate(0deg); } 42%, 56% { transform: rotate(-52deg); } 64%, 100% { transform: rotate(0deg); } }
+@keyframes mech-leaflet-bottom { 0%, 38% { transform: rotate(0deg); } 42%, 56% { transform: rotate(52deg); } 64%, 100% { transform: rotate(0deg); } }
 @keyframes mech-shut-top { 0%, 78% { transform: rotate(0deg); } 84% { transform: rotate(2.5deg); } 92%, 100% { transform: rotate(0deg); } }
 @keyframes mech-shut-bottom { 0%, 78% { transform: rotate(0deg); } 84% { transform: rotate(-2.5deg); } 92%, 100% { transform: rotate(0deg); } }
 @keyframes mech-cell-run {
@@ -563,7 +631,7 @@ body[data-motion-paused="true"] .mechanism-art * { animation-play-state: paused 
   98%, 100% { transform: translateX(70px); opacity: 0; }
 }
 @keyframes block-flash { 0%, 78% { opacity: 0; transform: scale(.5); } 83% { opacity: 1; transform: scale(1.15); } 88%, 93% { opacity: 1; transform: scale(1); } 99%, 100% { opacity: 0; transform: scale(1); } }
-@keyframes chip-open-flash { 0%, 18% { opacity: 0; } 26%, 56% { opacity: 1; } 64%, 100% { opacity: 0; } }
+@keyframes chip-open-flash { 0%, 38% { opacity: 0; } 42%, 56% { opacity: 1; } 64%, 100% { opacity: 0; } }
 @keyframes chip-block-flash { 0%, 76% { opacity: 0; } 82%, 94% { opacity: 1; } 99%, 100% { opacity: 0; } }
 @keyframes backflow-pulse { 0%, 60% { opacity: .25; } 78%, 92% { opacity: .95; } 100% { opacity: .25; } }
 .mechanism-step p { margin: 0; color: #7a8996; font-size: 9px; line-height: 1.45; }
@@ -575,17 +643,22 @@ body[data-motion-paused="true"] .mechanism-art * { animation-play-state: paused 
 .data-label { color: #8496a4; font-size: 8px; font-weight: 800; letter-spacing: .1em; }
 .selected-movement strong { color: #284b66; font-size: 16px; letter-spacing: -.02em; }
 .selected-movement p { min-height: 27px; margin: 1px 0 0; color: #738597; font-size: 9px; line-height: 1.45; }
-.metric { margin-top: 14px; }
-.metric-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; color: #6d7f8e; font-size: 9px; }
-.metric-heading strong { color: #3c6078; font-size: 9px; font-weight: 800; text-align: right; }
-.meter { height: 7px; margin-top: 7px; overflow: hidden; border-radius: 99px; background: #e9eef2; }
-.meter span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #59b1b0, #2b9b9a); transition: width .45s ease; }
-.flow-meter span { background: linear-gradient(90deg, #78bed2, #307eb2); }
-.cadence-meter span { background: linear-gradient(90deg, #8fb0d4, #4a7ba7); }
-.model-note { display: flex; align-items: flex-start; gap: 8px; margin-top: 14px; padding: 9px 9px; border-radius: 9px; background: #f4f8fa; color: #6f8190; }
+.feedback-facts { display: grid; gap: 0; margin: 12px 0 0; }
+.feedback-fact { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); align-items: baseline; gap: 8px; padding: 8px 0; border-bottom: 1px solid #edf1f4; }
+.feedback-fact:last-child { border-bottom: 0; }
+.feedback-fact dt { color: #718392; font-size: 9px; }
+.feedback-fact dd { margin: 0; color: #3c6078; font-size: 9px; font-weight: 800; text-align: right; }
+.model-note { display: flex; align-items: flex-start; gap: 8px; margin-top: 12px; padding: 9px; border-radius: 9px; background: #f4f8fa; color: #6f8190; }
 .model-note-icon { display: grid; place-items: center; flex: 0 0 auto; width: 18px; height: 18px; border-radius: 6px; color: #347da6; background: #e0eff6; font-size: 13px; font-weight: 800; }
 .model-note p { margin: 0; font-size: 9px; line-height: 1.45; }
-.feedback-footnote { margin: auto 0 0; padding-top: 9px; color: #9aa7b1; font-size: 8px; line-height: 1.35; }
+.feedback-footnote { margin: 9px 0 0; color: #8998a4; font-size: 8px; line-height: 1.35; }
+.research-note { margin-top: 9px; padding-top: 8px; border-top: 1px solid #edf1f4; color: #748493; }
+.research-note summary { color: #4f7088; font-size: 8px; font-weight: 800; cursor: pointer; }
+.research-note p { margin: 7px 0; font-size: 8px; line-height: 1.45; }
+.research-note ul { display: grid; gap: 4px; margin: 0; padding-left: 14px; }
+.research-note li { font-size: 8px; line-height: 1.35; }
+.research-note a { color: #467b9d; text-decoration: none; }
+.research-note a:hover { text-decoration: underline; }
 
 .medical-notice { display: flex; align-items: flex-start; gap: 10px; margin: 17px 1px 0; padding: 12px 14px; border: 1px solid #e1e9ee; border-radius: 12px; background: rgba(255,255,255,.66); color: #748493; }
 .notice-icon { display: grid; place-items: center; flex: 0 0 auto; width: 18px; height: 18px; border-radius: 50%; background: #e6f0f5; color: #557b96; font-family: Georgia, serif; font-size: 12px; font-weight: 800; }
@@ -623,9 +696,11 @@ body[data-motion-paused="true"] .mechanism-art * { animation-play-state: paused 
 @keyframes vein-compress { 0%, 14% { stroke-width: 13; } 42%, 56% { stroke-width: 10.4; } 84%, 100% { stroke-width: 13; } }
 @keyframes artery-compress { 0%, 14% { stroke-width: 10; } 42%, 56% { stroke-width: 8.8; } 84%, 100% { stroke-width: 10; } }
 
-/* One-way valve leaflets: open during the squeeze (24–58%), shut for the refill */
-@keyframes leaflet-left-cycle { 0%, 14% { transform: rotate(0deg); } 24%, 58% { transform: rotate(-52deg); } 70%, 100% { transform: rotate(0deg); } }
-@keyframes leaflet-right-cycle { 0%, 14% { transform: rotate(0deg); } 24%, 58% { transform: rotate(52deg); } 70%, 100% { transform: rotate(0deg); } }
+/* Proximal gates open with the squeeze; distal gates open in the refill phase. */
+@keyframes leaflet-proximal-left { 0%, 38% { transform: rotate(0deg); } 42%, 56% { transform: rotate(-52deg); } 64%, 100% { transform: rotate(0deg); } }
+@keyframes leaflet-proximal-right { 0%, 38% { transform: rotate(0deg); } 42%, 56% { transform: rotate(52deg); } 64%, 100% { transform: rotate(0deg); } }
+@keyframes leaflet-distal-left { 0%, 56% { transform: rotate(0deg); } 66%, 82% { transform: rotate(-52deg); } 90%, 100% { transform: rotate(0deg); } }
+@keyframes leaflet-distal-right { 0%, 56% { transform: rotate(0deg); } 66%, 82% { transform: rotate(52deg); } 90%, 100% { transform: rotate(0deg); } }
 @keyframes leaflet-idle-left { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-2.5deg); } }
 @keyframes leaflet-idle-right { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(2.5deg); } }
 @keyframes corpuscle-travel { from { offset-distance: 0%; } to { offset-distance: 100%; } }
