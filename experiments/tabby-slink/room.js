@@ -656,10 +656,12 @@ export function createRoom() {
     minY: 0.14,
     maxY: 2.05,
   };
-  const cameraBlockers = [sofa, lamp.group, plant].map((group) => {
+  const blockerBox = (group) => {
     const box = new THREE.Box3().setFromObject(group).expandByScalar(0.06);
     return { minX: box.min.x, maxX: box.max.x, minY: box.min.y, maxY: box.max.y, minZ: box.min.z, maxZ: box.max.z };
-  });
+  };
+  const sofaBox = blockerBox(sofa);
+  const cameraBlockers = [sofaBox, blockerBox(lamp.group), blockerBox(plant)];
 
   return {
     object: root,
@@ -670,6 +672,7 @@ export function createRoom() {
     moth: moth.group,
     bounds,
     cameraBlockers,
+    sofaBox,
     update(dt, elapsed, moonAmount) {
       shaft.material.uniforms.uTime.value = elapsed;
       shaft.material.uniforms.uOpacity.value = 0.045 + moonAmount * 0.07;

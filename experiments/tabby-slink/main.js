@@ -1,8 +1,10 @@
 import * as THREE from "three";
 import { OrbitControls } from "./vendor/OrbitControls.js";
 import { RoomEnvironment } from "./vendor/RoomEnvironment.js";
-import { createRoom, CAMERA_RADIUS, collideCameraPose, cameraClearance } from "./room.js";
+import { createRoom } from "./room.js";
 import { createTabby } from "./cat.js";
+import { createFollowRig } from "./rig.js";
+import { createLights, updateLighting } from "./lighting.js";
 
 const canvas = document.getElementById("view");
 const veil = document.getElementById("veil");
@@ -91,136 +93,36 @@ async function boot() {
   const room = createRoom();
   scene.add(room.object);
 
-  const hemi = new THREE.HemisphereLight(0x9aafc8, 0x4a3020, 1.05);
-  scene.add(hemi);
-
-  const moon = new THREE.DirectionalLight(0xd5e4ff, 5.4);
-  moon.position.copy(room.moonDir).multiplyScalar(6);
-  moon.castShadow = true;
-  moon.shadow.mapSize.set(2048, 2048);
-  moon.shadow.camera.near = 0.4;
-  moon.shadow.camera.far = 14;
-  moon.shadow.camera.left = -3.2;
-  moon.shadow.camera.right = 3.2;
-  moon.shadow.camera.top = 3.2;
-  moon.shadow.camera.bottom = -3.2;
-  moon.shadow.bias = -0.00035;
-  moon.shadow.normalBias = 0.02;
-  scene.add(moon);
-  scene.add(moon.target);
-
-  const rim = new THREE.DirectionalLight(0xb7c6e4, 1.7);
-  rim.position.set(2.4, 1.6, 2.2);
-  scene.add(rim);
-
-  const viewFill = new THREE.DirectionalLight(0xffe0c2, 1.7);
-  viewFill.position.set(1, 1.2, 1);
-  scene.add(viewFill);
-  scene.add(viewFill.target);
-
-  // Warm key that rides the camera: close-ups of the face read soft instead of
-  // moon-cold, without changing the room's nocturne mood from the wide shots.
-  const faceKey = new THREE.PointLight(0xffd8b4, 0.55, 1.7, 2);
-  scene.add(faceKey);
+  const lights = createLights(scene, room);
 
   const tabby = createTabby();
   scene.add(tabby.object);
 
-  const desiredCam = new THREE.Vector3();
-  const desiredTarget = new THREE.Vector3();
-  const candidateCam = new THREE.Vector3();
-  const candidateTarget = new THREE.Vector3();
-  const lightView = new THREE.Vector3();
-  const camRight = new THREE.Vector3();
-  const cameraDir = new THREE.Vector3();
-  let followSide = 1; // +1 / -1: which shoulder the follow rig is on
-
   /*
-   * Camera invariants, bound to this room's volume (see room.js for the rules).
+   * Camera invariants, bound to this room's volume (see room.js for the rules
+   * and rig.js for the follow rig that obeys them).
    *
    * The follow rig keeps its whole target->camera segment in the open volume,
    * shortening or side-shifting its offset when the sofa, the lamp or the back
-   * wall is in the way. Manual orbit is only constrained positionally, so a
-   * parked view slides along a wall or kicks out of the sofa instead of being
-   * teleported. Either way a rendered pose is never inside the walls or the
-   * furniture — a camera buried in geometry is a black or furniture-filled
-   * frame, which looks exactly like a broken page.
+   * wall is in the way, and on the sofa-adjacent leg it drops to the cat's own
+   * eye line and keeps to the room side of the furniture (see rig.js). Manual
+   * orbit is only constrained positionally, so a parked view slides along a
+   * wall or kicks out of the sofa instead of being teleported. Either way a
+   * rendered pose is never inside the walls or the furniture - a camera buried
+   * in geometry is a black or furniture-filled frame, which looks exactly like
+   * a broken page.
    */
-  function collideCamera(position) {
-    return collideCameraPose(position, room.bounds, room.cameraBlockers, CAMERA_RADIUS);
-  }
+  const rig = createFollowRig(room);
+  const collideCamera = (position) => rig.collide(position);
+  const clearance = (from, direction, maxDist) => rig.clearance(from, direction, maxDist);
+  const cameraDir = new THREE.Vector3();
+  const lightView = new THREE.Vector3();
 
-  function clearance(from, direction, maxDist) {
-    return cameraClearance(from, direction, maxDist, room.bounds, room.cameraBlockers, CAMERA_RADIUS);
-  }
-
-  /**
-   * Candidate camera pose for one (shoulder, height) option. Returns the
-   * requested offset length and how much of it survives contact with the room,
-   * both in metres.
-   */
-  function followCandidate(info, sideSign, raised, outCam, outTarget) {
-    const side = (0.58 + Math.sin(elapsed * 0.17) * 0.04) * sideSign;
-    const back = 0.52;
-    // True right of the travel direction: forward x up.
-    camRight.set(-info.forward.z, 0, info.forward.x).multiplyScalar(sideSign);
-    outTarget.copy(info.focus);
-    outTarget.y += 0.035;
-    outCam
-      .copy(info.position)
-      .addScaledVector(info.forward, -back)
-      .addScaledVector(camRight, side);
-    outCam.y = raised ? 0.66 : 0.26 + Math.sin(elapsed * 0.6) * 0.004;
-    cameraDir.copy(outCam).sub(outTarget);
-    const wanted = cameraDir.length();
-    if (wanted < 1e-4) return { wanted: 0, clear: 0 };
-    cameraDir.divideScalar(wanted);
-    const clear = clearance(outTarget, cameraDir, wanted);
-    if (clear < wanted) {
-      outCam.copy(outTarget).addScaledVector(cameraDir, clear);
-      outCam.y = Math.max(outCam.y, 0.16);
-    }
-    return { wanted, clear };
-  }
-
-  /**
-   * Drive the camera for this frame.
-   *
-   * The follow rig offers four poses — either shoulder, at cat height or lifted
-   * over the furniture — and takes the one that keeps the most room between the
-   * cat and the camera, with a small handicap for switching so it does not
-   * flip-flop. This is what keeps the cat in view on the sofa-adjacent legs of
-   * the stalk and along the back wall: the rig side-shifts, then lifts, then
-   * shortens, instead of shoving the camera through the sofa.
-   *
-   * Manual orbit never gets teleported: the pose it produced is only pushed out
-   * of walls and furniture, so a parked view slides instead of jumping.
-   */
   function applyCamera(dt) {
-    if (state.follow && lastInfo) {
-      let bestScore = -Infinity;
-      for (const sideSign of [followSide, -followSide]) {
-        for (const raised of [false, true]) {
-          const { wanted, clear } = followCandidate(lastInfo, sideSign, raised, candidateCam, candidateTarget);
-          // Score the *shortfall* — how much of the wanted offset the room eats
-          // — not the raw clearance, or the candidate with the longest offset
-          // would win even when nothing is in the way.
-          const shortfall = Math.max(0, wanted - clear);
-          const score = -shortfall - (raised ? 0.12 : 0) - (sideSign === followSide ? 0 : 0.22);
-          if (score > bestScore) {
-            bestScore = score;
-            followSide = sideSign;
-            desiredCam.copy(candidateCam);
-            desiredTarget.copy(candidateTarget);
-          }
-        }
-      }
-      const k = frames < 2 ? 1 : 1 - Math.exp(-dt * 2.4);
-      camera.position.lerp(desiredCam, k);
-      controls.target.lerp(desiredTarget, k);
-    }
-    collideCamera(camera.position);
+    rig.step(dt, lastInfo, elapsed, frames, camera, controls.target, state.follow);
     controls.update();
+    // The rig has already clamped its own pose; the clamp is repeated after the
+    // controls' damping so a parked orbit cannot leave the room either.
     collideCamera(camera.position);
     // Spring arm shared by both rigs: if the cat ended up outside the open
     // volume from this pose, slide the camera in along the view axis.
@@ -505,8 +407,6 @@ async function boot() {
   function renderFrame() {
     const dt = Math.min(clock.getDelta(), 0.05);
     elapsed += dt;
-    moon.intensity = 3.6 + state.moon * 2.6;
-    hemi.intensity = 0.7 + state.moon * 0.45;
     room.lamp.intensity = 12 + (1 - state.moon) * 10;
     room.update(dt, elapsed, state.moon);
 
@@ -521,13 +421,7 @@ async function boot() {
     lightView.copy(room.moonDir).transformDirection(camera.matrixWorldInverse);
     tabby.eyeMat.uniforms.uLightDir.value.copy(lightView);
 
-    viewFill.position.copy(camera.position);
-      viewFill.position.y += 0.35;
-      viewFill.target.position.copy(info.focus);
-      viewFill.target.updateMatrixWorld();
-
-    faceKey.position.copy(camera.position);
-    faceKey.position.y += 0.14;
+    updateLighting(lights, { moonAmount: state.moon, camera, focus: info.focus });
 
     applyCamera(dt);
 
@@ -551,7 +445,7 @@ async function boot() {
 
   resize();
   requestAnimationFrame(frame);
-  window.__TABBY = { scene, camera, renderer, tabby, room, state, selfCheck };
+  window.__TABBY = { scene, camera, renderer, tabby, room, lights, rig, state, selfCheck };
 }
 
 boot().catch(showError);
