@@ -62,11 +62,21 @@ look constants, so "before" is the code that shipped, not a paraphrase of it.
 | dark-edge pixels (cat darker than its background) | 8% | 4% |
 | eye aperture at close range | 34 × 39 px | 44 × 56 px |
 | eye self-lighting (mean luminance it adds) | −0.010 | −0.064 |
-| fur shell fringe beyond the solid coat | 0.0 px | 14.4 px |
-| shell share of the coat | 0% | 16% |
+| fur shell fringe beyond the solid coat ¹ | 0.0 px | 14.4 px |
+| shell share of the coat ¹ | 0% | 16% |
 | stripe edge fade | 3.41 mm | 4.90 mm |
 | face key's mid-tone R−B contribution | +0.184 | +0.259 |
 
 Baseline numbers depend on the round-2 camera/lights snapshot in `legacy.mjs`;
-the shell, eye and pattern numbers are properties of that checkout's own
-geometry and shaders.
+the eye and pattern numbers are properties of that checkout's own geometry and
+shaders.
+
+¹ **The two shell rows are the least trustworthy numbers here, and the round-2
+side of them is an artifact, not a finding.** The a8305c8 snapshot predates the
+`userData.shellLift` tagging the harness uses to tell a shell from the coat, so
+on that checkout the shells are drawn as part of the body. More generally, how
+much thin alpha fur survives rasterisation is the part of this pipeline most
+sensitive to the rasteriser: a headless path can drop fragments a browser's GPU
+path keeps. Round-3 review confirmed the fur is there in real-browser
+screenshots on both builds. So these two checks are reported as `INFO` and do
+not gate a commit, and no round should be tuned to move them.
