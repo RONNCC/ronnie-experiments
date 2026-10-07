@@ -13,3 +13,6 @@ node_modules/
 dist/
 .env
 .env.local
+
+# Tabby-slink harness output (renders + metrics are regenerated, not source)
+tools/tabby-slink-harness/out/
