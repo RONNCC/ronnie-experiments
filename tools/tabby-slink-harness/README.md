@@ -14,6 +14,13 @@ Exit code is non-zero when any check fails, so it can gate a commit. Flags:
 `--seconds`, `--width`, `--height`, `--portrait-width/height`, `--seed`,
 `--out`, `--label`, `--no-portrait`, `--quiet`.
 
+Some properties only mean something over a whole lap of the stalk path (which
+stretch of the sofa leg is sampled, whether the cat has crossed the room), so a
+run shorter than `--seconds 18` reports those as `SKIP` rather than passing or
+failing on frames that cannot answer them. `--seed` fixes the run's random
+choices (blinks, ear flicks, freeze timing); two reports from one seed differ
+only because the builds differ.
+
 ## What it does
 
 1. **Runs the real modules.** `room.js`, `cat.js`, `fur.js`, `rig.js` and

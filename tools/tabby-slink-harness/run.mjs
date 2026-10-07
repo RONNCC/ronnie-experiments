@@ -636,7 +636,18 @@ if (!args.has("no-portrait")) {
  * ------------------------------------------------------------------ */
 const pattern = measurePattern();
 const checks = [];
-const add = (ok, name, detail) => checks.push({ ok: Boolean(ok), name, detail });
+// Some properties only make sense over a whole lap of the stalk path: a short
+// run samples one stretch of it, so those checks report as skipped rather than
+// passing or failing on a frame set that cannot answer them.
+const MIN_FULL_RUN_SECONDS = 18;
+const fullRun = seconds >= MIN_FULL_RUN_SECONDS;
+const add = (ok, name, detail, { needsFullRun = false } = {}) => {
+  if (needsFullRun && !fullRun) {
+    checks.push({ ok: true, skipped: true, name, detail: `${detail} — skipped (run shorter than ${MIN_FULL_RUN_SECONDS}s)` });
+    return;
+  }
+  checks.push({ ok: Boolean(ok), name, detail });
+};
 const mean = (values) => (values.length ? values.reduce((s, v) => s + v, 0) / values.length : 0);
 const sofaPickResults = results.filter((r) => r.name.startsWith("sofa-leg"));
 const sofaMetrics = sofaPickResults.map((r) => r.metrics);
@@ -646,9 +657,9 @@ add(sofaMetrics.length > 0, "sofa leg rendered", `${sofaPickResults.length} fram
 add(mean(sofaMetrics.map((m) => m.coverage)) > 0.12, "cat fills enough of the frame on the sofa leg",
   `mean coverage ${(mean(sofaMetrics.map((m) => m.coverage)) * 100).toFixed(1)}%`);
 add(mean(sofaMetrics.map((m) => m.moonDotMean)) > 0.02, "sofa leg is moon-facing, not backlit",
-  `mean N.moon over cat pixels ${mean(sofaMetrics.map((m) => m.moonDotMean)).toFixed(3)}`);
+  `mean N.moon over cat pixels ${mean(sofaMetrics.map((m) => m.moonDotMean)).toFixed(3)}`, { needsFullRun: true });
 add(mean(sofaMetrics.map((m) => m.moonLitFraction)) > 0.4, "most sofa-leg cat pixels face the moon",
-  `lit fraction ${(mean(sofaMetrics.map((m) => m.moonLitFraction)) * 100).toFixed(0)}%`);
+  `lit fraction ${(mean(sofaMetrics.map((m) => m.moonLitFraction)) * 100).toFixed(0)}%`, { needsFullRun: true });
 add(mean(sofaMetrics.map((m) => m.edgeDarkFraction)) < 0.3, "cat does not read as a dark shape on a bright background",
   `dark edge pixels ${(mean(sofaMetrics.map((m) => m.edgeDarkFraction)) * 100).toFixed(0)}%`);
 add(mean(sofaMetrics.map((m) => m.edgeLumRatio)) > 0.75, "cat sits at its surroundings' luminance",
@@ -677,7 +688,7 @@ add(!firstBad, "opening frames are legal after the pick-up",
   firstBad ? `frame ${firstBad.frame} at ${firstBad.camera.toArray().map((v) => v.toFixed(2)).join(", ")}` : `${firstFrames.length} frames checked`);
 const pathSpan = Math.max(...samples.map((s) => s.cat.x)) - Math.min(...samples.map((s) => s.cat.x)) +
   Math.max(...samples.map((s) => s.cat.z)) - Math.min(...samples.map((s) => s.cat.z));
-add(pathSpan > 1.5, "the cat actually walks the stalk path", `path span ${pathSpan.toFixed(2)}m`);
+add(pathSpan > 1.5, "the cat actually walks most of the stalk path", `path span ${pathSpan.toFixed(2)}m`, { needsFullRun: true });
 const frozenPick = results.find((r) => r.name.startsWith("frozen"));
 add(Boolean(frozenPick), "the freeze fires at all",
   frozenPick ? `frozen at t=${frozenPick.t.toFixed(1)}s` : "no frozen frame in the run (see hoveringMoment in cat.js)");
@@ -751,9 +762,13 @@ if (!quiet) {
   }
   console.log(`  pattern          stripe edge fades over ${pattern.edgeWidthMm.toFixed(2)}mm (${pattern.crossings} crossings)`);
   console.log("checks:");
-  for (const c of checks) console.log(`  ${c.ok ? "PASS" : "FAIL"}  ${c.name} — ${c.detail}`);
+  for (const c of checks) console.log(`  ${c.skipped ? "SKIP" : c.ok ? "PASS" : "FAIL"}  ${c.name} — ${c.detail}`);
   const failed = checks.filter((c) => !c.ok).length;
-  console.log(`\n${checks.length - failed}/${checks.length} checks passed${failed ? ` — ${failed} FAILED` : ""}`);
+  const skipped = checks.filter((c) => c.skipped).length;
+  console.log(
+    `\n${checks.length - failed - skipped}/${checks.length} checks passed` +
+    `${failed ? ` — ${failed} FAILED` : ""}${skipped ? ` — ${skipped} skipped (needs --seconds >= ${MIN_FULL_RUN_SECONDS})` : ""}`
+  );
   console.log(`report: ${path.join(outDir, "metrics.json")}`);
 }
 
