@@ -1,5 +1,14 @@
 [
   {
+    "id": "nobel-prize-explainer",
+    "title": "Nobel Prize Explainer (2023–2026)",
+    "description": "Every Nobel Prize from 2023–2026 explained in plain English: a filterable gallery of all six categories across four years, each with its own interactive exhibit — attosecond pulse builders, quantum tunneling, immune-system peacekeepers, creative-destruction economies, and more.",
+    "path": "experiments/nobel-prize-explainer/",
+    "category": "Visualizations",
+    "tags": ["Education", "Interactive", "Canvas", "Science", "Explainer", "Gallery"],
+    "date": "2026-10-07"
+  },
+  {
     "id": "tabby-slink",
     "title": "Tabby Slink",
     "description": "A brown mackerel tabby on a low nocturnal stalk: planted paws, a hovering step, tail-tip freezes, and a coat of broken stripes in moonlight.",

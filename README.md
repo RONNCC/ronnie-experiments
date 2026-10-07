@@ -12,6 +12,7 @@ Interactive prototypes, physics simulations, algorithmic visualizers, and learni
 
 | Experiment | Category | Description | Path |
 |---|---|---|---|
+| **Nobel Prize Explainer** | Visualizations | Every Nobel Prize from 2023–2026 with plain-English explainers and 21 interactive exhibits — filterable by year and category. | [`experiments/nobel-prize-explainer/`](experiments/nobel-prize-explainer/) |
 | **Tabby Slink** | Visualizations | A detailed 3D brown mackerel tabby on a low nocturnal stalk through a moonlit room. | [`experiments/tabby-slink/`](experiments/tabby-slink/) |
 | **Particle Vector Field** | Visualizations | Real-time canvas flow field with trigonometric velocity vectors, gravitational cursor attraction, and palette controls. | [`experiments/particle-field/`](experiments/particle-field/) |
 | **Sorting Visualizer** | Algorithms | Step-by-step visualizer for Tim Sort, Quicksort, Mergesort, Heapsort, Shell Sort, Radix Sort, Bubble, and Selection Sort. | [`experiments/sorting-visualizer/`](experiments/sorting-visualizer/) |
