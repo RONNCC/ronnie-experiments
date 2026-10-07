@@ -32,15 +32,27 @@ const state = {
   paused: reduced,
 };
 
+// First report wins: once something has gone wrong the veil should stay down,
+// and a later error must not bury the one that explains what happened.
 function showError(err) {
   console.error(err);
+  if (window.__SESSION_ERROR_SHOWN) return;
+  window.__SESSION_ERROR_SHOWN = true;
   veil.classList.add("hide");
   errorEl.hidden = false;
   errorEl.textContent = err && err.message ? err.message : String(err);
 }
+// index.html runs a watchdog before this module so that a module that never
+// executes (missing vendor file, syntax error, no WebGL) still reports itself.
+// Hand that watchdog the real error path now that the app is alive.
+window.__TABBY_REPORT_ERROR = showError;
 
 async function boot() {
   if (!canvas) throw new Error("Missing canvas.");
+  canvas.addEventListener("webglcontextlost", (event) => {
+    event.preventDefault();
+    showError(new Error("The WebGL context was lost. Reload the page to bring the tabby back."));
+  });
   const renderer = new THREE.WebGLRenderer({
     canvas,
     antialias: true,
@@ -112,6 +124,43 @@ async function boot() {
   const desiredCam = new THREE.Vector3();
   const desiredTarget = new THREE.Vector3();
   const lightView = new THREE.Vector3();
+  const camRight = new THREE.Vector3();
+
+  /*
+   * The camera must never end up inside the walls or the furniture: a camera
+   * buried in geometry reads as a black screen, exactly like an overlay bug,
+   * and the old rig managed it for about a quarter of the stalk (the follow
+   * offset used the cat's local +X axis, which points the opposite way, so the
+   * camera was pulled toward the back wall). This clamps a position into the
+   * room's usable volume and pushes it out of any furniture box it lands in.
+   */
+  function containCamera(position) {
+    const bounds = room.bounds;
+    position.x = Math.min(bounds.maxX, Math.max(bounds.minX, position.x));
+    position.y = Math.min(bounds.maxY, Math.max(bounds.minY, position.y));
+    position.z = Math.min(bounds.maxZ, Math.max(bounds.minZ, position.z));
+    for (const box of room.cameraBlockers) {
+      const inside =
+        position.x > box.minX && position.x < box.maxX &&
+        position.y > box.minY && position.y < box.maxY &&
+        position.z > box.minZ && position.z < box.maxZ;
+      if (!inside) continue;
+      const exits = [
+        ["x", position.x - box.minX, box.minX],
+        ["x", box.maxX - position.x, box.maxX],
+        ["y", position.y - box.minY, box.minY],
+        ["y", box.maxY - position.y, box.maxY],
+        ["z", position.z - box.minZ, box.minZ],
+        ["z", box.maxZ - position.z, box.maxZ],
+      ].sort((a, b) => a[1] - b[1]);
+      // Climbing over a low piece keeps the cat in frame; leaving sideways is
+      // the fallback when the piece is too tall to clear cheaply.
+      const over = exits.find((exit) => exit[0] === "y" && exit[2] === box.maxY);
+      const exit = over && over[1] <= 0.28 ? over : exits[0];
+      position[exit[0]] = exit[2];
+    }
+    return position;
+  }
 
   function resize() {
     const w = window.innerWidth;
@@ -189,8 +238,138 @@ async function boot() {
   const clock = new THREE.Clock();
   let frames = 0;
   let elapsed = 0;
+  let lastInfo = null;
+
+  /*
+   * Render self-check. This experiment once shipped a black screen that logged
+   * nothing: an empty <p id="error" hidden> shared its `display: grid` rule with
+   * .veil, so the user-agent [hidden] style lost and an invisible overlay covered
+   * the canvas while geometry, shaders and the status text stayed healthy. These
+   * checks look at what is actually on screen — from the DOM and from the
+   * rendered pixels — and report through #error instead of leaving a black view.
+   */
+  const SELF_CHECK_FIRST = 90; // ~1.5s in, once the veil has faded
+  const SELF_CHECK_RETRY_GAP = 15; // confirmation pass, so one bad frame is not an alarm
+  const SELF_CHECK_EVERY = 300; // then about every five seconds
+  const SELF_CHECK_PROBES = [
+    [0.5, 0.5],
+    [0.35, 0.5],
+    [0.65, 0.5],
+    [0.5, 0.35],
+    [0.5, 0.65],
+  ];
+  const probeCanvas = document.createElement("canvas");
+  probeCanvas.width = 1;
+  probeCanvas.height = 1;
+  const probeCtx = probeCanvas.getContext("2d", { willReadFrequently: true });
+  const bgRgb = new THREE.Color(0x07080c);
+  // Curtains, the shaft and the glass are transparent; only opaque geometry
+  // actually hides the cat. Read-back is done in the same frame as the render.
+  const isBackground = (px) =>
+    Math.abs(px[0] - bgRgb.r * 255) <= 12 &&
+    Math.abs(px[1] - bgRgb.g * 255) <= 12 &&
+    Math.abs(px[2] - bgRgb.b * 255) <= 12;
+  const selfRay = new THREE.Raycaster();
+  const rayDir = new THREE.Vector3();
+  const headNdc = new THREE.Vector3();
+
+  function samplePixel(u, v) {
+    const x = Math.min(canvas.width - 1, Math.max(0, Math.round(u * canvas.width)));
+    const y = Math.min(canvas.height - 1, Math.max(0, Math.round(v * canvas.height)));
+    probeCtx.clearRect(0, 0, 1, 1);
+    probeCtx.drawImage(canvas, x, y, 1, 1, 0, 0, 1, 1);
+    return probeCtx.getImageData(0, 0, 1, 1).data;
+  }
+
+  const selfCheck = {
+    status: "pending",
+    checks: 0,
+    strikes: 0,
+    lastFrame: null,
+    failures: [],
+    run() {
+      if (window.__SESSION_ERROR_SHOWN) return;
+      this.checks += 1;
+      this.lastFrame = frames;
+      const failures = [];
+      const width = canvas.clientWidth || window.innerWidth;
+      const height = canvas.clientHeight || window.innerHeight;
+
+      // 1. Nothing unexpected may sit on top of the view; the controls are the
+      // only thing allowed over the canvas.
+      const visibleProbes = [];
+      for (const [u, v] of SELF_CHECK_PROBES) {
+        const element = document.elementFromPoint(u * width, v * height);
+        if (element === canvas) {
+          visibleProbes.push([u, v]);
+          continue;
+        }
+        const allowed = element && (panel.contains(element) || element === panelShow || element === veil);
+        if (!allowed) {
+          const name = element ? `${element.tagName.toLowerCase()}${element.id ? ` #${element.id}` : ""}` : "nothing";
+          failures.push(`${name} is on top of the canvas at ${Math.round(u * 100)}%/${Math.round(v * 100)}% of the view`);
+        }
+      }
+
+      // 2. The canvas must not be background-coloured where it is visible.
+      if (visibleProbes.length && visibleProbes.every(([u, v]) => isBackground(samplePixel(u, v)))) {
+        failures.push("the canvas is background-coloured at every visible probe");
+      }
+
+      if (lastInfo) {
+        // 3. The camera watches the cat's head, so that pixel may never be the
+        // background colour.
+        headNdc.copy(lastInfo.focus).project(camera);
+        if (Math.abs(headNdc.x) < 0.9 && Math.abs(headNdc.y) < 0.9) {
+          if (isBackground(samplePixel(headNdc.x * 0.5 + 0.5, 0.5 - headNdc.y * 0.5))) {
+            failures.push("the cat projects into view but its head pixel is background-coloured");
+          }
+        }
+        // 4. Nothing opaque may stand between the camera and the cat.
+        rayDir.copy(lastInfo.focus).sub(camera.position);
+        const span = rayDir.length();
+        selfRay.set(camera.position, rayDir.normalize());
+        selfRay.far = span - 0.03;
+        const hit = selfRay
+          .intersectObject(room.object, true)
+          .find((entry) => entry.object.material && entry.object.material.transparent !== true);
+        if (hit) failures.push(`the view of the cat is blocked by room geometry ${hit.distance.toFixed(2)}m from the camera`);
+      }
+
+      // 5. Something must have been drawn this frame.
+      if (renderer.info.render.calls === 0) failures.push("the renderer issued no draw calls");
+
+      if (!failures.length) {
+        this.strikes = 0;
+        this.status = "ok";
+        this.failures = [];
+        return;
+      }
+      // Confirm once before shouting: some browsing modes blank canvas
+      // read-back, and a single bad frame should not raise an alarm.
+      this.strikes += 1;
+      this.failures = failures;
+      if (this.strikes < 2) {
+        this.status = "retrying";
+        return;
+      }
+      this.status = "failed";
+      showError(new Error(`Render self-check failed: ${failures.join("; ")}.`));
+    },
+  };
+  window.__TABBY_SELFCHECK = selfCheck;
 
   function frame() {
+    try {
+      renderFrame();
+    } catch (err) {
+      showError(err); // one report beats the same throw every frame
+      return;
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function renderFrame() {
     const dt = Math.min(clock.getDelta(), 0.05);
     elapsed += dt;
     moon.intensity = 3.6 + state.moon * 2.6;
@@ -217,11 +396,17 @@ async function boot() {
     if (state.follow) {
       const side = 0.58 + Math.sin(elapsed * 0.17) * 0.04;
       const back = 0.52;
+      // In a Y-up right-handed world the true right of a forward vector is
+      // forward × up, i.e. (-forward.z, 0, forward.x). The cat's own `right` is
+      // its local +X axis, which points the other way; using it put the camera
+      // on the wrong shoulder and, along the back wall, inside the wall.
+      camRight.set(-info.forward.z, 0, info.forward.x);
       desiredCam
         .copy(info.position)
         .addScaledVector(info.forward, -back)
-        .addScaledVector(info.right, side);
+        .addScaledVector(camRight, side);
       desiredCam.y = 0.26 + Math.sin(elapsed * 0.6) * 0.004;
+      containCamera(desiredCam);
       desiredTarget.copy(info.focus);
       desiredTarget.y += 0.035;
       const k = 1 - Math.exp(-dt * 2.4);
@@ -229,20 +414,30 @@ async function boot() {
       controls.target.lerp(desiredTarget, frames < 2 ? 1 : k);
     }
     controls.update();
+    // The pose that gets rendered must satisfy the invariant too, whatever the
+    // follow rig, the damping or a manual orbit produced.
+    containCamera(camera.position);
 
     statusEl.classList.toggle("is-frozen", info.frozen);
     statusLine.textContent = info.line;
     statusDetail.textContent = info.detail;
 
+    lastInfo = info;
     renderer.render(scene, camera);
     frames += 1;
     if (frames === 2) veil.classList.add("hide");
-    requestAnimationFrame(frame);
+    if (
+      frames === SELF_CHECK_FIRST ||
+      (selfCheck.status === "retrying" && frames === selfCheck.lastFrame + SELF_CHECK_RETRY_GAP) ||
+      frames % SELF_CHECK_EVERY === 0
+    ) {
+      selfCheck.run();
+    }
   }
 
   resize();
   requestAnimationFrame(frame);
-  window.__TABBY = { scene, camera, renderer, tabby, room, state };
+  window.__TABBY = { scene, camera, renderer, tabby, room, state, selfCheck };
 }
 
 boot().catch(showError);

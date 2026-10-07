@@ -68,6 +68,46 @@
   </aside>
   <button class="panel-show" id="panelShow" type="button" hidden>Show controls</button>
 
+  <script>
+    // Boot watchdog. This runs before the module graph, so it can still report
+    // the failures the module itself cannot: a missing vendor file, a syntax
+    // error while main.js is parsed, WebGL never starting. Without it those
+    // cases leave the veil sitting at "Waking the tabby…" forever and nothing
+    // reaches #error. main.js upgrades __TABBY_REPORT_ERROR to its own handler
+    // once the app is alive.
+    (function () {
+      var errorEl = document.getElementById("error");
+      var veil = document.getElementById("veil");
+      function report(message) {
+        if (window.__SESSION_ERROR_SHOWN) return; // first report wins
+        window.__SESSION_ERROR_SHOWN = true;
+        if (veil) veil.classList.add("hide");
+        if (errorEl) {
+          errorEl.hidden = false;
+          errorEl.textContent = String(message);
+        }
+        if (window.console && console.error) console.error(message);
+      }
+      window.__TABBY_REPORT_ERROR = report;
+      function describe(event) {
+        var target = event.target;
+        if (target instanceof HTMLScriptElement) return "A required script did not load: " + target.src;
+        if (target instanceof HTMLLinkElement) return "A required stylesheet did not load: " + target.href;
+        return (event.error && event.error.message) || event.message || "Unknown error";
+      }
+      window.addEventListener("error", function (event) { window.__TABBY_REPORT_ERROR(describe(event)); }, true);
+      window.addEventListener("unhandledrejection", function (event) {
+        var reason = event.reason;
+        window.__TABBY_REPORT_ERROR((reason && reason.message) || String(reason));
+      });
+      window.addEventListener("load", function () {
+        window.setTimeout(function () {
+          if (window.__TABBY) return;
+          window.__TABBY_REPORT_ERROR("The 3D scene did not start. WebGL may be unavailable, or a file under vendor/ did not load.");
+        }, 10000);
+      });
+    })();
+  </script>
   <script type="importmap">
   {
     "imports": {

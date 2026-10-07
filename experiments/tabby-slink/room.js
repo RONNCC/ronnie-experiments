@@ -298,6 +298,7 @@ function createSofa(parent) {
     group.add(box(0.05, 0.24, 0.05, wood, x, 0.12, z));
   }
   parent.add(group);
+  return group;
 }
 
 function createLamp(parent) {
@@ -339,7 +340,7 @@ function createLamp(parent) {
   mug.castShadow = true;
   group.add(mug);
   parent.add(group);
-  return bulb;
+  return { group, bulb };
 }
 
 function createPlant(parent) {
@@ -372,6 +373,7 @@ function createPlant(parent) {
     group.add(leaf);
   }
   parent.add(group);
+  return group;
 }
 
 function createMouseToy(parent) {
@@ -467,22 +469,47 @@ export function createRoom() {
   const shaft = createShaft(root);
   const dust = createDust(root);
   const curtain = createCurtain(root);
-  createSofa(root);
+  const sofa = createSofa(root);
   const lamp = createLamp(root);
-  createPlant(root);
+  const plant = createPlant(root);
   const mouse = createMouseToy(root);
   const moth = createMoth();
   root.add(moth.group);
 
   const moonDir = new THREE.Vector3(-0.35, 2.6, -2.4).normalize();
 
+  /*
+   * The follow camera sits about 0.6 m behind and beside the cat. Its desired
+   * position can land inside the back wall or inside the sofa, which reads as a
+   * black or wall-filled view — the same symptom as a stray overlay, but caused
+   * by geometry. `bounds` is the volume the camera is allowed to occupy and
+   * `cameraBlockers` are the furniture boxes it must stay out of; main.js holds
+   * both as an invariant. Blocker boxes come from the real meshes, so moving a
+   * piece of furniture keeps them honest.
+   */
+  root.updateMatrixWorld(true);
+  const bounds = {
+    minX: -2.05, // side walls' inner faces sit at ±2.18
+    maxX: 2.05,
+    minZ: -1.52, // back wall's inner face is at -1.70; leaves the near plane clear
+    maxZ: 2.4,
+    minY: 0.14,
+    maxY: 2.05,
+  };
+  const cameraBlockers = [sofa, lamp.group, plant].map((group) => {
+    const box = new THREE.Box3().setFromObject(group).expandByScalar(0.06);
+    return { minX: box.min.x, maxX: box.max.x, minY: box.min.y, maxY: box.max.y, minZ: box.min.z, maxZ: box.max.z };
+  });
+
   return {
     object: root,
-    lamp,
+    lamp: lamp.bulb,
     shaft,
     moonDir,
     mouse,
     moth: moth.group,
+    bounds,
+    cameraBlockers,
     update(dt, elapsed, moonAmount) {
       shaft.material.uniforms.uTime.value = elapsed;
       shaft.material.uniforms.uOpacity.value = 0.045 + moonAmount * 0.07;

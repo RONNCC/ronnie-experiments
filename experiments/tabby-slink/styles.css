@@ -70,7 +70,16 @@ body {
   pointer-events: none;
 }
 
-.error[hidden] { display: none; }
+/*
+ * The [hidden] attribute has to beat any author `display` rule, or an element
+ * that is meant to be invisible can still cover the view. That is exactly how
+ * the empty #error overlay once blacked out this experiment: it shared the
+ * `display: grid` rule above, which overrides the user-agent [hidden] style.
+ * One global, `!important` guard keeps the attribute authoritative everywhere,
+ * whatever display values future layers declare.
+ */
+[hidden] { display: none !important; }
+
 .error {
   padding: 2rem;
   text-align: center;
@@ -98,8 +107,6 @@ body {
   backdrop-filter: blur(16px) saturate(1.2);
   -webkit-backdrop-filter: blur(16px) saturate(1.2);
 }
-
-.panel[hidden] { display: none; }
 
 .panel-top {
   display: flex;
@@ -300,8 +307,6 @@ details ul {
   font: 650 0.78rem/1 var(--ui);
   cursor: pointer;
 }
-
-.panel-show[hidden] { display: none; }
 
 @media (max-width: 720px) {
   .panel {
