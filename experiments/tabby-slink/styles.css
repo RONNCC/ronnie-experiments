@@ -70,6 +70,7 @@ body {
   pointer-events: none;
 }
 
+.error[hidden] { display: none; }
 .error {
   padding: 2rem;
   text-align: center;
