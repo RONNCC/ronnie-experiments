@@ -23,6 +23,11 @@ function damp(current, target, lambda, dt) {
   return THREE.MathUtils.damp(current, target, lambda, dt);
 }
 
+function smoothRamp(v, a, b) {
+  const t = clamp((v - a) / Math.max(1e-5, b - a), 0, 1);
+  return t * t * (3 - 2 * t);
+}
+
 function wrapAngle(a) {
   const t = Math.PI * 2;
   return ((a + Math.PI) % t + t) % t - Math.PI;
@@ -301,29 +306,46 @@ function bodyGeometry() {
 }
 
 function earGeometry() {
-  const rows = 8;
-  const cols = 6;
+  // A closed shell rather than a single sheet: a zero-thickness plate turns
+  // invisible whenever the camera catches it edge-on, which made one ear
+  // disappear on most of the orbit.
+  const rows = 9;
+  const cols = 7;
   const positions = [];
   const indices = [];
-  for (let r = 0; r <= rows; r++) {
-    const v = r / rows;
-    const halfW = 0.02 * Math.pow(1 - v, 0.62);
-    const y = v * 0.062;
-    const cup = Math.sin(v * Math.PI) * 0.007;
-    for (let c = 0; c <= cols; c++) {
-      const u = (c / cols) * 2 - 1;
-      const x = u * halfW;
-      const z = -Math.pow(Math.abs(u), 1.25) * 0.006 - cup * (1 - u * u * 0.25);
-      positions.push(x, y, z);
+  const surface = (u, v) => {
+    const halfW = 0.0285 * Math.pow(1 - v, 0.85);
+    const x = u * halfW;
+    const y = v * 0.046;
+    const cup = Math.sin(v * Math.PI) * 0.0075;
+    const z = -Math.pow(Math.abs(u), 1.25) * 0.006 - cup * (1 - u * u * 0.25);
+    return [x, y, z];
+  };
+  // Thickness vanishes at the rim so the two shells weld along the edge.
+  const thick = (u, v) => 0.0062 * (1 - Math.abs(u)) * Math.sin(Math.min(1, v * 1.15) * Math.PI * 0.92);
+  const stride = cols + 1;
+  for (let layer = 0; layer < 2; layer++) {
+    for (let r = 0; r <= rows; r++) {
+      const v = r / rows;
+      for (let c = 0; c <= cols; c++) {
+        const u = (c / cols) * 2 - 1;
+        const [x, y, z] = surface(u, v);
+        positions.push(x, y, z + (layer === 1 ? thick(u, v) : 0));
+      }
     }
   }
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      const a = r * (cols + 1) + c;
-      const b = a + 1;
-      const d = a + (cols + 1);
-      const e = d + 1;
-      indices.push(a, d, b, b, d, e);
+  const layerCount = (rows + 1) * stride;
+  for (let layer = 0; layer < 2; layer++) {
+    const o = layer * layerCount;
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const a = o + r * stride + c;
+        const b = a + 1;
+        const d = a + stride;
+        const e = d + 1;
+        if (layer === 0) indices.push(a, d, b, b, d, e);
+        else indices.push(a, b, d, b, e, d);
+      }
     }
   }
   const geo = new THREE.BufferGeometry();
@@ -338,7 +360,7 @@ function buildEar(side, mats) {
   group.name = side < 0 ? "earL" : "earR";
   const outerGeo = earGeometry();
   tagAlongY(outerGeo, 0, 1);
-  const outer = new THREE.Mesh(outerGeo, mats.fur);
+  const outer = new THREE.Mesh(outerGeo, mats.furTwoSided);
   coat(outer, 4);
   if (side < 0) {
     outerGeo.scale(-1, 1, 1);
@@ -355,20 +377,18 @@ function buildEar(side, mats) {
 
   const ridgeMat = new THREE.MeshStandardMaterial({ color: 0xc47878, roughness: 0.6 });
   for (const x of [-0.004, 0.004]) {
-    const ridge = new THREE.Mesh(new THREE.CapsuleGeometry(0.0008, 0.02, 2, 4), ridgeMat);
-    ridge.position.set(side < 0 ? -x : x, 0.03, -0.004);
+    const ridge = new THREE.Mesh(new THREE.CapsuleGeometry(0.0008, 0.014, 2, 4), ridgeMat);
+    ridge.position.set(side < 0 ? -x : x, 0.022, -0.004);
     ridge.castShadow = false;
     group.add(ridge);
   }
 
-  const tuft = new THREE.Mesh(
-    new THREE.ConeGeometry(0.004, 0.012, 5),
-    mats.fur
-  );
-  coat(tuft, 7);
-  tuft.position.set(0, 0.066, -0.001);
-  tuft.geometry.translate(0, 0.004, 0);
-  group.add(tuft);
+  // Domestic tabbies have no lynx tuft — the old cone read as a horn.
+  const fringe = new THREE.Mesh(new THREE.SphereGeometry(0.0035, 6, 5), mats.fur);
+  coat(fringe, 4);
+  fringe.scale.set(1.6, 0.8, 0.6);
+  fringe.position.set(side * -0.009, 0.033, 0.0015);
+  group.add(fringe);
 
   const base = new THREE.Mesh(new THREE.SphereGeometry(0.012, 8, 6), mats.fur);
   coat(base, 4);
@@ -376,15 +396,15 @@ function buildEar(side, mats) {
   base.position.set(0, 0.004, 0.002);
   group.add(base);
 
-  group.position.set(side * 0.03, 0.046, 0.006);
-  group.rotation.z = side * -0.42;
-  group.rotation.x = -0.22;
+  group.position.set(side * 0.027, 0.039, 0.004);
+  group.rotation.z = side * -0.24;
+  group.rotation.x = -0.1;
   return group;
 }
 
 function buildEye(side, mats, eyeMat) {
   const pivot = new THREE.Group();
-  pivot.position.set(side * 0.02, 0.009, 0.044);
+  pivot.position.set(side * 0.0185, 0.008, 0.0405);
   pivot.rotation.y = side * -0.32;
   pivot.rotation.x = 0.08;
 
@@ -490,7 +510,7 @@ function buildHead(mats, eyeMat) {
 
   const craniumCenter = new THREE.Vector3(0, 0.016, 0.018);
   const craniumScale = new THREE.Vector3(1.08, 0.9, 1.1);
-  const craniumR = 0.046;
+  const craniumR = 0.0405;
   const cranium = new THREE.Mesh(new THREE.SphereGeometry(craniumR, 28, 20), mats.fur);
   coat(cranium, 1);
   cranium.scale.copy(craniumScale);
@@ -499,54 +519,54 @@ function buildHead(mats, eyeMat) {
 
   const cheekCenters = [];
   for (const s of [-1, 1]) {
-    const cheek = new THREE.Mesh(new THREE.SphereGeometry(0.024, 16, 12), mats.fur);
+    const cheek = new THREE.Mesh(new THREE.SphereGeometry(0.0215, 16, 12), mats.fur);
     coat(cheek, 1);
     cheek.scale.set(1.12, 0.78, 1.18);
-    cheek.position.set(s * 0.028, -0.006, 0.03);
+    cheek.position.set(s * 0.025, -0.006, 0.028);
     head.add(cheek);
     cheekCenters.push(cheek.position.clone());
   }
 
-  const muzzle = new THREE.Mesh(new THREE.SphereGeometry(0.022, 18, 14), mats.fur);
+  const muzzle = new THREE.Mesh(new THREE.SphereGeometry(0.0195, 18, 14), mats.fur);
   coat(muzzle, 1);
   muzzle.scale.set(1.28, 0.7, 1.02);
-  muzzle.position.set(0, -0.01, 0.05);
+  muzzle.position.set(0, -0.011, 0.046);
   head.add(muzzle);
 
-  const brow = new THREE.Mesh(new THREE.SphereGeometry(0.028, 12, 8), mats.fur);
+  const brow = new THREE.Mesh(new THREE.SphereGeometry(0.025, 12, 8), mats.fur);
   coat(brow, 1);
   brow.scale.set(1.35, 0.32, 0.62);
-  brow.position.set(0, 0.02, 0.042);
+  brow.position.set(0, 0.019, 0.038);
   head.add(brow);
 
-  const chin = new THREE.Mesh(new THREE.SphereGeometry(0.015, 12, 10), mats.fur);
+  const chin = new THREE.Mesh(new THREE.SphereGeometry(0.0135, 12, 10), mats.fur);
   coat(chin, 8);
   chin.scale.set(1.05, 0.62, 0.85);
-  chin.position.set(0, -0.026, 0.048);
+  chin.position.set(0, -0.025, 0.044);
   head.add(chin);
 
   const nose = new THREE.Mesh(new THREE.SphereGeometry(0.0072, 12, 10), mats.nose);
   nose.scale.set(1.15, 0.72, 0.85);
-  nose.position.set(0, -0.012, 0.068);
+  nose.position.set(0, -0.013, 0.062);
   nose.castShadow = true;
   head.add(nose);
   const nostrilMat = new THREE.MeshStandardMaterial({ color: 0x2a1214, roughness: 0.4 });
   for (const s of [-1, 1]) {
     const nostril = new THREE.Mesh(new THREE.SphereGeometry(0.0018, 6, 5), nostrilMat);
-    nostril.position.set(s * 0.0026, -0.0132, 0.073);
+    nostril.position.set(s * 0.0026, -0.0142, 0.067);
     head.add(nostril);
   }
   const philtrum = new THREE.Mesh(
     new THREE.CapsuleGeometry(0.0007, 0.008, 2, 4),
     nostrilMat
   );
-  philtrum.position.set(0, -0.02, 0.066);
+  philtrum.position.set(0, -0.0205, 0.0605);
   head.add(philtrum);
   const mouth = new THREE.Mesh(
     new THREE.TorusGeometry(0.006, 0.0007, 4, 10, Math.PI),
     nostrilMat
   );
-  mouth.position.set(0, -0.026, 0.06);
+  mouth.position.set(0, -0.0265, 0.055);
   mouth.rotation.x = Math.PI / 2.4;
   mouth.rotation.z = Math.PI;
   head.add(mouth);
@@ -634,6 +654,20 @@ function buildHead(mats, eyeMat) {
 function buildLeg(spec, mats) {
   const pivot = new THREE.Group();
   pivot.position.copy(spec.pivot);
+
+  // Shoulder blade / haunch: body-fur mass that stays with the torso so the
+  // upper limb does not read as a stick floating next to the ribcage.
+  const mass = new THREE.Mesh(new THREE.SphereGeometry(1, 14, 11), mats.fur);
+  coat(mass, 0);
+  if (spec.isHind) {
+    mass.scale.set(0.030, 0.046, 0.046);
+    mass.position.set(spec.side * 0.004, -0.004, -0.012);
+  } else {
+    mass.scale.set(0.024, 0.038, 0.032);
+    mass.position.set(spec.side * 0.003, -0.004, 0.002);
+  }
+  pivot.add(mass);
+
   const bone1 = new THREE.Group();
   pivot.add(bone1);
   const geo1 = limbGeometry(spec.r1a, spec.r1b, spec.L1, spec.isHind ? 10 : 9);
@@ -706,12 +740,12 @@ function buildLeg(spec, mats) {
 
 function buildTail(mats) {
   const root = new THREE.Group();
-  root.position.set(0, 0.084, -0.15);
-  root.quaternion.setFromUnitVectors(UP, new THREE.Vector3(0.04, -0.2, -1).normalize());
+  root.position.set(0, 0.088, -0.152);
+  root.quaternion.setFromUnitVectors(UP, new THREE.Vector3(0.03, -0.1, -1).normalize());
   const segs = [];
   let prev = root;
-  const n = 8;
-  const len = 0.033;
+  const n = 9;
+  const len = 0.032;
   for (let i = 0; i < n; i++) {
     const t0 = i / n;
     const t1 = (i + 1) / n;
@@ -727,8 +761,8 @@ function buildTail(mats) {
     g.add(mesh);
     segs.push({
       group: g,
-      x: 0.05 + (i / n) * 0.1,
-      z: Math.sin(i * 0.45) * 0.1,
+      x: -0.02 - (i / n) * 0.05,
+      z: Math.sin(i * 0.45) * 0.05,
       vx: 0,
       vz: 0,
     });
@@ -767,10 +801,10 @@ export function createTabby() {
   ];
   torso.add(markingTube(dorsalPts, 0.0034, mats.fur));
 
-  const neckBase = new THREE.Vector3(0, 0.1, 0.16);
+  const neckBase = new THREE.Vector3(0, 0.096, 0.126);
   const headJoint = new THREE.Vector3(0, 0.108, 0.176);
-  const neckLen = neckBase.distanceTo(headJoint) + 0.02;
-  const neck = new THREE.Mesh(limbGeometry(0.026, 0.02, neckLen, 10), mats.fur);
+  const neckLen = neckBase.distanceTo(headJoint) + 0.022;
+  const neck = new THREE.Mesh(limbGeometry(0.038, 0.028, neckLen, 12), mats.fur);
   coat(neck, 0);
   neck.position.copy(neckBase);
   neck.quaternion.setFromUnitVectors(UP, headJoint.clone().sub(neckBase).normalize());
@@ -781,8 +815,12 @@ export function createTabby() {
   const tail = buildTail(mats);
   torso.add(tail.root);
 
-  const frontPole = new THREE.Vector3(0.35, -0.25, -1).normalize();
-  const hindPole = new THREE.Vector3(0.25, 0.15, 1).normalize();
+    // Pole vectors point at where the joint should sit: the elbow swings back
+  // and down behind the chest, the stifle tucks forward and down under the
+  // belly. The old hind pole aimed upward, which drove the femur up through
+  // the spine and out through the flank.
+  const frontPole = new THREE.Vector3(0.3, -0.32, -1).normalize();
+  const hindPole = new THREE.Vector3(0.12, -0.18, 1).normalize();
   const legs = {
     LF: buildLeg({
       name: "LF",
@@ -818,52 +856,52 @@ export function createTabby() {
       r3a: 0.011,
       r3b: 0.0095,
       poleLocal: hindPole.clone(),
-      hockLocal: new THREE.Vector3(0, 0.042, -0.016),
+      hockLocal: new THREE.Vector3(0, 0.046, -0.032),
       ankleLocal: new THREE.Vector3(0, 0.015, -0.006),
       lateral: 0.008,
-      lead: -0.008,
+      lead: -0.035,
     }, mats),
     RH: null,
   };
-  legs.LF.poleLocal.set(-0.55, -0.2, -1).normalize();
+  legs.LF.poleLocal.set(-0.3, -0.32, -1).normalize();
   legs.RF = buildLeg({
     name: "RF",
     label: "right forepaw",
     side: 1,
     isHind: false,
     pivot: new THREE.Vector3(0.048, 0.088, 0.1),
-L1: legs.LF.L1,
-      L2: legs.LF.L2,
-      r1a: 0.022,
-      r1b: 0.016,
-      r2a: 0.015,
-      r2b: 0.011,
-    poleLocal: new THREE.Vector3(0.55, -0.2, -1),
+    L1: legs.LF.L1,
+    L2: legs.LF.L2,
+    r1a: 0.022,
+    r1b: 0.016,
+    r2a: 0.015,
+    r2b: 0.011,
+    poleLocal: new THREE.Vector3(0.3, -0.32, -1),
     ankleLocal: legs.LF.ankleLocal.clone(),
     lateral: 0.006,
     lead: 0.05,
   }, mats);
-  legs.LH.poleLocal.set(-0.4, 0.2, 1).normalize();
+  legs.LH.poleLocal.set(-0.12, -0.18, 1).normalize();
   legs.RH = buildLeg({
     name: "RH",
     label: "right hind paw",
     side: 1,
     isHind: true,
     pivot: new THREE.Vector3(0.04, 0.08, -0.1),
-L1: legs.LH.L1,
-      L2: legs.LH.L2,
-      L3: legs.LH.L3,
-      r1a: 0.03,
-      r1b: 0.018,
-      r2a: 0.016,
-      r2b: 0.012,
-      r3a: 0.011,
-      r3b: 0.0095,
-    poleLocal: new THREE.Vector3(0.4, 0.2, 1),
+    L1: legs.LH.L1,
+    L2: legs.LH.L2,
+    L3: legs.LH.L3,
+    r1a: 0.03,
+    r1b: 0.018,
+    r2a: 0.016,
+    r2b: 0.012,
+    r3a: 0.011,
+    r3b: 0.0095,
+    poleLocal: new THREE.Vector3(0.12, -0.18, 1),
     hockLocal: legs.LH.hockLocal.clone(),
     ankleLocal: legs.LH.ankleLocal.clone(),
     lateral: 0.008,
-    lead: -0.008,
+    lead: -0.035,
   }, mats);
 
   Object.values(legs).forEach((leg) => {
@@ -1039,19 +1077,27 @@ L1: legs.LH.L1,
     const h = Math.min(dt, 0.033);
     tail.segs.forEach((seg, i) => {
       const t = i / (tail.segs.length - 1);
-      let targetX = 0.04 + t * 0.16;
-      let targetZ = Math.sin(i * 0.55) * 0.08;
-      targetZ += -state.yawRate * (1 - t) * 0.55;
-      targetZ += Math.sin(state.time * 1.25 + i * 0.7) * 0.035 * t * (moving ? 1 : 0.25);
+      // A stalking tail trails low and almost straight: a gentle sag out of the
+      // croup, then a slight lift in the last third so the tip rides clear of
+      // the floor. Positive rotation.x curls the tail up over the back, so the
+      // sag has to be negative.
+      let targetX = -0.034 * Math.sin(Math.min(1, t * 1.9) * Math.PI * 0.9);
+      targetX += 0.085 * smoothRamp(t, 0.45, 1);
+      let targetZ = Math.sin(i * 0.55) * 0.02;
+      // The yaw-rate lag is applied once per segment, so it has to be a small
+      // per-joint angle — not the whole body turn rate, which coiled the tail
+      // into a spiral alongside the ribs.
+      targetZ += clamp(-state.yawRate, -2, 2) * (1 - t) * 0.045;
+      targetZ += Math.sin(state.time * 1.25 + i * 0.7) * 0.03 * t * (moving ? 1 : 0.25);
       if (!moving && i >= tail.segs.length - 3) {
-        targetZ += Math.sin(state.time * 18 + i * 1.7) * 0.18 * ((i - (tail.segs.length - 3)) / 2);
+        targetZ += Math.sin(state.time * 18 + i * 1.7) * 0.16 * ((i - (tail.segs.length - 3)) / 2);
       }
       seg.vx += (targetX - seg.x) * 26 * h;
       seg.vz += (targetZ - seg.z) * 26 * h;
       seg.vx *= Math.exp(-7.5 * h);
       seg.vz *= Math.exp(-7.5 * h);
-      seg.x = clamp(seg.x + seg.vx * h, -0.4, 0.8);
-      seg.z = clamp(seg.z + seg.vz * h, -0.7, 0.7);
+      seg.x = clamp(seg.x + seg.vx * h, -0.45, 0.45);
+      seg.z = clamp(seg.z + seg.vz * h, -0.3, 0.3);
       seg.group.rotation.x = seg.x;
       seg.group.rotation.z = seg.z;
     });
@@ -1095,8 +1141,8 @@ L1: legs.LH.L1,
     state.earTargetR = damp(state.earTargetR, attentive ? -0.08 : 0, 2.2, dt);
     state.earL = damp(state.earL, state.earTargetL, 8, dt);
     state.earR = damp(state.earR, state.earTargetR, 8, dt);
-    built.ears[0].rotation.x = -0.22 + state.earL;
-    built.ears[1].rotation.x = -0.22 + state.earR;
+    built.ears[0].rotation.x = -0.1 + state.earL;
+    built.ears[1].rotation.x = -0.1 + state.earR;
   }
 
   function updateHead(dt, lookAt, attentive) {
@@ -1184,7 +1230,9 @@ L1: legs.LH.L1,
     state.time += liveDt;
 
     const crouch = input.crouch ?? 0.68;
-    const lift = (0.52 - crouch) * 0.04;
+    // Base ride height plus the crouch offset: at crouch 1 the belly is
+    // nearly on the floor, at 0.15 the cat stands up out of the stalk.
+    const lift = 0.024 + (0.52 - crouch) * 0.042;
     torso.position.y = damp(torso.position.y, lift, 4, liveDt || 0.016);
 
     const nearMoon = root.position.distanceTo(INTEREST.moonbeam) < 0.55;

@@ -223,13 +223,17 @@ roughnessFactor = clamp(roughnessFactor + gStripe * 0.1 - 0.03, 0.42, 1.0);`
         "#include <emissivemap_fragment>",
         `#include <emissivemap_fragment>
 {
-  float furNdV = saturate(dot(geometryNormal, geometryViewDir));
+  // NOTE: geometryNormal / geometryViewDir are only declared later, inside
+  // <lights_fragment_begin>. At this point in the chunk order the equivalents
+  // are normal (from <normal_fragment_begin>) and the vViewPosition varying.
+  vec3 furViewDir = normalize(vViewPosition);
+  float furNdV = saturate(dot(normal, furViewDir));
   float furRim = pow(1.0 - furNdV, 2.15);
   totalEmissiveRadiance += furRim * vec3(0.42, 0.24, 0.10) * 0.16;
 }`
       );
   };
-  material.customProgramCacheKey = () => `tabby-fur-v1-${shellLift}`;
+  material.customProgramCacheKey = () => `tabby-fur-v2-${shellLift}`;
   return material;
 }
 
@@ -242,6 +246,20 @@ export function createCoatMaterials() {
       sheen: 0.62,
       sheenRoughness: 0.72,
       sheenColor: new THREE.Color(0xc49a72),
+    }),
+    0
+  );
+
+  // Ears are thin sheets; they need to be lit from the back too.
+  const furTwoSided = attachFurShader(
+    new THREE.MeshPhysicalMaterial({
+      color: 0xffffff,
+      roughness: 0.78,
+      metalness: 0,
+      sheen: 0.62,
+      sheenRoughness: 0.72,
+      sheenColor: new THREE.Color(0xc49a72),
+      side: THREE.DoubleSide,
     }),
     0
   );
@@ -311,7 +329,7 @@ export function createCoatMaterials() {
     depthWrite: false,
   });
 
-  return { fur, shells, nose, pad, earInner, whisker, catchlight, cornea };
+  return { fur, furTwoSided, shells, nose, pad, earInner, whisker, catchlight, cornea };
 }
 
 export function createEyeMaterial() {
