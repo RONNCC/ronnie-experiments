@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="nm-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#24141e"/><stop offset="100%" stop-color="#3b1d30"/></linearGradient>
+    <filter id="nm-glow"><feGaussianBlur stdDeviation="3" result="glow"/><feMerge><feMergeNode in="glow"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="320" height="200" rx="14" fill="url(#nm-bg)"/>
+  <!-- Broken prison bars -->
+  <g stroke="#495057" stroke-width="5" stroke-linecap="round">
+    <line x1="80" y1="30" x2="80" y2="160"/>
+    <line x1="240" y1="30" x2="240" y2="160"/>
+    <!-- Broken center bars snapping outward -->
+    <line x1="130" y1="30" x2="130" y2="70"/>
+    <line x1="130" y1="125" x2="130" y2="160"/>
+    <line x1="190" y1="30" x2="190" y2="70"/>
+    <line x1="190" y1="125" x2="190" y2="160"/>
+  </g>
+  <!-- Raised fist and windblown hair (Woman, Life, Freedom) -->
+  <g transform="translate(160, 95)" filter="url(#nm-glow)">
+    <circle cx="0" cy="5" r="28" fill="#ff765f"/>
+    <!-- Raised fist symbol -->
+    <path d="M -8 18 L -8 0 C -8 -6, -4 -10, 0 -10 C 4 -10, 8 -6, 8 0 L 8 18 Z" fill="#ffffff"/>
+    <rect x="-12" y="10" width="24" height="15" rx="3" fill="#ffffff"/>
+  </g>
+  <text x="160" y="25" font-family="sans-serif" font-size="12" fill="#ffd8a8" font-weight="800" letter-spacing="1" text-anchor="middle">WOMAN · LIFE · FREEDOM</text>
+  <text x="160" y="185" font-family="sans-serif" font-size="10" fill="#d7f26b" text-anchor="middle">Fighting oppression of women and championing universal human rights</text>
+</svg>

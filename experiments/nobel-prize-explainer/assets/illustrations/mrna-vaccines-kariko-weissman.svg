@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="vac-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#142426"/><stop offset="100%" stop-color="#1d363a"/></linearGradient>
+    <filter id="vac-glow"><feGaussianBlur stdDeviation="3" result="glow"/><feMerge><feMergeNode in="glow"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="320" height="200" rx="14" fill="url(#vac-bg)"/>
+  <!-- Lipid Nanoparticle vesicle encapsulating modified mRNA -->
+  <g transform="translate(160, 100)">
+    <!-- Lipid bilayer circle -->
+    <circle cx="0" cy="0" r="55" fill="#16383e" stroke="#22d3ee" stroke-width="4" stroke-dasharray="7 4"/>
+    <!-- Modified mRNA wavy strand inside -->
+    <path d="M -35 10 Q -20 -30 0 0 Q 20 30 35 -10" fill="none" stroke="#d7f26b" stroke-width="5" stroke-linecap="round" filter="url(#vac-glow)"/>
+    <!-- Nucleoside base modifications tags (pseudouridine Ψ) -->
+    <circle cx="-12" cy="-14" r="7" fill="#ff765f" filter="url(#vac-glow)"/>
+    <text x="-12" y="-11" font-family="sans-serif" font-size="8" font-weight="bold" fill="#ffffff" text-anchor="middle">Ψ</text>
+    <circle cx="15" cy="18" r="7" fill="#ff765f" filter="url(#vac-glow)"/>
+    <text x="15" y="21" font-family="sans-serif" font-size="8" font-weight="bold" fill="#ffffff" text-anchor="middle">Ψ</text>
+  </g>
+  <!-- Ribosome reading the blueprint -->
+  <text x="160" y="26" font-family="sans-serif" font-size="11" fill="#67e8f9" font-weight="700" text-anchor="middle">Nucleoside Base Modified mRNA Vaccines</text>
+  <text x="160" y="185" font-family="sans-serif" font-size="10" fill="#d7f26b" text-anchor="middle">Modified bases (m1Ψ) avoid premature immune destruction</text>
+</svg>
