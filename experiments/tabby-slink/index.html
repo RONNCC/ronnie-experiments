@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#07080c">
+  <meta name="description" content="A detailed 3D brown mackerel tabby slinking through a moonlit room — planted paws, a hovering step, and a coat of broken stripes.">
+  <title>Tabby Slink — Ronnie's Experiments</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <canvas id="view" aria-hidden="true"></canvas>
+  <div class="vignette" aria-hidden="true"></div>
+  <div id="veil" class="veil">Waking the tabby…</div>
+  <p id="error" class="error" hidden></p>
+
+  <aside class="panel" id="panel" aria-label="Tabby slink controls">
+    <div class="panel-top">
+      <a class="back-link" href="../../">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18 9 12l6-6"/><path d="M9 12h11"/></svg>
+        Experiments
+      </a>
+      <button class="icon-btn" id="hideBtn" type="button" aria-label="Hide controls">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+    <p class="kicker">Tabby / Nocturne</p>
+    <h1>Tabby Slink</h1>
+    <p class="lede">A brown mackerel tabby on a low nocturnal stalk. Paws plant, the belly stays down, and the tail keeps its own mind.</p>
+    <div class="status" id="status" aria-live="polite">
+      <strong id="statusLine">Creeping into the moonbeam</strong>
+      <span id="statusDetail">Planted paws · tail low</span>
+    </div>
+
+    <div class="control">
+      <label for="pace">Pace</label>
+      <output id="paceValue" for="pace">1.00×</output>
+      <input id="pace" type="range" min="0.45" max="2.1" step="0.05" value="1">
+    </div>
+    <div class="control">
+      <label for="crouch">Crouch</label>
+      <output id="crouchValue" for="crouch">Low</output>
+      <input id="crouch" type="range" min="0.15" max="1" step="0.01" value="0.7">
+    </div>
+    <div class="control">
+      <label for="moon">Moonlight</label>
+      <output id="moonValue" for="moon">100%</output>
+      <input id="moon" type="range" min="0.35" max="1.45" step="0.01" value="1">
+    </div>
+
+    <div class="row">
+      <button class="follow-btn" id="followBtn" type="button" aria-pressed="true">Follow camera</button>
+      <button class="play-btn" id="playBtn" type="button" aria-pressed="true">Pause</button>
+    </div>
+    <p class="hint">Drag to look around · scroll to zoom · space pauses · F follows · H hides this panel. Slow the pace for a more careful stalk.</p>
+
+    <details>
+      <summary>What the slink is doing</summary>
+      <ul>
+        <li>A crouched stalking walk: long stance, a low reach, and a hover before the paw is placed.</li>
+        <li>Hind feet bias toward the print the forepaw just left.</li>
+        <li>The tail is a damped chain. On a freeze, only the tip twitches.</li>
+        <li>Blink, ear flicks, pupil dilation, and a little tapetum eyeshine.</li>
+        <li>The coat is a brown mackerel: broken bars, a dorsal stripe, bracelets, tail rings, cream belly and chin, and the forehead M.</li>
+      </ul>
+    </details>
+    <p class="credit">3D runtime: <a href="https://threejs.org/" rel="noopener">three.js</a> r170, MIT.</p>
+  </aside>
+  <button class="panel-show" id="panelShow" type="button" hidden>Show controls</button>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "./vendor/three.module.js"
+    }
+  }
+  </script>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

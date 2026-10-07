@@ -12,6 +12,7 @@ Interactive prototypes, physics simulations, algorithmic visualizers, and learni
 
 | Experiment | Category | Description | Path |
 |---|---|---|---|
+| **Tabby Slink** | Visualizations | A detailed 3D brown mackerel tabby on a low nocturnal stalk through a moonlit room. | [`experiments/tabby-slink/`](experiments/tabby-slink/) |
 | **Particle Vector Field** | Visualizations | Real-time canvas flow field with trigonometric velocity vectors, gravitational cursor attraction, and palette controls. | [`experiments/particle-field/`](experiments/particle-field/) |
 | **Sorting Visualizer** | Algorithms | Step-by-step visualizer for Tim Sort, Quicksort, Mergesort, Heapsort, Shell Sort, Radix Sort, Bubble, and Selection Sort. | [`experiments/sorting-visualizer/`](experiments/sorting-visualizer/) |
 | **Cellular Automata Lab** | Simulations | Conway's Game of Life with interactive cell drawing and preset oscillators (Gosper Gun, Pulsar, Acorn). | [`experiments/cellular-automata/`](experiments/cellular-automata/) |
