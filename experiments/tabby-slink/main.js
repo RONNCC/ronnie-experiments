@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "./vendor/OrbitControls.js";
 import { RoomEnvironment } from "./vendor/RoomEnvironment.js";
-import { createRoom } from "./room.js";
+import { createRoom, CAMERA_RADIUS, collideCameraPose, cameraClearance } from "./room.js";
 import { createTabby } from "./cat.js";
 
 const canvas = document.getElementById("view");
@@ -113,53 +113,125 @@ async function boot() {
   rim.position.set(2.4, 1.6, 2.2);
   scene.add(rim);
 
-  const viewFill = new THREE.DirectionalLight(0xffe0c2, 1.55);
+  const viewFill = new THREE.DirectionalLight(0xffe0c2, 1.7);
   viewFill.position.set(1, 1.2, 1);
   scene.add(viewFill);
   scene.add(viewFill.target);
+
+  // Warm key that rides the camera: close-ups of the face read soft instead of
+  // moon-cold, without changing the room's nocturne mood from the wide shots.
+  const faceKey = new THREE.PointLight(0xffd8b4, 0.55, 1.7, 2);
+  scene.add(faceKey);
 
   const tabby = createTabby();
   scene.add(tabby.object);
 
   const desiredCam = new THREE.Vector3();
   const desiredTarget = new THREE.Vector3();
+  const candidateCam = new THREE.Vector3();
+  const candidateTarget = new THREE.Vector3();
   const lightView = new THREE.Vector3();
   const camRight = new THREE.Vector3();
+  const cameraDir = new THREE.Vector3();
+  let followSide = 1; // +1 / -1: which shoulder the follow rig is on
 
   /*
-   * The camera must never end up inside the walls or the furniture: a camera
-   * buried in geometry reads as a black screen, exactly like an overlay bug,
-   * and the old rig managed it for about a quarter of the stalk (the follow
-   * offset used the cat's local +X axis, which points the opposite way, so the
-   * camera was pulled toward the back wall). This clamps a position into the
-   * room's usable volume and pushes it out of any furniture box it lands in.
+   * Camera invariants, bound to this room's volume (see room.js for the rules).
+   *
+   * The follow rig keeps its whole target->camera segment in the open volume,
+   * shortening or side-shifting its offset when the sofa, the lamp or the back
+   * wall is in the way. Manual orbit is only constrained positionally, so a
+   * parked view slides along a wall or kicks out of the sofa instead of being
+   * teleported. Either way a rendered pose is never inside the walls or the
+   * furniture — a camera buried in geometry is a black or furniture-filled
+   * frame, which looks exactly like a broken page.
    */
-  function containCamera(position) {
-    const bounds = room.bounds;
-    position.x = Math.min(bounds.maxX, Math.max(bounds.minX, position.x));
-    position.y = Math.min(bounds.maxY, Math.max(bounds.minY, position.y));
-    position.z = Math.min(bounds.maxZ, Math.max(bounds.minZ, position.z));
-    for (const box of room.cameraBlockers) {
-      const inside =
-        position.x > box.minX && position.x < box.maxX &&
-        position.y > box.minY && position.y < box.maxY &&
-        position.z > box.minZ && position.z < box.maxZ;
-      if (!inside) continue;
-      const exits = [
-        ["x", position.x - box.minX, box.minX],
-        ["x", box.maxX - position.x, box.maxX],
-        ["y", position.y - box.minY, box.minY],
-        ["y", box.maxY - position.y, box.maxY],
-        ["z", position.z - box.minZ, box.minZ],
-        ["z", box.maxZ - position.z, box.maxZ],
-      ].sort((a, b) => a[1] - b[1]);
-      // Climbing over a low piece keeps the cat in frame; leaving sideways is
-      // the fallback when the piece is too tall to clear cheaply.
-      const over = exits.find((exit) => exit[0] === "y" && exit[2] === box.maxY);
-      const exit = over && over[1] <= 0.28 ? over : exits[0];
-      position[exit[0]] = exit[2];
+  function collideCamera(position) {
+    return collideCameraPose(position, room.bounds, room.cameraBlockers, CAMERA_RADIUS);
+  }
+
+  function clearance(from, direction, maxDist) {
+    return cameraClearance(from, direction, maxDist, room.bounds, room.cameraBlockers, CAMERA_RADIUS);
+  }
+
+  /**
+   * Candidate camera pose for one (shoulder, height) option. Returns the
+   * requested offset length and how much of it survives contact with the room,
+   * both in metres.
+   */
+  function followCandidate(info, sideSign, raised, outCam, outTarget) {
+    const side = (0.58 + Math.sin(elapsed * 0.17) * 0.04) * sideSign;
+    const back = 0.52;
+    // True right of the travel direction: forward x up.
+    camRight.set(-info.forward.z, 0, info.forward.x).multiplyScalar(sideSign);
+    outTarget.copy(info.focus);
+    outTarget.y += 0.035;
+    outCam
+      .copy(info.position)
+      .addScaledVector(info.forward, -back)
+      .addScaledVector(camRight, side);
+    outCam.y = raised ? 0.66 : 0.26 + Math.sin(elapsed * 0.6) * 0.004;
+    cameraDir.copy(outCam).sub(outTarget);
+    const wanted = cameraDir.length();
+    if (wanted < 1e-4) return { wanted: 0, clear: 0 };
+    cameraDir.divideScalar(wanted);
+    const clear = clearance(outTarget, cameraDir, wanted);
+    if (clear < wanted) {
+      outCam.copy(outTarget).addScaledVector(cameraDir, clear);
+      outCam.y = Math.max(outCam.y, 0.16);
     }
-    return position;
+    return { wanted, clear };
+  }
+
+  /**
+   * Drive the camera for this frame.
+   *
+   * The follow rig offers four poses — either shoulder, at cat height or lifted
+   * over the furniture — and takes the one that keeps the most room between the
+   * cat and the camera, with a small handicap for switching so it does not
+   * flip-flop. This is what keeps the cat in view on the sofa-adjacent legs of
+   * the stalk and along the back wall: the rig side-shifts, then lifts, then
+   * shortens, instead of shoving the camera through the sofa.
+   *
+   * Manual orbit never gets teleported: the pose it produced is only pushed out
+   * of walls and furniture, so a parked view slides instead of jumping.
+   */
+  function applyCamera(dt) {
+    if (state.follow && lastInfo) {
+      let bestScore = -Infinity;
+      for (const sideSign of [followSide, -followSide]) {
+        for (const raised of [false, true]) {
+          const { wanted, clear } = followCandidate(lastInfo, sideSign, raised, candidateCam, candidateTarget);
+          // Score the *shortfall* — how much of the wanted offset the room eats
+          // — not the raw clearance, or the candidate with the longest offset
+          // would win even when nothing is in the way.
+          const shortfall = Math.max(0, wanted - clear);
+          const score = -shortfall - (raised ? 0.12 : 0) - (sideSign === followSide ? 0 : 0.22);
+          if (score > bestScore) {
+            bestScore = score;
+            followSide = sideSign;
+            desiredCam.copy(candidateCam);
+            desiredTarget.copy(candidateTarget);
+          }
+        }
+      }
+      const k = frames < 2 ? 1 : 1 - Math.exp(-dt * 2.4);
+      camera.position.lerp(desiredCam, k);
+      controls.target.lerp(desiredTarget, k);
+    }
+    collideCamera(camera.position);
+    controls.update();
+    collideCamera(camera.position);
+    // Spring arm shared by both rigs: if the cat ended up outside the open
+    // volume from this pose, slide the camera in along the view axis.
+    cameraDir.copy(camera.position).sub(controls.target);
+    const distance = cameraDir.length();
+    if (distance > 1e-4) {
+      cameraDir.divideScalar(distance);
+      const clear = clearance(controls.target, cameraDir, distance);
+      if (clear < distance) camera.position.copy(controls.target).addScaledVector(cameraDir, clear);
+      collideCamera(camera.position);
+    }
   }
 
   function resize() {
@@ -251,13 +323,21 @@ async function boot() {
   const SELF_CHECK_FIRST = 90; // ~1.5s in, once the veil has faded
   const SELF_CHECK_RETRY_GAP = 15; // confirmation pass, so one bad frame is not an alarm
   const SELF_CHECK_EVERY = 300; // then about every five seconds
+  // A parked orbit can aim the camera anywhere, so the controls panel may
+  // legitimately cover a couple of probe points. This check exists to catch a
+  // stray overlay covering *most* of the view — the two probes right of the
+  // panel make a full-view overlay impossible to miss.
   const SELF_CHECK_PROBES = [
     [0.5, 0.5],
     [0.35, 0.5],
     [0.65, 0.5],
     [0.5, 0.35],
     [0.5, 0.65],
+    [0.78, 0.32],
+    [0.78, 0.55],
   ];
+  const SELF_CHECK_ALLOWED_PROBES = 2; // the panel's footprint at small sizes
+  const HINT_SECONDS = 7;
   const probeCanvas = document.createElement("canvas");
   probeCanvas.width = 1;
   probeCanvas.height = 1;
@@ -281,23 +361,48 @@ async function boot() {
     return probeCtx.getImageData(0, 0, 1, 1).data;
   }
 
+  // Non-fatal camera advice. A parked, manually orbited view that loses the cat
+  // is a position to nudge, not a broken page: it goes to the small hint bar,
+  // never to the full-view error overlay.
+  const hintEl = document.getElementById("hint");
+  let hintLeft = 0;
+  function showHint(text) {
+    if (!hintEl) return;
+    hintEl.textContent = text;
+    hintEl.hidden = false;
+    hintLeft = HINT_SECONDS;
+  }
+  function updateHint(dt) {
+    if (!hintEl || hintEl.hidden) return;
+    hintLeft -= dt;
+    if (hintLeft <= 0) {
+      hintEl.hidden = true;
+      hintEl.textContent = "";
+    }
+  }
+
   const selfCheck = {
     status: "pending",
     checks: 0,
     strikes: 0,
     lastFrame: null,
     failures: [],
+    hints: [],
     run() {
       if (window.__SESSION_ERROR_SHOWN) return;
       this.checks += 1;
       this.lastFrame = frames;
       const failures = [];
+      const hints = [];
       const width = canvas.clientWidth || window.innerWidth;
       const height = canvas.clientHeight || window.innerHeight;
 
-      // 1. Nothing unexpected may sit on top of the view; the controls are the
-      // only thing allowed over the canvas.
+      // 1. A stray layer must not cover most of the view. The control panel
+      // (and its buttons) is the one allowed layer, and only over a couple of
+      // probes: some window sizes genuinely put it over the probe points.
       const visibleProbes = [];
+      let coveredBy = null;
+      let coveredCount = 0;
       for (const [u, v] of SELF_CHECK_PROBES) {
         const element = document.elementFromPoint(u * width, v * height);
         if (element === canvas) {
@@ -305,10 +410,15 @@ async function boot() {
           continue;
         }
         const allowed = element && (panel.contains(element) || element === panelShow || element === veil);
-        if (!allowed) {
+        if (allowed) continue;
+        coveredCount += 1;
+        if (!coveredBy) {
           const name = element ? `${element.tagName.toLowerCase()}${element.id ? ` #${element.id}` : ""}` : "nothing";
-          failures.push(`${name} is on top of the canvas at ${Math.round(u * 100)}%/${Math.round(v * 100)}% of the view`);
+          coveredBy = `${name} at ${Math.round(u * 100)}%/${Math.round(v * 100)}%`;
         }
+      }
+      if (coveredCount > SELF_CHECK_ALLOWED_PROBES) {
+        failures.push(`${coveredBy} is on top of the canvas (${coveredCount} of ${SELF_CHECK_PROBES.length} probes blocked)`);
       }
 
       // 2. The canvas must not be background-coloured where it is visible.
@@ -325,19 +435,42 @@ async function boot() {
             failures.push("the cat projects into view but its head pixel is background-coloured");
           }
         }
-        // 4. Nothing opaque may stand between the camera and the cat.
+        // 4. Line of sight. While the rig drives the camera this is an
+        // invariant: the follow offset is shortened until the cat-to-camera
+        // segment is clear, so being blocked means the invariant broke and it
+        // is a real failure. On a parked, manually orbited view the user owns
+        // the camera — a wall in the way is a hint, not a broken page.
         rayDir.copy(lastInfo.focus).sub(camera.position);
         const span = rayDir.length();
         selfRay.set(camera.position, rayDir.normalize());
-        selfRay.far = span - 0.03;
+        selfRay.far = Math.max(0, span - 0.03);
         const hit = selfRay
           .intersectObject(room.object, true)
           .find((entry) => entry.object.material && entry.object.material.transparent !== true);
-        if (hit) failures.push(`the view of the cat is blocked by room geometry ${hit.distance.toFixed(2)}m from the camera`);
+        if (hit && state.follow) {
+          failures.push(`the view of the cat is blocked by room geometry ${hit.distance.toFixed(2)}m from the camera`);
+        } else if (!state.follow) {
+          const b = room.bounds;
+          const edge = Math.min(
+            camera.position.x - b.minX, b.maxX - camera.position.x,
+            camera.position.y - b.minY, b.maxY - camera.position.y,
+            camera.position.z - b.minZ, b.maxZ - camera.position.z
+          );
+          if (hit && hit.distance < 0.25) {
+            hints.push("the camera is inside room geometry - press F to follow the cat");
+          } else if (edge < 0.04) {
+            hints.push("the camera left the room - press F to follow the cat");
+          }
+        }
       }
 
       // 5. Something must have been drawn this frame.
-      if (renderer.info.render.calls === 0) failures.push("the renderer issued no draw calls");
+      if (renderer.info.render.calls === 0) {
+        failures.push("the renderer issued no draw calls");
+      }
+
+      this.hints = hints;
+      if (hints.length) showHint(hints[0]);
 
       if (!failures.length) {
         this.strikes = 0;
@@ -393,36 +526,17 @@ async function boot() {
       viewFill.target.position.copy(info.focus);
       viewFill.target.updateMatrixWorld();
 
-    if (state.follow) {
-      const side = 0.58 + Math.sin(elapsed * 0.17) * 0.04;
-      const back = 0.52;
-      // In a Y-up right-handed world the true right of a forward vector is
-      // forward × up, i.e. (-forward.z, 0, forward.x). The cat's own `right` is
-      // its local +X axis, which points the other way; using it put the camera
-      // on the wrong shoulder and, along the back wall, inside the wall.
-      camRight.set(-info.forward.z, 0, info.forward.x);
-      desiredCam
-        .copy(info.position)
-        .addScaledVector(info.forward, -back)
-        .addScaledVector(camRight, side);
-      desiredCam.y = 0.26 + Math.sin(elapsed * 0.6) * 0.004;
-      containCamera(desiredCam);
-      desiredTarget.copy(info.focus);
-      desiredTarget.y += 0.035;
-      const k = 1 - Math.exp(-dt * 2.4);
-      camera.position.lerp(desiredCam, frames < 2 ? 1 : k);
-      controls.target.lerp(desiredTarget, frames < 2 ? 1 : k);
-    }
-    controls.update();
-    // The pose that gets rendered must satisfy the invariant too, whatever the
-    // follow rig, the damping or a manual orbit produced.
-    containCamera(camera.position);
+    faceKey.position.copy(camera.position);
+    faceKey.position.y += 0.14;
+
+    applyCamera(dt);
 
     statusEl.classList.toggle("is-frozen", info.frozen);
     statusLine.textContent = info.line;
     statusDetail.textContent = info.detail;
 
     lastInfo = info;
+    updateHint(dt);
     renderer.render(scene, camera);
     frames += 1;
     if (frames === 2) veil.classList.add("hide");

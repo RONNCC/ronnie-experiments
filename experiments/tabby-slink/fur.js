@@ -116,7 +116,7 @@ vec4 tabbyAlbedo(vec3 p, vec3 n, float part, vec2 pat) {
 
   if (part > 6.5 && part < 7.5) {
     stripeAmt = 1.0;
-    base = stripe;
+    base = mix(stripe, groundDeep, 0.46);
   }
 
   float creamMask = 0.0;
@@ -203,14 +203,29 @@ ${FUR_FUNCS}`
         "#include <color_fragment>",
         `#include <color_fragment>
 {
-  vec4 tabby = tabbyAlbedo(vCatRest, normalize(vCatRestN), vPartId, vPatCoord);
+  vec3 shellJitter = vec3(0.0);
+  if (uShellLift > 0.0001) {
+    // Each shell samples the coat at a slightly different place, so the
+    // outlines read as loose fur catching light instead of stacked sheets of
+    // hard stripes with visible rims.
+    float seed = uShellLift * 380.0;
+    shellJitter = vec3(
+      hash13(floor(vCatRest * 420.0) + vec3(seed)),
+      hash13(floor(vCatRest * 420.0) + vec3(seed + 31.7)),
+      hash13(floor(vCatRest * 420.0) + vec3(seed + 71.3))
+    ) - 0.5;
+    shellJitter *= 0.0075 * clamp(uShellLift / 0.0054, 0.0, 1.0);
+  }
+  vec4 tabby = tabbyAlbedo(vCatRest + shellJitter, normalize(vCatRestN), vPartId, vPatCoord);
   diffuseColor.rgb = tabby.rgb;
   gStripe = tabby.a;
   if (uShellLift > 0.0001) {
-    float strand = hash13(floor(vCatRest * 170.0) + vec3(uShellLift * 380.0));
-    float cutoff = 0.34 + uShellLift * 52.0;
+    float strand = hash13(floor(vCatRest * 440.0) + vec3(uShellLift * 380.0));
+    float cutoff = 0.30 + uShellLift * 62.0;
     if (strand < cutoff) discard;
-    diffuseColor.a *= mix(0.72, 0.38, clamp(uShellLift / 0.005, 0.0, 1.0));
+    float fade = clamp(uShellLift / 0.0054, 0.0, 1.0);
+    diffuseColor.a *= mix(0.62, 0.30, fade);
+    diffuseColor.rgb *= 1.05;
   }
 }`
       )
@@ -230,6 +245,16 @@ roughnessFactor = clamp(roughnessFactor + gStripe * 0.1 - 0.03, 0.42, 1.0);`
   float furNdV = saturate(dot(normal, furViewDir));
   float furRim = pow(1.0 - furNdV, 2.15);
   totalEmissiveRadiance += furRim * vec3(0.42, 0.24, 0.10) * 0.16;
+  if (uShellLift > 0.0001) {
+    // Melt the shell silhouette: at grazing angles the fur thins out instead
+    // of ending on a hard shell rim. This is what makes the coat read soft
+    // rather than plastic at close range.
+    diffuseColor.a *= mix(0.45, 1.0, smoothstep(-0.15, 0.6, furNdV));
+    // Fuzz is backlit by the room: a little warm scatter keeps the outer
+    // shells from going flat grey against the dark.
+    float fuzz = pow(1.0 - furNdV, 1.6);
+    totalEmissiveRadiance += fuzz * vec3(0.30, 0.19, 0.09) * 0.10;
+  }
 }`
       );
   };
@@ -241,11 +266,11 @@ export function createCoatMaterials() {
   const fur = attachFurShader(
     new THREE.MeshPhysicalMaterial({
       color: 0xffffff,
-      roughness: 0.78,
+      roughness: 0.84,
       metalness: 0,
-      sheen: 0.62,
-      sheenRoughness: 0.72,
-      sheenColor: new THREE.Color(0xc49a72),
+      sheen: 0.78,
+      sheenRoughness: 0.88,
+      sheenColor: new THREE.Color(0xd8ab7e),
     }),
     0
   );
@@ -264,17 +289,20 @@ export function createCoatMaterials() {
     0
   );
 
-  const shells = [0.0018, 0.0038].map((lift, i) =>
+  // Three shells with a gentler opacity falloff. The old pair used 0.42/0.28,
+  // which at close range read as two hard plates with the stripe pattern
+  // stamped on both; spaced-out, thinner shells melt into each other instead.
+  const shells = [0.0016, 0.0034, 0.0054].map((lift, i) =>
     attachFurShader(
       new THREE.MeshPhysicalMaterial({
         color: 0xffffff,
-        roughness: 0.9,
+        roughness: 0.94,
         metalness: 0,
-        sheen: 0.35,
-        sheenRoughness: 0.85,
-        sheenColor: new THREE.Color(0xb88860),
+        sheen: 0.4,
+        sheenRoughness: 0.9,
+        sheenColor: new THREE.Color(0xc79a6c),
         transparent: true,
-        opacity: 0.42 - i * 0.14,
+        opacity: [0.34, 0.24, 0.14][i],
         depthWrite: false,
       }),
       lift
@@ -309,14 +337,14 @@ export function createCoatMaterials() {
   });
 
   const whisker = new THREE.MeshStandardMaterial({
-    color: 0xf4efe6,
-    roughness: 0.42,
+    color: 0xe9e2d6, // warm off-white: not a floodlit white spike
+    roughness: 0.5,
     metalness: 0,
     emissive: 0x3a3328,
-    emissiveIntensity: 0.35,
+    emissiveIntensity: 0.12,
   });
 
-  const catchlight = new THREE.MeshBasicMaterial({ color: 0xfff8ee });
+  const catchlight = new THREE.MeshBasicMaterial({ color: 0xfff3e0, transparent: true, opacity: 0.7 });
 
   const cornea = new THREE.MeshPhysicalMaterial({
     color: 0xffffff,
@@ -336,7 +364,7 @@ export function createEyeMaterial() {
   const material = new THREE.ShaderMaterial({
     uniforms: {
       uPupil: { value: 0.28 },
-      uShine: { value: 0.35 },
+      uShine: { value: 0.20 },
       uBlink: { value: 0 },
       uLightDir: { value: new THREE.Vector3(0.2, 0.8, 0.4).normalize() },
     },
@@ -385,18 +413,21 @@ export function createEyeMaterial() {
         float irisMix = smoothstep(0.05, 0.62, r);
         vec3 iris = mix(irisIn, irisOut, irisMix);
         float angle = atan(q.y, q.x);
-        float fibers = 0.72 + 0.28 * sin(angle * 26.0 + r * 36.0);
+        // Softer iris fiber contrast: less "glinting glass", more eye.
+        float fibers = 0.80 + 0.20 * sin(angle * 26.0 + r * 36.0);
         iris *= fibers;
         float limbus = smoothstep(0.48, 0.62, r) * smoothstep(0.74, 0.6, r);
         iris = mix(iris, iris * vec3(0.25, 0.32, 0.12), limbus);
         float freckle = smoothstep(0.78, 0.9, hash13(vec3(floor(angle * 5.0), floor(r * 28.0), 3.0)));
-        iris = mix(iris, iris * 0.5, freckle * 0.45);
+        iris = mix(iris, iris * 0.5, freckle * 0.28);
         float collar = smoothstep(0.16, 0.05, r);
         iris = mix(iris, iris * vec3(0.55, 0.4, 0.15), collar * 0.65);
 
-        float irisDisk = smoothstep(0.7, 0.5, r) * front;
-        float pupilW = mix(0.035, 0.2, uPupil);
-        float pupilH = mix(0.26, 0.34, uPupil);
+        // A bigger iris disk and a rounder pupil read as a cat eye rather
+        // than a pinprick glint at close range.
+        float irisDisk = smoothstep(0.78, 0.56, r) * front;
+        float pupilW = mix(0.05, 0.26, uPupil);
+        float pupilH = mix(0.30, 0.40, uPupil);
         float pupil = smoothstep(pupilW, pupilW * 0.45, abs(q.x))
           * smoothstep(pupilH, pupilH * 0.62, abs(q.y));
         pupil *= irisDisk;
@@ -406,22 +437,26 @@ export function createEyeMaterial() {
         col = mix(col, vec3(0.01, 0.008, 0.006), pupil);
 
         float lidLine = mix(0.62, -0.7, uBlink);
-        float covered = smoothstep(lidLine, lidLine - 0.05, n.y);
+        // Softer lid edge: the lid shade fades in instead of cutting a line.
+        float covered = smoothstep(lidLine, lidLine - 0.09, n.y);
         vec3 lid = pow(vec3(0.45, 0.26, 0.13), vec3(2.2));
         col = mix(col, lid, covered * front);
 
         vec3 N = normalize(vViewN);
         vec3 L = normalize(uLightDir);
         vec3 V = normalize(-vViewPos);
-        float wrap = clamp(dot(N, L) * 0.55 + 0.45, 0.0, 1.0);
-        col *= 0.46 + 0.7 * wrap;
+        float wrap = clamp(dot(N, L) * 0.5 + 0.5, 0.0, 1.0);
+        col *= 0.52 + 0.62 * wrap;
         vec3 H = normalize(L + V);
-        float spec = pow(clamp(dot(N, H), 0.0, 1.0), 90.0);
-        col += spec * vec3(1.0, 0.96, 0.9) * front * (1.0 - covered) * 0.85;
+        // Broad, soft sheen instead of a tiny hard specular spark.
+        float spec = pow(clamp(dot(N, H), 0.0, 1.0), 34.0);
+        float broad = pow(1.0 - clamp(dot(N, V), 0.0, 1.0), 2.2);
+        col += spec * vec3(1.0, 0.96, 0.9) * front * (1.0 - covered) * 0.42;
+        col += broad * vec3(0.16, 0.12, 0.09) * front * (1.0 - covered);
 
         float tapetum = pupil * (1.0 - covered);
         col += tapetum * vec3(0.12, 0.42, 0.16) * 0.45;
-        col += tapetum * vec3(0.35, 0.95, 0.4) * uShine;
+        col += tapetum * vec3(0.35, 0.95, 0.4) * uShine * 0.5;
 
         gl_FragColor = vec4(col, 1.0);
         #include <tonemapping_fragment>

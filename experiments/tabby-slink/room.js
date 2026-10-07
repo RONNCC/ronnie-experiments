@@ -19,6 +19,163 @@ export const INTEREST = {
   mouse: new THREE.Vector3(0.22, 0.015, 0.32),
 };
 
+/**
+ * Camera collision, as pure functions over the room's own volume so that the
+ * rules and the geometry cannot drift apart.
+ *
+ * The camera is a sphere of `radius` that must stay inside `bounds` and clear
+ * of every blocker box. Both operations are pure: the follow rig, manual orbit
+ * and the render self-check all run against the same definitions.
+ */
+export const CAMERA_RADIUS = 0.14;
+
+export function clampToCameraBounds(position, bounds) {
+  position.x = Math.min(bounds.maxX, Math.max(bounds.minX, position.x));
+  position.y = Math.min(bounds.maxY, Math.max(bounds.minY, position.y));
+  position.z = Math.min(bounds.maxZ, Math.max(bounds.minZ, position.z));
+  return position;
+}
+
+/**
+ * Push a position out of one blocker box until it has `radius` of air, choosing
+ * among exits that actually land inside the room. Picking the nearest face
+ * blindly is how the old blanket clamp shoved a camera inside the sofa down
+ * through the floor and then re-clamped it straight back into the sofa.
+ */
+function pushOutOfBlocker(position, box, bounds, radius) {
+  const cx = Math.min(Math.max(position.x, box.minX), box.maxX);
+  const cy = Math.min(Math.max(position.y, box.minY), box.maxY);
+  const cz = Math.min(Math.max(position.z, box.minZ), box.maxZ);
+  const dx = position.x - cx;
+  const dy = position.y - cy;
+  const dz = position.z - cz;
+  const dist = Math.hypot(dx, dy, dz);
+  if (dist > radius) return false;
+  if (dist > 1e-6) {
+    const push = (radius - dist) / dist;
+    position.x += dx * push;
+    position.y += dy * push;
+    position.z += dz * push;
+    return true;
+  }
+  // Centre inside the box: rank the faces by how far the camera must travel,
+  // keep only exits that end inside the room, and prefer climbing over low
+  // furniture when that is nearly as cheap as stepping out the side.
+  const inRoom = (p) =>
+    p.x >= bounds.minX - 1e-6 && p.x <= bounds.maxX + 1e-6 &&
+    p.y >= bounds.minY - 1e-6 && p.y <= bounds.maxY + 1e-6 &&
+    p.z >= bounds.minZ - 1e-6 && p.z <= bounds.maxZ + 1e-6;
+  const probe = position.clone();
+  const candidates = [
+    ["x", position.x - box.minX, box.minX - radius],
+    ["x", box.maxX - position.x, box.maxX + radius],
+    ["y", position.y - box.minY, box.minY - radius],
+    ["y", box.maxY - position.y, box.maxY + radius],
+    ["z", position.z - box.minZ, box.minZ - radius],
+    ["z", box.maxZ - position.z, box.maxZ + radius],
+  ]
+    .filter(([axis, , value]) => {
+      probe.copy(position);
+      probe[axis] = value;
+      return inRoom(probe);
+    })
+    .sort((a, b) => a[1] - b[1]);
+  if (!candidates.length) return false;
+  const climb = candidates.find(([axis, , value]) => axis === "y" && value > box.maxY);
+  const best = climb && climb[1] <= candidates[0][1] + 0.12 ? climb : candidates[0];
+  position[best[0]] = best[2];
+  return true;
+}
+
+export function collideCameraPose(position, bounds, blockers, radius = CAMERA_RADIUS) {
+  clampToCameraBounds(position, bounds);
+  for (let pass = 0; pass < 3; pass++) {
+    let moved = false;
+    for (const box of blockers) moved = pushOutOfBlocker(position, box, bounds, radius) || moved;
+    clampToCameraBounds(position, bounds);
+    if (!moved) break;
+  }
+  // A pose wedged in a gap narrower than the camera — between the sofa and the
+  // right wall, or in the plant/lamp-table pocket — can ping-pong between two
+  // boxes forever. When that happens, climb: lift until every offending box is
+  // underneath. Everything in this room is low enough for that to resolve.
+  const clearanceTo = (box) => {
+    const dx = Math.max(box.minX - position.x, 0, position.x - box.maxX);
+    const dy = Math.max(box.minY - position.y, 0, position.y - box.maxY);
+    const dz = Math.max(box.minZ - position.z, 0, position.z - box.maxZ);
+    return Math.hypot(dx, dy, dz);
+  };
+  const offenders = blockers.filter((box) => clearanceTo(box) < radius);
+  if (offenders.length) {
+    const ceiling = Math.min(bounds.maxY, Math.max(...offenders.map((box) => box.maxY)) + radius);
+    position.y = ceiling;
+    clampToCameraBounds(position, bounds);
+  }
+  return position;
+}
+
+/**
+ * How far a ray may travel from `from` before it leaves the open volume.
+ * Called with the cat's head as origin, which sits at floor level, so the floor
+ * is deliberately not constrained here: `collideCameraPose` keeps the final
+ * pose off it. Walls, ceiling and furniture are enforced with the full radius.
+ */
+export function cameraClearance(from, direction, maxDist, bounds, blockers, radius = CAMERA_RADIUS) {
+  const marginY = 0.02;
+  let lo = 0;
+  let hi = maxDist;
+  // Walls, ceiling and furniture are enforced with the full radius. The floor
+  // is deliberately not: `from` is the cat's head, which is at floor level, and
+  // collideCameraPose keeps the final pose off the floor positionally.
+  const axes = [
+    [from.x, direction.x, bounds.minX + radius, bounds.maxX - radius],
+    [from.z, direction.z, bounds.minZ + radius, bounds.maxZ - radius],
+    [from.y, direction.y, -Infinity, bounds.maxY - marginY],
+  ];
+  for (const [o, d, min, max] of axes) {
+    if (Math.abs(d) < 1e-6) {
+      if (o < min || o > max) return 0;
+      continue;
+    }
+    const t1 = (min - o) / d;
+    const t2 = (max - o) / d;
+    lo = Math.max(lo, Math.min(t1, t2));
+    hi = Math.min(hi, Math.max(t1, t2));
+    if (lo > hi) return 0;
+  }
+  let allowed = Math.max(0, hi);
+  for (const box of blockers) {
+    const entry = rayBoxEntry(from, direction, box, radius);
+    if (entry !== null && entry > 0 && entry < allowed) allowed = Math.max(0, entry - 0.02);
+  }
+  return allowed;
+}
+
+function rayBoxEntry(origin, direction, box, pad) {
+  let tEnter = 0;
+  let tExit = Infinity;
+  const axes = [
+    [origin.x, direction.x, box.minX - pad, box.maxX + pad],
+    [origin.y, direction.y, box.minY - pad, box.maxY + pad],
+    [origin.z, direction.z, box.minZ - pad, box.maxZ + pad],
+  ];
+  for (const [o, d, min, max] of axes) {
+    if (Math.abs(d) < 1e-6) {
+      if (o < min || o > max) return null;
+      continue;
+    }
+    const t1 = (min - o) / d;
+    const t2 = (max - o) / d;
+    tEnter = Math.max(tEnter, Math.min(t1, t2));
+    tExit = Math.min(tExit, Math.max(t1, t2));
+    if (tEnter > tExit) return null;
+  }
+  if (tExit < 0) return null;
+  // An origin already inside the padded box (the cat hugging the sofa) is not
+  // an obstruction *between* the two points, so it does not shorten the ray.
+  return tEnter > 0 ? tEnter : null;
+}
+
 const WOOD_FUNCS = /* glsl */ `
 float hash13(vec3 p) {
   p = fract(p * 0.1031);
@@ -491,7 +648,10 @@ export function createRoom() {
   const bounds = {
     minX: -2.05, // side walls' inner faces sit at ±2.18
     maxX: 2.05,
-    minZ: -1.52, // back wall's inner face is at -1.70; leaves the near plane clear
+    // Back wall's inner face is at -1.70. The old -1.52 left only 18cm, which
+    // manual orbit could spend in one drag: the camera ended up against the
+    // wall with the cat behind it. 40cm keeps a parked orbit inside the room.
+    minZ: -1.30,
     maxZ: 2.4,
     minY: 0.14,
     maxY: 2.05,

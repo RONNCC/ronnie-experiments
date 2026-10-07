@@ -403,36 +403,40 @@ function buildEar(side, mats) {
 }
 
 function buildEye(side, mats, eyeMat) {
+  // The old pivot sat at z 0.0405, where the cranium's surface is already at
+  // z 0.058: the eyeball was inside the skull mesh and only showed edge-on.
   const pivot = new THREE.Group();
-  pivot.position.set(side * 0.0185, 0.008, 0.0405);
-  pivot.rotation.y = side * -0.32;
-  pivot.rotation.x = 0.08;
+  pivot.position.set(side * 0.019, 0.0085, 0.0475);
+  pivot.rotation.y = side * -0.3;
+  pivot.rotation.x = 0.06;
 
-  const ball = new THREE.Mesh(new THREE.SphereGeometry(0.011, 22, 16), eyeMat);
+  const ball = new THREE.Mesh(new THREE.SphereGeometry(0.0104, 24, 18), eyeMat);
   ball.castShadow = false;
   pivot.add(ball);
 
-  const cornea = new THREE.Mesh(new THREE.SphereGeometry(0.0117, 16, 12), mats.cornea);
+  const cornea = new THREE.Mesh(new THREE.SphereGeometry(0.0111, 18, 14), mats.cornea);
   cornea.castShadow = false;
   pivot.add(cornea);
 
-  const glint = new THREE.Mesh(new THREE.SphereGeometry(0.0023, 8, 6), mats.catchlight);
-  glint.position.set(-0.0032, 0.0042, 0.0096);
+  // A small, soft, slightly warm catchlight reads as a reflection, where a
+  // pure-white unlit disc read as a sticker.
+  const glint = new THREE.Mesh(new THREE.SphereGeometry(0.0015, 8, 6), mats.catchlight);
+  glint.position.set(-0.0026, 0.0030, 0.0092);
   glint.castShadow = false;
   pivot.add(glint);
 
   const rim = new THREE.Mesh(
-    new THREE.TorusGeometry(0.0111, 0.0015, 6, 18),
-    new THREE.MeshStandardMaterial({ color: 0x1a120e, roughness: 0.7 })
+    new THREE.TorusGeometry(0.0106, 0.0006, 6, 20),
+    new THREE.MeshStandardMaterial({ color: 0x3d2a1c, roughness: 0.75 })
   );
   rim.position.z = 0.003;
   rim.castShadow = false;
   pivot.add(rim);
 
-  const lid = new THREE.Mesh(new THREE.SphereGeometry(0.0123, 14, 10), mats.fur);
+  const lid = new THREE.Mesh(new THREE.SphereGeometry(0.0134, 16, 12), mats.fur);
   coat(lid, 1);
-  lid.scale.set(1.05, 0.62, 0.48);
-  lid.position.set(0, 0.0076, 0.005);
+  lid.scale.set(1.06, 0.5, 0.52);
+  lid.position.set(0, 0.0128, 0.003);
   pivot.add(lid);
 
   return { pivot, lid };
@@ -495,8 +499,10 @@ function addWhisker(parent, origin, dir, length, droop, mats) {
         .addScaledVector(bin, Math.sin(t * Math.PI) * 0.0015)
     );
   }
+  // Thin, slightly tapered whiskers. The old 1.05mm tube with a bright
+  // material read as white plastic spikes at close range.
   const mesh = new THREE.Mesh(
-    new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 5, 0.00105, 4, false),
+    new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 5, 0.00062, 3, false),
     mats.whisker
   );
   mesh.castShadow = false;
@@ -533,10 +539,10 @@ function buildHead(mats, eyeMat) {
   muzzle.position.set(0, -0.011, 0.046);
   head.add(muzzle);
 
-  const brow = new THREE.Mesh(new THREE.SphereGeometry(0.025, 12, 8), mats.fur);
+  const brow = new THREE.Mesh(new THREE.SphereGeometry(0.025, 14, 10), mats.fur);
   coat(brow, 1);
-  brow.scale.set(1.35, 0.32, 0.62);
-  brow.position.set(0, 0.019, 0.038);
+  brow.scale.set(1.35, 0.26, 0.62);
+  brow.position.set(0, 0.0205, 0.038);
   head.add(brow);
 
   const chin = new THREE.Mesh(new THREE.SphereGeometry(0.0135, 12, 10), mats.fur);
@@ -557,7 +563,7 @@ function buildHead(mats, eyeMat) {
     head.add(nostril);
   }
   const philtrum = new THREE.Mesh(
-    new THREE.CapsuleGeometry(0.0007, 0.008, 2, 4),
+    new THREE.CapsuleGeometry(0.00045, 0.007, 2, 4),
     nostrilMat
   );
   philtrum.position.set(0, -0.0205, 0.0605);
@@ -573,10 +579,9 @@ function buildHead(mats, eyeMat) {
 
   const spotMat = new THREE.MeshStandardMaterial({ color: 0x1c130f, roughness: 0.75 });
   const whiskerRows = [
-    { y: 0.004, z: 0.012, yaw: 0.18, pitch: 0.02, len: 0.072, droop: 0.004 },
-    { y: 0.0, z: 0.016, yaw: 0.02, pitch: 0.1, len: 0.086, droop: 0.008 },
-    { y: -0.005, z: 0.014, yaw: -0.16, pitch: 0.24, len: 0.074, droop: 0.012 },
-    { y: -0.009, z: 0.01, yaw: -0.32, pitch: 0.38, len: 0.058, droop: 0.014 },
+    { y: 0.004, z: 0.012, yaw: 0.18, pitch: 0.02, len: 0.062, droop: 0.004 },
+    { y: 0.0, z: 0.016, yaw: 0.02, pitch: 0.1, len: 0.073, droop: 0.008 },
+    { y: -0.005, z: 0.014, yaw: -0.16, pitch: 0.24, len: 0.062, droop: 0.012 },
   ];
   for (const s of [-1, 1]) {
     for (const w of whiskerRows) {
@@ -584,15 +589,16 @@ function buildHead(mats, eyeMat) {
       const dir = new THREE.Vector3(s, Math.sin(w.pitch) * 0.35, 0.15).normalize();
       dir.applyAxisAngle(UP, s * w.yaw);
       addWhisker(head, origin, dir, w.len, w.droop, mats);
-      const spot = new THREE.Mesh(new THREE.SphereGeometry(0.0016, 5, 4), spotMat);
+      // Subtle follicle mark, not a bead: the old 1.6mm near-black sphere was
+      // the most prominent thing on the muzzle in close-ups.
+      const spot = new THREE.Mesh(new THREE.SphereGeometry(0.0007, 5, 4), spotMat);
       spot.position.copy(origin);
       head.add(spot);
     }
-    for (const k of [0, 1]) {
-      const origin = new THREE.Vector3(s * (0.018 + k * 0.006), 0.02, 0.04);
-      const dir = new THREE.Vector3(s * 0.35, 0.78, 0.28).normalize();
-      addWhisker(head, origin, dir, 0.028 - k * 0.004, 0.002, mats);
-    }
+    // One brow whisker per side, not a pair of antennae.
+    const browOrigin = new THREE.Vector3(s * 0.02, 0.02, 0.04);
+    const browDir = new THREE.Vector3(s * 0.35, 0.78, 0.28).normalize();
+    addWhisker(head, browOrigin, browDir, 0.024, 0.002, mats);
   }
 
   const ears = [buildEar(-1, mats), buildEar(1, mats)];
@@ -657,13 +663,15 @@ function buildLeg(spec, mats) {
 
   // Shoulder blade / haunch: body-fur mass that stays with the torso so the
   // upper limb does not read as a stick floating next to the ribcage.
-  const mass = new THREE.Mesh(new THREE.SphereGeometry(1, 14, 11), mats.fur);
+  // Fine tessellation: the haunch is the closest thing to camera during a
+  // stalk, and the old 14x11 sphere showed its facets in close-ups.
+  const mass = new THREE.Mesh(new THREE.SphereGeometry(1, 26, 18), mats.fur);
   coat(mass, 0);
   if (spec.isHind) {
-    mass.scale.set(0.030, 0.046, 0.046);
-    mass.position.set(spec.side * 0.004, -0.004, -0.012);
+    mass.scale.set(0.0335, 0.048, 0.05);
+    mass.position.set(spec.side * 0.004, -0.004, -0.01);
   } else {
-    mass.scale.set(0.024, 0.038, 0.032);
+    mass.scale.set(0.026, 0.04, 0.034);
     mass.position.set(spec.side * 0.003, -0.004, 0.002);
   }
   pivot.add(mass);
@@ -1352,7 +1360,7 @@ export function createTabby() {
       ? "Tail tip twitching · pupils wide"
       : `${support} paws down · ${locationName(root.position)}`;
 
-    const shine = attentive || state.frozen ? 0.55 : 0.22;
+    const shine = attentive || state.frozen ? 0.38 : 0.14;
     eyeMat.uniforms.uShine.value = damp(eyeMat.uniforms.uShine.value, shine, 2, liveDt || 0.016);
 
     return {

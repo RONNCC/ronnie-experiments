@@ -13,6 +13,9 @@
   <div class="vignette" aria-hidden="true"></div>
   <div id="veil" class="veil">Waking the tabby…</div>
   <p id="error" class="error" hidden></p>
+  <!-- Non-fatal camera advice (e.g. a parked orbit that left the room). Never
+       used for render failures, which go to #error above. -->
+  <p id="hint" class="camera-hint" hidden role="status" aria-live="polite"></p>
 
   <aside class="panel" id="panel" aria-label="Tabby slink controls">
     <div class="panel-top">
