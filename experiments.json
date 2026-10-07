@@ -1,11 +1,31 @@
 [
   {
+    "id": "nobel-prize-explainer",
+    "title": "Nobel Prize Explainer",
+    "description": "A friendly interactive gallery of the 2023\u20132025 Nobel Prizes, with approachable exhibits for understanding each breakthrough.",
+    "path": "experiments/nobel-prize-explainer/",
+    "category": "Education",
+    "tags": [
+      "Nobel Prize",
+      "Science",
+      "History",
+      "Interactive"
+    ],
+    "date": "2026-10-07"
+  },
+  {
     "id": "tabby-slink",
     "title": "Tabby Slink",
     "description": "A brown mackerel tabby on a low nocturnal stalk: planted paws, a hovering step, tail-tip freezes, and a coat of broken stripes in moonlight.",
     "path": "experiments/tabby-slink/",
     "category": "Visualizations",
-    "tags": ["WebGL", "Three.js", "Animation", "Cat", "Interactive"],
+    "tags": [
+      "WebGL",
+      "Three.js",
+      "Animation",
+      "Cat",
+      "Interactive"
+    ],
     "date": "2026-10-07"
   },
   {
@@ -14,7 +34,12 @@
     "description": "Real-time canvas flow field with simplex noise, velocity vectors, cursor gravitational attraction, and customizable palettes.",
     "path": "experiments/particle-field/",
     "category": "Visualizations",
-    "tags": ["Canvas", "Physics", "Generative", "Interactive"],
+    "tags": [
+      "Canvas",
+      "Physics",
+      "Generative",
+      "Interactive"
+    ],
     "date": "2026-10-02"
   },
   {
@@ -23,7 +48,12 @@
     "description": "Step-by-step visualizer comparing Tim Sort, Quicksort, Mergesort, Heapsort, Shell Sort, Radix Sort (LSD), Bubble, and Selection sort with real-time metrics.",
     "path": "experiments/sorting-visualizer/",
     "category": "Algorithms",
-    "tags": ["Algorithms", "Data Structures", "Benchmarking", "Education"],
+    "tags": [
+      "Algorithms",
+      "Data Structures",
+      "Benchmarking",
+      "Education"
+    ],
     "date": "2026-10-02"
   },
   {
@@ -32,7 +62,12 @@
     "description": "Conway's Game of Life, Brian's Brain, and HighLife simulators with interactive brush drawing, preset oscillators, and spaceship launchers.",
     "path": "experiments/cellular-automata/",
     "category": "Simulations",
-    "tags": ["Simulation", "Math", "Emergence", "Grid"],
+    "tags": [
+      "Simulation",
+      "Math",
+      "Emergence",
+      "Grid"
+    ],
     "date": "2026-10-02"
   },
   {
@@ -41,7 +76,12 @@
     "description": "Explore how heel raises, ankle motion, walking, and rest drive the calf-muscle pump and its one-way vein valves, with an educational DVT concept view.",
     "path": "experiments/lower-leg-circulation/",
     "category": "Simulations",
-    "tags": ["Anatomy", "Circulation", "Health Education", "Interactive"],
+    "tags": [
+      "Anatomy",
+      "Circulation",
+      "Health Education",
+      "Interactive"
+    ],
     "date": "2026-10-05"
   }
 ]
