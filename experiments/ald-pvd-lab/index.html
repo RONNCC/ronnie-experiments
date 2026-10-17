@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0d1117">
+  <meta name="description" content="An interactive lab for building intuition about Atomic Layer Deposition (ALD) and Physical Vapor Deposition (PVD): self-limiting surface reactions, conformal coatings in trenches, and real growth curves.">
+  <title>Thin Film Lab: ALD vs PVD — Ronnie's Experiments</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="back-link" href="../../" aria-label="Back to experiments hub">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/><path d="M9 12h11"/></svg>
+        <span>Experiments</span>
+      </a>
+      <a class="brand" href="../../" aria-label="Ronnie's Experiments home">
+        <span class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><path d="M15.9 4.5c-1.5 4.3-5.2 6.4-4.7 11.1.2 2.1 1.4 3.8 3.3 4.6-1.5-2.2-.8-4.9 1.5-6.6-.3 3.7 4.3 4.8 4.1 8.1-.1 1.7-1.2 3.2-2.8 4.1 5.3-.7 8.2-5.5 6.8-10.2-.9-3-3.4-4.2-4.2-7.7-.7 2.1-1.7 3.2-2.7 3.8.3-2.6-.2-5.2-1.3-7.2Z"/><path d="M10 24.7h11.5"/></svg>
+        </span>
+        <span>RONNIE'S <b>EXPERIMENTS</b></span>
+      </a>
+      <div class="topbar-actions">
+        <span class="topbar-tag"><span class="status-dot"></span>Interactive learning lab</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-heading">
+      <div>
+        <p class="eyebrow"><span class="eyebrow-line"></span> MATERIALS SCIENCE / THIN FILMS</p>
+        <h1>Thin film deposition: <span>ALD vs PVD</span></h1>
+        <p class="page-intro">
+          Two ways to put an ultra-thin film on a surface — one grows by <strong>self-limiting chemistry</strong>,
+          the other by <strong>ballistic flight in vacuum</strong>. This lab turns the three ideas that are
+          hardest to learn from text into things you can push, break, and predict.
+        </p>
+      </div>
+    </section>
+
+    <section class="how-strip" aria-label="How to use this lab">
+      <div class="how-item"><span class="how-num">1</span><p><strong>Predict first.</strong> Each lab opens with a question — commit to an answer before you touch anything.</p></div>
+      <div class="how-item"><span class="how-num">2</span><p><strong>Push the sliders.</strong> Every control feeds a live simulation. Watch what changes and read the "why" line.</p></div>
+      <div class="how-item"><span class="how-num">3</span><p><strong>Connect to language.</strong> Terminology and equations sit next to the visuals, with <span class="approx-badge">simplified</span> flags on every cartoon.</p></div>
+    </section>
+
+    <nav class="lab-nav" aria-label="Lab sections">
+      <a href="#lab1"><span>Lab 1</span> Self-limiting reactions</a>
+      <a href="#lab2"><span>Lab 2</span> Trenches &amp; shadowing</a>
+      <a href="#lab3"><span>Lab 3</span> Real growth curves</a>
+      <a href="#wrapup"><span>Wrap-up</span> Which tool, when</a>
+    </nav>
+
+    <!-- ======================= CONTEXT ======================= -->
+    <section class="card context-card" aria-labelledby="context-title">
+      <h2 id="context-title" class="visually-hidden">The setup</h2>
+      <div class="context-grid">
+        <div>
+          <p class="section-kicker">THE PROBLEM</p>
+          <p class="context-copy">
+            Chip makers, optics labs, and medical-device fabs all face the same task: deposit a film that is
+            <em>nanometers</em> thick, and make it the <em>same</em> thickness everywhere — including down inside
+            deep, narrow holes. Two tool families do this:
+          </p>
+          <div class="method-chips">
+            <div class="method-chip chip-ald">
+              <p class="chip-abbr">ALD</p>
+              <p class="chip-name">Atomic Layer Deposition</p>
+              <p class="chip-desc">Alternate two gases. Each gas reacts with the surface <em>until the surface is full</em>, then stops. Repeat.</p>
+            </div>
+            <div class="method-chip chip-pvd">
+              <p class="chip-abbr">PVD</p>
+              <p class="chip-name">Physical Vapor Deposition</p>
+              <p class="chip-desc">Knock atoms off a solid target (sputtering) or boil them off (evaporation). They fly in straight lines and stick where they land.</p>
+            </div>
+          </div>
+        </div>
+        <div class="context-aside">
+          <p class="section-kicker">THE THREE HARD IDEAS</p>
+          <ol class="hard-ideas">
+            <li><strong>Self-limitation.</strong> Why "more gas" stops meaning "more film" in ALD.</li>
+            <li><strong>Line-of-sight vs. everywhere.</strong> Why PVD starves trench bottoms and ALD doesn't.</li>
+            <li><strong>Growth curves that bend.</strong> Why real thickness vs. cycles isn't a perfect line.</li>
+          </ol>
+          <p class="aside-note">Each lab below attacks exactly one of these.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= LAB 1 ======================= -->
+    <section class="lab" id="lab1" aria-labelledby="lab1-title">
+      <header class="lab-header">
+        <p class="section-kicker">LAB 01 <span>/</span> SELF-LIMITING REACTIONS</p>
+        <h2 id="lab1-title">One cycle at a time</h2>
+        <p class="lab-intro">
+          ALD grows film one <em>cycle</em> at a time. A cycle has four steps: <strong>pulse precursor&nbsp;A</strong>
+          (it sticks only where there are open surface sites), <strong>purge</strong> (sweep out leftovers),
+          <strong>pulse precursor&nbsp;B</strong> (it reacts only with what A left behind), <strong>purge</strong>.
+          The punchline to feel: once the surface is saturated, <em>more precursor cannot push more growth</em>.
+        </p>
+      </header>
+
+      <div class="predict-card" id="q1" data-correct="c">
+        <p class="predict-kicker">Predict first</p>
+        <p class="predict-q">You run a cycle with the normal A-dose and the surface saturates: film grows 0.10&nbsp;nm this cycle. Next cycle you <strong>triple</strong> the A-dose (and keep everything else). The film grows…</p>
+        <div class="predict-options">
+          <button type="button" data-choice="a">~0.30 nm — more precursor, more growth</button>
+          <button type="button" data-choice="b">~0.15 nm — a bit more, since some sites were missed</button>
+          <button type="button" data-choice="c">~0.10 nm — the same, because the reaction is self-limiting</button>
+          <button type="button" data-choice="d">0 nm — the extra precursor poisons the surface</button>
+        </div>
+        <div class="predict-reveal" hidden>
+          <p class="verdict"></p>
+          <p>
+            The answer is <strong>~0.10 nm</strong>. A's sticking is <strong>self-limiting</strong>: A binds only to
+            open sites, and an A-covered site rejects more A. Saturated is saturated — extra dose just leaves in the
+            purge. This is why ALD thickness is set by a <em>count</em> (cycles), not a knob (time):
+            <span class="eq-inline">d = N<sub>cycles</sub> × GPC</span>.
+            Run the simulation below with dose at 100% and again at 200% and watch the growth-per-cycle meter refuse to move.
+          </p>
+          <button type="button" class="jump-btn" data-jump="lab1-controls">Take me to the controls ↓</button>
+        </div>
+      </div>
+
+      <div class="lab-grid">
+        <div class="viz-panel">
+          <div class="viz-toolbar">
+            <div class="phase-track" id="l1-phase-track" aria-label="Current ALD cycle phase">
+              <span class="phase-chip" data-phase="pulseA">Pulse A</span>
+              <span class="phase-arrow" aria-hidden="true">→</span>
+              <span class="phase-chip" data-phase="purgeA">Purge</span>
+              <span class="phase-arrow" aria-hidden="true">→</span>
+              <span class="phase-chip" data-phase="pulseB">Pulse B</span>
+              <span class="phase-arrow" aria-hidden="true">→</span>
+              <span class="phase-chip" data-phase="purgeB">Purge</span>
+            </div>
+            <div class="transport-controls">
+              <button type="button" class="btn btn-primary" id="l1-play" aria-pressed="false"><span class="btn-ico" aria-hidden="true">▶</span><span id="l1-play-label">Run</span></button>
+              <button type="button" class="btn" id="l1-step">Step 1 cycle</button>
+              <button type="button" class="btn" id="l1-reset">Reset</button>
+            </div>
+          </div>
+          <canvas id="lab1-canvas" width="880" height="380" role="img" aria-label="Animated cross-section of an ALD surface being coated one cycle at a time"></canvas>
+          <div class="viz-legend" aria-hidden="true">
+            <span><i class="dot dot-a"></i> Precursor A (e.g. TMA)</span>
+            <span><i class="dot dot-b"></i> Precursor B (e.g. H<sub>2</sub>O)</span>
+            <span><i class="dot dot-film"></i> Film (e.g. Al<sub>2</sub>O<sub>3</sub>)</span>
+            <span><i class="dot dot-site"></i> Open surface site (e.g. –OH)</span>
+          </div>
+          <p class="viz-caption" id="l1-caption">Press <strong>Run</strong> — watch A coat the surface, the purge clear leftovers, then B convert the surface and add a layer slice.</p>
+        </div>
+
+        <div class="controls-panel" id="lab1-controls">
+          <div class="control">
+            <label for="l1-dose">Precursor A dose <span class="control-tag">exposure</span></label>
+            <input type="range" id="l1-dose" min="5" max="250" step="5" value="100">
+            <div class="control-scale"><span>starved</span><span>nominal</span><span>excess</span></div>
+            <output class="control-out" id="l1-dose-val" for="l1-dose">100%</output>
+            <p class="control-why" id="l1-dose-why">Dose at 100% of the nominal saturation exposure — essentially every open site gets an A.</p>
+          </div>
+
+          <div class="control">
+            <label for="l1-temp">Temperature <span class="control-tag">qualitative</span></label>
+            <input type="range" id="l1-temp" min="25" max="450" step="5" value="225">
+            <div class="control-scale"><span>25 °C</span><span class="scale-window">ALD window</span><span>450 °C</span></div>
+            <output class="control-out" id="l1-temp-val" for="l1-temp">225 °C</output>
+            <p class="control-why" id="l1-temp-why">Inside the ALD window: both half-reactions go to completion each cycle.</p>
+          </div>
+
+          <div class="readout-grid" aria-live="polite">
+            <div class="readout"><p class="readout-label">Surface covered (A)</p><p class="readout-val" id="l1-coverage">—</p></div>
+            <div class="readout"><p class="readout-label">Growth / cycle (GPC)</p><p class="readout-val" id="l1-gpc">—</p></div>
+            <div class="readout"><p class="readout-label">Film thickness</p><p class="readout-val" id="l1-thickness">0.00 nm</p></div>
+            <div class="readout"><p class="readout-label">Cycles completed</p><p class="readout-val" id="l1-cycles">0</p></div>
+            <div class="readout"><p class="readout-label">Roughness (±)</p><p class="readout-val" id="l1-roughness">0.00 nm</p></div>
+            <div class="readout"><p class="readout-label">Precursor wasted</p><p class="readout-val" id="l1-wasted">0</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lab-lower">
+        <div class="chart-panel">
+          <div class="chart-head">
+            <h3>GPC vs. dose — the saturation curve</h3>
+            <p>The signature of self-limiting growth: the curve <em>plateaus</em>. Gray dots = your completed cycles.</p>
+          </div>
+          <canvas id="lab1-chart" width="520" height="300" role="img" aria-label="Chart of growth per cycle versus precursor dose, showing a plateau"></canvas>
+        </div>
+        <div class="notes-panel">
+          <div class="eq-card">
+            <p class="eq-label">Digital thickness control</p>
+            <p class="eq">d = N<sub>cycles</sub> × <span class="eq-var">GPC</span></p>
+            <p class="eq-note">Growth-per-cycle (GPC, often 0.05–0.2&nbsp;nm/cycle) is set by chemistry and temperature — not by how long you leave the gas on.</p>
+          </div>
+          <div class="eq-card">
+            <p class="eq-label">Surface coverage model <span class="approx-badge">simplified</span></p>
+            <p class="eq">θ = 1 − e<sup>−D/D₀</sup></p>
+            <p class="eq-note">A Langmuir-type fit for "how full is the surface after exposure D". Real ALD saturation curves look like this plateau, though actual chemistry adds steric crowding, so a "full" surface is usually <em>sub</em>-monolayer.</p>
+          </div>
+          <div class="term-card">
+            <p class="term-label">Words you just used</p>
+            <dl class="term-list">
+              <div><dt>Half-reaction</dt><dd>One self-limiting surface reaction (A-pulse or B-pulse). ALD = two half-reactions back to back.</dd></div>
+              <div><dt>Purge</dt><dd>Inert gas sweep between pulses so the precursors never meet in the gas phase. No purge = CVD-like parasitic gas reaction = particles and dust.</dd></div>
+              <div><dt>Saturation</dt><dd>The dose beyond which more precursor adds nothing. The plateau on the left chart.</dd></div>
+            </dl>
+          </div>
+        </div>
+      </div>
+
+      <div class="takeaway">
+        <p class="takeaway-label">Lab 1 takeaway</p>
+        <p>ALD is <strong>digital</strong>: count cycles to set thickness. The dose slider only decides <em>how close to full</em> the surface gets — above the saturation point, extra precursor is money burned in the pump. Temperature sets how completely each half-reaction finishes (Lab 3 will zoom in on this).</p>
+      </div>
+    </section>
+
+    <!-- ======================= LAB 2 ======================= -->
+    <section class="lab" id="lab2" aria-labelledby="lab2-title">
+      <header class="lab-header">
+        <p class="section-kicker">LAB 02 <span>/</span> LINE-OF-SIGHT VS. EVERYWHERE</p>
+        <h2 id="lab2-title">The trench test</h2>
+        <p class="lab-intro">
+          Real devices coat deep holes (vias, trenches, 3D transistors). PVD atoms travel in
+          <em>straight lines</em> in vacuum — they land where they can "see", and shadow everything else.
+          ALD precursors are gases: they fill the whole chamber, reach every surface, and react until full —
+          <em>everywhere at once</em>. Drag the aspect ratio and watch the bottom of the trench starve — or not.
+        </p>
+      </header>
+
+      <div class="predict-card" id="q2" data-correct="b">
+        <p class="predict-kicker">Predict first</p>
+        <p class="predict-q">You're PVD-sputtering a trench whose depth is 10× its width. The film on the trench <em>bottom</em> currently reaches 40% of the film on the field (the flat top). You then make the trench <strong>twice as deep</strong> at the same width. Step coverage (bottom ÷ field) becomes…</p>
+        <div class="predict-options">
+          <button type="button" data-choice="a">About 40% again — flux per area is flux per area</button>
+          <button type="button" data-choice="b">Much lower — the bottom is now far more shadowed</button>
+          <button type="button" data-choice="c">Higher — a deeper trench funnels more atoms to the bottom</button>
+          <button type="button" data-choice="d">0% — PVD cannot coat trenches at all</button>
+        </div>
+        <div class="predict-reveal" hidden>
+          <p class="verdict"></p>
+          <p>
+            <strong>Much lower.</strong> The bottom only sees the narrow cone of near-vertical trajectories that
+            fit through the mouth. Halve the angular window and the flux drops steeply — step coverage collapses
+            toward zero as aspect ratio (depth ÷ width) grows. Meanwhile ALD's step coverage stays near 100%
+            because the gas <em>is</em> the flux: every surface site gets saturated per cycle whether it's on the
+            field or the trench floor. In the sim, set ALD and PVD to the same "thickness budget" and compare the two panes.
+          </p>
+          <button type="button" class="jump-btn" data-jump="lab2-controls">Take me to the controls ↓</button>
+        </div>
+      </div>
+
+      <div class="lab-grid lab-grid-wide">
+        <div class="viz-panel">
+          <div class="viz-toolbar">
+            <p class="pane-title-strip"><span class="pane-tag tag-ald">ALD</span> left pane &nbsp;·&nbsp; <span class="pane-tag tag-pvd">PVD</span> right pane — same trench, same "budget"</p>
+            <div class="transport-controls">
+              <button type="button" class="btn btn-primary" id="l2-play" aria-pressed="false"><span class="btn-ico" aria-hidden="true">▶</span><span id="l2-play-label">Grow</span></button>
+              <button type="button" class="btn" id="l2-reset">Reset</button>
+            </div>
+          </div>
+          <canvas id="lab2-canvas" width="880" height="420" role="img" aria-label="Side-by-side cross-sections of trenches coated by ALD and PVD"></canvas>
+          <p class="viz-caption" id="l2-caption">Increase cycles and compare where each film thickens. PVD bread-loafs at the top corners; ALD keeps both sidewalls and the bottom even.</p>
+        </div>
+
+        <div class="controls-panel" id="lab2-controls">
+          <div class="control">
+            <label for="l2-ar">Aspect ratio <span class="control-tag">depth ÷ width</span></label>
+            <input type="range" id="l2-ar" min="1" max="15" step="0.5" value="6">
+            <div class="control-scale"><span>1</span><span>8</span><span>15</span></div>
+            <output class="control-out" id="l2-ar-val" for="l2-ar">6.0</output>
+            <p class="control-why" id="l2-ar-why">A moderately deep trench: PVD's bottom already lags the field.</p>
+          </div>
+
+          <div class="control">
+            <label for="l2-spread">PVD beam spread <span class="control-tag">source</span></label>
+            <input type="range" id="l2-spread" min="4" max="55" step="1" value="18">
+            <div class="control-scale"><span>collimated evaporation</span><span>sputtering</span></div>
+            <output class="control-out" id="l2-spread-val" for="l2-spread">±18°</output>
+            <p class="control-why" id="l2-spread-why">A moderately directional source. Widen the spread and the sidewalls thicken slightly, but shadowing still starves the bottom.</p>
+          </div>
+
+          <div class="control">
+            <label for="l2-cycles">Process time <span class="control-tag">cycles (ALD) / particles (PVD)</span></label>
+            <input type="range" id="l2-cycles" min="0" max="120" step="1" value="40">
+            <div class="control-scale"><span>0</span><span>60</span><span>120</span></div>
+            <output class="control-out" id="l2-cycles-val" for="l2-cycles">40</output>
+            <p class="control-why" id="l2-cycles-why">Both panes spend the same "budget". Watch where it goes.</p>
+          </div>
+
+          <div class="readout-grid readout-grid-2" aria-live="polite">
+            <div class="readout readout-ald"><p class="readout-label">ALD step coverage</p><p class="readout-val" id="l2-ald-sc">100%</p></div>
+            <div class="readout readout-pvd"><p class="readout-label">PVD step coverage</p><p class="readout-val" id="l2-pvd-sc">—</p></div>
+            <div class="readout readout-ald"><p class="readout-label">ALD bottom / field</p><p class="readout-val" id="l2-ald-bottom">—</p></div>
+            <div class="readout readout-pvd"><p class="readout-label">PVD bottom / field</p><p class="readout-val" id="l2-pvd-bottom">—</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lab-lower">
+        <div class="notes-panel notes-wide">
+          <div class="eq-card">
+            <p class="eq-label">Step coverage <span class="eq-tag">the industry metric</span></p>
+            <p class="eq">SC = t<sub>bottom</sub> / t<sub>field</sub> × 100%</p>
+            <p class="eq-note">Sometimes quoted at the sidewall midpoint instead of the bottom. 100% = perfectly conformal. PVD in high-aspect features can sit at a few percent; ALD is prized precisely because SC ≈ 100%.</p>
+          </div>
+          <div class="eq-card">
+            <p class="eq-label">PVD arrival rate <span class="approx-badge">simplified</span></p>
+            <p class="eq">R ∝ J · s · cos<sup>k</sup>θ · <span class="eq-var">visible?</span></p>
+            <p class="eq-note">Flux J from the source, sticking coefficient s, an angular weighting, and — the killer — whether the point can <em>see</em> the source at all. Our sim ray-casts straight lines against the trench wall to compute exactly this visibility.</p>
+          </div>
+          <div class="eq-card">
+            <p class="eq-label">Why ALD doesn't care</p>
+            <p class="eq">θ(local) → 1 <em>everywhere</em></p>
+            <p class="eq-note">Pressure is high enough that gas molecules collide far more often with walls than with each other (Knudsen transport), so precursor floods the feature. Each surface site self-limits at its own saturation dose. <span class="approx-badge">simplified</span> We show instant gas access; at extreme aspect ratios (≳50:1) and low pressure, even ALD can lag inside features.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="takeaway">
+        <p class="takeaway-label">Lab 2 takeaway</p>
+        <p><strong>PVD is ballistic</strong>: beautiful on flat wafers, optics, and large features; it starves anything it can't "see". <strong>ALD is conformal</strong> by construction — the reason it conquered high-κ gates, 3D NAND word lines, and GAA nanosheets. The cost: ALD is usually 10–100× slower (cycles with purges), which is why both families live side by side in a fab.</p>
+      </div>
+    </section>
+
+    <!-- ======================= LAB 3 ======================= -->
+    <section class="lab" id="lab3" aria-labelledby="lab3-title">
+      <header class="lab-header">
+        <p class="section-kicker">LAB 03 <span>/</span> REAL GROWTH CURVES BEND</p>
+        <h2 id="lab3-title">Nucleation delay &amp; the temperature window</h2>
+        <p class="lab-intro">
+          "Thickness = cycles × GPC" is the mental model. Two real effects bend that line: on a surface that
+          <em>doesn't</em> offer the right chemistry, the first cycles form isolated islands (nothing measurable yet),
+          and temperature must sit inside a <em>window</em> — too cold and the half-reactions stall, too hot and the
+          precursor desorbs or decomposes (sneaking back toward CVD). Scrub the sliders and watch the curves deform.
+        </p>
+      </header>
+
+      <div class="predict-card" id="q3" data-correct="a">
+        <p class="predict-kicker">Predict first</p>
+        <p class="predict-q">A recipe gives exactly 1.0&nbsp;nm after 10 cycles on a fresh SiO<sub>2</sub> wafer (GPC = 0.10&nbsp;nm). On a bare platinum surface — same chamber, same recipe — you measure only 0.4&nbsp;nm after the same 10 cycles. The most likely explanation:</p>
+        <div class="predict-options">
+          <button type="button" data-choice="a">Nucleation delay: Pt lacks the surface sites the precursor needs, so early cycles form islands instead of a closed film</button>
+          <button type="button" data-choice="b">Platinum reflects precursor molecules, so they never land</button>
+          <button type="button" data-choice="c">The purges were too long and removed some film</button>
+          <button type="button" data-choice="d">Pt contaminates the precursor in the gas line</button>
+        </div>
+        <div class="predict-reveal" hidden>
+          <p class="verdict"></p>
+          <p>
+            <strong>Nucleation delay.</strong> Many ALD chemistries "want" surface –OH groups. SiO<sub>2</sub> has
+            them; freshly cleaned Pt mostly doesn't. The first cycles find only scattered islands, so <em>average</em>
+            thickness lags the ideal line until the islands coalesce — the curve shows an <strong>incubation period</strong>.
+            Watch it happen in the left chart below by switching the surface to inert. (This effect is also a
+            <em>feature</em>: it underlies area-selective ALD.) Purges remove gas-phase precursor, not film — and
+            reflection is a PVD intuition, not an ALD one.
+          </p>
+          <button type="button" class="jump-btn" data-jump="lab3-controls">Take me to the controls ↓</button>
+        </div>
+      </div>
+
+      <div class="lab-grid lab-grid-wide">
+        <div class="viz-panel viz-panel-charts">
+          <div class="chart-duo">
+            <div class="chart-panel chart-half">
+              <div class="chart-head">
+                <h3>Thickness vs. cycles / time</h3>
+                <p>ALD (with incubation) and PVD on the same axes. The dashed line is the "ideal ALD" straight line.</p>
+              </div>
+              <canvas id="lab3-chart-main" width="520" height="320" role="img" aria-label="Chart comparing ALD and PVD thickness versus cycles or time"></canvas>
+            </div>
+            <div class="chart-panel chart-half">
+              <div class="chart-head">
+                <h3>GPC vs. temperature — the ALD window</h3>
+                <p>The plateau is where both half-reactions complete without the precursor dying. Marker = your temperature.</p>
+              </div>
+              <canvas id="lab3-chart-temp" width="520" height="320" role="img" aria-label="Chart of growth per cycle versus temperature showing the ALD window plateau"></canvas>
+            </div>
+          </div>
+          <p class="viz-caption" id="l3-caption">Choose a surface and scrub temperature. The main chart's ALD curve and the window chart update together.</p>
+        </div>
+
+        <div class="controls-panel" id="lab3-controls">
+          <div class="control">
+            <span class="control-label" id="l3-surface-label">Substrate surface</span>
+            <div class="segmented" role="group" aria-labelledby="l3-surface-label">
+              <button type="button" class="seg-btn is-active" data-surface="oxide" aria-pressed="true">SiO<sub>2</sub> · reactive (–OH)</button>
+              <button type="button" class="seg-btn" data-surface="inert" aria-pressed="false">Pt · inert</button>
+            </div>
+            <p class="control-why" id="l3-surface-why">A hydroxylated oxide: the precursor finds anchor sites on cycle 1, so growth starts almost immediately.</p>
+          </div>
+
+          <div class="control">
+            <label for="l3-temp">Temperature <span class="control-tag">qualitative</span></label>
+            <input type="range" id="l3-temp" min="25" max="450" step="5" value="225">
+            <div class="control-scale"><span>25 °C</span><span class="scale-window">ALD window</span><span>450 °C</span></div>
+            <output class="control-out" id="l3-temp-val" for="l3-temp">225 °C</output>
+            <p class="control-why" id="l3-temp-why">Inside the window: GPC is flat and set by site density — the practical "sweet spot".</p>
+          </div>
+
+          <div class="control">
+            <label for="l3-cycles">Cycles (ALD) / time (PVD) <span class="control-tag">scrub</span></label>
+            <input type="range" id="l3-cycles" min="0" max="200" step="1" value="100">
+            <div class="control-scale"><span>0</span><span>100</span><span>200</span></div>
+            <output class="control-out" id="l3-cycles-val" for="l3-cycles">100 cycles</output>
+            <p class="control-why" id="l3-cycles-why">Scrub to compare thicknesses at equal "budgets".</p>
+          </div>
+
+          <div class="readout-grid readout-grid-2" aria-live="polite">
+            <div class="readout"><p class="readout-label">GPC now</p><p class="readout-val" id="l3-gpc">0.10 nm</p></div>
+            <div class="readout"><p class="readout-label">Incubation</p><p class="readout-val" id="l3-delay">~0 cycles</p></div>
+            <div class="readout readout-ald"><p class="readout-label">ALD thickness</p><p class="readout-val" id="l3-thickness-ald">10.0 nm</p></div>
+            <div class="readout readout-pvd"><p class="readout-label">PVD thickness</p><p class="readout-val" id="l3-thickness-pvd">8.0 nm</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lab-lower">
+        <div class="notes-panel notes-wide">
+          <div class="eq-card">
+            <p class="eq-label">ALD with incubation <span class="approx-badge">simplified</span></p>
+            <p class="eq">d = GPC × max(0, N − N<sub>delay</sub>)</p>
+            <p class="eq-note">N<sub>delay</sub> ≈ 0 on reactive surfaces; roughly 5–20 cycles on inert ones. Real curves round off smoothly (island growth → coalescence) rather than kinking sharply.</p>
+          </div>
+          <div class="eq-card">
+            <p class="eq-label">PVD stays simple</p>
+            <p class="eq">d = R × t</p>
+            <p class="eq-note">Rate R (nm/min) is set by source power/temperature and geometry. Linear from t = 0 in this model. <span class="approx-badge">simplified</span> Real PVD also has nucleation and grain growth — we ignore them here to keep the comparison crisp.</p>
+          </div>
+          <div class="eq-card">
+            <p class="eq-label">Why a window exists</p>
+            <p class="eq">GPC(T) ≈ const <em>only</em> inside [T<sub>low</sub>, T<sub>high</sub>]</p>
+            <p class="eq-note"><strong>Too cold:</strong> reactions stall — ligands don't fully leave, GPC drops and film quality suffers. <strong>Too hot:</strong> precursor desorbs before reacting, or decomposes (non-self-limiting, CVD-like creep up). The plateau is the whole reason ALD is predictable.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="takeaway">
+        <p class="takeaway-label">Lab 3 takeaway</p>
+        <p>The straight line d = N × GPC is earned, not given: you need a <strong>reactive surface</strong> (or accept incubation / use it on purpose for selectivity) and a temperature <strong>inside the window</strong>. When a production ALD process drifts, these are the two suspects process engineers interrogate first.</p>
+      </div>
+    </section>
+
+    <!-- ======================= WRAP-UP ======================= -->
+    <section class="lab wrapup" id="wrapup" aria-labelledby="wrapup-title">
+      <header class="lab-header">
+        <p class="section-kicker">WRAP-UP <span>/</span> WHICH TOOL, WHEN</p>
+        <h2 id="wrapup-title">Putting it together</h2>
+      </header>
+
+      <div class="compare-table" role="table" aria-label="ALD versus PVD comparison">
+        <div class="ct-row ct-head" role="row">
+          <div role="columnheader"></div>
+          <div role="columnheader" class="ct-ald">ALD</div>
+          <div role="columnheader" class="ct-pvd">PVD</div>
+        </div>
+        <div class="ct-row" role="row">
+          <div role="cell" class="ct-key">Growth knob</div>
+          <div role="cell">Cycle count × GPC <em>(digital)</em></div>
+          <div role="cell">Rate × time <em>(analog)</em></div>
+        </div>
+        <div class="ct-row" role="row">
+          <div role="cell" class="ct-key">Thickness control</div>
+          <div role="cell">Sub-Å per cycle; excellent repeatability</div>
+          <div role="cell">Good on flat surfaces; drifts in features</div>
+        </div>
+        <div class="ct-row" role="row">
+          <div role="cell" class="ct-key">Conformality</div>
+          <div role="cell">Near-perfect (SC ≈ 100%)</div>
+          <div role="cell">Line-of-sight; poor in high-AR features</div>
+        </div>
+        <div class="ct-row" role="row">
+          <div role="cell" class="ct-key">Speed</div>
+          <div role="cell">Slow — pulses + purges</div>
+          <div role="cell">Fast (Å/s typical)</div>
+        </div>
+        <div class="ct-row" role="row">
+          <div role="cell" class="ct-key">Vacuum</div>
+          <div role="cell">Milder pressures, gas-phase controlled</div>
+          <div role="cell">High vacuum required</div>
+        </div>
+        <div class="ct-row" role="row">
+          <div role="cell" class="ct-key">Film purity / energy</div>
+          <div role="cell">Self-purifying surface chemistry; low damage</div>
+          <div role="cell">Energetic species possible (sputter); can be a feature or a bug</div>
+        </div>
+        <div class="ct-row" role="row">
+          <div role="cell" class="ct-key">Where it wins</div>
+          <div role="cell">High-κ gates, 3D NAND word lines, GAA nanosheets, OLED encapsulation, catalysts, moisture barriers</div>
+          <div role="cell">Metal interconnects &amp; seed layers, optical coatings, hard/tool coatings, magnetic stacks</div>
+        </div>
+      </div>
+
+      <div class="ledger">
+        <h3>Simplification ledger <span class="approx-badge">read me</span></h3>
+        <p class="ledger-intro">Every simulation here is a teaching cartoon. The list below flags each place where we cheated, so you know which intuitions transfer and which don't.</p>
+        <ul class="ledger-list">
+          <li><strong>2D cross-sections.</strong> Real trenches are 3D; corner and pattern-density effects are omitted.</li>
+          <li><strong>Point molecules.</strong> Real precursors are bulky; steric crowding means a "full" cycle is typically a fraction of a true monolayer (GPC &lt; 1 ML).</li>
+          <li><strong>Instant gas transport.</strong> We flood features instantly. In reality, transport inside extreme-aspect-ratio features can limit ALD too (lower pressure, longer purges, higher temperature all help).</li>
+          <li><strong>Temperature is qualitative.</strong> The window shown (≈150–300 °C) is representative of thermal ALD chemistries like Al<sub>2</sub>O<sub>3</sub>; plasma (PE-)ALD and other chemistries have different windows.</li>
+          <li><strong>Ballistic PVD only.</strong> No re-sputtering, no surface diffusion of adatoms, no resputter-fill of undercut — real PVD fills better (and worse) than our pure line-of-sight cartoon in different regimes.</li>
+          <li><strong>Nucleation is caricatured</strong> as a hard delay; real island growth gives a smooth, chemistry-specific curve.</li>
+          <li><strong>No chemistry, no heat, no flow.</strong> Real reactors have gas-phase dynamics, ligand exchange energetics, and heat/mass transfer — captured here only in their qualitative consequences.</li>
+        </ul>
+      </div>
+
+      <div class="glossary">
+        <h3>Mini-glossary</h3>
+        <dl class="term-list">
+          <div><dt>GPC</dt><dd>Growth per cycle (Å or nm per ALD cycle). The "step height" of digital growth.</dd></div>
+          <div><dt>Half-reaction</dt><dd>One self-limiting precursor–surface reaction.</dd></div>
+          <div><dt>Purge</dt><dd>Inert-gas sweep preventing gas-phase reactions between precursors.</dd></div>
+          <div><dt>Step coverage</dt><dd>Thickness inside a feature ÷ thickness on the open field.</dd></div>
+          <div><dt>Conformal</dt><dd>Same thickness on every surface, regardless of orientation.</dd></div>
+          <div><dt>Line-of-sight</dt><dd>Ballistic transport: straight trajectories, geometric shadowing.</dd></div>
+          <div><dt>Knudsen transport</dt><dd>Gas-flow regime where molecules collide with walls more than each other — gas creeps into features.</dd></div>
+          <div><dt>Incubation / nucleation delay</dt><dd>Early cycles of reduced growth on surfaces lacking anchor sites.</dd></div>
+          <div><dt>ALD window</dt><dd>Temperature range where GPC is roughly constant and both half-reactions complete.</dd></div>
+          <div><dt>CVD</dt><dd>Chemical Vapor Deposition: continuous co-flow of precursors — faster, less conformal, not self-limiting. ALD's ancestor and competitor.</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <footer class="page-foot">
+      <p>Thin Film Lab · part of <a href="../../">Ronnie's Experiments</a> · all simulations are pedagogical cartoons, not process models.</p>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
