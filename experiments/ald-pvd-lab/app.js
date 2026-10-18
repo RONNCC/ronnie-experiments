@@ -1,6 +1,6 @@
 /* ============================================================
    Thin Film Lab: ALD vs PVD — simulations
-   Three interactive labs:
+   Lab 0 (plain-English on-ramp) plus three interactive labs:
      Lab 1: self-limiting half-reactions (pulse/purge cycle machine)
      Lab 2: trench conformality vs. line-of-sight shadowing
      Lab 3: nucleation delay + the ALD temperature window
@@ -105,6 +105,79 @@
         if (target) target.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'center' });
       });
     });
+  }
+
+
+  /* ============================================================
+     LAB 0 — why coat anything? (examples explorer + thickness scale)
+     ============================================================ */
+  const L0_EXAMPLES = {
+    chip: { icon: '💻', base: 'silicon wafer',
+      film: 'Layers of insulating and metal films, some only a few nanometres thick, stacked like a tiny layer cake.',
+      does: 'Forms the switches (transistors) and wiring of the chip — the films are where electricity is blocked, allowed through, or carried.',
+      without: 'A plain slab of silicon can\'t switch anything. No films, no computer — just a grey wafer.',
+      why: 'Modern switches work precisely because electricity only has to cross a few nanometres. Make that layer 100× thicker and the switch becomes slow or stops responding.' },
+    glasses: { icon: '👓', base: 'glass / plastic lens',
+      film: 'An anti-reflective coating — a stack of films each around 50–150 nm thick.',
+      does: 'Cancels out reflections (the layers make reflected light waves interfere and cancel), so more light reaches your eye and nobody sees glare on your lenses.',
+      without: 'About 8% of light bounces off plain lenses: ghost images, glare in photos, dimmer vision.',
+      why: 'The trick only works when each layer is about a quarter of a wavelength of light thick (~100 nm). A thick coat would just be more glass — reflections return.' },
+    implant: { icon: '🦴', base: 'titanium joint',
+      film: 'A hard, body-friendly ceramic-like film (often titanium nitride or hydroxyapatite), hundreds to thousands of nm thick.',
+      does: 'Resists wear where the joint rubs millions of times, and gives bone cells a surface they\'ll happily grow onto.',
+      without: 'The joint wears faster, shedding particles, and bone may not bond to it — the implant loosens sooner.',
+      why: 'Only the surface touches bone and the moving ball. Coating just that surface keeps the strong, light titanium core — and meters of thick ceramic would be brittle and heavy.' },
+    packet: { icon: '🥔', base: 'plastic packet film',
+      film: 'A layer of aluminium only ~10–30 nm thick — so thin it\'s barely metal at all — sealed inside the plastic.',
+      does: 'Blocks oxygen and light, the two things that turn fats stale and crisps soggy.',
+      without: 'Crisps go stale in days instead of months, and food waste (and cost) shoots up.',
+      why: 'Even 20 nm of metal is an almost perfect gas barrier, so a whisper of aluminium replaces a foil thousands of times thicker — cheaper, flexible, and it still folds.' }
+  };
+
+  function initLab0() {
+    const ex = L0_EXAMPLES;
+    const tabs = $$('.example-tab');
+    function show(key) {
+      const d = ex[key]; if (!d) return;
+      tabs.forEach(t => { const on = t.dataset.example === key; t.classList.toggle('is-active', on); t.setAttribute('aria-selected', String(on)); });
+      $('#l0-ex-icon').textContent = d.icon;
+      $('#l0-ex-base').textContent = d.base;
+      $('#l0-ex-film').textContent = d.film;
+      $('#l0-ex-does').textContent = d.does;
+      $('#l0-ex-without').textContent = d.without;
+      $('#l0-ex-why').textContent = d.why;
+    }
+    tabs.forEach(t => t.addEventListener('click', () => show(t.dataset.example)));
+    show('chip');
+
+    const slider = $('#l0-thickness');
+    if (!slider) return;
+    function compare(nm) {
+      if (nm < 3) return 'a strand of DNA (≈2 nm wide)';
+      if (nm < 10) return 'a few atoms across';
+      if (nm < 30) return 'the metal in a crisp packet';
+      if (nm < 120) return 'a virus';
+      if (nm < 400) return 'a wavelength of visible light';
+      if (nm < 1200) return 'a bacterium';
+      if (nm < 12000) return 'a red blood cell';
+      if (nm < 60000) return 'approaching a human hair';
+      return 'a human hair / sheet of paper';
+    }
+    function regime(nm) {
+      if (nm < 1000) return 'Squarely in thin-film territory — this is the range Labs 1–3 are about.';
+      if (nm < 10000) return 'Thicker than most "thin films" — into coating territory. Still far thinner than a hair.';
+      return 'No longer really a thin film at all — you could almost feel this. Deposited films live far to the left.';
+    }
+    function sync() {
+      paintSlider(slider);
+      const nm = Math.round(Math.pow(10, (+slider.value) / 100)); // 1 … 100,000 nm, log scale
+      $('#l0-thickness-val').textContent = nm >= 1000 ? nm.toLocaleString('en-US') + ' nm (' + (nm / 1000) + ' µm)' : nm + ' nm';
+      $('#l0-compare').textContent = compare(nm);
+      $('#l0-per-hair').textContent = '~' + Math.max(1, Math.round(50000 / nm)).toLocaleString('en-US');
+      $('#l0-thick-why').textContent = regime(nm);
+    }
+    slider.addEventListener('input', sync);
+    sync();
   }
 
   /* ============================================================
@@ -1441,6 +1514,7 @@
   /* ---------------- boot ---------------- */
   function boot() {
     initPredictCards();
+    initLab0();
     initLab1();
     initLab2();
     initLab3();
