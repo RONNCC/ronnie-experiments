@@ -2,10 +2,11 @@
   {
     "id": "ald-pvd-lab",
     "title": "Thin Film Lab: ALD vs PVD",
-    "description": "Build intuition for Atomic Layer Deposition and Physical Vapor Deposition with three interactive labs: self-limiting surface reactions, trench conformality vs. line-of-sight shadowing, and real growth curves (nucleation delay + the ALD temperature window).",
+    "description": "Start from zero: why anyone deposits nanometer-thin films (chips, lenses, implants, crisp packets), then three interactive labs on ALD vs PVD — self-limiting reactions, trench conformality, and real growth curves.",
     "path": "experiments/ald-pvd-lab/",
     "category": "Education",
     "tags": [
+      "Beginner-friendly",
       "ALD",
       "PVD",
       "Materials Science",
@@ -18,7 +19,7 @@
   {
     "id": "nobel-prize-explainer",
     "title": "Nobel Prize Explainer",
-    "description": "A friendly interactive gallery of the 2023\u20132025 Nobel Prizes, with approachable exhibits for understanding each breakthrough.",
+    "description": "A friendly interactive gallery of the 2023–2025 Nobel Prizes, with approachable exhibits for understanding each breakthrough.",
     "path": "experiments/nobel-prize-explainer/",
     "category": "Education",
     "tags": [

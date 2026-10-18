@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0d1117">
-  <meta name="description" content="An interactive lab for building intuition about Atomic Layer Deposition (ALD) and Physical Vapor Deposition (PVD): self-limiting surface reactions, conformal coatings in trenches, and real growth curves.">
+  <meta name="description" content="No background needed: start with why anyone deposits nanometer-thin films at all, then build intuition for Atomic Layer Deposition (ALD) and Physical Vapor Deposition (PVD) with interactive labs.">
   <title>Thin Film Lab: ALD vs PVD — Ronnie's Experiments</title>
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -33,9 +33,11 @@
         <p class="eyebrow"><span class="eyebrow-line"></span> MATERIALS SCIENCE / THIN FILMS</p>
         <h1>Thin film deposition: <span>ALD vs PVD</span></h1>
         <p class="page-intro">
-          Two ways to put an ultra-thin film on a surface — one grows by <strong>self-limiting chemistry</strong>,
-          the other by <strong>ballistic flight in vacuum</strong>. This lab turns the three ideas that are
-          hardest to learn from text into things you can push, break, and predict.
+          <strong>New to all of this? Start at Lab&nbsp;0.</strong> It explains, in plain English, why anyone
+          would want to coat something with a layer thousands of times thinner than a human hair — no science
+          background assumed. Already know why thin films matter? Skip ahead to the two rival ways of making
+          them: one grows by <strong>self-limiting chemistry</strong>, the other by
+          <strong>ballistic flight in vacuum</strong>.
         </p>
       </div>
     </section>
@@ -47,22 +49,155 @@
     </section>
 
     <nav class="lab-nav" aria-label="Lab sections">
+      <a href="#lab0"><span>Lab 0 · Start here</span> Why coat anything?</a>
       <a href="#lab1"><span>Lab 1</span> Self-limiting reactions</a>
       <a href="#lab2"><span>Lab 2</span> Trenches &amp; shadowing</a>
       <a href="#lab3"><span>Lab 3</span> Real growth curves</a>
       <a href="#wrapup"><span>Wrap-up</span> Which tool, when</a>
     </nav>
 
+
+    <!-- ======================= LAB 0 ======================= -->
+    <section class="lab lab0" id="lab0" aria-labelledby="lab0-title">
+      <header class="lab-header">
+        <p class="section-kicker">LAB 00 <span>/</span> START HERE — NO BACKGROUND NEEDED</p>
+        <h2 id="lab0-title">Why coat anything at all?</h2>
+        <p class="lab-intro">
+          Forget chips and vacuum chambers for a minute. <strong>To deposit a film just means to build a very
+          thin layer of one material on top of another.</strong> You already know everyday versions: paint on
+          wood, frosting on a cake, non-stick coating in a frying pan. Engineers do the same thing — except their
+          "paint layer" can be a <em>thousand times thinner than a human hair</em>, and it isn't decoration.
+          That invisible skin is often the part that does the actual job.
+        </p>
+      </header>
+
+      <div class="idea-grid" aria-label="The core idea">
+        <div class="idea-card">
+          <p class="idea-num">1</p>
+          <h3>The inside gives the shape</h3>
+          <p>The object underneath — the <strong>substrate</strong> — provides strength, shape, and low cost.
+          Think of the cake, the pan, or a sheet of glass. It's good at being solid, but its surface may rust,
+          scratch, leak electricity, or reflect too much light.</p>
+        </div>
+        <div class="idea-card">
+          <p class="idea-num">2</p>
+          <h3>The skin does the special job</h3>
+          <p>The outside world only ever touches the surface. So instead of remaking the whole object out of a
+          rare, fragile, or expensive material, you give it a thin skin with the property you need: block oxygen,
+          stop scratches, switch electricity on and off, or let the body accept an implant.</p>
+        </div>
+        <div class="idea-card">
+          <p class="idea-num">3</p>
+          <h3>Thin is the point, not a compromise</h3>
+          <p>A thick layer would often ruin the job: it could block light, crack when bent, waste expensive
+          material, or be far too slow for electricity to cross. At nanometre thickness the skin can change how
+          a surface behaves while the object still looks, bends, and weighs the same.</p>
+        </div>
+      </div>
+
+      <div class="explorer" aria-labelledby="l0-explorer-title">
+        <div class="chart-head">
+          <h3 id="l0-explorer-title">Pick something familiar — find its invisible film</h3>
+          <p>None of these products would work as well (or at all) with a bare surface. Tap one:</p>
+        </div>
+        <div class="example-tabs" role="tablist" aria-label="Everyday examples of thin films">
+          <button type="button" class="example-tab is-active" role="tab" aria-selected="true" data-example="chip">💻 Computer chip</button>
+          <button type="button" class="example-tab" role="tab" aria-selected="false" data-example="glasses">👓 Glasses &amp; camera lenses</button>
+          <button type="button" class="example-tab" role="tab" aria-selected="false" data-example="implant">🦴 Artificial hip joint</button>
+          <button type="button" class="example-tab" role="tab" aria-selected="false" data-example="packet">🥔 Crisp packet</button>
+        </div>
+        <div class="example-panel" role="tabpanel" aria-live="polite">
+          <div class="example-visual" aria-hidden="true"><span id="l0-ex-icon">💻</span><span class="example-film-line"></span><span class="example-base-label" id="l0-ex-base">silicon wafer</span></div>
+          <dl class="example-facts">
+            <div><dt>The film</dt><dd id="l0-ex-film"></dd></div>
+            <div><dt>What it does</dt><dd id="l0-ex-does"></dd></div>
+            <div><dt>Without it</dt><dd id="l0-ex-without"></dd></div>
+            <div><dt>Why so thin?</dt><dd id="l0-ex-why"></dd></div>
+          </dl>
+        </div>
+      </div>
+
+      <div class="lab-lower lab0-lower">
+        <div class="chart-panel">
+          <div class="chart-head">
+            <h3>How thin is "thin film" thin?</h3>
+            <p>Drag the slider. Film thicknesses are measured in <strong>nanometres (nm)</strong> —
+            1&nbsp;nm is one billionth of a metre. The scale is logarithmic: each step right multiplies thickness by ~1.26×.</p>
+          </div>
+          <div class="control">
+            <label for="l0-thickness">Film thickness</label>
+            <input type="range" id="l0-thickness" min="0" max="500" step="1" value="200" aria-describedby="l0-thick-why">
+            <div class="control-scale"><span>1 nm</span><span>100 nm</span><span>100,000 nm</span></div>
+            <output class="control-out" id="l0-thickness-val" for="l0-thickness">100 nm</output>
+            <p class="control-why" id="l0-thick-why"></p>
+          </div>
+          <div class="readout-grid" aria-live="polite">
+            <div class="readout"><p class="readout-label">About as thick as</p><p class="readout-val readout-val-sm" id="l0-compare">a virus</p></div>
+            <div class="readout"><p class="readout-label">Stacked into one human hair*</p><p class="readout-val" id="l0-per-hair">~500</p></div>
+          </div>
+          <p class="fine-print">*Taking a hair as ≈50,000&nbsp;nm (50&nbsp;µm) wide — real hairs vary a lot. At the far right you've left "thin film" territory and reached roughly a hair / sheet of paper.</p>
+        </div>
+
+        <div class="notes-panel">
+          <div class="term-card">
+            <p class="term-label">Five words, in plain English</p>
+            <dl class="term-list">
+              <div><dt>Deposit</dt><dd>deliberately build a layer onto a surface, atom by atom or molecule by molecule.</dd></div>
+              <div><dt>Film</dt><dd>the layer itself. "Thin film" usually means roughly 1–1,000&nbsp;nm.</dd></div>
+              <div><dt>Substrate</dt><dd>the thing being coated — a chip wafer, a lens, a metal joint.</dd></div>
+              <div><dt>Vacuum chamber</dt><dd>a sealed box with most air pumped out, so flying atoms aren't knocked off course and stray air can't contaminate the layer.</dd></div>
+              <div><dt>Precursor / target</dt><dd>the starting material: a reactive gas (ALD) or a solid block that atoms are knocked/boiled off (PVD). Labs 1–3 unpack both.</dd></div>
+            </dl>
+          </div>
+          <div class="eq-card">
+            <p class="eq-label">Why not just paint or glue it on?</p>
+            <p class="eq-note">Paint and glue come as liquids full of other ingredients, and they level out at thousands of
+            nanometres at best — bumpy, uneven, and impure at this scale. There is no glue layer 10 atoms thick.
+            So engineers break the coating material down to individual atoms or molecules, send them through a
+            gas or vacuum, and rebuild the layer <strong>on the surface itself</strong>. The only real question
+            is <em>how the building blocks arrive</em> — and that's exactly where ALD and PVD disagree.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="predict-card" id="q0" data-correct="b">
+        <p class="predict-kicker">Check yourself</p>
+        <p class="predict-q">A phone maker wants its glass screen to resist scratches, but still be clear, light, and bend-proof. Why use a film only ~100&nbsp;nm thick instead of making the whole screen out of the hard scratch-proof material?</p>
+        <div class="predict-options">
+          <button type="button" data-choice="a">Thin films are just a cost-cutting shortcut with no real benefit</button>
+          <button type="button" data-choice="b">Only the surface needs the special property — the glass underneath already does the structural job, and a full slab could be heavy, brittle, cloudy, or costly</button>
+          <button type="button" data-choice="c">Thick layers are physically impossible to make</button>
+          <button type="button" data-choice="d">A 100 nm film is stronger than any thick material</button>
+        </div>
+        <div class="predict-reveal" hidden>
+          <p class="verdict"></p>
+          <p>Only the <strong>surface</strong> meets the keys and coins that scratch it, so only the surface needs
+          to be special. The glass below keeps doing what it's good at. That division of labour — bulk for
+          structure, film for surface behaviour — is the reason this whole field exists. Keep it in mind:
+          every lab below is just a different way of building that skin.</p>
+          <button type="button" class="jump-btn" data-jump="lab1">I'm ready for Lab 1 ↓</button>
+        </div>
+      </div>
+
+      <div class="takeaway">
+        <p class="takeaway-label">Lab 0 takeaway</p>
+        <p>People deposit films because <strong>surfaces do the interacting</strong> — with light, electricity,
+        chemicals, and living tissue — so a nanometre-scale skin can transform an ordinary object without
+        remaking it. The challenge: build that skin the <em>same thickness everywhere</em>, even inside tiny
+        holes. Two tool families solve it very differently. That's Labs 1–3.</p>
+      </div>
+    </section>
+
     <!-- ======================= CONTEXT ======================= -->
     <section class="card context-card" aria-labelledby="context-title">
       <h2 id="context-title" class="visually-hidden">The setup</h2>
       <div class="context-grid">
         <div>
-          <p class="section-kicker">THE PROBLEM</p>
+          <p class="section-kicker">NOW THE SHARED CHALLENGE</p>
           <p class="context-copy">
-            Chip makers, optics labs, and medical-device fabs all face the same task: deposit a film that is
-            <em>nanometers</em> thick, and make it the <em>same</em> thickness everywhere — including down inside
-            deep, narrow holes. Two tool families do this:
+            From Lab 0: the goal is a film <em>nanometers</em> thick that does a surface job. The hard part
+            the professionals face is making it the <em>same</em> thickness everywhere — including down inside
+            deep, narrow holes etched into the surface (modern chips are full of them). Two tool families do this:
           </p>
           <div class="method-chips">
             <div class="method-chip chip-ald">

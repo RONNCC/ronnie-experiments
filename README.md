@@ -12,7 +12,7 @@ Interactive prototypes, physics simulations, algorithmic visualizers, and learni
 
 | Experiment | Category | Description | Path |
 |---|---|---|---|
-| **Thin Film Lab: ALD vs PVD** | Education | Interactive labs for building intuition about Atomic Layer Deposition vs. Physical Vapor Deposition: self-limiting reactions, trench conformality, and real growth curves. | [`experiments/ald-pvd-lab/`](experiments/ald-pvd-lab/) |
+| **Thin Film Lab: ALD vs PVD** | Education | Zero-background on-ramp (why deposit nanometer-thin films at all — chips, lenses, implants, crisp packets) plus interactive labs on Atomic Layer Deposition vs. Physical Vapor Deposition: self-limiting reactions, trench conformality, and real growth curves. | [`experiments/ald-pvd-lab/`](experiments/ald-pvd-lab/) |
 | **Tabby Slink** | Visualizations | A detailed 3D brown mackerel tabby on a low nocturnal stalk through a moonlit room. | [`experiments/tabby-slink/`](experiments/tabby-slink/) |
 | **Particle Vector Field** | Visualizations | Real-time canvas flow field with trigonometric velocity vectors, gravitational cursor attraction, and palette controls. | [`experiments/particle-field/`](experiments/particle-field/) |
 | **Sorting Visualizer** | Algorithms | Step-by-step visualizer for Tim Sort, Quicksort, Mergesort, Heapsort, Shell Sort, Radix Sort, Bubble, and Selection Sort. | [`experiments/sorting-visualizer/`](experiments/sorting-visualizer/) |
