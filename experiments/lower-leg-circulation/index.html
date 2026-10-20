@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#f3f7fb">
-  <meta name="description" content="An interactive educational model of the calf-muscle pump and one-way vein valves, with a simplified DVT concept view."
+  <meta name="description" content="An interactive educational model of the calf-muscle pump and one-way vein valves, healthy vs damaged valve views, and why clot healing takes about 3 months.">
   <title>Lower Leg Circulation &amp; DVT Visualizer — Ronnie's Experiments</title>
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -52,7 +52,7 @@
       <div>
         <p class="eyebrow"><span class="eyebrow-line"></span> ANATOMY / CIRCULATION</p>
         <h1 id="page-title">Lower leg circulation <span>&amp; DVT</span></h1>
-        <p class="page-intro">Explore a simplified model of how lower-leg muscle movement and one-way vein valves can assist venous return.</p>
+        <p class="page-intro">Explore a simplified model of how lower-leg muscle movement and one-way vein valves assist venous return — plus what healthy vs damaged valves look like and why a clot needs ~3 months to heal.</p>
       </div>
       <button class="reset-button" id="resetButton" type="button">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 2.6-6.4L3 8"/><path d="M3 3v5h5"/></svg>
@@ -113,7 +113,7 @@
           <span class="tip-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24"><path d="M12 3a7 7 0 0 0-4.2 12.6c.8.6 1.2 1.4 1.2 2.4h6c0-1 .4-1.8 1.2-2.4A7 7 0 0 0 12 3Z"/><path d="M9.5 21h5M10 18h4"/></svg>
           </span>
-          <p><strong>Try this:</strong> watch the white chevrons inside the blue vein — those are one-way valves. Compare walking with rest to see their rhythm change.</p>
+          <p><strong>Try this:</strong> watch the white cup-shaped valves inside the blue vein — those are one-way gates, and the red dots are blood cells. Compare walking with rest to see their rhythm change.</p>
         </div>
       </section>
 
@@ -258,40 +258,79 @@
           <span class="info-mark" aria-hidden="true">i</span>
         </div>
         <div class="switch-row">
-          <div><strong>DVT concept view</strong><small>Show a simplified vessel example</small></div>
-          <button class="switch is-on" id="insightToggle" type="button" role="switch" aria-checked="true" aria-label="DVT concept view">
+          <div><strong>Valve health view</strong><small>Healthy vs damaged valves</small></div>
+          <button class="switch is-on" id="insightToggle" type="button" role="switch" aria-checked="true" aria-label="Valve health view">
             <span class="switch-thumb"></span>
           </button>
         </div>
         <div class="vessel-comparison" id="vesselComparison" data-enabled="true">
-          <div class="vessel-title"><span>DEEP VEIN EXAMPLE</span><span class="not-to-scale">NOT TO SCALE</span></div>
-          <svg class="vessel-diagram" viewBox="0 0 360 166" role="img" aria-labelledby="vessel-title-svg vessel-desc-svg">
-            <title id="vessel-title-svg">Simplified deep-vein comparison</title>
-            <desc id="vessel-desc-svg">A healthy vein with flowing blood is compared with an example of a vein partly blocked by a thrombus.</desc>
+          <div class="vessel-title"><span>VEIN VALVES · HEALTHY vs DAMAGED</span><span class="not-to-scale">NOT TO SCALE</span></div>
+          <svg class="vessel-diagram" viewBox="0 0 360 190" role="img" aria-labelledby="vessel-title-svg vessel-desc-svg">
+            <title id="vessel-title-svg">Healthy versus damaged vein valves</title>
+            <desc id="vessel-desc-svg">A healthy vein valve guides red blood cells upward with correct flow; a damaged, dilated valve leaks with downward reflux.</desc>
             <defs>
               <linearGradient id="healthyLumen" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#164c83"/><stop offset=".5" stop-color="#1e6da9"/><stop offset="1" stop-color="#164c83"/></linearGradient>
               <linearGradient id="clotLumen" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#17497b"/><stop offset="1" stop-color="#123c69"/></linearGradient>
             </defs>
-            <g class="vessel-left">
-              <rect x="28" y="20" width="104" height="112" rx="26" fill="#dcecf7" stroke="#9fc6e2" stroke-width="3"/>
-              <rect x="43" y="25" width="74" height="102" rx="21" fill="url(#healthyLumen)"/>
-              <path class="mini-flow" d="M80 115V41"/>
-              <circle class="blood-cell cell-one" cx="63" cy="50" r="5"/><circle class="blood-cell cell-two" cx="97" cy="82" r="5"/><circle class="blood-cell cell-three" cx="63" cy="105" r="4"/>
-              <text x="80" y="151" text-anchor="middle">STEADY FLOW</text>
+            <g class="valve-panel">
+              <rect class="panel-card" x="8" y="6" width="168" height="178" rx="14"/>
+              <path class="valve-wall" d="M72 14C68 40 66 60 60 82 66 104 68 122 70 140L114 140C116 122 118 104 124 82 118 60 116 40 112 14Z"/>
+              <path d="M80 18C77 42 75 60 72 82 75 104 77 122 78 136L106 136C107 122 109 104 112 82 109 60 107 42 104 18Z" fill="url(#healthyLumen)"/>
+              <g class="compare-cells">
+                <circle class="compare-cell" cx="78" cy="30" r="5.5"/>
+                <circle class="compare-cell" cx="102" cy="28" r="5.5" style="animation-delay:-1.1s"/>
+                <circle class="compare-cell" cx="92" cy="41" r="5"/>
+                <circle class="compare-cell" cx="80" cy="53" r="5.5" style="animation-delay:-.6s"/>
+                <circle class="compare-cell" cx="104" cy="53" r="5"/>
+                <circle class="compare-cell" cx="80" cy="109" r="5.5"/>
+                <circle class="compare-cell" cx="104" cy="108" r="5.5" style="animation-delay:-1.6s"/>
+                <circle class="compare-cell" cx="92" cy="119" r="5"/>
+                <circle class="compare-cell" cx="82" cy="129" r="5" style="animation-delay:-.9s"/>
+                <circle class="compare-cell" cx="102" cy="129" r="5.5"/>
+              </g>
+              <path class="valve-leaflet-fixed" d="M74 98C82 94 88 86 90 72"/>
+              <path class="valve-leaflet-fixed" d="M110 98C102 94 96 86 94 72"/>
+              <path class="flow-arrow-shaft" d="M92 130V54" stroke-width="9"/>
+              <path class="flow-arrow-head" d="M83 64L92 48 101 64Z"/>
+              <path class="panel-banner" d="M8 146H176V170Q176 184 162 184H22Q8 184 8 170Z"/>
+              <text class="panel-banner-text" x="92" y="161" font-size="9.5">HEALTHY VEIN VALVES</text>
+              <text class="panel-banner-text panel-banner-sub" x="92" y="175" font-size="8">&amp; CORRECT BLOOD FLOW</text>
             </g>
-            <g class="vessel-right">
-              <rect x="228" y="20" width="104" height="112" rx="26" fill="#dcecf7" stroke="#9fc6e2" stroke-width="3"/>
-              <rect x="243" y="25" width="74" height="102" rx="21" fill="url(#clotLumen)"/>
-              <path class="mini-flow slow-flow" d="M280 115V41"/>
-              <path class="thrombus" d="M257 61c-8-6-8-18 2-21 8-4 12 3 18 1 8-2 14 4 12 12-1 6-6 7-6 14 0 6-4 11-10 10-6 0-7-5-13-4-8 2-14-4-12-10 1-1 4-2 9-2Zm35 32c7-4 14-1 16 5 3 6-1 10-4 15-3 6-12 7-16 1-3-5-8-9-5-15 1-3 4-5 9-6Z"/>
-              <text x="280" y="151" text-anchor="middle">THROMBUS</text>
+            <g class="valve-panel">
+              <rect class="panel-card" x="184" y="6" width="168" height="178" rx="14"/>
+              <path class="valve-wall" d="M240 14C232 40 226 60 224 82 226 104 232 122 238 140L298 140C304 122 310 104 312 82 310 60 304 40 296 14Z"/>
+              <path d="M248 18C242 42 238 62 236 82 238 102 242 122 246 136L290 136C294 122 298 102 300 82 298 62 294 42 288 18Z" fill="url(#clotLumen)"/>
+              <g class="compare-cells">
+                <circle class="compare-cell" cx="246" cy="28" r="5.5"/>
+                <circle class="compare-cell" cx="270" cy="24" r="5"/>
+                <circle class="compare-cell" cx="294" cy="28" r="5.5" style="animation-delay:-1.1s"/>
+                <circle class="compare-cell" cx="258" cy="42" r="5"/>
+                <circle class="compare-cell" cx="282" cy="42" r="5.5" style="animation-delay:-.6s"/>
+                <circle class="compare-cell" cx="244" cy="58" r="5"/>
+                <circle class="compare-cell" cx="296" cy="58" r="5.5" style="animation-delay:-1.6s"/>
+                <circle class="compare-cell" cx="252" cy="74" r="5" style="animation-delay:-.9s"/>
+                <circle class="compare-cell" cx="288" cy="74" r="5.5"/>
+                <circle class="compare-cell" cx="250" cy="104" r="5.5" style="animation-delay:-1.3s"/>
+                <circle class="compare-cell" cx="288" cy="104" r="5"/>
+                <circle class="compare-cell" cx="262" cy="122" r="5" style="animation-delay:-.4s"/>
+                <circle class="compare-cell" cx="282" cy="124" r="5.5"/>
+              </g>
+              <path class="valve-leaflet-damaged" d="M238 96C246 93 252 88 256 80"/>
+              <path class="valve-leaflet-damaged" d="M298 96C290 93 284 88 280 80"/>
+              <path class="flow-arrow-shaft" d="M276 130V58" stroke-width="7"/>
+              <path class="flow-arrow-head" d="M268 68L276 54 284 68Z"/>
+              <path class="flow-arrow-shaft reflux" d="M260 56V122" stroke-width="7"/>
+              <path class="flow-arrow-head" d="M252 112L260 126 268 112Z"/>
+              <path class="panel-banner" d="M184 146H352V170Q352 184 338 184H198Q184 184 184 170Z"/>
+              <text class="panel-banner-text" x="268" y="161" font-size="9.5">DAMAGED VEIN VALVE</text>
+              <text class="panel-banner-text panel-banner-sub" x="268" y="175" font-size="8">&amp; INCORRECT BLOOD FLOW</text>
             </g>
-            <path class="comparison-arrow" d="M147 76h63m-12-9 12 9-12 9"/>
-            <text class="compare-note" x="180" y="58" text-anchor="middle">example</text>
+            <circle class="vs-badge" cx="180" cy="86" r="12"/>
+            <text class="vs-text" x="180" y="90">vs</text>
           </svg>
-          <div class="vessel-legend"><span><i class="dot-blue"></i> moving blood</span><span><i class="dot-red"></i> clot illustration</span></div>
+          <div class="vessel-legend"><span><i class="dot-red"></i> red blood cells</span><span><b class="legend-arrow up">↑</b> correct flow</span><span><b class="legend-arrow down">↓</b> reflux</span></div>
         </div>
-        <p class="insight-copy" id="insightCopy">A DVT is a clot in a deep vein. Reduced movement can be one contributing factor, but many factors affect an individual's risk.</p>
+        <p class="insight-copy" id="insightCopy">Healthy valves guide blood upward and snap shut against backflow. A clot can scar the leaflets and stretch the vein wall, leaving a leaky valve with reflux — one more reason the full ~3-month healing window (below) matters.</p>
       </section>
 
       <section class="card mechanism-card" aria-labelledby="mechanism-title" id="mechanismCard" data-phase="contract">
@@ -391,9 +430,95 @@
       </section>
     </div>
 
+    <section class="card recovery-card" aria-labelledby="recovery-title" id="recoveryCard">
+      <div class="section-heading recovery-heading">
+        <div>
+          <p class="section-kicker">06 <span>/</span> RECOVERY</p>
+          <h2 id="recovery-title">Why 3 months matters</h2>
+          <p class="anatomy-subtitle">Anticoagulants hold the line while your body clears the clot</p>
+        </div>
+        <span class="protection-badge is-protected" id="protectionBadge"><span class="protection-dot" aria-hidden="true"></span><span id="protectionText">PROTECTED · ON TREATMENT</span></span>
+      </div>
+      <div class="recovery-key">
+        <p><strong>Anticoagulants don’t dissolve the clot.</strong> They stop it from growing while your body’s own <strong>fibrinolytic system</strong> breaks it down and the vein <strong>recanalizes</strong> (reopens). That cleanup takes <strong>roughly 3 months</strong> — stopping early leaves a half-dissolved clot that can regrow.</p>
+      </div>
+      <div class="recovery-grid">
+        <div class="recovery-controls">
+          <label class="week-control-label" for="weekControl">
+            <span>Treatment timeline</span>
+            <output id="weekValue" for="weekControl">Week 0 of ~12</output>
+          </label>
+          <input id="weekControl" class="week-control" type="range" min="0" max="12" step="1" value="0" aria-describedby="weekHelp">
+          <div class="speed-range-labels" aria-hidden="true"><span>Diagnosis</span><span>~3 months</span></div>
+          <div class="scenario-row" role="radiogroup" aria-label="Treatment scenario">
+            <label class="scenario-option">
+              <input type="radio" name="recoveryScenario" value="completed" checked>
+              <span class="scenario-pill"><strong>Completed course</strong><small>protection all 12 weeks</small></span>
+            </label>
+            <label class="scenario-option">
+              <input type="radio" name="recoveryScenario" value="early">
+              <span class="scenario-pill"><strong>Stopped ~week 4</strong><small>protection ends early</small></span>
+            </label>
+          </div>
+          <p class="week-help" id="weekHelp">Drag the slider to move through the healing window. Try “Stopped ~week 4”, then drag past week 4.</p>
+          <dl class="recovery-facts" aria-label="Illustrated healing progress">
+            <div class="recovery-fact">
+              <dt>Clot burden</dt>
+              <dd><span class="bar" aria-hidden="true"><span class="bar-fill bar-clot" id="clotBar"></span></span><span id="clotValue">85%</span></dd>
+            </div>
+            <div class="recovery-fact">
+              <dt>Open channel</dt>
+              <dd><span class="bar" aria-hidden="true"><span class="bar-fill bar-channel" id="channelBar"></span></span><span id="channelValue">15%</span></dd>
+            </div>
+          </dl>
+          <p class="recovery-stage" id="recoveryStage">Week 0 · Fresh clot — the vein is nearly blocked; only a trickle gets past.</p>
+          <p class="recovery-warning" id="recoveryWarning" hidden>⚠ Protection stopped with clot remaining — the clot regrows and can extend or embolize. This is why stopping early backfires.</p>
+        </div>
+        <div class="recovery-visual">
+          <svg class="recovery-art" viewBox="0 0 320 300" role="img" aria-labelledby="recovery-svg-title recovery-svg-desc">
+            <title id="recovery-svg-title">Vein recanalization over about 12 weeks</title>
+            <desc id="recovery-svg-desc">A vein segment with a clot shrinking from nearly blocking the vein to a thin residual lining as weeks pass on treatment; stopping early lets the clot regrow.</desc>
+            <defs>
+              <linearGradient id="recoveryLumen" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#164c83"/><stop offset=".5" stop-color="#1e6da9"/><stop offset="1" stop-color="#164c83"/></linearGradient>
+              <clipPath id="recoveryClip"><rect x="124" y="16" width="72" height="258" rx="22"/></clipPath>
+              <clipPath id="clotClip"><rect id="clotClipRect" x="124" y="16" width="56" height="258"/></clipPath>
+            </defs>
+            <rect x="110" y="10" width="100" height="270" rx="30" fill="#dcecf7" stroke="#9fc6e2" stroke-width="3"/>
+            <rect x="124" y="16" width="72" height="258" rx="22" fill="url(#recoveryLumen)"/>
+            <g clip-path="url(#recoveryClip)">
+              <g clip-path="url(#clotClip)">
+                <rect id="recoveryClotRect" x="124" y="30" width="56" height="240" rx="10" fill="#c04349" stroke="#8f2b31" stroke-width="2"/>
+                <circle class="clot-lump" cx="140" cy="80" r="14"/>
+                <circle class="clot-lump" cx="152" cy="140" r="17"/>
+                <circle class="clot-lump" cx="140" cy="200" r="15"/>
+                <circle class="clot-lump" cx="154" cy="248" r="12"/>
+              </g>
+              <g id="recoveryCells">
+                <circle class="recovery-cell" cx="178" cy="60" r="6"/>
+                <circle class="recovery-cell" cx="184" cy="110" r="5" style="animation-delay:-.8s"/>
+                <circle class="recovery-cell" cx="176" cy="160" r="6" style="animation-delay:-1.6s"/>
+                <circle class="recovery-cell" cx="184" cy="210" r="5" style="animation-delay:-.4s"/>
+                <circle class="recovery-cell" cx="178" cy="256" r="6" style="animation-delay:-1.2s"/>
+              </g>
+            </g>
+            <g id="recoveryFlow">
+              <path id="recoveryFlowShaft" d="M188 258V42" fill="none" stroke="#fff" stroke-linecap="round"/>
+              <path id="recoveryFlowHead" d="M180 52L188 38 196 52Z" fill="#fff"/>
+            </g>
+            <text class="recovery-week" id="recoveryWeekLabel" x="160" y="296" text-anchor="middle">WEEK 0</text>
+          </svg>
+          <div class="recovery-roles">
+            <span class="role role-shield">🛡 Anticoagulant: stops growth</span>
+            <span class="role role-enzyme">✦ Body (fibrinolysis): dissolves clot</span>
+          </div>
+        </div>
+      </div>
+      <p class="recovery-footnote">Simplified illustration, not to scale. Healing speed varies and some veins keep residual scarring. Treatment length is set by your clinician — never start, stop, or skip blood thinners on your own.</p>
+    </section>
+
     <aside class="medical-notice" aria-label="Health information notice">
       <span class="notice-icon" aria-hidden="true">i</span>
-      <p><strong>Educational illustration only.</strong> This demo cannot diagnose DVT, estimate personal risk, or guide treatment. If you are concerned about symptoms or your risk, contact a healthcare professional. Sudden chest pain or shortness of breath may require emergency care.</p>
+      <p><strong>Educational illustration only.</strong> This demo cannot diagnose DVT, estimate personal risk, or guide treatment. Blood-thinner duration (often about 3 months for a first clot) is set by your clinician — never start, stop, or skip doses on your own. If you are concerned about symptoms or your risk, contact a healthcare professional. Sudden chest pain or shortness of breath may require emergency care.</p>
     </aside>
     <footer class="page-footer">Built for learning · <a href="../../">Back to Ronnie's Experiments</a></footer>
   </main>

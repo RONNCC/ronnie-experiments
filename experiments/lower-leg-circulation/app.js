@@ -87,7 +87,8 @@
     return node;
   }
 
-  /* Add schematic valve pairs along the vein. Gates nearer the heart (proximal)
+  /* Add cup-shaped valve cusps along the vein with pale sinus walls, echoing
+     classic healthy-valve illustrations. Gates nearer the heart (proximal)
      open during the modeled squeeze; lower (distal) gates close, then reopen
      during refill. This simplified sequence is not a patient-specific flow model. */
   function buildVeinValves() {
@@ -122,10 +123,12 @@
         class: `vein-valve ${valveType}`,
         transform: `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) rotate(${angle.toFixed(1)})`
       });
+      group.appendChild(svgEl("path", { class: "valve-sinus", d: "M-7.4 -7.6C-9.2 -3.4 -9.2 2.6 -6.4 7.2" }));
+      group.appendChild(svgEl("path", { class: "valve-sinus", d: "M7.4 -7.6C9.2 -3.4 9.2 2.6 6.4 7.2" }));
       const hingeLeft = svgEl("g", { transform: "translate(-5.8 2.2)" });
-      hingeLeft.appendChild(svgEl("path", { class: "valve-leaflet leaflet-left", d: "M0 0C1.6-2.6 3.4-4.6 5.4-5.4" }));
+      hingeLeft.appendChild(svgEl("path", { class: "valve-leaflet leaflet-left", d: "M0 0C1.8-1.5 3.8-3.7 5.6-6.3C4.7-3.4 3-1 0.9 0.9Z" }));
       const hingeRight = svgEl("g", { transform: "translate(5.8 2.2)" });
-      hingeRight.appendChild(svgEl("path", { class: "valve-leaflet leaflet-right", d: "M0 0C-1.6-2.6-3.4-4.6-5.4-5.4" }));
+      hingeRight.appendChild(svgEl("path", { class: "valve-leaflet leaflet-right", d: "M0 0C-1.8-1.5-3.8-3.7-5.6-6.3C-4.7-3.4-3-1-0.9 0.9Z" }));
       group.append(hingeLeft, hingeRight);
       layer.appendChild(group);
       valves.push({ point: p, group });
@@ -284,12 +287,12 @@
     insightEnabled = enabled;
     insightToggle.classList.toggle("is-on", enabled);
     insightToggle.setAttribute("aria-checked", String(enabled));
-    insightToggle.setAttribute("aria-label", enabled ? "Hide DVT concept view" : "Show DVT concept view");
+    insightToggle.setAttribute("aria-label", enabled ? "Hide valve comparison" : "Show valve comparison");
     vesselComparison.dataset.enabled = String(enabled);
     vesselComparison.setAttribute("aria-hidden", String(!enabled));
     insightCopy.textContent = enabled
-      ? "A DVT is a clot in a deep vein. Reduced movement can be one contributing factor, but many factors affect an individual's risk."
-      : "The DVT concept layer is hidden. The movement display remains a simplified teaching model, not a measurement of real blood flow.";
+      ? "Healthy valves guide blood upward and snap shut against backflow. A clot can scar the leaflets and stretch the vein wall, leaving a leaky valve with reflux — one more reason the full ~3-month healing window (below) matters."
+      : "The valve comparison is hidden. The movement display remains a simplified teaching model, not a measurement of real blood flow.";
   }
 
   movementButtons.forEach((button) => {
@@ -315,13 +318,101 @@
     }
   });
 
+  /* Recovery timeline: the ~3-month healing window. Anticoagulants hold the
+     clot from growing while the body's fibrinolytic system dissolves it and
+     the vein recanalizes. Stopping early with clot remaining lets it regrow. */
+  const weekControl = document.getElementById("weekControl");
+  const scenarioRadios = [...document.querySelectorAll('input[name="recoveryScenario"]')];
+
+  function recoveryScenario() {
+    const selected = scenarioRadios.find((radio) => radio.checked);
+    return selected ? selected.value : "completed";
+  }
+
+  function completedBurden(week) {
+    const keys = [[0, 85], [4, 55], [8, 28], [12, 8]];
+    for (let i = 1; i < keys.length; i += 1) {
+      if (week <= keys[i][0]) {
+        const [w0, b0] = keys[i - 1];
+        const [w1, b1] = keys[i];
+        return b0 + ((b1 - b0) * (week - w0)) / (w1 - w0);
+      }
+    }
+    return 8;
+  }
+
+  function recoveryStageText(week, exposed) {
+    if (exposed) {
+      return `Week ${week} · Stopped early with clot remaining — without protection it regrows toward full blockage.`;
+    }
+    if (week === 0) return "Week 0 · Fresh clot — the vein is nearly blocked; only a trickle gets past.";
+    if (week <= 4) return `Week ${week} · Anticoagulant holds the clot from growing while your fibrinolytic system starts dissolving it.`;
+    if (week <= 8) return `Week ${week} · Clot shrinking — a channel reopens (recanalization) and flow improves.`;
+    if (week <= 11) return `Week ${week} · Mostly cleared — a thin residual lining remains while the vein remodels.`;
+    return "Week 12 · Healing window complete — vein recanalized. Your clinician confirms duration and stopping.";
+  }
+
+  function updateRecovery() {
+    if (!weekControl) return;
+    const week = Math.min(12, Math.max(0, Number(weekControl.value) || 0));
+    const scenario = recoveryScenario();
+    let burden = completedBurden(week);
+    if (scenario === "early" && week > 4) burden = Math.min(92, 55 + (week - 4) * 9);
+    burden = Math.round(burden);
+    const channel = 100 - burden;
+
+    // Clot hugs the left wall; the open channel (and flow arrow) grows on the right.
+    const lumenLeft = 124;
+    const lumenWidth = 72;
+    const clotWidth = 8 + (burden / 100) * 56;
+    const channelPx = lumenWidth - clotWidth;
+    const channelFrac = channelPx / lumenWidth;
+    const shaftX = lumenLeft + clotWidth + channelPx / 2;
+
+    document.getElementById("recoveryClotRect").setAttribute("width", clotWidth.toFixed(1));
+    document.getElementById("clotClipRect").setAttribute("width", clotWidth.toFixed(1));
+    const flowShaft = document.getElementById("recoveryFlowShaft");
+    flowShaft.setAttribute("d", `M${shaftX.toFixed(1)} 258V42`);
+    flowShaft.style.strokeWidth = (3.5 + 6 * channelFrac).toFixed(1);
+    flowShaft.style.opacity = (0.35 + 0.6 * channelFrac).toFixed(2);
+    const flowHead = document.getElementById("recoveryFlowHead");
+    flowHead.setAttribute("d", `M${(shaftX - 8).toFixed(1)} 52L${shaftX.toFixed(1)} 38L${(shaftX + 8).toFixed(1)} 52Z`);
+    flowHead.style.opacity = channelPx >= 15 ? "1" : "0";
+    const cells = document.getElementById("recoveryCells");
+    cells.setAttribute("transform", `translate(${(shaftX - 180).toFixed(1)} 0)`);
+    cells.style.opacity = (0.25 + 0.75 * channelFrac).toFixed(2);
+
+    document.getElementById("clotBar").style.width = `${burden}%`;
+    document.getElementById("clotValue").textContent = `${burden}%`;
+    document.getElementById("channelBar").style.width = `${channel}%`;
+    document.getElementById("channelValue").textContent = `${channel}%`;
+    document.getElementById("weekValue").textContent = `Week ${week} of ~12`;
+    document.getElementById("recoveryWeekLabel").textContent = `WEEK ${week}`;
+
+    const exposed = scenario === "early" && week > 4;
+    const badge = document.getElementById("protectionBadge");
+    badge.classList.toggle("is-protected", !exposed);
+    badge.classList.toggle("is-exposed", exposed);
+    document.getElementById("protectionText").textContent = exposed
+      ? "UNPROTECTED · CLOT REGROWING"
+      : "PROTECTED · ON TREATMENT";
+    document.getElementById("recoveryWarning").hidden = !exposed;
+    document.getElementById("recoveryStage").textContent = recoveryStageText(week, exposed);
+  }
+
   motionToggle.addEventListener("click", () => setMotionPaused(!motionPaused));
   insightToggle.addEventListener("click", () => setInsightEnabled(!insightEnabled));
+  if (weekControl) weekControl.addEventListener("input", updateRecovery);
+  scenarioRadios.forEach((radio) => radio.addEventListener("change", updateRecovery));
   document.getElementById("resetButton").addEventListener("click", () => {
     selectMovement("heel-raise");
     setAnimationSpeed(DEFAULT_SPEED);
     setMotionPaused(false);
     setInsightEnabled(true);
+    if (weekControl) weekControl.value = "0";
+    const defaultScenario = scenarioRadios.find((radio) => radio.value === "completed");
+    if (defaultScenario) defaultScenario.checked = true;
+    updateRecovery();
   });
 
   try {
@@ -335,4 +426,5 @@
   selectMovement(currentMovement);
   setMotionPaused(false);
   setInsightEnabled(true);
+  updateRecovery();
 })();
