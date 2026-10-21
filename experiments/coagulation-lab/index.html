@@ -132,7 +132,7 @@
     <div class="viz-panel">
       <div class="viz-toolbar">
         <p class="pane-title">Cutaway — LC-MS/MS: from serum to separated peaks to mass peaks</p>
-        <div class="transport-controls"><button class="btn btn-primary" id="vitd-play" aria-label="Play Vitamin D sequence">▶ Play</button><button class="btn" id="vitd-step">Step</button><button class="btn" id="vitd-reset">Reset</button><label class="toggle"><input type="checkbox" id="vitd-compare"> Show <em>representative</em> immunoassay inset</label></div>
+        <div class="transport-controls"><button class="btn btn-primary" id="vitd-play" aria-label="Play Vitamin D sequence">▶ Play</button><button class="btn" id="vitd-pause" aria-label="Pause">⏸ Pause</button><button class="btn" id="vitd-step">Step</button><button class="btn" id="vitd-reset">Reset</button><label class="toggle"><input type="checkbox" id="vitd-compare"> Show <em>representative</em> immunoassay inset</label></div>
       </div>
       <div class="vitd-stage" id="vitd-stage" aria-live="polite">
         <!-- Step 1: extraction -->
@@ -298,16 +298,13 @@
       <p class="viz-caption"><strong>Calibration/QC:</strong> ratios normalize to pooled normal plasma run same day; daily QC normal/abnormal LA-sensitive controls; ISI-like standardization is PT-specific, not used here — each lab validates its own cutoffs per CLSI H60.</p>
     </div>
     <div class="side-panel">
-      <div class="example-result">
+      <div class="example-result" id="la-result-card">
+        <!-- Dynamically bound to reflex-tree branch — populated by app.js -->
         <p class="result-label">Synthetic example — screening only (no reflex needed) — illustration only</p>
         <dl><div><dt>PT</dt><dd>13.2 s (12.0–15.5) <span class="u">ref <a href="https://ltd.aruplab.com/Tests/Pub/3017009" target="_blank">[ARUP 3017009]</a></span></dd></div><div><dt>PTT-LA ratio</dt><dd>1.05 (≤1.20)</dd></div><div><dt>dRVVT screen ratio</dt><dd>1.08 (≤1.20)</dd></div><div><dt>Reflex interpretation</dt><dd><span class="pill ok">No evidence of LA — no reflex testing performed</span></dd></div></dl>
         <p class="fine-print">If screen(s) had been prolonged, the conditional panel would have added anti-Xa, TT, mixing and confirmation ratios + delta HPE <a href="https://arupconsult.com/ati/lupus-anticoagulant-reflex-panel" target="_blank">[ARUP reflex pattern]</a>.</p>
       </div>
-      <div class="example-result alt">
-        <p class="result-label">Synthetic example — with reflex branch triggered — illustration only</p>
-        <dl><div><dt>PTT-LA ratio</dt><dd>1.42 (high)</dd></div><div><dt>dRVVT screen ratio</dt><dd>1.61 (high)</dd></div><div><dt>dRVVT 1:1 mix ratio</dt><dd>1.38 (still high → inhibitor)</dd></div><div><dt>dRVVT confirm ratio</dt><dd>1.12 (corrects with excess PL)</dd></div><div><dt>Hexagonal phase Δ</dt><dd>10.4 s (&gt;7.9 s)</dd></div><div><dt>Reflex interpretation</dt><dd><span class="pill warn">LA detected — phospholipid-dependent</span></dd></div></dl>
-      </div>
-      <p class="fine-print">Persistent positivity on two occasions ≥12 weeks plus clinical criteria fulfills APS classification — this single panel does not diagnose APS by itself <a href="https://arupconsult.com/content/antiphospholipid-syndrome" target="_blank">[ARUP APS criteria]</a>.</p>
+      <p class="fine-print" id="la-result-footnote">Persistent positivity on two occasions ≥12 weeks plus clinical criteria fulfills APS classification — this single panel does not diagnose APS by itself <a href="https://arupconsult.com/content/antiphospholipid-syndrome" target="_blank">[ARUP APS criteria]</a>.</p>
     </div>
   </div>
   <p class="station-cite">ARUP LA Reflex 3017009 components &amp; ratios <a href="https://ltd.aruplab.com/Tests/Pub/3017009" target="_blank">[catalog]</a>; reflex cascade <a href="https://arupconsult.com/ati/lupus-anticoagulant-reflex-panel" target="_blank">[ARUP ATI]</a>; Mayo ALUPP PT/aPTT 671 nm ACL TOP <a href="https://www.mayocliniclabs.com/test-catalog/overview/603463/lupus-anticoagulant-profile-plasma" target="_blank">[Mayo]</a>; DRVVT mechanism <a href="https://en.wikipedia.org/wiki/Dilute_Russell%27s_viper_venom_time" target="_blank">[DRVVT wiki]</a>.</p>
@@ -329,7 +326,7 @@
 
   <div class="bench-grid">
     <div class="viz-panel">
-      <div class="viz-toolbar"><p class="pane-title">Two arms side-by-side — tap a panel component</p><div class="transport-controls"><button class="btn btn-primary" id="aps-play">▶ Animate clot</button><button class="btn" id="aps-reset">Reset</button></div></div>
+      <div class="viz-toolbar"><p class="pane-title">Two arms side-by-side — tap a panel component</p><div class="transport-controls"><button class="btn btn-primary" id="aps-play">▶ Animate clot</button><button class="btn" id="aps-pause" aria-label="Pause">⏸ Pause</button><button class="btn" id="aps-reset">Reset</button></div></div>
       <div class="aps-stage">
         <div class="aps-row">
           <div class="aps-col aps-col--clot" id="aps-clot">
@@ -391,7 +388,7 @@
 
   <div class="bench-grid">
     <div class="viz-panel">
-      <div class="viz-toolbar"><p class="pane-title">Cutaway — free vs total: the C4bBP-bound fraction is hidden from function but not from total antigen</p><div class="transport-controls"><button class="btn btn-primary" id="psag-play">▶ Animate</button><button class="btn" id="psag-reset">Reset</button><label class="toggle"><input type="checkbox" id="psag-free-toggle" checked> Free assay: PEG precipitation removes C4bBP-bound</label></div></div>
+      <div class="viz-toolbar"><p class="pane-title">Cutaway — free vs total: the C4bBP-bound fraction is hidden from function but not from total antigen</p><div class="transport-controls"><button class="btn btn-primary" id="psag-play">▶ Animate</button><button class="btn" id="psag-pause" aria-label="Pause">⏸ Pause</button><button class="btn" id="psag-reset">Reset</button><label class="toggle"><input type="checkbox" id="psag-free-toggle" checked> Free assay: PEG precipitation removes C4bBP-bound</label></div></div>
       <svg viewBox="0 0 860 170" role="img" aria-label="Protein S bound free diagram">
         <text x="430" y="14" text-anchor="middle" font-size="8" font-weight="700" fill="#5BC0DE">PLASMA PROTEIN S POOLS — total = free (active) + C4bBP-bound (inactive)</text>
         <g transform="translate(20 24)">
@@ -448,7 +445,7 @@
 
   <div class="bench-grid">
     <div class="viz-panel">
-      <div class="viz-toolbar"><p class="pane-title">Cutaway — DNA to answer: thermocycler + melt discrimination</p><div class="transport-controls"><button class="btn btn-primary" id="fvl-play">▶ Cycle PCR</button><button class="btn" id="fvl-reset">Reset</button><div class="segmented" role="group"><button class="seg-btn is-active" data-gene="wt">G/G wild-type</button><button class="seg-btn" data-gene="het">G/A heterozygous</button><button class="seg-btn" data-gene="hom">A/A homozygous</button></div></div></div>
+      <div class="viz-toolbar"><p class="pane-title">Cutaway — DNA to answer: thermocycler + melt discrimination</p><div class="transport-controls"><button class="btn btn-primary" id="fvl-play">▶ Cycle PCR</button><button class="btn" id="fvl-pause" aria-label="Pause">⏸ Pause</button><button class="btn" id="fvl-reset">Reset</button><div class="segmented" role="group"><button class="seg-btn is-active" data-gene="wt">G/G wild-type</button><button class="seg-btn" data-gene="het">G/A heterozygous</button><button class="seg-btn" data-gene="hom">A/A homozygous</button></div></div></div>
       <div class="pcr-grid">
         <div>
           <svg viewBox="0 0 400 140" role="img" aria-label="PCR wells">
@@ -473,7 +470,7 @@
     <div class="side-panel">
       <div class="control">
         <label>Genotype to illustration mapping</label>
-        <div class="readout-grid"><div class="readout"><p class="readout-label">Alleles</p><p class="readout-val" id="fvl-alleles">G/G</p></div><div class="readout"><p class="readout-label">Protein effect</p><p class="readout-val small">Arg506 present / Gln506 present</p></div></div>
+        <div class="readout-grid"><div class="readout"><p class="readout-label">Alleles</p><p class="readout-val" id="fvl-alleles">G/G</p></div><div class="readout"><p class="readout-label">Protein effect</p><p class="readout-val small" id="fvl-protein">Arg506 present</p></div></div>
         <p class="control-why">DNA result is permanent (germline). It does not equal protein level — that’s benches 04, 06, 08, 10.</p>
       </div>
       <div class="example-result">
@@ -501,7 +498,7 @@
 
   <div class="bench-grid">
     <div class="viz-panel">
-      <div class="viz-toolbar"><p class="pane-title">Cutaway — substrate + patient → time prolongs only if PS works</p><div class="transport-controls"><button class="btn btn-primary" id="psfunc-play">▶ Run</button><button class="btn" id="psfunc-reset">Reset</button></div></div>
+      <div class="viz-toolbar"><p class="pane-title">Cutaway — substrate + patient → time prolongs only if PS works</p><div class="transport-controls"><button class="btn btn-primary" id="psfunc-play">▶ Run</button><button class="btn" id="psfunc-pause" aria-label="Pause">⏸ Pause</button><button class="btn" id="psfunc-reset">Reset</button></div></div>
       <svg viewBox="0 0 860 150" role="img" aria-label="PS functional cartoon">
         <rect x="20" y="20" width="200" height="80" rx="10" fill="#0B1E24" stroke="#2E4E58"/><text x="120" y="38" text-anchor="middle" font-size="8" fill="#E8F1F2">PS-deficient plasma</text><text x="120" y="52" text-anchor="middle" font-size="7" fill="#9ECFD5">All factors except PS</text><text x="120" y="66" text-anchor="middle" font-size="7" fill="#8BA3AD">+ APC + PL + TF/Ca²⁺</text>
         <text x="230" y="60" font-size="14" fill="#2EC4B6">+</text>
@@ -546,7 +543,7 @@
 
   <div class="bench-grid">
     <div class="viz-panel">
-      <div class="viz-toolbar"><p class="pane-title">Cutaway — heparin makes antithrombin fast; leftover FXa makes color</p><div class="transport-controls"><button class="btn btn-primary" id="at-play">▶ React</button><button class="btn" id="at-reset">Reset</button></div></div>
+      <div class="viz-toolbar"><p class="pane-title">Cutaway — heparin makes antithrombin fast; leftover FXa makes color</p><div class="transport-controls"><button class="btn btn-primary" id="at-play">▶ React</button><button class="btn" id="at-pause" aria-label="Pause">⏸ Pause</button><button class="btn" id="at-reset">Reset</button></div></div>
       <svg viewBox="0 0 860 150" role="img" aria-label="Antithrombin chromogenic">
         <rect x="20" y="20" width="180" height="80" rx="10" fill="#0B1E24" stroke="#2E4E58"/><text x="110" y="38" text-anchor="middle" font-size="8" fill="#E8F1F2">Patient PPP</text><text x="110" y="54" text-anchor="middle" font-size="7" fill="#9ECFD5">AT in sample</text><text x="110" y="68" text-anchor="middle" font-size="7" fill="#8BA3AD">+ Heparin cofactor</text>
         <text x="210" y="60" font-size="14" fill="#2EC4B6">+</text>
@@ -592,7 +589,7 @@
 
   <div class="bench-grid">
     <div class="viz-panel">
-      <div class="viz-toolbar"><p class="pane-title">Cutaway — antibody sandwich captures Protein C</p><div class="transport-controls"><button class="btn btn-primary" id="pcag-play">▶ Wash → Develop</button><button class="btn" id="pcag-reset">Reset</button></div></div>
+      <div class="viz-toolbar"><p class="pane-title">Cutaway — antibody sandwich captures Protein C</p><div class="transport-controls"><button class="btn btn-primary" id="pcag-play">▶ Wash → Develop</button><button class="btn" id="pcag-pause" aria-label="Pause">⏸ Pause</button><button class="btn" id="pcag-reset">Reset</button></div></div>
       <svg viewBox="0 0 860 150" role="img" aria-label="Protein C ELISA sandwich">
         <rect x="20" y="20" width="200" height="80" rx="10" fill="#0B1E24" stroke="#9B8EC4"/><text x="120" y="34" text-anchor="middle" font-size="7" fill="#9B8EC4">Capture plate: anti-PC</text><text x="120" y="48" text-anchor="middle" font-size="7" fill="#C9D8DD">Mab bound to wells</text><text x="120" y="64" text-anchor="middle" font-size="7" fill="#8BA3AD">Block nonspecific</text>
         <text x="230" y="60" font-size="14" fill="#2EC4B6">→</text>
@@ -637,7 +634,7 @@
 
   <div class="bench-grid">
     <div class="viz-panel">
-      <div class="viz-toolbar"><p class="pane-title">Cutaway — deficient substrate makes patient FII rate-limiting</p><div class="transport-controls"><button class="btn btn-primary" id="f2-play">▶ Clot</button><button class="btn" id="f2-reset">Reset</button></div></div>
+      <div class="viz-toolbar"><p class="pane-title">Cutaway — deficient substrate makes patient FII rate-limiting</p><div class="transport-controls"><button class="btn btn-primary" id="f2-play">▶ Clot</button><button class="btn" id="f2-pause" aria-label="Pause">⏸ Pause</button><button class="btn" id="f2-reset">Reset</button></div></div>
       <svg viewBox="0 0 860 150" role="img" aria-label="Factor II one-stage">
         <rect x="20" y="20" width="180" height="80" rx="10" fill="#0B1E24" stroke="#2E4E58"/><text x="110" y="34" text-anchor="middle" font-size="8" fill="#E8F1F2">FII-deficient substrate plasma</text><text x="110" y="48" text-anchor="middle" font-size="7" fill="#9ECFD5">All factors except FII</text><text x="110" y="62" text-anchor="middle" font-size="7" fill="#8BA3AD">Immunodepleted normal pool</text>
         <text x="210" y="60" font-size="14" fill="#2EC4B6">+</text>
@@ -677,7 +674,7 @@
 
   <div class="bench-grid">
     <div class="viz-panel">
-      <div class="viz-toolbar"><p class="pane-title">Cutaway — Protac → APC → yellow pNA rate</p><div class="transport-controls"><button class="btn btn-primary" id="pcf-play">▶ Activate</button><button class="btn" id="pcf-reset">Reset</button></div></div>
+      <div class="viz-toolbar"><p class="pane-title">Cutaway — Protac → APC → yellow pNA rate</p><div class="transport-controls"><button class="btn btn-primary" id="pcf-play">▶ Activate</button><button class="btn" id="pcf-pause" aria-label="Pause">⏸ Pause</button><button class="btn" id="pcf-reset">Reset</button></div></div>
       <svg viewBox="0 0 860 150" role="img" aria-label="Protein C chromogenic">
         <rect x="20" y="20" width="170" height="80" rx="10" fill="#0B1E24" stroke="#2E4E58"/><text x="105" y="38" text-anchor="middle" font-size="8" fill="#E8F1F2">Patient PPP (PC zymogen)</text><text x="105" y="54" text-anchor="middle" font-size="7" fill="#9ECFD5">Vit K-dependent</text><text x="105" y="68" text-anchor="middle" font-size="7" fill="#8BA3AD">Half-life ~6–10 h</text>
         <text x="200" y="60" font-size="14" fill="#2EC4B6">+</text>

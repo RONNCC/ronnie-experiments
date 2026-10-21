@@ -107,13 +107,18 @@
       if(why) why.textContent = pct>60? 'D2-heavy: suggests D2 supplement dominating — immunoassay would miss split; LC-MS/MS shows it.' : pct<20? 'D3-heavy: sun/animal + D3 supplement — LC-MS/MS confirms D3 fraction; epi peak small in adult.' : 'Mixed D2/D3 — LC-MS/MS separates; epi resolved to avoid overread. IS corrects.';
       drawChrom();
     }
+    let vitdTimer=null;
     $('#vitd-play')?.addEventListener('click',()=>{
+      if(vitdTimer){ clearInterval(vitdTimer); vitdTimer=null; return; }
       let i=idx;
-      const timer=setInterval(()=>{
+      vitdTimer=setInterval(()=>{
         i++;
-        if(i>=steps.length){clearInterval(timer); return;}
+        if(i>=steps.length){clearInterval(vitdTimer); vitdTimer=null; return;}
         show(i);
       },900);
+    });
+    $('#vitd-pause')?.addEventListener('click',()=>{
+      if(vitdTimer){ clearInterval(vitdTimer); vitdTimer=null; }
     });
     $('#vitd-step')?.addEventListener('click',()=>show(idx+1));
     $('#vitd-reset')?.addEventListener('click',()=>show(0));
@@ -130,10 +135,10 @@
     const sub=document.getElementById('la-verdict-sub');
     const btns=$$('[data-la]');
     const scenarios={
-      normal:{cond:0,text:'LA not detected — both screens ≤1.20, no reflex performed',sub:'PT normal, no anticoagulant pattern — stop, add interpretive comment per ARUP/Mayo.'},
-      la:{cond:1,text:'LA detected — phospholipid-dependent (example synthetic)',sub:'PTT-LA 1.42 & dRVVT screen 1.61 → anti-Xa negative, TT 16 s → mix 1.38 persists, confirm 1.12 shortens, HPE Δ 10.4 s — meets reflex criteria.'},
-      doac:{cond:1,text:'Uninterpretable due to anticoagulant (apixaban illustration)',sub:'dRVVT screen markedly prolonged by anti-Xa DOAC — mimics LA; TT normal helps exclude heparin; suggest repeat off drug or DOAC adsorbent per guidance.'},
-      warfarin:{cond:1,text:'Prolonged but not LA — warfarin effect (PT 22 s, INR 1.9)',sub:'Screens prolonged due to vitamin K-dependent factor reduction; mixing corrects (deficiency) but confirm not phospholipid-dependent — not LA; test off VKA if LA truly suspected.'}
+      normal:{cond:0,text:'LA not detected — both screens ≤1.20, no reflex performed',sub:'PT normal, no anticoagulant pattern — stop, add interpretive comment per ARUP/Mayo.',card:`<dl><div><dt>PT</dt><dd>13.2 s (12.0–15.5)</dd></div><div><dt>PTT-LA ratio</dt><dd>1.05 (≤1.20)</dd></div><div><dt>dRVVT screen ratio</dt><dd>1.08 (≤1.20)</dd></div><div><dt>Reflex interpretation</dt><dd><span class="pill ok">No evidence of LA — no reflex testing performed</span></dd></div></dl>`},
+      la:{cond:1,text:'LA detected — phospholipid-dependent (example synthetic)',sub:'PTT-LA 1.42 & dRVVT screen 1.61 → anti-Xa negative, TT 16 s → mix 1.38 persists, confirm 1.12 shortens, HPE Δ 10.4 s — meets reflex criteria.',card:`<dl><div><dt>PTT-LA ratio</dt><dd>1.42 (high)</dd></div><div><dt>dRVVT screen ratio</dt><dd>1.61 (high)</dd></div><div><dt>dRVVT 1:1 mix ratio</dt><dd>1.38 (still high → inhibitor)</dd></div><div><dt>dRVVT confirm ratio</dt><dd>1.12 (corrects with excess PL)</dd></div><div><dt>Hexagonal phase Δ</dt><dd>10.4 s (&gt;7.9 s)</dd></div><div><dt>Reflex interpretation</dt><dd><span class="pill warn">LA detected — phospholipid-dependent</span></dd></div></dl>`},
+      doac:{cond:1,text:'Uninterpretable due to anticoagulant (apixaban illustration)',sub:'dRVVT screen markedly prolonged by anti-Xa DOAC — mimics LA; TT normal helps exclude heparin; suggest repeat off drug or DOAC adsorbent per guidance.',card:`<dl><div><dt>PT</dt><dd>15.6 s (12.0–15.5)</dd></div><div><dt>PTT-LA ratio</dt><dd>1.88 (high)</dd></div><div><dt>dRVVT screen ratio</dt><dd>2.30 (high)</dd></div><div><dt>Anti-Xa</dt><dd>187 ng/mL (present — apixaban)</dd></div><div><dt>Reflex interpretation</dt><dd><span class="pill warn">Uninterpretable — anticoagulant effect, not LA</span></dd></div></dl>`},
+      warfarin:{cond:1,text:'Prolonged but not LA — warfarin effect (PT 22 s, INR 1.9)',sub:'Screens prolonged due to vitamin K-dependent factor reduction; mixing corrects (deficiency) but confirm not phospholipid-dependent — not LA; test off VKA if LA truly suspected.',card:`<dl><div><dt>PT</dt><dd>22.0 s (12.0–15.5) · INR 1.9</dd></div><div><dt>PTT-LA ratio</dt><dd>1.55 (high)</dd></div><div><dt>dRVVT screen ratio</dt><dd>1.41 (high)</dd></div><div><dt>1:1 mix ratio</dt><dd>1.08 (corrects → deficiency)</dd></div><div><dt>Confirm ratio</dt><dd>1.25 (not phospholipid-dependent)</dd></div><div><dt>Reflex interpretation</dt><dd><span class="pill ok">Prolonged but not LA — warfarin deficiency pattern</span></dd></div></dl>`}
     };
     function apply(k){
       btns.forEach(b=>b.classList.toggle('is-active', b.dataset.la===k));
@@ -141,6 +146,8 @@
       if(conditional) conditional.style.opacity = s.cond? '1':'0.28';
       if(verdict) verdict.textContent=s.text;
       if(sub) sub.textContent=s.sub;
+      const card=document.getElementById('la-result-card');
+      if(card){ card.querySelector('.result-label').textContent = k==='normal'?'Synthetic example — screening only (no reflex needed) — illustration only':'Synthetic example — with reflex branch triggered — illustration only'; card.querySelector('dl').innerHTML = s.card; }
       // animate screen highlight
       const row=document.getElementById('la-screen-row');
       if(row) row.style.outline = k==='normal' ? '2px solid #2EC4B6' : '2px solid #FF8A5B';
@@ -178,8 +185,16 @@
       ctx.fillText('60 s', W-padR-18, H-padB+10);
     }
     drawAPS();
-    $('#aps-play')?.addEventListener('click',()=>{ let p=0; const id=setInterval(()=>{p+=2; drawAPS(p); if(p>60) clearInterval(id);},40);});
-    $('#aps-reset')?.addEventListener('click',()=>drawAPS());
+    let apsTimer=null;
+    $('#aps-play')?.addEventListener('click',()=>{
+      if(apsTimer){ clearInterval(apsTimer); apsTimer=null; return; }
+      let p=0;
+      apsTimer=setInterval(()=>{p+=2; drawAPS(p); if(p>60){clearInterval(apsTimer); apsTimer=null;}},40);
+    });
+    $('#aps-pause')?.addEventListener('click',()=>{
+      if(apsTimer){ clearInterval(apsTimer); apsTimer=null; }
+    });
+    $('#aps-reset')?.addEventListener('click',()=>{drawAPS(); if(apsTimer){clearInterval(apsTimer); apsTimer=null;}});
   })();
 
   // ========== PS ANTIGEN ==========
@@ -229,8 +244,16 @@
     }
     slider?.addEventListener('input',updatePS);
     toggle?.addEventListener('change',()=>{ drawPS(); });
-    $('#psag-play')?.addEventListener('click',()=>{ let v=35; const id=setInterval(()=>{v+=3; if(slider) slider.value=v; updatePS(); if(v>=140) clearInterval(id);},60);});
-    $('#psag-reset')?.addEventListener('click',()=>{ if(slider) slider.value=68; updatePS();});
+    let psagTimer=null;
+    $('#psag-play')?.addEventListener('click',()=>{
+      if(psagTimer){ clearInterval(psagTimer); psagTimer=null; return; }
+      let v=35;
+      psagTimer=setInterval(()=>{v+=3; if(slider) slider.value=v; updatePS(); if(v>=140){clearInterval(psagTimer); psagTimer=null;}},60);
+    });
+    $('#psag-pause')?.addEventListener('click',()=>{
+      if(psagTimer){ clearInterval(psagTimer); psagTimer=null; }
+    });
+    $('#psag-reset')?.addEventListener('click',()=>{ if(slider) slider.value=68; updatePS(); if(psagTimer){clearInterval(psagTimer); psagTimer=null;}});
     updatePS(); drawPS();
   })();
 
@@ -308,19 +331,22 @@
       segBtns.forEach(b=>b.classList.toggle('is-active', b.dataset.gene===g));
       if(alleles) alleles.textContent = g==='wt'?'G/G': g==='het'?'G/A':'A/A';
       if(call) call.innerHTML = g==='wt'? '<strong>G/G wild-type</strong> — no variant detected' : g==='het'? '<strong>G/A heterozygous</strong> — one copy (synthetic)' : '<strong>A/A homozygous</strong> — two copies (synthetic)';
+      if(document.getElementById('fvl-protein')) document.getElementById('fvl-protein').textContent = g==='wt'?'Arg506 present': g==='het'?'Arg506 present / Gln506 present':'Gln506 present';
       drawAmp(35); drawMelt();
     }
     segBtns.forEach(b=>b.addEventListener('click',()=>apply(b.dataset.gene)));
-    let prog=0, timer=null;
+    let prog=0, fvlTimer=null;
     $('#fvl-play')?.addEventListener('click',()=>{
-      prog=0;
-      if(timer) clearInterval(timer);
-      timer=setInterval(()=>{
+      if(fvlTimer){ clearInterval(fvlTimer); fvlTimer=null; return; }
+      fvlTimer=setInterval(()=>{
         prog+=0.8; drawAmp(prog);
-        if(prog>=35){ clearInterval(timer); drawMelt(); }
+        if(prog>=35){ clearInterval(fvlTimer); fvlTimer=null; drawMelt(); }
       },30);
     });
-    $('#fvl-reset')?.addEventListener('click',()=>{apply('wt');});
+    $('#fvl-pause')?.addEventListener('click',()=>{
+      if(fvlTimer){ clearInterval(fvlTimer); fvlTimer=null; }
+    });
+    $('#fvl-reset')?.addEventListener('click',()=>{ if(fvlTimer){clearInterval(fvlTimer); fvlTimer=null;} apply('wt'); });
     apply('wt'); drawAmp(35); drawMelt();
   })();
 
@@ -363,10 +389,16 @@
       drawPSF();
     }
     slider?.addEventListener('input',update);
+    let psfuncTimer=null;
     $('#psfunc-play')?.addEventListener('click',()=>{
-      let v=15; const id=setInterval(()=>{v+=4; if(slider) slider.value=v; update(); if(v>=150) clearInterval(id);},40);
+      if(psfuncTimer){ clearInterval(psfuncTimer); psfuncTimer=null; return; }
+      let v=15;
+      psfuncTimer=setInterval(()=>{v+=4; if(slider) slider.value=v; update(); if(v>=150){clearInterval(psfuncTimer); psfuncTimer=null;}},40);
     });
-    $('#psfunc-reset')?.addEventListener('click',()=>{ if(slider) slider.value=82; update();});
+    $('#psfunc-pause')?.addEventListener('click',()=>{
+      if(psfuncTimer){ clearInterval(psfuncTimer); psfuncTimer=null; }
+    });
+    $('#psfunc-reset')?.addEventListener('click',()=>{ if(slider) slider.value=82; update(); if(psfuncTimer){clearInterval(psfuncTimer); psfuncTimer=null;}});
     update();
   })();
 
@@ -406,8 +438,16 @@
       drawAT();
     }
     slider?.addEventListener('input',update);
-    $('#at-play')?.addEventListener('click',()=>{ let v=20; const id=setInterval(()=>{v+=5; if(slider) slider.value=v; update(); if(v>=150) clearInterval(id);},40);});
-    $('#at-reset')?.addEventListener('click',()=>{ if(slider) slider.value=92; update();});
+    let atTimer=null;
+    $('#at-play')?.addEventListener('click',()=>{
+      if(atTimer){ clearInterval(atTimer); atTimer=null; return; }
+      let v=20;
+      atTimer=setInterval(()=>{v+=5; if(slider) slider.value=v; update(); if(v>=150){clearInterval(atTimer); atTimer=null;}},40);
+    });
+    $('#at-pause')?.addEventListener('click',()=>{
+      if(atTimer){ clearInterval(atTimer); atTimer=null; }
+    });
+    $('#at-reset')?.addEventListener('click',()=>{ if(slider) slider.value=92; update(); if(atTimer){clearInterval(atTimer); atTimer=null;}});
     update();
   })();
 
@@ -446,8 +486,16 @@
       drawPCAG();
     }
     slider?.addEventListener('input',update);
-    $('#pcag-play')?.addEventListener('click',()=>{ let v=20; const id=setInterval(()=>{v+=5; if(slider) slider.value=v; update(); if(v>=150) clearInterval(id);},40);});
-    $('#pcag-reset')?.addEventListener('click',()=>{ if(slider) slider.value=88; update();});
+    let pcagTimer=null;
+    $('#pcag-play')?.addEventListener('click',()=>{
+      if(pcagTimer){ clearInterval(pcagTimer); pcagTimer=null; return; }
+      let v=20;
+      pcagTimer=setInterval(()=>{v+=5; if(slider) slider.value=v; update(); if(v>=150){clearInterval(pcagTimer); pcagTimer=null;}},40);
+    });
+    $('#pcag-pause')?.addEventListener('click',()=>{
+      if(pcagTimer){ clearInterval(pcagTimer); pcagTimer=null; }
+    });
+    $('#pcag-reset')?.addEventListener('click',()=>{ if(slider) slider.value=88; update(); if(pcagTimer){clearInterval(pcagTimer); pcagTimer=null;}});
     update();
   })();
 
@@ -489,8 +537,16 @@
       drawF2();
     }
     slider?.addEventListener('input',update);
-    $('#f2-play')?.addEventListener('click',()=>{ let v=15; const id=setInterval(()=>{v+=6; if(slider) slider.value=v; update(); if(v>=160) clearInterval(id);},40);});
-    $('#f2-reset')?.addEventListener('click',()=>{ if(slider) slider.value=98; update();});
+    let f2Timer=null;
+    $('#f2-play')?.addEventListener('click',()=>{
+      if(f2Timer){ clearInterval(f2Timer); f2Timer=null; return; }
+      let v=15;
+      f2Timer=setInterval(()=>{v+=6; if(slider) slider.value=v; update(); if(v>=160){clearInterval(f2Timer); f2Timer=null;}},40);
+    });
+    $('#f2-pause')?.addEventListener('click',()=>{
+      if(f2Timer){ clearInterval(f2Timer); f2Timer=null; }
+    });
+    $('#f2-reset')?.addEventListener('click',()=>{ if(slider) slider.value=98; update(); if(f2Timer){clearInterval(f2Timer); f2Timer=null;}});
     update();
   })();
 
@@ -526,8 +582,16 @@
       drawPCF();
     }
     slider?.addEventListener('input',update);
-    $('#pcf-play')?.addEventListener('click',()=>{ let v=20; const id=setInterval(()=>{v+=6; if(slider) slider.value=v; update(); if(v>=150) clearInterval(id);},40);});
-    $('#pcf-reset')?.addEventListener('click',()=>{ if(slider) slider.value=84; update();});
+    let pcfTimer=null;
+    $('#pcf-play')?.addEventListener('click',()=>{
+      if(pcfTimer){ clearInterval(pcfTimer); pcfTimer=null; return; }
+      let v=20;
+      pcfTimer=setInterval(()=>{v+=6; if(slider) slider.value=v; update(); if(v>=150){clearInterval(pcfTimer); pcfTimer=null;}},40);
+    });
+    $('#pcf-pause')?.addEventListener('click',()=>{
+      if(pcfTimer){ clearInterval(pcfTimer); pcfTimer=null; }
+    });
+    $('#pcf-reset')?.addEventListener('click',()=>{ if(slider) slider.value=84; update(); if(pcfTimer){clearInterval(pcfTimer); pcfTimer=null;}});
     update();
   })();
 
