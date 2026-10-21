@@ -1,5 +1,23 @@
 [
   {
+    "id": "fogline-books",
+    "title": "Run the Books: Fogline AI — Accounting Flight Simulator",
+    "description": "Operate a fictional AI startup's books across 16 interactive demos: double-entry, ingestion & dedupe, reconciliation, deferred revenue, invoicing, consolidation, month-end close, safe agent execution, idempotent retries, automation policy, and reading business metrics critically.",
+    "path": "experiments/fogline-books/",
+    "category": "Education",
+    "tags": [
+      "Accounting",
+      "Double-entry",
+      "Revenue Recognition",
+      "Reconciliation",
+      "Consolidation",
+      "AI Agents",
+      "Idempotency",
+      "Interactive"
+    ],
+    "date": "2026-10-21"
+  },
+  {
     "id": "coagulation-lab",
     "title": "Inside the Coagulation Lab",
     "description": "Interactive 11-bench tour of the listed panel: Vitamin D 25-Hydroxy (LC-MS/MS), Lupus Anticoagulant Reflex (PTT-LA/dRVVT), APS panel (aPTT/PT/INR/TT/hexagonal/aCL+\u03b22GP1), Protein S antigen (total & free), Factor V Leiden PCR, Protein S functional, Antithrombin activity, Protein C antigen, Factor II activity, Protein C functional \u2014 plus the synthesis Interpretation Report. Generic educational content only, no personal data.",
