@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a1419">
+<meta name="description" content="Inside the Coagulation Lab — an interactive, step-by-step guide to how PT/INR, aPTT, fibrinogen, D-dimer, mixing studies, lupus anticoagulant, thrombophilia assays and genetic tests are actually run in a clinical lab.">
+<title>Inside the Coagulation Lab — Ronnie's Experiments</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="back-link" href="../../" aria-label="Back to experiments">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/><path d="M9 12h11"/></svg>
+      <span>Experiments</span>
+    </a>
+    <a class="brand" href="../../"><span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M15.9 4.5c-1.5 4.3-5.2 6.4-4.7 11.1.2 2.1 1.4 3.8 3.3 4.6-1.5-2.2-.8-4.9 1.5-6.6-.3 3.7 4.3 4.8 4.1 8.1-.1 1.7-1.2 3.2-2.8 4.1 5.3-.7 8.2-5.5 6.8-10.2-.9-3-3.4-4.2-4.2-7.7-.7 2.1-1.7 3.2-2.7 3.8.3-2.6-.2-5.2-1.3-7.2Z"/><path d="M10 24.7h11.5"/></svg></span><span>RONNIE'S <b>EXPERIMENTS</b></span></a>
+    <div class="topbar-actions"><span class="topbar-tag"><span class="status-dot"></span>Interactive lab tour · 8 benches</span></div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <p class="eyebrow"><span class="eyebrow-line"></span> HEMATOLOGY / HEMOSTASIS — BEHIND THE REPORT</p>
+      <h1>Inside the <span>Coagulation Lab</span></h1>
+      <p class="hero-intro">Your blood leaves the arm in a blue-top tube. Hours later a report appears: <em>PT 12.4s, INR 1.1; aPTT 34s; D-dimer 0.42 mg/L…</em> What happened in between? This walk-through opens the instruments, adds the reagents, and shows — mechanism by mechanism — what each common coagulation and thrombophilia assay is <em>actually measuring</em>.</p>
+      <p class="hero-sub">Built for a curious reader with a biology background. We assume you remember cells, proteins and DNA, but not the inside of an analyzer. Every cartoon is labelled <span class="badge">simplified</span> where we cut corners, and every bench has something to pipette.</p>
+      <div class="hero-bullets">
+        <div><span>🧪</span><p><strong>Predict → pipette → detect</strong><br>Each bench starts with a question. Commit, then move the sliders.</p></div>
+        <div><span>🔬</span><p><strong>Mechanism over mnemonics</strong><br>Why citrate, why calcium, why 1:9, why phospholipid — not just “PT = extrinsic”.</p></div>
+        <div><span>⚠️</span><p><strong>What breaks it</strong><br>DOACs, heparin, underfill, acute phase, pregnancy — the real-world traps techs check first.</p></div>
+      </div>
+      <div class="disclaimer">Educational illustration only. No diagnosis, no dosing advice. If you have a personal clotting concern, talk to your clinician.</div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="lab-bench-card">
+        <p class="bench-kicker">YOU ARE HERE · SPECIMEN RECEIVING</p>
+        <div class="bench-scene">
+          <svg viewBox="0 0 420 260" role="img">
+            <!-- bench -->
+            <rect x="10" y="190" width="400" height="14" rx="4" fill="#1E3A42"/>
+            <rect x="10" y="204" width="400" height="6" rx="2" fill="#11272E"/>
+            <!-- rack -->
+            <rect x="28" y="162" width="120" height="28" rx="6" fill="#243B44" stroke="#3A5A63"/>
+            <!-- tubes -->
+            <g class="tube">
+              <rect x="40" y="88" width="18" height="74" rx="9" fill="#FFF8E3" stroke="#E8D5A8"/><rect x="40" y="84" width="18" height="16" rx="4" fill="#1E88E5"/><text x="49" y="80" text-anchor="middle" font-size="7" fill="#8BA3AD">CITRATE</text>
+              <rect x="37" y="132" width="24" height="2" fill="#E63946" opacity=".8"/><rect x="38" y="144" width="22" height="18" rx="2" fill="#FFE0E0" opacity=".9"/>
+            </g>
+            <g class="tube">
+              <rect x="72" y="88" width="18" height="74" rx="9" fill="#FFF8E3" stroke="#E8D5A8"/><rect x="72" y="84" width="18" height="16" rx="4" fill="#1E88E5"/>
+              <rect x="69" y="132" width="24" height="2" fill="#E63946" opacity=".6"/><rect x="70" y="144" width="22" height="18" rx="2" fill="#FFE0E0" opacity=".8"/>
+            </g>
+            <g class="tube">
+              <rect x="104" y="88" width="18" height="74" rx="9" fill="#FFF8E3" stroke="#E8D5A8"/><rect x="104" y="84" width="18" height="16" rx="4" fill="#D32F2F"/><text x="113" y="80" text-anchor="middle" font-size="6" fill="#8BA3AD">SERUM</text>
+            </g>
+            <!-- analyzer -->
+            <rect x="176" y="60" width="220" height="130" rx="12" fill="#0F2A33" stroke="#2EC4B6" stroke-width="1.5"/>
+            <rect x="192" y="78" width="92" height="58" rx="8" fill="#112E38" stroke="#3A5A63"/>
+            <circle cx="238" cy="106" r="22" fill="none" stroke="#2EC4B6" stroke-width="2" stroke-dasharray="4 4"/>
+            <circle cx="238" cy="106" r="3" fill="#2EC4B6"/>
+            <rect x="198" y="146" width="80" height="14" rx="7" fill="#1E3A42"/><text x="238" y="156" text-anchor="middle" font-size="7" fill="#9ECFD5">COAGULOMETER</text>
+            <text x="286" y="86" font-size="7" fill="#8BA3AD">CAROUSEL</text><text x="286" y="96" font-size="7" fill="#8BA3AD">REAGENTS</text>
+            <circle cx="332" cy="98" r="8" fill="#F4D35E" stroke="#E8C54A"/><circle cx="352" cy="98" r="8" fill="#FF8A5B" stroke="#E76F51"/><circle cx="332" cy="118" r="8" fill="#2EC4B6" stroke="#26A89C"/><circle cx="352" cy="118" r="8" fill="#E63946" stroke="#C5303C"/>
+            <rect x="300" y="140" width="72" height="22" rx="6" fill="#021015" stroke="#3A5A63"/><text x="336" y="154" text-anchor="middle" font-size="7" fill="#2EC4B6" font-family="monospace">PT 12.4 / INR 1.1</text>
+            <!-- pipette -->
+            <g transform="translate(150 20) rotate(12)">
+              <rect x="0" y="0" width="10" height="56" rx="5" fill="#EAEAEA" stroke="#9AAAB0"/><rect x="2" y="56" width="6" height="18" rx="3" fill="#FF8A5B"/><rect x="-2" y="-6" width="14" height="10" rx="3" fill="#2EC4B6"/>
+            </g>
+          </svg>
+        </div>
+        <div class="bench-legend">
+          <span><i class="dot" style="background:#1E88E5"></i> Light-blue top = 3.2% citrate, 1 part to 9 blood</span>
+          <span><i class="dot" style="background:#2EC4B6"></i> Carousel = reagents + cuvettes + detector</span>
+        </div>
+      </div>
+      <div class="toc-mini">
+        <p class="toc-label">8 BENCHES — SCROLL OR USE THE RAIL</p>
+        <ol>
+          <li>Sample Journey — why citrate &amp; centrifugation</li>
+          <li>The Clot Timer — PT/INR &amp; aPTT, recalcified</li>
+          <li>How Much Fibrin — Clauss fibrinogen &amp; thrombin time</li>
+          <li>Leftovers — D-dimer latex immunoassay</li>
+          <li>Mix &amp; Tell — 1:1 mixing study logic</li>
+          <li>The Paradox — lupus anticoagulant 3-step</li>
+          <li>Protein Work — chromogenic &amp; antigen assays</li>
+          <li>DNA — Factor V Leiden &amp; prothrombin gene</li>
+          <li>Cases &amp; Traps — when not to test</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<nav class="station-rail" aria-label="Station navigation">
+  <div class="rail-inner">
+    <a href="#s0" class="rail-link is-active" data-rail="s0"><span>00</span> Sample</a>
+    <a href="#s1" class="rail-link" data-rail="s1"><span>01</span> Clot Timer</a>
+    <a href="#s2" class="rail-link" data-rail="s2"><span>02</span> Fibrin</a>
+    <a href="#s3" class="rail-link" data-rail="s3"><span>03</span> D-dimer</a>
+    <a href="#s4" class="rail-link" data-rail="s4"><span>04</span> Mix</a>
+    <a href="#s5" class="rail-link" data-rail="s5"><span>05</span> Lupus</a>
+    <a href="#s6" class="rail-link" data-rail="s6"><span>06</span> Proteins</a>
+    <a href="#s7" class="rail-link" data-rail="s7"><span>07</span> DNA</a>
+    <a href="#s8" class="rail-link" data-rail="s8"><span>08</span> Cases</a>
+  </div>
+</nav>
+
+<main class="exhibit">
+
+<!-- ================= STATION 0 ================= -->
+<section class="lab" id="s0" aria-labelledby="s0-title">
+  <header class="lab-header">
+    <p class="section-kicker">STATION 00 <span>/</span> PREANALYTICS — WHERE MOST ERRORS HAPPEN</p>
+    <h2 id="s0-title">The citrate tube: freezing time without freezing biology</h2>
+    <p class="lab-intro">Coagulation tests don’t run on serum — they need plasma with clotting factors still intact, but not yet clotted. Sodium citrate (in the light-blue cap) does that trick reversibly: it <strong>chelates Ca²⁺</strong>. No free calcium → cascade pauses. In the analyzer we add calcium back to <em>restart the clock</em> under controlled conditions. Get the blood-to-citrate ratio wrong, and you’ve diluted the factors or left calcium around — either way the times lie.</p>
+  </header>
+
+  <div class="predict-card" id="q0" data-correct="b">
+    <p class="predict-kicker">Predict first</p>
+    <p class="predict-q">A nervous phlebotomist draws only half a tube — the citrate tube is 50% full. What happens to PT and aPTT?</p>
+    <div class="predict-options">
+      <button data-choice="a">Shorter — concentrated blood clots faster</button>
+      <button data-choice="b">Longer — excess citrate chelates the calcium we add back, starving the assay</button>
+      <button data-choice="c">No change — citrate is just anticoagulant, volume doesn’t matter</button>
+      <button data-choice="d">Only fibrinogen falls — times stay normal</button>
+    </div>
+    <div class="predict-reveal" hidden>
+      <p class="verdict"></p>
+      <p><strong>Longer.</strong> Tube holds a fixed puff of citrate meant for 1 part citrate + 9 parts blood. Underfill = too much citrate per mL of plasma. When the analyzer adds its standard CaCl₂ dose, some calcium is mopped up by the extra citrate and free Ca²⁺ is low → every Ca-dependent step slows. This is the #1 preanalytical reject. Twin culprit: high hematocrit — RBCs displace plasma so the same citrate is dissolved in <em>less</em> plasma.</p>
+      <button class="jump-btn" data-jump="s0-controls">See it ↓</button>
+    </div>
+  </div>
+
+  <div class="lab-grid">
+    <div class="viz-panel">
+      <div class="viz-toolbar"><p class="pane-title">The tube → the centrifuge → platelet-poor plasma</p><div class="transport-controls"><button class="btn btn-primary" id="s0-spin"><span class="btn-ico">◉</span> <span id="s0-spin-label">Spin</span></button><button class="btn" id="s0-reset">Reset</button></div></div>
+      <svg id="s0-scene" viewBox="0 0 860 340" role="img" aria-label="Citrate tube fill and centrifuge diagram">
+        <!-- left tube -->
+        <g transform="translate(30 20)">
+          <text x="110" y="12" font-size="11" font-weight="700" fill="#E8F1F2">1 · Draw</text>
+          <text x="110" y="26" font-size="9" fill="#9ECFD5">3.2% Na₃citrate · 1:9 · invert 3–6×</text>
+          <!-- tube outline -->
+          <rect x="20" y="40" width="70" height="170" rx="12" fill="#0B1E24" stroke="#2E4E58" stroke-width="1.5"/>
+          <rect x="20" y="36" width="70" height="18" rx="4" fill="#1E88E5"/>
+          <rect x="26" y="44" width="58" height="6" rx="3" fill="#163F4D"/>
+          <!-- citrate -->
+          <rect id="s0-citrate" x="22" y="192" width="66" height="14" rx="4" fill="#7BC8E6" opacity=".9"/>
+          <text x="55" y="202" font-size="6" fill="#0A1419" text-anchor="middle" font-weight="700">CITRATE</text>
+          <!-- blood -->
+          <rect id="s0-blood" x="22" y="60" width="66" height="132" rx="6" fill="#8B2635" opacity=".95"/>
+          <rect id="s0-plasma" x="22" y="60" width="66" height="22" rx="4" fill="#F4D35E" opacity=".9"/>
+          <text id="s0-blood-label" x="55" y="128" text-anchor="middle" font-size="9" fill="#FFE8E8" font-weight="700">BLOOD + CITRATE</text>
+          <text x="110" y="110" font-size="8" fill="#C9D8DD" id="s0-ratio-label">Ratio 1:9 ✓</text>
+          <text x="110" y="126" font-size="7" fill="#8BA3AD">Free Ca²⁺ chelated</text>
+          <g id="s0-fill-markers" font-size="6" fill="#2EC4B6">
+            <line x1="90" y1="60" x2="102" y2="60" stroke="#2EC4B6"/><text x="106" y="62">fill line</text>
+            <line x1="90" y1="120" x2="102" y2="120" stroke="#E63946"/><text x="106" y="122" fill="#E63946">½ fill = reject</text>
+          </g>
+        </g>
+        <!-- centrifuge -->
+        <g transform="translate(280 20)">
+          <text x="110" y="12" font-size="11" font-weight="700" fill="#E8F1F2">2 · Spin</text>
+          <text x="110" y="26" font-size="9" fill="#9ECFD5">1500 g × 15 min → PPP &lt;10k platelets/µL</text>
+          <circle cx="110" cy="128" r="86" fill="#0B1E24" stroke="#2E4E58" stroke-width="1.5"/>
+          <circle cx="110" cy="128" r="72" fill="#112A33" stroke="#2A4F5C"/>
+          <g id="s0-rotor" transform="rotate(0 110 128)">
+            <g transform="translate(110 128)">
+              <!-- 4 tube slots -->
+              <g transform="rotate(0)"><rect x="-9" y="-58" width="18" height="36" rx="6" fill="#FFF8E3" stroke="#D9C99E"/><rect x="-9" y="-62" width="18" height="8" rx="3" fill="#1E88E5"/><circle cx="0" cy="-40" r="5" fill="#8B2635"/></g>
+              <g transform="rotate(90)"><rect x="-9" y="-58" width="18" height="36" rx="6" fill="#FFF8E3" stroke="#D9C99E"/><rect x="-9" y="-62" width="18" height="8" rx="3" fill="#1E88E5"/></g>
+              <g transform="rotate(180)"><rect x="-9" y="-58" width="18" height="36" rx="6" fill="#FFF8E3" stroke="#D9C99E"/><rect x="-9" y="-62" width="18" height="8" rx="3" fill="#1E88E5"/></g>
+              <g transform="rotate(270)"><rect x="-9" y="-58" width="18" height="36" rx="6" fill="#FFF8E3" stroke="#D9C99E"/><rect x="-9" y="-62" width="18" height="8" rx="3" fill="#1E88E5"/></g>
+              <circle cx="0" cy="0" r="12" fill="#0A1419" stroke="#2EC4B6"/>
+            </g>
+          </g>
+          <text x="110" y="232" text-anchor="middle" font-size="7" fill="#8BA3AD">Hematocrit affects citrate adjustment</text>
+        </g>
+        <!-- PPP -->
+        <g transform="translate(560 20)">
+          <text x="110" y="12" font-size="11" font-weight="700" fill="#E8F1F2">3 · Platelet-poor plasma</text>
+          <text x="110" y="26" font-size="9" fill="#9ECFD5">Analyze within 4 h (or freeze). Avoid residual platelets → PF4.</text>
+          <rect x="30" y="40" width="70" height="170" rx="12" fill="#0B1E24" stroke="#2E4E58" stroke-width="1.5"/>
+          <rect x="30" y="36" width="70" height="18" rx="4" fill="#CFE8EF" opacity=".9"/>
+          <rect id="s0-ppp-blood" x="32" y="40" width="66" height="170" rx="10" fill="#F4D35E" opacity=".95"/>
+          <rect id="s0-ppp-rbc" x="32" y="160" width="66" height="50" rx="6" fill="#8B2635" opacity="0"/>
+          <rect id="s0-buffy" x="32" y="140" width="66" height="8" rx="2" fill="#E0E0E0" opacity="0"/>
+          <text x="130" y="80" font-size="9" fill="#F4D35E" font-weight="700" id="s0-ppp-label">PPP — pale yellow</text>
+          <text x="130" y="96" font-size="7" fill="#C9D8DD">Clotting factors intact</text>
+          <text x="130" y="112" font-size="7" fill="#C9D8DD">Ca²⁺ chelated, platelets removed</text>
+          <text x="130" y="138" font-size="7" fill="#8BA3AD">Buffy coat + RBCs</text>
+          <text x="130" y="152" font-size="7" fill="#8BA3AD">pelleted</text>
+        </g>
+      </svg>
+      <p class="viz-caption">Drag the sliders: underfill dilutes factors; high Hct leaves extra citrate in less plasma → both prolong times before the analyzer even starts. Press <strong>Spin</strong> to separate.</p>
+    </div>
+    <div class="controls-panel" id="s0-controls">
+      <div class="control">
+        <label for="s0-fill">Tube fill <span class="control-tag">1:9 ideal</span></label>
+        <input type="range" id="s0-fill" min="20" max="100" value="100" step="5">
+        <div class="control-scale"><span>½ full</span><span>full</span></div>
+        <output class="control-out" id="s0-fill-val">100% — adequate</output>
+        <p class="control-why" id="s0-fill-why">Correct citrate:blood ratio. Free Ca²⁺ will be normalized on recalcification.</p>
+      </div>
+      <div class="control">
+        <label for="s0-hct">Patient hematocrit <span class="control-tag">affects adjustment</span></label>
+        <input type="range" id="s0-hct" min="20" max="65" value="42" step="1">
+        <div class="control-scale"><span>20% anemic</span><span>65% polycythemic</span></div>
+        <output class="control-out" id="s0-hct-val">42% — no adjustment</output>
+        <p class="control-why" id="s0-hct-why">Typical Hct. If &gt;55%, lab uses CLSI formula to reduce citrate in tube: citrate = (100−Hct)/(595−Hct) × blood volume.</p>
+      </div>
+      <div class="readout-grid">
+        <div class="readout"><p class="readout-label">Excess citrate</p><p class="readout-val" id="s0-excess">0%</p></div>
+        <div class="readout"><p class="readout-label">Expected PT/aPTT bias</p><p class="readout-val" id="s0-bias">None</p></div>
+      </div>
+      <div class="notes-panel small">
+        <div class="term-card">
+          <p class="term-label">Tech checklist (rejected if…)</p>
+          <ul class="term-list compact">
+            <li>Clotted, hemolyzed, lipemic, icteric — each flagged</li>
+            <li>Underfilled &lt;90% line (capillary tubes excepted)</li>
+            <li>Wrong tube (EDTA chelates too avidly; heparin activates AT)</li>
+            <li>Heparin line contamination — one bad draw poisons aPTT</li>
+            <li>Platelet clumps — insufficient spin → PF4 neutralizes heparin → falsely short</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="takeaway"><p class="takeaway-label">Station 00 takeaway</p><p><strong>Citrate doesn’t remove calcium — it hides it.</strong> The analyzer’s first job is to give it back, precisely, so clotting starts at time zero. Everything after is just “how long until fibrin appears under defined trigger.” If the tube is wrong, the story is wrong before page 1.</p></div>
+</section>
+
+<!-- ================= STATION 1 ================= -->
+<section class="lab" id="s1" aria-labelledby="s1-title">
+  <header class="lab-header">
+    <p class="section-kicker">STATION 01 <span>/</span> THE CLOT TIMER</p>
+    <h2 id="s1-title">PT/INR &amp; aPTT: same detector, different starter pistol</h2>
+    <p class="lab-intro">Both tests ask one question: <em>how many seconds from trigger to visible fibrin?</em> They differ only in <strong>what they trigger</strong>. PT hammers the <em>extrinsic + common</em> arm with tissue factor (thromboplastin) — think scraped vessel wall. aPTT tiptoes via <em>contact activation + phospholipid</em> (no tissue factor) to interrogate the <em>intrinsic + common</em> arm. Neither is a “global coagulation test” — each is blind to the other arm.</p>
+  </header>
+
+  <div class="cascade-strip" aria-label="Coagulation cascade triggers">
+    <svg viewBox="0 0 860 140" role="img">
+      <text x="430" y="16" text-anchor="middle" font-size="9" font-weight="700" fill="#2EC4B6" letter-spacing="1">TWO ENTRANCES → ONE COMMON EXIT: FIBRIN</text>
+      <!-- extrinsic -->
+      <g id="path-extrinsic">
+        <rect x="20" y="30" width="190" height="90" rx="10" fill="#1A3A44" stroke="#2EC4B6" stroke-width="1.2"/>
+        <text x="115" y="48" text-anchor="middle" font-size="8" fill="#2EC4B6" font-weight="700">PT STARTER · TF + phospholipid + Ca²⁺</text>
+        <text x="115" y="62" text-anchor="middle" font-size="7" fill="#C9D8DD">“wound signal” — VII → X → V → II → fibrin</text>
+        <text x="36" y="84" font-size="9" fill="#F4D35E">VII</text><text x="66" y="84" font-size="7" fill="#8BA3AD">→</text><text x="78" y="84" font-size="9" fill="#F4D35E">X</text><text x="92" y="84" font-size="7" fill="#8BA3AD">→</text><text x="104" y="84" font-size="9" fill="#F4D35E">V·II</text><text x="130" y="84" font-size="7" fill="#8BA3AD">→</text><text x="142" y="84" font-size="9" fill="#FFE0A0">fibrin</text>
+        <text x="115" y="104" text-anchor="middle" font-size="7" fill="#9ECFD5">Sens: VII, X, V, II, fibrinogen · Warfarin</text>
+        <circle cx="160" cy="48" r="4" fill="#2EC4B6" id="s1-dot-pt"/>
+      </g>
+      <!-- common -->
+      <g>
+        <rect x="330" y="40" width="200" height="70" rx="10" fill="#132E36" stroke="#F4D35E"/>
+        <text x="430" y="58" text-anchor="middle" font-size="8" fill="#F4D35E" font-weight="700">COMMON PATHWAY · X V II I Fibrinogen</text>
+        <text x="430" y="74" text-anchor="middle" font-size="7" fill="#C9D8DD">Thrombin converts soluble fibrinogen → fibrin mesh</text>
+        <text x="430" y="92" text-anchor="middle" font-size="7" fill="#9ECFD5">Detected as ↑ turbidity / viscosity</text>
+      </g>
+      <!-- intrinsic -->
+      <g id="path-intrinsic">
+        <rect x="650" y="30" width="190" height="90" rx="10" fill="#2A2436" stroke="#FF8A5B" stroke-width="1.2"/>
+        <text x="745" y="48" text-anchor="middle" font-size="8" fill="#FF8A5B" font-weight="700">aPTT STARTER · activator + phospholipid + Ca²⁺</text>
+        <text x="745" y="62" text-anchor="middle" font-size="7" fill="#C9D8DD">“surface contact” — XII → XI → IX/VIII → X → …</text>
+        <text x="666" y="84" font-size="9" fill="#FFBFA0">XII XI</text><text x="706" y="84" font-size="7" fill="#8BA3AD">→</text><text x="718" y="84" font-size="9" fill="#FFBFA0">IX·VIII</text><text x="758" y="84" font-size="7" fill="#8BA3AD">→</text><text x="770" y="84" font-size="9" fill="#FFE0A0">fibrin</text>
+        <text x="745" y="104" text-anchor="middle" font-size="7" fill="#9ECFD5">Sens: VIII, IX, XI, XII, X, V, II, fibrinogen · Heparin</text>
+        <circle cx="700" cy="48" r="4" fill="#FF8A5B" id="s1-dot-aptt"/>
+      </g>
+      <path d="M210 75 H330" stroke="#2EC4B6" stroke-width="1.2" marker-end="url(#arr-cyan)"/>
+      <path d="M650 75 H530" stroke="#FF8A5B" stroke-width="1.2" marker-end="url(#arr-orange)"/>
+      <defs><marker id="arr-cyan" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10Z" fill="#2EC4B6"/></marker><marker id="arr-orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10Z" fill="#FF8A5B"/></marker></defs>
+    </svg>
+  </div>
+
+  <div class="predict-card" id="q1" data-correct="c">
+    <p class="predict-kicker">Predict first</p>
+    <p class="predict-q">You spike normal plasma with therapeutic enoxaparin (LMW heparin, anti-Xa). Which times move?</p>
+    <div class="predict-options">
+      <button data-choice="a">PT skyrockets, aPTT unchanged</button>
+      <button data-choice="b">Both PT and aPTT prolong equally — they share the common pathway</button>
+      <button data-choice="c">aPTT prolongs mildly or not at all; PT barely moves — LMWH targets Xa beyond the TF burst and aPTT reagents vary</button>
+      <button data-choice="d">Fibrinogen disappears</button>
+    </div>
+    <div class="predict-reveal" hidden>
+      <p class="verdict"></p>
+      <p><strong>aPTT moves a little, PT hardly at all.</strong> Unfractionated heparin (anti-IIa + anti-Xa) potently prolongs aPTT; low-molecular-weight heparin is engineered to be more anti-Xa-selective and often leaves even aPTT insensitive — labs use <em>anti-Xa activity</em> instead. This is why “monitoring heparin with aPTT vs anti-Xa” is an assay-choice debate, not just a target debate. Try the reagent bench below.</p>
+      <button class="jump-btn" data-jump="s1-bench">To the bench ↓</button>
+    </div>
+  </div>
+
+  <div class="lab-grid">
+    <div class="viz-panel">
+      <div class="viz-toolbar"><div class="segmented" role="group" aria-label="Assay selector"><button class="seg-btn is-active" data-assay="pt" aria-pressed="true">PT / INR</button><button class="seg-btn" data-assay="aptt" aria-pressed="false">aPTT</button></div><div class="transport-controls"><button class="btn btn-primary" id="s1-run"><span class="btn-ico">▶</span> <span id="s1-run-label">Run assay</span></button><button class="btn" id="s1-reset">Reset</button></div></div>
+      <div class="bench-grid">
+        <div class="bench-left">
+          <svg viewBox="0 0 380 260" role="img" aria-label="Coagulometer cuvette steps">
+            <text x="190" y="16" text-anchor="middle" font-size="10" font-weight="700" fill="#E8F1F2">CUVETTE · 37 °C</text>
+            <!-- cuvette -->
+            <rect x="110" y="28" width="160" height="130" rx="10" fill="#0B1E24" stroke="#2E4E58" stroke-width="1.4"/>
+            <rect x="118" y="36" width="144" height="100" rx="8" fill="#112A33"/>
+            <!-- plasma -->
+            <rect id="s1-plasma" x="122" y="80" width="136" height="50" rx="6" fill="#F4D35E" opacity=".95"/>
+            <text x="190" y="110" text-anchor="middle" font-size="8" fill="#5A3D00" font-weight="700" id="s1-plasma-label">PPP 50 µL</text>
+            <!-- stir bar -->
+            <ellipse cx="190" cy="146" rx="18" ry="3" fill="#9ECFD5" opacity=".7" id="s1-stir"/>
+            <!-- light path -->
+            <line x1="40" y1="100" x2="118" y2="100" stroke="#2EC4B6" stroke-width="1.2" stroke-dasharray="4 3"/>
+            <line x1="262" y1="100" x2="340" y2="100" stroke="#2EC4B6" stroke-width="1.2" stroke-dasharray="4 3"/>
+            <circle cx="40" cy="100" r="10" fill="#0F2A33" stroke="#2EC4B6"/><text x="40" y="103" text-anchor="middle" font-size="6" fill="#2EC4B6">LED</text>
+            <circle cx="340" cy="100" r="12" fill="#021015" stroke="#2EC4B6"/><text x="340" y="104" text-anchor="middle" font-size="5" fill="#2EC4B6">DET</text>
+            <text x="68" y="88" font-size="6" fill="#8BA3AD">590–800 nm</text>
+            <!-- pipette tips -->
+            <g id="s1-tip-calcium" opacity="0"><rect x="226" y="6" width="6" height="20" rx="3" fill="#5BC0DE"/><circle cx="229" cy="30" r="3" fill="#5BC0DE"/></g>
+            <g id="s1-tip-reagent" opacity="0"><rect x="146" y="6" width="6" height="20" rx="3" fill="#FF8A5B"/><circle cx="149" cy="30" r="3" fill="#FF8A5B"/></g>
+            <!-- steps -->
+            <g font-size="8" fill="#C9D8DD">
+              <text x="10" y="182" id="s1-step-1">① PPP + activator/incubate</text>
+              <text x="10" y="200" id="s1-step-2">② + Reagent (TF/PL or PL/ activator)</text>
+              <text x="10" y="218" id="s1-step-3">③ + CaCl₂ → start timer at T₀</text>
+              <text x="10" y="236" id="s1-step-4">④ Fibrin ↑ turbidity → time recorded</text>
+            </g>
+          </svg>
+          <div class="reagent-tray" aria-label="Reagents">
+            <div class="reagent" data-reagent="ca"><i style="background:#5BC0DE"></i><p><strong>CaCl₂</strong><small>25 mM · recalcify</small></p></div>
+            <div class="reagent is-active" id="s1-reagent-card" data-reagent="pt"><i id="s1-reagent-dot" style="background:#2EC4B6"></i><p><strong id="s1-reagent-name">Thromboplastin</strong><small id="s1-reagent-desc">TF + phospholipid</small></p></div>
+            <div class="reagent"><i style="background:#FF8A5B"></i><p><strong>Contact activator</strong><small id="s1-activator-desc">silica/ellagic acid (aPTT only)</small></p></div>
+          </div>
+        </div>
+        <div class="bench-right">
+          <p class="chart-head-mini">Detector output · absorbance vs time</p>
+          <canvas id="s1-curve" width="420" height="210" role="img" aria-label="Clot detection curve"></canvas>
+          <div class="readout-grid readout-grid-2">
+            <div class="readout"><p class="readout-label">Clot time</p><p class="readout-val" id="s1-time">—</p></div>
+            <div class="readout"><p class="readout-label">Reference</p><p class="readout-val small" id="s1-ref">PT 10–13 s</p></div>
+          </div>
+          <p class="viz-caption">The detector isn’t “seeing cascade”. It’s seeing <strong>fibrin</strong>: mechanical viscosity (ball/visco) or optical turbidity (Δ absorbance). Time from Ca²⁺ addition to threshold = result. Add inhibitor → curve right-shifts.</p>
+        </div>
+      </div>
+    </div>
+    <div class="controls-panel" id="s1-bench">
+      <div class="control">
+        <label for="s1-factor">Factor level (common pathway surrogate)</label>
+        <input type="range" id="s1-factor" min="5" max="150" value="100" step="5">
+        <div class="control-scale"><span>5% severe</span><span>100%</span><span>150%</span></div>
+        <output class="control-out" id="s1-factor-val">100% — normal</output>
+        <p class="control-why" id="s1-factor-why">Normal factor complement. Times lie in reference window; INR ≈1.0.</p>
+      </div>
+      <div class="control">
+        <label for="s1-anticoag">Spiked anticoagulant</label>
+        <select id="s1-anticoag" class="select">
+          <option value="none">None — drug-free</option>
+          <option value="warfarin">Warfarin (VKA) — ↓ functional II, VII, IX, X</option>
+          <option value="heparin">Unfractionated heparin — AT·heparin inhibits IIa/Xa</option>
+          <option value="apixaban">Apixaban — direct Xa inhibitor</option>
+          <option value="dabigatran">Dabigatran — direct thrombin inhibitor</option>
+        </select>
+        <p class="control-why" id="s1-anticoag-why">No drug. Dose slider affects clot time non-linearly.</p>
+      </div>
+      <div class="control" id="s1-interfer-group" style="display:none">
+        <label for="s1-dose">Drug level <span class="control-tag">relative</span></label>
+        <input type="range" id="s1-dose" min="0" max="100" value="50">
+        <output class="control-out" id="s1-dose-val">50%</output>
+      </div>
+      <div class="inr-box" id="inr-box">
+        <p class="term-label">INR calculator · PT only · for VKA monitoring</p>
+        <div class="inr-grid">
+          <label>PT patient (s) <input type="number" id="inr-pt" value="12.4" step="0.1"></label>
+          <label>MNPT (s) <input type="number" id="inr-mnpt" value="12.0" step="0.1"></label>
+          <label>ISI <input type="number" id="inr-isi" value="1.02" step="0.01"></label>
+          <div class="inr-result"><span>INR</span><strong id="inr-out">1.03</strong></div>
+        </div>
+        <p class="fine-print">INR = (PT<sub>pt</sub>/MNPT)<sup>ISI</sup>. Calibrates away thromboplastin species/ISI differences. Validated only for vitamin-K antagonists — not DOACs, not liver disease.</p>
+      </div>
+      <div class="notes-panel small">
+        <div class="eq-card">
+          <p class="eq-label">What PT &amp; aPTT can’t tell you</p>
+          <p class="eq-note">In vitro times ≠ in vivo bleeding/thrombosis risk. Lupus anticoagulant prolongs aPTT yet clots. Factor XII deficiency prolongs aPTT with <em>no</em> bleeding. Always interpret with D-dimer, fibrinogen, platelets, and story.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="takeaway"><p class="takeaway-label">Station 01 takeaway</p><p>Think <strong>pistol + stopwatch</strong>: PT fires tissue factor; aPTT fires contact + phospholipid. Both stop when fibrin scatters light. INR is just a unit conversion so warfarin dose travels between labs.</p></div>
+</section>
+
+<!-- ================= STATION 2 ================= -->
+<section class="lab" id="s2" aria-labelledby="s2-title">
+  <header class="lab-header">
+    <p class="section-kicker">STATION 02 <span>/</span> HOW MUCH FIBRIN CAN YOU MAKE?</p>
+    <h2 id="s2-title">Fibrinogen (Clauss) &amp; thrombin time: weighing the mesh</h2>
+    <p class="lab-intro">PT/aPTT tell you <em>how fast</em> fibrin appears. Fibrinogen asks <em>how much</em>. In <strong>Clauss fibrinogen</strong>, the lab overwhelms all upstream regulation by flooding diluted plasma with excess thrombin — clot time now reflects only fibrinogen concentration. Flip it: in <strong>thrombin time (TT)</strong>, we ask “if I give you thrombin, how long until <em>you</em> clot?” — a sensitive sniff for anything blocking that last step.</p>
+  </header>
+
+  <div class="lab-grid">
+    <div class="viz-panel">
+      <div class="viz-toolbar"><p class="pane-title">Clauss principle — excess thrombin, dilute plasma, time ∝ 1/[fibrinogen]</p><div class="transport-controls"><button class="btn btn-primary" id="s2-run"><span class="btn-ico">▶</span> <span id="s2-run-label">Clot PPP 1:10</span></button><button class="btn" id="s2-reset">Clear</button></div></div>
+      <div class="bench-grid">
+        <div class="bench-left">
+          <svg viewBox="0 0 360 220" role="img" aria-label="Clauss assay cuvette">
+            <rect x="80" y="20" width="200" height="120" rx="12" fill="#0B1E24" stroke="#2E4E58"/>
+            <rect x="90" y="30" width="180" height="100" rx="8" fill="#112A33"/>
+            <text x="180" y="18" text-anchor="middle" font-size="8" fill="#9ECFD5" font-weight="700">CUVETTE · 37°C · thrombin 100 NIH U/mL</text>
+            <rect x="96" y="70" width="168" height="48" rx="6" fill="#F4D35E" id="s2-plasma"/>
+            <g id="s2-fibrin-mesh" opacity="0">
+              <path d="M110 84 Q160 76 210 84 T260 84" stroke="#E8C54A" stroke-width="1.2" fill="none"/>
+              <path d="M110 96 Q170 108 260 96" stroke="#E8C54A" stroke-width="1.2" fill="none"/>
+              <path d="M120 92 L250 92" stroke="#FFE0A0" stroke-width="2" opacity=".5"/>
+              <circle cx="140" cy="88" r="2" fill="#FFF"/><circle cx="200" cy="94" r="2" fill="#FFF"/><circle cx="180" cy="86" r="1.6" fill="#FFF"/>
+            </g>
+            <text x="180" y="108" text-anchor="middle" font-size="8" fill="#5A3D00" font-weight="700" id="s2-cuvette-label">Diluted PPP → + thrombin → fibrin</text>
+            <line x1="40" y1="90" x2="80" y2="90" stroke="#2EC4B6" stroke-dasharray="4 3"/><circle cx="40" cy="90" r="8" fill="#0F2A33" stroke="#2EC4B6"/><text x="40" y="93" text-anchor="middle" font-size="5" fill="#2EC4B6">DET</text>
+            <g font-size="7" fill="#C9D8DD">
+              <text x="10" y="162">Time to mesh detected = seconds</text>
+              <text x="10" y="176">Read off calibration → mg/dL or g/L</text>
+              <text x="10" y="190" fill="#8BA3AD">PT-derived fibrinogen (calculated from PT curve) ≠ Clauss — don’t interchange.</text>
+            </g>
+          </svg>
+          <div class="reagent-tray">
+            <div class="reagent is-active"><i style="background:#E63946"></i><p><strong>Thrombin</strong><small>excess — drowns inhibitors</small></p></div>
+            <div class="reagent"><i style="background:#F4D35E"></i><p><strong>PPP 1:10</strong><small>dilution linearizes</small></p></div>
+            <div class="reagent"><i style="background:#9ECFD5"></i><p><strong>Ca not needed</strong><small>thrombin is downstream of Ca</small></p></div>
+          </div>
+        </div>
+        <div class="bench-right">
+          <canvas id="s2-curve" width="420" height="210" role="img" aria-label="Clauss calibration curve"></canvas>
+          <div class="readout-grid readout-grid-2">
+            <div class="readout"><p class="readout-label">Clot time</p><p class="readout-val" id="s2-time">—</p></div>
+            <div class="readout"><p class="readout-label">Fibrinogen (Clauss)</p><p class="readout-val" id="s2-fib">—</p></div>
+          </div>
+          <p class="viz-caption">High fibrinogen → many fibrinogen molecules → mesh forms fast → short time. The chart is log-linear. Plot a point with the slider: watch low fibrinogen prolong TT as well.</p>
+        </div>
+      </div>
+    </div>
+    <div class="controls-panel">
+      <div class="control">
+        <label for="s2-fib-slider">True fibrinogen level</label>
+        <input type="range" id="s2-fib-slider" min="50" max="700" value="280" step="10">
+        <div class="control-scale"><span>50 mg/dL low</span><span>700 high (acute phase)</span></div>
+        <output class="control-out" id="s2-fib-slider-val">280 mg/dL — normal (200–400)</output>
+        <p class="control-why" id="s2-fib-why">Normal adult. Acute-phase reactant — can quadruple in inflammation, pregnancy, post-op — masking DIC consumption.</p>
+      </div>
+      <div class="control">
+        <label for="s2-interfer">Thrombin-time interferent</label>
+        <select id="s2-interfer" class="select">
+          <option value="none">None</option>
+          <option value="heparin">Heparin / dabigatran — thrombin inhibitor</option>
+          <option value="fdp">FDPs / dysfibrinogenemia — abnormal mesh</option>
+        </select>
+        <p class="control-why" id="s2-interfer-why">Clean sample. TT should be 14–19 s (reagent-dependent).</p>
+      </div>
+      <div class="notes-panel small">
+        <div class="term-card">
+          <p class="term-label">TT vs reptilase — the bedside split</p>
+          <dl class="term-list">
+            <div><dt>TT prolonged, reptilase normal</dt><dd>Heparin/dabigatran in sample (reptilase is heparin-insensitive snake venom thrombin-like enzyme → bypasses inhibition).</dd></div>
+            <div><dt>Both prolonged</dt><dd>Hypo/dysfibrinogenemia or FDPs.</dd></div>
+          </dl>
+        </div>
+        <div class="eq-card">
+          <p class="eq-label">Reporting</p>
+          <p class="eq-note">Fibrinogen: mg/dL or g/L (divide by 100). Example: 300 mg/dL = 3.0 g/L. PT-derived estimate often overreads in dysfibrinogenemia — insist on Clauss when bleeding/DIC is on the differential.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="takeaway"><p class="takeaway-label">Station 02 takeaway</p><p><strong>PT tells speed; fibrinogen tells material.</strong> You can have a normal PT but bleed from afibrinogenemia, and you can have a sky-high Clauss (acute phase) while DIC is already chewing through platelets — look at the whole panel.</p></div>
+</section>
+
+<!-- ================= STATION 3 ================= -->
+<section class="lab" id="s3" aria-labelledby="s3-title">
+  <header class="lab-header">
+    <p class="section-kicker">STATION 03 <span>/</span> LEFTOVERS</p>
+    <h2 id="s3-title">D-dimer: not a clot test — a cleanup test</h2>
+    <p class="lab-intro">D-dimer doesn’t detect clot — it detects <em>what’s left after clot is built, cross-linked by factor XIIIa, then chopped by plasmin</em>. Only <strong>cross-linked fibrin</strong> yields the D-dimer neoepitope; fibrinogen chopped alone does not. Labs measure it with <strong>latex immuno-turbidimetry</strong>: antibody-coated beads agglutinate when D-dimer bridges them → light scattering ↑ → absorbance change converted via calibrators. High sensitivity, terrible specificity — which is the point for rule-out.</p>
+  </header>
+
+  <div class="lab-grid">
+    <div class="viz-panel">
+      <div class="viz-toolbar"><p class="pane-title">Latex beads — agglutination → turbidity · antibody sandwich</p><div class="transport-controls"><button class="btn btn-primary" id="s3-run">Agitate</button><button class="btn" id="s3-reset">Reset</button></div></div>
+      <div class="bench-grid">
+        <div class="bench-left">
+          <canvas id="s3-canvas" width="360" height="220" role="img" aria-label="Latex agglutination canvas"></canvas>
+          <svg viewBox="0 0 360 60" role="img" aria-label="Detector">
+            <line x1="40" y1="30" x2="130" y2="30" stroke="#2EC4B6" stroke-width="1.2"/><circle cx="40" cy="30" r="8" fill="#0F2A33" stroke="#2EC4B6"/><text x="40" y="33" text-anchor="middle" font-size="5" fill="#2EC4B6">LED</text>
+            <rect x="130" y="10" width="100" height="40" rx="6" fill="#0B1E24" stroke="#2E4E58"/><rect x="136" y="16" width="88" height="28" rx="4" fill="#112A33" id="s3-cuvette-fill"/>
+            <line x1="230" y1="30" x2="320" y2="30" stroke="#2EC4B6" stroke-width="1.4"/><circle cx="320" cy="30" r="10" fill="#021015" stroke="#2EC4B6"/><text x="320" y="34" text-anchor="middle" font-size="5" fill="#2EC4B6">DET</text>
+            <text x="180" y="58" text-anchor="middle" font-size="6" fill="#8BA3AD">Δ absorbance at 540 nm ∝ [D-dimer]</text>
+          </svg>
+        </div>
+        <div class="bench-right">
+          <canvas id="s3-chart" width="420" height="220" role="img" aria-label="D-dimer calibration"></canvas>
+          <div class="readout-grid readout-grid-2">
+            <div class="readout"><p class="readout-label">Turbidity ΔA</p><p class="readout-val" id="s3-turb">—</p></div>
+            <div class="readout"><p class="readout-label">D-dimer</p><p class="readout-val" id="s3-dval">—</p></div>
+          </div>
+          <p class="viz-caption">More D-dimer = more bead bridges = murkier cuvette = less light reaches detector. Every lab’s cutoff differs — know FEU vs DDU and your assay’s. Drag the slider.</p>
+        </div>
+      </div>
+    </div>
+    <div class="controls-panel">
+      <div class="control">
+        <label for="s3-level">D-dimer concentration <span class="control-tag">FEU mg/L</span></label>
+        <input type="range" id="s3-level" min="0" max="4000" value="420" step="10">
+        <div class="control-scale"><span>0</span><span>500 cut-off*</span><span>4000</span></div>
+        <output class="control-out" id="s3-level-val">420 FEU mg/L — below cutoff for this demo (0.50)</output>
+        <p class="control-why" id="s3-level-why">*Cutoff assay-specific; often 0.50 mg/L FEU. Age-adjusted: age × 0.01 mg/L over 50 in some pathways.</p>
+      </div>
+      <div class="notes-panel small">
+        <div class="eq-card">
+          <p class="eq-label">Units matter</p>
+          <p class="eq">1 DDU ≈ 2 FEU</p>
+          <p class="eq-note">FEU = fibrinogen-equivalent units (whole fibrinogen mass); DDU = D-dimer mass only. Mixing them moves the cutoff 2×. Always check which your lab reports.</p>
+        </div>
+        <div class="term-card">
+          <p class="term-label">Why sensitivity > specificity?</p>
+          <ul class="term-list compact">
+            <li>Negative highly sensitive assay → good rule-out in low pre-test probability (e.g., Wells low PE).</li>
+            <li>Many things raise D-dimer: clot, trauma, surgery, cancer, infection, pregnancy, age, inflammation.</li>
+            <li>Not for screening the well. Use only with validated clinical decision rule.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="takeaway"><p class="takeaway-label">Station 03 takeaway</p><p><strong>D-dimer is a fibrinolysis receipt, not a thrombosis photo.</strong> Its job is to say “no recent cross-linked fibrin cleanup? probably no clot to clean” — and only when pretest probability already made that plausible.</p></div>
+</section>
+
+<!-- ================= STATION 4 ================= -->
+<section class="lab" id="s4" aria-labelledby="s4-title">
+  <header class="lab-header">
+    <p class="section-kicker">STATION 04 <span>/</span> CORRECTION LOGIC</p>
+    <h2 id="s4-title">Mixing studies: does normal plasma fix it?</h2>
+    <p class="lab-intro">Prolonged aPTT or PT? Is it <strong>not enough factor</strong> or <strong>something blocking the reaction</strong>? Mix 1:1 with normal pooled plasma (NPP) — which has ~100% of every factor — and re-time. A <em>deficiency</em> gets topped up past the ~30% hemostatic threshold → time <strong>corrects</strong>. An <em>inhibitor</em> (antibody, drug, lupus anticoagulant) poisons the mix too → <strong>fails to correct</strong>. Lupus vs specific factor inhibitor needs incubated mixes (progressive FVIII antibodies need time/temperature).</p>
+  </header>
+
+  <div class="predict-card" id="q4" data-correct="b">
+    <p class="predict-kicker">Predict first</p>
+    <p class="predict-q">aPTT 78 s (ref 25–35). 1:1 mix immediately → 44 s; after 2 h incubation at 37 °C → 68 s. Interpretation?</p>
+    <div class="predict-options">
+      <button data-choice="a">Lupus anticoagulant — immediate non-correction</button>
+      <button data-choice="b">Time-dependent FVIII inhibitor — progressive prolongation on incubation</button>
+      <button data-choice="c">Factor XII deficiency — corrects immediately and stays corrected</button>
+      <button data-choice="d">Heparin — corrects with hepzyme</button>
+    </div>
+    <div class="predict-reveal" hidden><p class="verdict"></p><p><strong>Time-dependent inhibitor, classic for acquired FVIII autoantibody.</strong> Lupus anticoagulant is immediate and persistent. Simple deficiency corrects and <em>stays</em> corrected. Heparin effect disappears with heparinase, not time. This is why labs run both immediate and incubated mixes.</p><button class="jump-btn" data-jump="s4-bench">Try the mixer ↓</button></div>
+  </div>
+
+  <div class="lab-grid">
+    <div class="viz-panel">
+      <div class="viz-toolbar"><p class="pane-title">1:1 mix — pipette, incubate, re-time aPTT/PT</p></div>
+      <svg viewBox="0 0 860 250" role="img" aria-label="Mixing study diagram">
+        <!-- patient -->
+        <g transform="translate(30 20)">
+          <text x="70" y="10" text-anchor="middle" font-size="10" font-weight="700" fill="#E8F1F2">Patient PPP</text>
+          <rect x="20" y="20" width="100" height="90" rx="10" fill="#0B1E24" stroke="#2E4E58"/>
+          <rect x="30" y="40" width="80" height="50" rx="6" fill="#F4D35E" opacity=".9"/>
+          <text x="70" y="70" text-anchor="middle" font-size="7" fill="#5A3D00">aPTT 68s</text>
+          <text x="70" y="84" text-anchor="middle" font-size="7" fill="#5A3D00">↑ prolonged</text>
+          <circle cx="70" cy="100" r="10" fill="#E63946" opacity=".9"/><text x="70" y="104" text-anchor="middle" font-size="6" fill="#FFF">? Ab</text>
+        </g>
+        <text x="155" y="70" font-size="18" fill="#2EC4B6">+</text>
+        <!-- NPP -->
+        <g transform="translate(180 20)">
+          <text x="70" y="10" text-anchor="middle" font-size="10" font-weight="700" fill="#E8F1F2">Normal pooled plasma</text>
+          <rect x="20" y="20" width="100" height="90" rx="10" fill="#0B1E24" stroke="#2E4E58"/>
+          <rect x="30" y="40" width="80" height="50" rx="6" fill="#CDEDF5" opacity=".9"/>
+          <text x="70" y="70" text-anchor="middle" font-size="7" fill="#0A2A33">NPP</text>
+          <text x="70" y="84" text-anchor="middle" font-size="7" fill="#0A2A33">aPTT 28s</text>
+        </g>
+        <text x="305" y="70" font-size="18" fill="#2EC4B6">=</text>
+        <!-- mix -->
+        <g transform="translate(330 20)">
+          <text x="70" y="10" text-anchor="middle" font-size="10" font-weight="700" fill="#E8F1F2">1:1 Mix</text>
+          <rect x="20" y="20" width="100" height="90" rx="10" fill="#132E36" stroke="#F4D35E"/>
+          <rect id="s4-mix-fill" x="30" y="40" width="80" height="50" rx="6" fill="#E9D98A" opacity=".9"/>
+          <text x="70" y="68" text-anchor="middle" font-size="7" fill="#5A3D00" id="s4-mix-label">50:50</text>
+          <text x="70" y="88" text-anchor="middle" font-size="9" font-weight="700" fill="#0A1419" id="s4-mix-time">—</text>
+        </g>
+        <!-- arrow to incubate -->
+        <g transform="translate(500 40)">
+          <rect x="0" y="0" width="120" height="70" rx="10" fill="#0B1E24" stroke="#3A5A63"/>
+          <text x="60" y="18" text-anchor="middle" font-size="7" fill="#9ECFD5" font-weight="700">INCUBATE</text>
+          <text x="60" y="32" text-anchor="middle" font-size="7" fill="#C9D8DD">37 °C · 60–120 min</text>
+          <text x="60" y="46" text-anchor="middle" font-size="7" fill="#8BA3AD">FVIII inhibitors progress</text>
+          <text x="60" y="58" text-anchor="middle" font-size="6" fill="#2EC4B6" id="s4-incubate-label">tap a case ↓</text>
+        </g>
+        <!-- result -->
+        <g transform="translate(660 20)">
+          <text x="70" y="10" text-anchor="middle" font-size="10" font-weight="700" fill="#E8F1F2">Interpretation</text>
+          <rect x="0" y="20" width="170" height="90" rx="10" fill="#021015" stroke="#2EC4B6"/>
+          <text x="85" y="44" text-anchor="middle" font-size="8" fill="#F4D35E" font-weight="700" id="s4-interp">Select a case</text>
+          <text x="85" y="62" text-anchor="middle" font-size="7" fill="#C9D8DD" id="s4-interp-sub"></text>
+          <text x="85" y="78" text-anchor="middle" font-size="6" fill="#8BA3AD">Rosner index = (mix−NPP)/patient ×100</text>
+        </g>
+        <!-- timeline -->
+        <g transform="translate(30 140)">
+          <rect x="0" y="0" width="800" height="80" rx="10" fill="#0B1E24" stroke="#2E4E58"/>
+          <text x="10" y="16" font-size="7" fill="#9ECFD5" font-weight="700">THREE PATTERNS (aPTT)</text>
+          <g font-size="7" fill="#C9D8DD">
+            <text x="16" y="32">Deficiency (e.g., FIX 15%): <tspan fill="#2EC4B6">44s → corrects to 31s, stays 33s incubated</tspan></text>
+            <text x="16" y="48">LA / immediate inhibitor: <tspan fill="#E63946">64s → 58s immediate (no correction), 60s incubated</tspan></text>
+            <text x="16" y="64">FVIII inhibitor (time-dependent): <tspan fill="#FF8A5B">78s → 44s immediate (partial), 68s incubated (worse)</tspan></text>
+          </g>
+        </g>
+      </svg>
+      <div class="case-tabs" role="group" aria-label="Mixing cases">
+        <button class="case-btn is-active" data-case="deficiency">Case A · Factor deficiency</button>
+        <button class="case-btn" data-case="la">Case B · Lupus anticoagulant</button>
+        <button class="case-btn" data-case="fviii">Case C · FVIII inhibitor</button>
+      </div>
+    </div>
+    <div class="controls-panel" id="s4-bench">
+      <div class="control">
+        <p class="control-label">Rosner index (mixing interpretation aid) <span class="badge">simplified</span></p>
+        <div class="inr-box">
+          <div class="inr-grid" style="grid-template-columns:1fr 1fr 1fr;">
+            <div><p class="readout-label">Patient</p><p class="readout-val" id="s4-patient-val">68 s</p></div>
+            <div><p class="readout-label">NPP</p><p class="readout-val">28 s</p></div>
+            <div><p class="readout-label">1:1 Mix</p><p class="readout-val" id="s4-mix-val">—</p></div>
+          </div>
+          <p class="eq-note" id="s4-rosner">Run a case to compute Rosner. &lt;~12% often “correction” (deficiency); higher suggests inhibitor — cutoffs vary by assay; labs use their own reference interval.</p>
+        </div>
+      </div>
+      <div class="notes-panel small">
+        <div class="term-card"><p class="term-label">Pitfalls before you call it</p><ul class="term-list compact"><li>Heparin contamination → prolonged that “corrects” with heparinase, not mixing.</li><li>DOACs → aPTT/PT/dRVVT prolongation mimicking LA — know drug history, use DOAC-adsorb.</li><li>Lupus anticoagulant antibodies are <em>phospholipid-dependent</em> — mixing barely moves the time because antibody remains in mix.</li></ul></div>
+      </div>
+    </div>
+  </div>
+  <div class="takeaway"><p class="takeaway-label">Station 04 takeaway</p><p><strong>Correction = deficiency (topped up); non-correction = inhibitor (still there).</strong> Immediate vs incubated tells you whether that inhibitor needs time to bite — a clue that changes therapy from factor replacement to bypassing agents/immunosuppression.</p></div>
+</section>
+
+<!-- ================= STATION 5 ================= -->
+<section class="lab" id="s5" aria-labelledby="s5-title">
+  <header class="lab-header">
+    <p class="section-kicker">STATION 05 <span>/</span> THE PHOSPHOLIPID PARADOX</p>
+    <h2 id="s5-title">Lupus anticoagulant: when longer clotting means higher clotting risk</h2>
+    <p class="lab-intro">Lupus anticoagulant (LA) is a misnomer: a family of autoantibodies against <strong>phospholipid-binding proteins</strong> (β₂-glycoprotein I, prothrombin). In a tube with limiting phospholipid, they steal the surface coagulation complexes need → <strong>longer clotting times</strong>. In a person, they activate endothelium/platelets/complement → <strong>thrombosis and pregnancy loss</strong>. Diagnosis is functional, not antigen: a <strong>three-step algorithm</strong> on two assay principles.</p>
+  </header>
+
+  <div class="lab-grid">
+    <div class="viz-panel">
+      <div class="viz-toolbar"><p class="pane-title">ISTH/Denver 3-step — screen → mix → confirm (×2 assay types)</p><div class="transport-controls"><button class="btn btn-primary" id="s5-run">Step through</button><button class="btn" id="s5-reset">Reset</button></div></div>
+      <svg id="s5-diagram" viewBox="0 0 860 360" role="img" aria-label="LA algorithm diagram">
+        <!-- Step 1 -->
+        <g id="s5-step1" opacity="1">
+          <rect x="20" y="18" width="240" height="120" rx="12" fill="#132E36" stroke="#FF8A5B" stroke-width="1.4"/>
+          <text x="140" y="38" text-anchor="middle" font-size="9" font-weight="700" fill="#FF8A5B">① SCREEN — sensitive to LA</text>
+          <text x="140" y="52" text-anchor="middle" font-size="7" fill="#C9D8DD">Low phospholipid · phospholipid-dependent</text>
+          <g transform="translate(40 66)">
+            <rect x="0" y="0" width="200" height="28" rx="6" fill="#0B1E24" stroke="#2E4E58"/><text x="10" y="12" font-size="7" fill="#9ECFD5">dRVVT screen</text><text x="10" y="22" font-size="6" fill="#8BA3AD">Russell viper venom → activates X directly</text><text x="170" y="16" text-anchor="middle" font-size="8" fill="#F4D35E" font-weight="700" id="s5-drvvt-screen">—</text>
+          </g>
+          <g transform="translate(40 100)">
+            <rect x="0" y="0" width="200" height="28" rx="6" fill="#0B1E24" stroke="#2E4E58"/><text x="10" y="12" font-size="7" fill="#9ECFD5">aPTT-LA / SCT</text><text x="10" y="22" font-size="6" fill="#8BA3AD">Silica clotting time, LA-sensitive aPTT</text><text x="170" y="16" text-anchor="middle" font-size="8" fill="#F4D35E" font-weight="700" id="s5-aptt-screen">—</text>
+          </g>
+        </g>
+        <text x="272" y="78" font-size="14" fill="#2EC4B6">→</text>
+        <!-- Step 2 -->
+        <g id="s5-step2" opacity=".35">
+          <rect x="298" y="18" width="210" height="120" rx="12" fill="#0B1E24" stroke="#3A5A63"/>
+          <text x="403" y="38" text-anchor="middle" font-size="9" font-weight="700" fill="#9ECFD5">② MIX — 1:1 NPP</text>
+          <text x="403" y="52" text-anchor="middle" font-size="7" fill="#C9D8DD">Does prolongation persist?</text>
+          <rect x="318" y="66" width="170" height="40" rx="8" fill="#021015" stroke="#2E4E58"/>
+          <text x="403" y="84" text-anchor="middle" font-size="7" fill="#8BA3AD">LA: still prolonged</text>
+          <text x="403" y="98" text-anchor="middle" font-size="7" fill="#8BA3AD">Deficiency: corrects</text>
+          <text x="403" y="118" text-anchor="middle" font-size="7" fill="#2EC4B6" font-weight="700" id="s5-mix-status">awaiting step 1</text>
+        </g>
+        <text x="520" y="78" font-size="14" fill="#2EC4B6">→</text>
+        <!-- Step 3 -->
+        <g id="s5-step3" opacity=".35">
+          <rect x="546" y="18" width="294" height="120" rx="12" fill="#0B1E24" stroke="#3A5A63"/>
+          <text x="693" y="38" text-anchor="middle" font-size="9" font-weight="700" fill="#9ECFD5">③ CONFIRM — excess phospholipid</text>
+          <text x="693" y="52" text-anchor="middle" font-size="7" fill="#C9D8DD">Add hexagonal phospholipid → bypasses antibody</text>
+          <g transform="translate(566 66)">
+            <rect x="0" y="0" width="254" height="28" rx="6" fill="#021015" stroke="#2E4E58"/><text x="10" y="12" font-size="7" fill="#9ECFD5">dRVVT confirm (high PL)</text><text x="10" y="22" font-size="6" fill="#8BA3AD">Shortens if LA was cause</text><text x="220" y="16" text-anchor="middle" font-size="8" fill="#F4D35E" font-weight="700" id="s5-drvvt-confirm">—</text>
+          </g>
+          <g transform="translate(566 100)">
+            <rect x="0" y="0" width="254" height="28" rx="6" fill="#021015" stroke="#2E4E58"/><text x="10" y="12" font-size="7" fill="#9ECFD5">Staclot / SCT confirm</text><text x="220" y="16" text-anchor="middle" font-size="8" fill="#F4D35E" font-weight="700" id="s5-sct-confirm">—</text>
+          </g>
+        </g>
+        <!-- Ratios -->
+        <g transform="translate(20 160)">
+          <rect x="0" y="0" width="820" height="90" rx="10" fill="#0B1E24" stroke="#2E4E58"/>
+          <text x="410" y="18" text-anchor="middle" font-size="8" fill="#2EC4B6" font-weight="700">RATIO &amp; INTERPRETATION (this demo uses illustrative cutoffs — real labs validate their own)</text>
+          <g font-size="7" fill="#C9D8DD">
+            <text x="16" y="36">dRVVT screen/confirm ratio = screen ÷ confirm. <tspan fill="#F4D35E"> &gt;1.2 suggests LA</tspan> (normalize to reference pooled plasma). Similarly SCT ratio.</text>
+            <text x="16" y="50">Need: <tspan font-weight="700">prolonged screen + non-correction on mix + shortening on confirm</tspan> in ≥1 (ideally 2) assay systems to call LA. Single time-point ≠ APS — needs persistence ≥12 weeks.</text>
+            <text x="16" y="64" fill="#FF8A5B">Drugs kill interpretation: heparin prolongs, DOACs devastate dRVVT (false ↑), VKA prolongs — interpret only off anticoagulants or with adsorbent. CRP/factor VIII acute phase shortens SCT.</text>
+            <text x="16" y="78" fill="#9ECFD5">Current screen ratio: <tspan id="s5-ratio" font-weight="700">—</tspan> · Mix suggests: <tspan id="s5-mix-interp">—</tspan> · Confirm suggests: <tspan id="s5-confirm-interp">—</tspan></text>
+          </g>
+        </g>
+        <!-- mechanism cartoon -->
+        <g transform="translate(20 268)">
+          <rect x="0" y="0" width="820" height="70" rx="10" fill="#132E36" stroke="#2E4E58"/>
+          <text x="410" y="16" text-anchor="middle" font-size="8" fill="#F4D35E" font-weight="700">WHY PHOSPHOLIPID MATTERS</text>
+          <g font-size="7" fill="#C9D8DD">
+            <text x="16" y="30">Tenase (IXa·VIIIa) &amp; prothrombinase (Xa·Va) assemble on anionic phospholipid surfaces (normally platelets). LA antibodies bind β₂-GPI/phospholipid → block assembly in low-PL tube → prolonged.</text>
+            <text x="16" y="46">In vivo, same antibodies engage endothelium/monocytes/complement → pro-thrombotic despite “anticoagulant” name.</text>
+            <text x="16" y="60">Associated with arterial/VTE and obstetric APS (with anticardiolipin &amp; anti-β₂-GPI — next bench).</text>
+          </g>
+          <!-- tiny illustration: phospholipid bilayer -->
+          <g transform="translate(720 10)">
+            <ellipse cx="20" cy="8" rx="16" ry="4" fill="#2EC4B6" opacity=".6"/><ellipse cx="20" cy="28" rx="16" ry="4" fill="#2EC4B6" opacity=".6"/>
+            <circle cx="20" cy="18" r="8" fill="#FF8A5B" opacity=".9"/><text x="20" y="21" text-anchor="middle" font-size="5" fill="#FFF">Ab</text>
+          </g>
+        </g>
+      </svg>
+      <div class="case-tabs" role="group" aria-label="LA cases">
+        <button class="case-btn is-active" data-la="normal">Normal screen</button>
+        <button class="case-btn" data-la="la">LA positive pattern</button>
+        <button class="case-btn" data-la="warfarin">VKA effect (not LA)</button>
+        <button class="case-btn" data-la="doac">DOAC interference</button>
+      </div>
+    </div>
+    <div class="controls-panel">
+      <div class="notes-panel small">
+        <div class="term-card">
+          <p class="term-label">Why two assay types?</p>
+          <p class="eq-note">No single assay catches all LA antibodies. ISTH requires two different principles (e.g., dRVVT + silica-based aPTT). dRVVT is more specific; aPTT-LA picks up additional antibodies. Confirm step is phospholipid-neutralisation — not “repeat the test”.</p>
+        </div>
+        <div class="term-card">
+          <p class="term-label">Antiphospholipid syndrome (APS) vs LA</p>
+          <ul class="term-list compact">
+            <li>LA = functional clotting assay (this bench).</li>
+            <li>Anticardiolipin &amp; anti-β₂-GPI = solid-phase immunoassays (ELISA/chemiluminescence). See next bench.</li>
+            <li>APS = clinical criteria (thrombosis/pregnancy morbidity) + persistent lab positivity (&gt;12 wks).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="takeaway"><p class="takeaway-label">Station 05 takeaway</p><p><strong>Prolonged ≠ bleeding.</strong> LA prolongs because the tube starves for phospholipid the antibody hides; the body clots because the same antibody provokes cells and complement. That paradox is why APS is a top thrombophilia to rule out — and why anticoagulants ruin the very tests that detect it.</p></div>
+</section>
+
+<!-- ================= STATION 6 ================= -->
+<section class="lab" id="s6" aria-labelledby="s6-title">
+  <header class="lab-header">
+    <p class="section-kicker">STATION 06 <span>/</span> PROTEIN WORK — THREE DIFFERENT TRICKS</p>
+    <h2 id="s6-title">Thrombophilia proteins: chromogenic, clot-based &amp; immune</h2>
+    <p class="lab-intro">Inherited thrombophilia often means <em>not enough inhibitor</em> — antithrombin, protein C, protein S — or <em>too much driver</em> that won’t turn off (factor VIII, APC resistance). Labs don’t count molecules one way: they <strong>steal the protein’s job and time it</strong> (chromogenic/clot-based activity), <strong>count its heads</strong> (antigen/latex), or <strong>see if activated protein C can still do its cut</strong> (APC resistance). Results only mean anything off acute thrombosis and off anticoagulants.</p>
+  </header>
+
+  <div class="lab-grid">
+    <div class="viz-panel">
+      <div class="viz-toolbar"><div class="segmented" role="group" aria-label="Protein assay type"><button class="seg-btn is-active" data-p="at">Antithrombin</button><button class="seg-btn" data-p="pc">Protein C</button><button class="seg-btn" data-p="ps">Protein S</button><button class="seg-btn" data-p="apcr">APC resistance</button></div></div>
+      <div id="s6-at" class="protein-pane is-active">
+        <svg viewBox="0 0 860 220" role="img" aria-label="Antithrombin chromogenic assay">
+          <text x="430" y="16" text-anchor="middle" font-size="9" font-weight="700" fill="#2EC4B6">CHROMOGENIC — AT activity · heparin cofactor</text>
+          <g transform="translate(20 30)">
+            <rect x="0" y="0" width="260" height="120" rx="10" fill="#0B1E24" stroke="#2E4E58"/>
+            <text x="130" y="16" text-anchor="middle" font-size="7" fill="#9ECFD5" font-weight="700">REAGENTS ADDED TO PLASMA</text>
+            <text x="130" y="30" text-anchor="middle" font-size="7" fill="#C9D8DD">1. Excess Xa (or IIa) + heparin</text>
+            <text x="130" y="44" text-anchor="middle" font-size="7" fill="#C9D8DD">2. AT in sample inactivates Xa·heparin</text>
+            <text x="130" y="58" text-anchor="middle" font-size="7" fill="#C9D8DD">3. Residual Xa cleaves substrate → pNA (yellow)</text>
+            <text x="130" y="78" text-anchor="middle" font-size="7" fill="#F4D35E">More AT = less color → inverse calibration</text>
+            <rect x="20" y="90" width="220" height="18" rx="8" fill="#F4D35E" opacity=".9"/><text x="130" y="102" text-anchor="middle" font-size="9" fill="#0A1419">■ well  pNA read at 405 nm</text>
+          </g>
+          <g transform="translate(300 30)">
+            <rect x="0" y="0" width="260" height="120" rx="10" fill="#021015" stroke="#2EC4B6"/>
+            <text x="130" y="16" text-anchor="middle" font-size="7" fill="#9ECFD5" font-weight="700">YOUR SAMPLE</text>
+            <text x="130" y="30" text-anchor="middle" font-size="8" fill="#E8F1F2" id="s6-at-label">AT 92% — normal</text>
+            <rect x="20" y="40" width="220" height="22" rx="6" fill="#0B1E24" stroke="#2E4E58"/><rect id="s6-at-bar" x="20" y="40" width="200" height="22" rx="6" fill="#2EC4B6"/>
+            <text x="130" y="80" text-anchor="middle" font-size="7" fill="#C9D8DD">Reference ~80–120% (lab-specific, ↓ in acute clot/heparin/pregnancy)</text>
+            <text x="130" y="96" text-anchor="middle" font-size="7" fill="#8BA3AD">Type I = ↓ quantity; Type II = dysfunctional (HBS/RS/Pleiotropic)</text>
+          </g>
+          <g transform="translate(580 30)">
+            <rect x="0" y="0" width="260" height="120" rx="10" fill="#0B1E24" stroke="#2E4E58"/>
+            <text x="130" y="16" text-anchor="middle" font-size="7" fill="#9ECFD5" font-weight="700">CLINICAL NUGGET</text>
+            <text x="16" y="32" font-size="7" fill="#C9D8DD">• AT is heparin’s cofactor — low AT → heparin “resistance”.</text>
+            <text x="16" y="48" font-size="7" fill="#C9D8DD">• Acquired ↓: DIC, liver disease, nephrotic, asparaginase.</text>
+            <text x="16" y="64" font-size="7" fill="#C9D8DD">• Chromogenic Xa-based avoids heparin-cofactor vs anti-IIa nuances.</text>
+            <text x="16" y="80" font-size="7" fill="#FF8A5B">• Don’t test during acute thrombosis/heparin infusion.</text>
+          </g>
+          <g transform="translate(20 166)"><rect x="0" y="0" width="820" height="36" rx="8" fill="#132E36" stroke="#2E4E58"/><text x="10" y="14" font-size="7" fill="#C9D8DD">Also performed: progressive AT (without heparin) — slower; antigen (immuno) to distinguish type I vs II. Heparin/LMWH in sample falsely elevates activity if assay uses Xa without neutralizer.</text><text x="10" y="26" font-size="7" fill="#8BA3AD">Chromogenic = color. Clot-based = seconds. Same protein, different question.</text></g>
+        </svg>
+      </div>
+      <div id="s6-pc" class="protein-pane">
+        <svg viewBox="0 0 860 220" role="img" aria-label="Protein C assay">
+          <text x="430" y="16" text-anchor="middle" font-size="9" font-weight="700" fill="#9B8EC4">PROTEIN C — chromogenic vs clot-based</text>
+          <g transform="translate(20 30)">
+            <rect x="0" y="0" width="400" height="120" rx="10" fill="#0B1E24" stroke="#9B8EC4"/>
+            <text x="200" y="16" text-anchor="middle" font-size="7" fill="#9B8EC4" font-weight="700">CHROMOGENIC · Protac (Agkistrodon venom) activates PC → APC</text>
+            <text x="200" y="30" text-anchor="middle" font-size="7" fill="#C9D8DD">APC cleaves substrate → color ∝ activity (amidolytic) — not affected by FV Leiden</text>
+            <text x="200" y="46" text-anchor="middle" font-size="7" fill="#C9D8DD">Clot-based: APC prolongs aPTT by inactivating Va/VIIIa — sensitive to FV Leiden, lupus, high FVIII</text>
+            <rect x="20" y="70" width="360" height="22" rx="6" fill="#0B1E24" stroke="#2E4E58"/><rect x="20" y="70" width="180" height="22" rx="6" fill="#9B8EC4"/>
+            <text x="200" y="86" text-anchor="middle" font-size="7" fill="#E8F1F2" id="s6-pc-label">PC 88% — normal</text>
+          </g>
+          <g transform="translate(440 30)">
+            <rect x="0" y="0" width="400" height="120" rx="10" fill="#021015" stroke="#9B8EC4"/>
+            <text x="200" y="16" text-anchor="middle" font-size="7" fill="#9ECFD5" font-weight="700">INTERPRETATION</text>
+            <text x="16" y="32" font-size="7" fill="#C9D8DD">• Vitamin K–dependent (↓ on warfarin, ↓ vitamin K).</text>
+            <text x="16" y="48" font-size="7" fill="#C9D8DD">• Acquired ↓: acute clot, DIC, liver disease, post-op.</text>
+            <text x="16" y="64" font-size="7" fill="#C9D8DD">• If clot-based low but chromogenic normal → suspect FV Leiden/APCR, not true PC deficiency — confirm with chromogenic/genetics.</text>
+            <text x="16" y="80" font-size="7" fill="#FF8A5B">• Test remote from thrombosis, off VKA/DOAC if possible.</text>
+          </g>
+          <g transform="translate(20 166)"><rect x="0" y="0" width="820" height="36" rx="8" fill="#132E36"/><text x="10" y="14" font-size="7" fill="#C9D8DD">Reference ~70–140%. Heterozygous deficiency mildly ↑ VTE risk; homozygous/compound severe → purpura fulminans in neonates (rare).</text><text x="10" y="26" font-size="7" fill="#8BA3AD">Protac = protein C activator from copperhead venom — biology borrows from snakes more than you’d expect.</text></g>
+        </svg>
+      </div>
+      <div id="s6-ps" class="protein-pane">
+        <svg viewBox="0 0 860 220" role="img" aria-label="Protein S assay">
+          <text x="430" y="16" text-anchor="middle" font-size="9" font-weight="700" fill="#5BC0DE">PROTEIN S — free antigen + activity (C4bBP-bound vs free)</text>
+          <g transform="translate(20 32)">
+            <rect x="0" y="0" width="820" height="120" rx="10" fill="#0B1E24" stroke="#5BC0DE"/>
+            <text x="16" y="16" font-size="7" fill="#5BC0DE" font-weight="700">BIOLOGY: 40% free (active cofactor for APC/TFPI), 60% bound to C4bBP (inactive). Estrogen ↑ C4bBP → ↓ free PS — pregnancy/OCP acquired ↓.</text>
+            <text x="16" y="32" font-size="7" fill="#C9D8DD">Labs measure: <tspan font-weight="700">free PS antigen</tspan> (latex immuno — gold standard screen) and/or <tspan font-weight="700">PS activity</tspan> (clot-based APC cofactor — suffers DOAC/LA/FV Leiden interference).</text>
+            <text x="16" y="48" font-size="8" fill="#E8F1F2" id="s6-ps-label">Free PS antigen 78% — low-normal (female lower)</text>
+            <rect x="16" y="58" width="300" height="14" rx="6" fill="#0B1E24" stroke="#2E4E58"/><rect id="s6-ps-bar" x="16" y="58" width="200" height="14" rx="6" fill="#5BC0DE"/>
+            <text x="16" y="88" font-size="7" fill="#FF8A5B">Do NOT diagnose PS deficiency in pregnancy/acute phase/OCP/on VKA. Confirm with repeat + family studies.</text>
+            <text x="16" y="102" font-size="7" fill="#8BA3AD">Total PS antigen includes inactive bound fraction — misleading. Acquired ↓: liver/Preg/estrogen/nephrotic/acute phase C4BP ↑.</text>
+          </g>
+          <g transform="translate(0 168)"><rect x="20" y="0" width="820" height="36" rx="8" fill="#132E36"/><text x="30" y="14" font-size="7" fill="#C9D8DD">Reference: free PS antigen ~60–140% (males higher, females lower). Heterozygous PS deficiency ~5–10× VTE risk; phenotype overlaps PC deficiency.</text><text x="30" y="26" font-size="7" fill="#8BA3AD">TFPI = tissue factor pathway inhibitor — PS is its cofactor too, an under-appreciated anticoagulant role.</text></g>
+        </svg>
+      </div>
+      <div id="s6-apcr" class="protein-pane">
+        <svg viewBox="0 0 860 240" role="img" aria-label="APC resistance diagram">
+          <text x="430" y="16" text-anchor="middle" font-size="9" font-weight="700" fill="#E63946">APC RESISTANCE — the functional face of Factor V Leiden (and friends)</text>
+          <g transform="translate(20 30)">
+            <rect x="0" y="0" width="360" height="110" rx="10" fill="#0B1E24" stroke="#E63946"/>
+            <text x="180" y="16" text-anchor="middle" font-size="7" fill="#E63946" font-weight="700">APTT-based: aPTT without vs with APC</text>
+            <text x="180" y="30" text-anchor="middle" font-size="7" fill="#C9D8DD">APC normally cleaves FVa at Arg506 → less Va → longer aPTT (prolongation).</text>
+            <text x="180" y="44" text-anchor="middle" font-size="7" fill="#C9D8DD">Factor V Leiden (R506Q) removes that cut site → APC can’t shut Va off → aPTT barely prolongs.</text>
+            <rect x="20" y="58" width="320" height="18" rx="8" fill="#0B1E24" stroke="#2E4E58"/><rect x="22" y="60" width="160" height="14" rx="6" fill="#E63946" id="s6-apcr-bar"/>
+            <text x="180" y="88" text-anchor="middle" font-size="8" fill="#F4D35E" font-weight="700" id="s6-apcr-label">Ratio 2.4 — normal (≥2.0)</text>
+            <text x="180" y="102" text-anchor="middle" font-size="6" fill="#8BA3AD" id="s6-apcr-note">FVa inactivation intact</text>
+          </g>
+          <g transform="translate(400 30)">
+            <rect x="0" y="0" width="440" height="110" rx="10" fill="#021015" stroke="#E63946"/>
+            <text x="220" y="16" text-anchor="middle" font-size="7" fill="#9ECFD5" font-weight="700">READOUT = APC ratio = aPTT(+APC) ÷ aPTT(baseline)</text>
+            <text x="16" y="32" font-size="7" fill="#C9D8DD">• Normal ≈ 2.0–4.0 (reagent-specific) → good prolongation with APC.</text>
+            <text x="16" y="46" font-size="7" fill="#C9D8DD">• Het FVL ≈ 1.5–1.9 · Homo ≈ 1.2–1.4 (illustrative).</text>
+            <text x="16" y="60" font-size="7" fill="#C9D8DD">• Modified assay dilutes patient in FVa-depleted plasma → removes interference from high FVIII, LA, heparin — best screen before genotyping.</text>
+            <text x="16" y="76" font-size="7" fill="#FF8A5B">• Pregnancy, OCP, acute phase (high FVIII) also ↓ ratio — not always FVL.</text>
+            <text x="16" y="90" font-size="7" fill="#8BA3AD">Follow abnormal with PCR for F5 rs6025 (G1691A) to confirm.</text>
+          </g>
+          <g transform="translate(20 154)">
+            <rect x="0" y="0" width="820" height="60" rx="10" fill="#132E36" stroke="#2E4E58"/>
+            <text x="410" y="16" text-anchor="middle" font-size="8" fill="#F4D35E" font-weight="700">FACTOR VIII — not “thrombophilia” but high level = strong VTE predictor (acute phase)</text>
+            <text x="16" y="32" font-size="7" fill="#C9D8DD">One-stage FVIII activity (aPTT-based, factor-deficient plasma) often elevated in inflammation, stress, pregnancy — persistent elevation acquired, not genetic. Many labs report FVIII with thrombophilia panel as risk marker.</text>
+          </g>
+        </svg>
+      </div>
+      <canvas id="s6-well-canvas" width="860" height="96" role="img" aria-label="Plate well color development"></canvas>
+    </div>
+    <div class="controls-panel">
+      <div class="control" id="s6-control-at"><label for="s6-at-slider">AT activity demo</label><input type="range" id="s6-at-slider" min="20" max="130" value="92"><output class="control-out" id="s6-at-out">92% — normal</output></div>
+      <div class="control" id="s6-control-pc" style="display:none"><label for="s6-pc-slider">Protein C (chromogenic)</label><input type="range" id="s6-pc-slider" min="20" max="130" value="88"><output class="control-out" id="s6-pc-out">88% — normal</output></div>
+      <div class="control" id="s6-control-ps" style="display:none"><label for="s6-ps-slider">Free Protein S antigen</label><input type="range" id="s6-ps-slider" min="15" max="130" value="78"><output class="control-out" id="s6-ps-out">78% — low-normal (female)</output></div>
+      <div class="control" id="s6-control-apcr" style="display:none"><label for="s6-apcr-slider">APC ratio (simulated)</label><input type="range" id="s6-apcr-slider" min="12" max="35" value="24" step="1"><output class="control-out" id="s6-apcr-out">2.4 — normal sensitivity to APC</output></div>
+      <div class="notes-panel small">
+        <div class="eq-card"><p class="eq-label">Timing matters</p><p class="eq-note">Acute thrombosis consumes AT/PC/PS and raises FVIII/fibrinogen → false ↓ or ↑. Estrogen, liver disease, DIC, VKA, DOACs all interfere. Guidelines: test <strong>remote</strong> (≥3 months post-event, off anticoagulants if safe) and repeat abnormal.</p></div>
+        <div class="term-card"><p class="term-label">Antiphospholipid immunoassays</p><p class="eq-note">Anticardiolipin IgG/IgM and anti-β₂-GPI IgG/IgM are <em>ELISA/chemiluminescent</em> antigen assays (not clotting). Wells coated with cardiolipin-β₂-GPI complex capture autoantibody; HRP conjugate → TMB color. Positive = isotype titer + confirmation &gt;12 weeks.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="takeaway"><p class="takeaway-label">Station 06 takeaway</p><p><strong>Activity = “does it work?”; antigen = “is it there?”; ratio = “can it be shut off?”.</strong> Chromogenic tricks use venom enzymes to bypass clotting; clot-based tricks lean into it; immune tricks count molecules. The clever bit is knowing which question the result actually answers — and what (pregnancy, pills, clot) is whispering the opposite.</p></div>
+</section>
+
+<!-- ================= STATION 7 ================= -->
+<section class="lab" id="s7" aria-labelledby="s7-title">
+  <header class="lab-header">
+    <p class="section-kicker">STATION 07 <span>/</span> DNA — NOT A CLOTTING ASSAY</p>
+    <h2 id="s7-title">Factor V Leiden &amp; prothrombin G20210A: reading the gene, not the clot</h2>
+    <p class="lab-intro">The two common inherited thrombophilia variants are <strong>single-nucleotide changes</strong> that raise thrombin generation for life: <strong>F5 c.1691G>A (Arg506Gln) — Factor V Leiden</strong> and <strong>F2 c.20210G>A (3′ UTR) — prothrombin mutation</strong>. Labs don’t infer them from times; they <strong>amplify DNA and spot the base</strong> — PCR with allele-specific probes, melt curves or targeted genotyping. Heparin in the tube doesn’t matter; what matters is <em>whether you should test</em>.</p>
+  </header>
+
+  <div class="lab-grid">
+    <div class="viz-panel">
+      <div class="viz-toolbar"><div class="segmented" role="group"><button class="seg-btn is-active" data-gene="f5">F5 Leiden</button><button class="seg-btn" data-gene="f2">F2 G20210A</button></div><div class="transport-controls"><button class="btn btn-primary" id="s7-run">Cycle PCR</button><button class="btn" id="s7-reset">Reset</button></div></div>
+      <div class="pcr-grid">
+        <div>
+          <svg id="s7-therm" viewBox="0 0 420 220" role="img" aria-label="PCR thermal cycles">
+            <text x="210" y="14" text-anchor="middle" font-size="9" font-weight="700" fill="#E8F1F2">THERMAL CYCLER — 35 cycles</text>
+            <rect x="20" y="20" width="380" height="90" rx="10" fill="#0B1E24" stroke="#2E4E58"/>
+            <!-- wells -->
+            <g id="s7-wells"></g>
+            <text x="210" y="130" text-anchor="middle" font-size="7" fill="#9ECFD5" id="s7-cycle-label">Ready — press Cycle PCR</text>
+            <g transform="translate(20 140)">
+              <rect x="0" y="0" width="380" height="60" rx="10" fill="#021015" stroke="#2E4E58"/>
+              <text x="10" y="16" font-size="7" fill="#9ECFD5" font-weight="700">WHAT EACH CYCLE DOES (simplified)</text>
+              <text x="10" y="30" font-size="7" fill="#C9D8DD">95 °C denature → 60 °C anneal (allele-specific primers/probes) → 72 °C extend — fluorescent signal doubles each cycle.</text>
+              <text x="10" y="44" font-size="6" fill="#8BA3AD">Assay reads <tspan font-weight="700">which probe lights</tspan>: wild-type (G) HEX/VIC vs mutant (A) FAM — not the clot.</text>
+            </g>
+          </svg>
+          <canvas id="s7-amp-canvas" width="420" height="180" role="img" aria-label="Amplification curves"></canvas>
+          <p class="chart-head-mini" style="margin-top:4px">Real-time amplification — Ct earlier when target present</p>
+        </div>
+        <div>
+          <canvas id="s7-melt-canvas" width="420" height="200" role="img" aria-label="Melt curve"></canvas>
+          <p class="chart-head-mini">Melt / probe discrimination — genotype by peak</p>
+          <div class="readout-grid readout-grid-2">
+            <div class="readout"><p class="readout-label">Call</p><p class="readout-val" id="s7-call">—</p></div>
+            <div class="readout"><p class="readout-label">Interpretation</p><p class="readout-val small" id="s7-interp">—</p></div>
+          </div>
+          <svg viewBox="0 0 420 90" role="img" aria-label="Variant details">
+            <rect x="0" y="0" width="420" height="90" rx="10" fill="#0B1E24" stroke="#2E4E58"/>
+            <text x="14" y="16" font-size="7" fill="#2EC4B6" font-weight="700" id="s7-variant-title">F5 LEIDEN — rs6025 G→A · Arg506Gln</text>
+            <text x="14" y="30" font-size="7" fill="#C9D8DD" id="s7-variant-desc">APC cleavage site lost → Va resistant → ↑ thrombin. AD inheritance.</text>
+            <text x="14" y="46" font-size="7" fill="#C9D8DD">Het prevalence ~3–5% European ancestry; homo ~0.02%. Risk: het ~5×, homo ~30–80× relative VTE.</text>
+            <text x="14" y="60" font-size="7" fill="#FF8A5B">Not causal alone — interacts with OCP/pregnancy/obesity/immobility to determine absolute risk.</text>
+            <text x="14" y="76" font-size="6" fill="#8BA3AD">Prothrombin G20210A: 3′-UTR ↑ mRNA stability → ↑ prothrombin level ~30%. Het ~1–2% European, ~3× VTE.</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="controls-panel">
+      <div class="control"><span class="control-label">Select genotype to simulate</span><div class="segmented" role="group" aria-label="Genotype"><button class="seg-btn is-active" data-genotype="wt">Wild-type (G/G)</button><button class="seg-btn" data-genotype="het">Heterozygous (G/A)</button><button class="seg-btn" data-genotype="hom">Homozygous (A/A)</button></div><p class="control-why">See how two probes/ melt peaks (het) collapse to one.</p></div>
+      <div class="readout-grid">
+        <div class="readout"><p class="readout-label">Alleles</p><p class="readout-val" id="s7-alleles">G/G</p></div>
+        <div class="readout"><p class="readout-label">VTE relative risk</p><p class="readout-val" id="s7-risk">~1×</p></div>
+      </div>
+      <div class="notes-panel small">
+        <div class="term-card"><p class="term-label">MTHFR? Homocysteine?</p><p class="eq-note">MTHFR C677T/A1298C genotyping is <strong>not recommended</strong> for thrombophilia workup (common, not independently predictive of VTE). Fasting homocysteine can be nutritional (B12/folate) and vascular, not a core VTE thrombophilia panel — know your guideline.</p></div>
+        <div class="term-card"><p class="term-label">Pre-test thinking</p><ul class="term-list compact"><li>Family history of early/unusual VTE, recurrent loss, severe presentation, young.</li><li>Unexpected VTE on OCP/pregnancy — may guide future estrogen/prophylaxis counseling, not acute anticoagulation duration alone.</li><li>Asymptomatic relatives: test only if result changes management (guidelines cautious).</li></ul></div>
+      </div>
+    </div>
+  </div>
+  <div class="takeaway"><p class="takeaway-label">Station 07 takeaway</p><p><strong>Genes don’t change; risk does.</strong> PCR tells you heterozygote vs homozygote — absolute context (age, hormones, surgery, family) tells you what, if anything, to do. DNA results are permanent; handle with counseling, not haste.</p></div>
+</section>
+
+<!-- ================= STATION 8 ================= -->
+<section class="lab" id="s8" aria-labelledby="s8-title">
+  <header class="lab-header">
+    <p class="section-kicker">STATION 08 <span>/</span> ORDERING WISELY &amp; TRAPS</p>
+    <h2 id="s8-title">Cases, caveats &amp; when <em>not</em> to test</h2>
+    <p class="lab-intro">The biggest thrombophilia error isn’t a wrong reagent — it’s testing at the wrong time, then acting on noise. Anticoagulants, acute phase, pregnancy, estrogen and liver disease each systematically distort the panel. And in the modern DOAC era, <strong>the drug you gave can fake the disease you’re hunting</strong>. Use cases, not checkboxes.</p>
+  </header>
+
+  <div class="lab-grid">
+    <div class="viz-panel">
+      <div class="viz-toolbar"><p class="pane-title">Case simulator — see what each test sees</p><div class="transport-controls"><button class="btn" id="s8-reset">Reset filters</button></div></div>
+      <div class="case-tabs" role="group" aria-label="Clinical cases">
+        <button class="case-btn is-active" data-case="normal">Healthy 32F, baseline</button>
+        <button class="case-btn" data-case="acute">Acute PE, day 1 (no drug yet)</button>
+        <button class="case-btn" data-case="warfarin">Stable on warfarin INR 2.5</button>
+        <button class="case-btn" data-case="doac">On apixaban, needs LA workup</button>
+        <button class="case-btn" data-case="pregnant">28 w pregnant, estrogen</button>
+        <button class="case-btn" data-case="liver">Cirrhosis, INR 1.8</button>
+      </div>
+      <div class="table-wrap">
+        <table class="result-table" aria-label="Case lab panel">
+          <thead><tr><th>Test</th><th>Result</th><th>Expected / Note</th><th>Meaning</th></tr></thead>
+          <tbody id="s8-tbody"></tbody>
+        </table>
+      </div>
+      <div class="chip-row" id="s8-chips"></div>
+      <p class="viz-caption" id="s8-caption">Select a case. Orange badges = assay interference — the time/level you see does not mean the protein is truly low/high.</p>
+    </div>
+    <div class="controls-panel">
+      <div class="notes-panel small">
+        <div class="term-card"><p class="term-label">Golden rules (ACCP/ASH/BCSH flavor)</p>
+          <ol class="term-list compact ordered">
+            <li><strong>Don’t test everyone.</strong> First unprovoked VTE: testing rarely changes duration vs risk-score-guided decision; consider only if result alters counseling/family/anticoag choice.</li>
+            <li><strong>Timing:</strong> AT/PC/PS, LA — avoid acute thrombosis &amp; acute illness (consume/produce). Repeat abnormals months later.</li>
+            <li><strong>Drug holiday:</strong> VKA ↓ PC/PS; DOACs prolong aPTT/PT/dRVVT &amp; PS/PC clot-based &amp; LA; heparin prolongs aPTT &amp; interferes with AT. DNA unaffected.</li>
+            <li><strong>Family:</strong> Counsel before testing asymptomatic kin — what will you do with het FVL?</li>
+          </ol>
+        </div>
+        <div class="eq-card"><p class="eq-label">Viscoelastic outsider: TEG / ROTEM</p><p class="eq-note">Whole-blood, point-of-care: cup-and-pin measures clot strength &amp; lysis in real time. Dominant in bleeding/transfusion algorithms (cardiac, trauma, obstetric) — not a thrombophilia diagnostic panel. Different instrument, different question.</p></div>
+        <div class="eq-card"><p class="eq-label">Lab stewardship tip</p><p class="eq-note">Order: CBC + platelets + PT/INR + aPTT + fibrinogen + D-dimer for bleeding/clot workup; then <em>targeted</em> thrombophilia per indication. “Thrombophilia panel” as a shotgun order during acute VTE → mostly misleading.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="takeaway"><p class="takeaway-label">Station 08 takeaway</p><p><strong>Context is the reagent.</strong> The same number means opposite things before vs after heparin, on vs off the pill, day 1 vs month 4. DNA is stoic; nearly everything else is moody — respect the timing, name the interferent, and repeat the borderline.</p></div>
+</section>
+
+<!-- ===== WRAP-UP ===== -->
+<section class="lab wrapup" id="wrapup" aria-labelledby="wrapup-title">
+  <header class="lab-header">
+    <p class="section-kicker">WRAP-UP <span>/</span> MAP OF THE LAB</p>
+    <h2 id="wrapup-title">What measures what — at a glance</h2>
+  </header>
+  <div class="compare-table" role="table" aria-label="Test comparison">
+    <div class="ct-row ct-head" role="row"><div role="columnheader">Bench</div><div role="columnheader">Adds what?</div><div role="columnheader">Times what?</div><div role="columnheader">Reports</div><div role="columnheader">Top trap</div></div>
+    <div class="ct-row" role="row"><div role="cell" class="ct-key">PT/INR</div><div role="cell">TF + PL + Ca²⁺</div><div role="cell">VII-X-V-II-fibrinogen</div><div role="cell">s + INR = (PT/MNPT)<sup>ISI</sup></div><div role="cell">Underfill; VKA vs DOAC</div></div>
+    <div class="ct-row" role="row"><div role="cell" class="ct-key">aPTT</div><div role="cell">Activator + PL + Ca²⁺</div><div role="cell">XII-XI-IX-VIII-X-V-II-fib</div><div role="cell">s + ratio</div><div role="cell">Heparin; LA; FVIII ↑</div></div>
+    <div class="ct-row" role="row"><div role="cell" class="ct-key">Clauss fibrinogen</div><div role="cell">Excess thrombin + dilution</div><div role="cell">Fibrinogen → fibrin speed</div><div role="cell">mg/dL / g/L</div><div role="cell">Acute-phase masking DIC</div></div>
+    <div class="ct-row" role="row"><div role="cell" class="ct-key">TT / reptilase</div><div role="cell">Thrombin vs snake enzyme</div><div role="cell">Fibrinogen quality/block</div><div role="cell">s (prolonged?)</div><div role="cell">Heparin/dabigatran vs hypo/dysfib</div></div>
+    <div class="ct-row" role="row"><div role="cell" class="ct-key">D-dimer (latex)</div><div role="cell">Ab-coated beads + sample</div><div role="cell">Cross-linked fibrin neoepitope</div><div role="cell">FEU/DDU mg/L, cutoff</div><div role="cell">Low specificity; FEU↔DDU mix-up</div></div>
+    <div class="ct-row" role="row"><div role="cell" class="ct-key">Mixing study</div><div role="cell">1:1 NPP + incubate</div><div role="cell">Deficiency vs inhibitor</div><div role="cell">Correction indices</div><div role="cell">Drug contamination</div></div>
+    <div class="ct-row" role="row"><div role="cell" class="ct-key">LA panel</div><div role="cell">PL-limit → PL-excess</div><div role="cell">Phospholipid dependence</div><div role="cell">Screen/mix/confirm ×2</div><div role="cell">DOAC/VKA/heparin false ±</div></div>
+    <div class="ct-row" role="row"><div role="cell" class="ct-key">AT/PC chromogenic</div><div role="cell">Excess Xa/Protac + pNA substrate</div><div role="cell">Inhibitor/enzyme activity</div><div role="cell">% activity</div><div role="cell">Acute clot + heparin/VKA</div></div>
+    <div class="ct-row" role="row"><div role="cell" class="ct-key">Free PS antigen</div><div role="cell">Latex Ab</div><div role="cell">Molecule amount (unbound)</div><div role="cell">% antigen</div><div role="cell">Pregnancy/OCP/acute phase</div></div>
+    <div class="ct-row" role="row"><div role="cell" class="ct-key">APCR / FVL PCR</div><div role="cell">±APC or allelic PCR</div><div role="cell">APC sensitivity / genotype</div><div role="cell">Ratio / G/A call</div><div role="cell">Preg/OCP/FVIII; counsel</div></div>
+  </div>
+
+  <div class="ledger">
+    <h3>Simplification ledger <span class="badge">read me</span></h3>
+    <p class="ledger-intro">Every bench above is a teaching cartoon. Here’s where we cheated, so you know which intuitions transfer.</p>
+    <ul class="ledger-list">
+      <li><strong>Cartoon kinetics:</strong> Real coagulation is enzyme amplification with feedback (thrombin activates XI, VIII, V) and inhibition (TFPI, antithrombin, APC/PS, fibrinolysis). Timings are reagent-specific calibrations, not pure “factor % → seconds” math.</li>
+      <li><strong>Reagent-specific cutoffs:</strong> All “normal ranges” here are illustrative (PT 10–13s, aPTT 25–35s, fibrinogen 200–400 mg/dL, D-dimer 0.5 FEU mg/L, etc.). Your lab’s reference interval and ISI/assay matter — never memorize hard cutoffs from a demo.</li>
+      <li><strong>Detection:</strong> Labs use optical turbidity, mechanical (magnetic ball / viscosity / electromechanical), nephelometric and chemiluminescent detectors — curves simplified to single-threshold “time”.</li>
+      <li><strong>LA diagnostics:</strong> ISTH guidelines require clinical correlation, two assay systems, mixing interpretation by % correction/index with lab-specific cutoffs, phospholipid neutralization, and persistence ≥12 weeks — we show the logic, not the full criteria audit.</li>
+      <li><strong>Thrombophilia risk:</strong> Absolute VTE risk is multifactorial. Relative risks cited (~5× het FVL etc.) are population averages; individual risk depends on age, BMI, immobility, hormones, family, site of clot.</li>
+      <li><strong>Genomics:</strong> PCR here is targeted single-variant testing; broad panels/sequencing for rare AT/PC/PS/FV/FVII/FX/FXII deficiencies are separate assays with variant interpretation.</li>
+      <li><strong>Not included:</strong> Platelet function (PFA, LTA, VerifyNow), vWF workup, factor inhibitor Bethesda titers, thrombin generation, DIC scoring, cancer-associated clot workup — each its own lab universe.</li>
+    </ul>
+  </div>
+
+  <div class="glossary">
+    <h3>Mini-glossary</h3>
+    <dl class="term-list">
+      <div><dt>PPP · platelet-poor plasma</dt><dd>Citrated plasma spun to &lt;10k platelets/µL — platelets carry phospholipid &amp; PF4 that muddy times if left.</dd></div>
+      <div><dt>TF · tissue factor (thromboplastin)</dt><dd>Transmembrane protein + phospholipid that allosterically activates VII → extrinsic entry.</dd></div>
+      <div><dt>ISI / MNPT</dt><dd>International Sensitivity Index &amp; Mean Normal PT — thromboplastin calibration to make INR portable for VKA monitoring only.</dd></div>
+      <div><dt>Clauss vs PT-derived fibrinogen</dt><dd>Clauss = functional Clauss assay with excess thrombin &amp; calibration (gold standard). PT-derived = estimate back-calculated from PT turbidity — imprecise.</dd></div>
+      <div><dt>FDP vs D-dimer</dt><dd>FDP = any fibrin(ogen) fragment; D-dimer = specifically cross-linked fibrin fragment with D-D neoepitope after FXIIIa + plasmin action.</dd></div>
+      <div><dt>FEU vs DDU</dt><dd>Fibrinogen-equivalent units vs D-dimer units; 1 DDU ≈ 2 FEU (mass basis). Cutoff mismatch hazard.</dd></div>
+      <div><dt>dRVVT</dt><dd>Dilute Russell viper venom time: venom directly activates X — LA-sensitive because it needs phospholipid; confirm step adds excess PL.</dd></div>
+      <div><dt>APC resistance</dt><dd>Failure of added activated protein C to prolong aPTT — functional readout most commonly due to FV Leiden (Arg506Gln) removing an APC cut site.</dd></div>
+      <div><dt>Chromogenic substrate</dt><dd>Short peptide linked to p-nitroaniline (pNA); enzyme cleavage releases yellow pNA — ΔA405 nm ∝ residual enzyme → inverse for inhibitor assays.</dd></div>
+      <div><dt>Bethesda</dt><dd>Not covered interactively: factor inhibitor titer (e.g., FVIII) — serial dilutions of patient into NPP, residual activity after incubation.</dd></div>
+    </dl>
+  </div>
+
+  <div class="refs">
+    <h3>Where to read more (free &amp; clinician-facing)</h3>
+    <ul>
+      <li>ISTH guidance on lupus anticoagulant testing; CLSI H47, H58, H59 — preanalytical, mixing studies, LA.</li>
+      <li>CLSI collection-condition adjustments for citrate at high hematocrit.</li>
+      <li>ACCP/ASH thrombophilia testing guidelines — when not to test, DOAC interference management.</li>
+      <li>Good open reviews: “Hemostasis assays — from PT to thrombin generation” (J Thromb Haemost educational series).</li>
+    </ul>
+  </div>
+</section>
+
+<footer class="page-foot">
+  <p>Inside the Coagulation Lab · part of <a href="../../">Ronnie’s Experiments</a> · all animations are pedagogical models, not diagnostic tools. No patient data leaves your browser.</p>
+</footer>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

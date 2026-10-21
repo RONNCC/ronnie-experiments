@@ -1,8 +1,25 @@
 [
   {
+    "id": "coagulation-lab",
+    "title": "Inside the Coagulation Lab",
+    "description": "An interactive lab tour of how PT/INR, aPTT, fibrinogen, D-dimer, mixing studies, lupus anticoagulant, antithrombin/protein C/S, APC resistance and Factor V Leiden/prothrombin DNA tests are actually run \u2014 with pipettes, curves and traps to avoid.",
+    "path": "experiments/coagulation-lab/",
+    "category": "Education",
+    "tags": [
+      "Hematology",
+      "Hemostasis",
+      "Thrombophilia",
+      "Coagulation",
+      "Lab Medicine",
+      "Interactive",
+      "Clinical"
+    ],
+    "date": "2026-10-21"
+  },
+  {
     "id": "ald-pvd-lab",
     "title": "Thin Film Lab: ALD vs PVD",
-    "description": "Start from zero: why anyone deposits nanometer-thin films (chips, lenses, implants, crisp packets), then three interactive labs on ALD vs PVD — self-limiting reactions, trench conformality, and real growth curves.",
+    "description": "Start from zero: why anyone deposits nanometer-thin films (chips, lenses, implants, crisp packets), then three interactive labs on ALD vs PVD \u2014 self-limiting reactions, trench conformality, and real growth curves.",
     "path": "experiments/ald-pvd-lab/",
     "category": "Education",
     "tags": [
@@ -19,7 +36,7 @@
   {
     "id": "nobel-prize-explainer",
     "title": "Nobel Prize Explainer",
-    "description": "A friendly interactive gallery of the 2023–2025 Nobel Prizes, with approachable exhibits for understanding each breakthrough.",
+    "description": "A friendly interactive gallery of the 2023\u20132025 Nobel Prizes, with approachable exhibits for understanding each breakthrough.",
     "path": "experiments/nobel-prize-explainer/",
     "category": "Education",
     "tags": [
