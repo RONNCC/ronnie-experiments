@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0d1117">
+  <meta name="description" content="Run the books for Fogline AI, a fictional subscription-software startup: an interactive accounting flight simulator covering double-entry, ingestion, reconciliation, revenue recognition, consolidation, close workflows, safe agents, and automation quality.">
+  <title>Run the Books: Fogline AI — Accounting Flight Simulator</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="back-link" href="../../" aria-label="Back to experiments hub">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/><path d="M9 12h11"/></svg>
+        <span>Experiments</span>
+      </a>
+      <a class="brand" href="../../" aria-label="Ronnie's Experiments home">
+        <span class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><path d="M15.9 4.5c-1.5 4.3-5.2 6.4-4.7 11.1.2 2.1 1.4 3.8 3.3 4.6-1.5-2.2-.8-4.9 1.5-6.6-.3 3.7 4.3 4.8 4.1 8.1-.1 1.7-1.2 3.2-2.8 4.1 5.3-.7 8.2-5.5 6.8-10.2-.9-3-3.4-4.2-4.2-7.7-.7 2.1-1.7 3.2-2.7 3.8.3-2.6-.2-5.2-1.3-7.2Z"/><path d="M10 24.7h11.5"/></svg>
+        </span>
+        <span>RONNIE'S <b>EXPERIMENTS</b></span>
+      </a>
+      <div class="topbar-actions">
+        <span class="topbar-tag"><span class="status-dot"></span>Interactive sandbox · 16 demos</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-heading">
+      <p class="eyebrow"><span class="eyebrow-line"></span> ACCOUNTING / SYSTEMS / AI AGENTS</p>
+      <h1>Run the books for <span>Fogline&nbsp;AI</span></h1>
+      <p class="page-intro">
+        An accounting <strong>flight simulator</strong>. You operate a fictional subscription-software startup, watch every
+        action change its books, then add automation, a second company, and AI agents. All scenarios are
+        <strong>invented teaching examples</strong> — not claims about any real product. The unifying question:
+      </p>
+      <div class="callout green"><strong>What happened in the business, how should the books represent it, and what prevents the software from representing it incorrectly?</strong></div>
+    </section>
+
+    <section class="company-strip" aria-label="Your fictional company and pipeline">
+      <div class="panel">
+        <h3>☁️ Your company: Fogline AI</h3>
+        <p class="sub">Small subscription-software business. One company and a handful of transactions to start — complexity arrives gradually.</p>
+        <ul class="fogline-facts">
+          <li>🏦 <span><b>Bank + corporate card</b> — operating cash lives here</span></li>
+          <li>💳 <span><b>Payment processor</b> — customers pay through it; payouts arrive net of fees</span></li>
+          <li>🧾 <span><b>Contractors &amp; software bills</b> — hosting, tools, people</span></li>
+          <li>📅 <span><b>Annual plans paid upfront</b> — cash now, service over 12 months</span></li>
+          <li>🏢 <span><b>Later:</b> a wholly owned <b>subsidiary</b> (Demo 11)</span></li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>Every action flows through this pipeline</h3>
+        <p class="sub">Three views on each step — <b>business</b> (what happened?), <b>accounting</b> (what entries?), <b>systems</b> (what data, permissions, state transitions?).</p>
+        <div class="pipeline" aria-label="Event to report pipeline">
+          <span class="pipe-step hot">event</span><span class="pipe-arrow">→</span>
+          <span class="pipe-step">evidence</span><span class="pipe-arrow">→</span>
+          <span class="pipe-step">proposal</span><span class="pipe-arrow">→</span>
+          <span class="pipe-step">approval</span><span class="pipe-arrow">→</span>
+          <span class="pipe-step">journal</span><span class="pipe-arrow">→</span>
+          <span class="pipe-step">report</span>
+        </div>
+        <div class="live-meters" aria-label="Live company meters">
+          <div class="live-meter flat" id="lm-cash"><p>Cash</p><p>$0</p></div>
+          <div class="live-meter flat" id="lm-rev"><p>Revenue</p><p>$0</p></div>
+          <div class="live-meter flat" id="lm-profit"><p>Profit</p><p>$0</p></div>
+          <div class="live-meter flat" id="lm-ar"><p>Receivables</p><p>$0</p></div>
+          <div class="live-meter flat" id="lm-def"><p>Deferred rev</p><p>$0</p></div>
+        </div>
+        <p class="fine-print">These meters mirror Demo 1's ledger — post entries there and watch them move. Each demo is otherwise self-contained; reset any demo without fear.</p>
+      </div>
+    </section>
+
+    <section class="how-strip" aria-label="How to use this simulator">
+      <div class="how-item"><span class="how-num">1</span><p><strong>Predict first.</strong> Each demo asks what will change — commit before you click.</p></div>
+      <div class="how-item"><span class="how-num">2</span><p><strong>Act, then inspect.</strong> Post, match, reconcile — then drill into entries and evidence.</p></div>
+      <div class="how-item"><span class="how-num">3</span><p><strong>Break it on purpose.</strong> Trap buttons show how balanced books can still be wrong.</p></div>
+    </section>
+
+    <nav class="chapter-nav" aria-label="Demo chapters">
+      <a href="#ch-foundations"><b>A</b>Foundations · 1–2</a>
+      <a href="#ch-inputs"><b>B</b>Messy inputs · 3–5</a>
+      <a href="#ch-timing"><b>C</b>Timing · 6–9</a>
+      <a href="#ch-reporting"><b>D</b>Reporting · 10–12</a>
+      <a href="#ch-agents"><b>E</b>Agents · 13–15</a>
+      <a href="#ch-business"><b>F</b>Business · 16</a>
+      <a href="#guided-story"><b>★</b>Guided story</a>
+    </nav>
+
+    <!-- ================= CHAPTER A ================= -->
+    <div class="chapter-title" id="ch-foundations">
+      <p class="eyebrow"><span class="eyebrow-line"></span> CHAPTER A · FOUNDATIONS</p>
+      <h2>What a ledger actually does</h2>
+      <p>Double-entry bookkeeping, the chart of accounts, and why a balanced ledger can still be economically wrong.</p>
+    </div>
+
+    <!-- DEMO 1 -->
+    <section class="demo" id="demo-1" aria-labelledby="d1-title">
+      <p class="demo-kicker"><span class="n">01</span>FOUNDATIONS</p>
+      <h3 id="d1-title">“Where did the money come from?”</h3>
+      <div class="concept-chips"><span>ledger</span><span>accounts</span><span>double-entry</span><span>assets</span><span>liabilities</span><span>equity</span><span>revenue</span><span>expenses</span></div>
+      <p class="demo-intro">Drag a business event onto the ledger by building <strong>both sides</strong> of its entry. Debits and credits are just the two sides of an entry — not “bad/good”, and total debits must equal total credits. Pick an event, choose a debit and a credit, then post.</p>
+      <div class="predict-card" id="q1" data-correct="b">
+        <p class="predict-kicker">Predict first</p>
+        <p class="predict-q">Fogline borrows $10,000 from a bank. Cash rises by $10,000 — so profit rises by $10,000 too. True or false?</p>
+        <div class="predict-options">
+          <button type="button" data-choice="a">True — more cash is more profit</button>
+          <button type="button" data-choice="b">False — the loan also creates a $10,000 liability, so profit is unchanged</button>
+          <button type="button" data-choice="c">True, but only under cash accounting</button>
+        </div>
+        <div class="predict-reveal" hidden>
+          <p class="verdict"></p>
+          <p><strong>False.</strong> The entry is <strong>Debit Cash / Credit Loan payable</strong> — an asset and a liability rise together. No revenue, no expense, no profit. <em>Cash received is not necessarily revenue.</em> Try posting it below — then try posting it as revenue on purpose and watch the two meters disagree.</p>
+        </div>
+      </div>
+      <div class="event-tabs" role="tablist" aria-label="Business events" id="d1-events"></div>
+      <p class="hint" id="d1-event-desc" style="font-size:.88rem;color:var(--text-muted);margin-bottom:.7rem"></p>
+      <div class="entry-builder">
+        <div class="entry-side debit-side">
+          <h5>Debit (left side)</h5>
+          <div class="row">
+            <div><label class="field-label" for="d1-debit-acct">Account</label><select id="d1-debit-acct"></select></div>
+            <div><label class="field-label" for="d1-debit-amt">Amount $</label><input type="number" id="d1-debit-amt" min="0" step="1"></div>
+          </div>
+        </div>
+        <div class="entry-side credit-side">
+          <h5>Credit (right side)</h5>
+          <div class="row">
+            <div><label class="field-label" for="d1-credit-acct">Account</label><select id="d1-credit-acct"></select></div>
+            <div><label class="field-label" for="d1-credit-amt">Amount $</label><input type="number" id="d1-credit-amt" min="0" step="1"></div>
+          </div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-green" id="d1-post" type="button">Post entry</button>
+        <button class="btn btn-ghost btn-sm" id="d1-reset" type="button">Reset demo</button>
+      </div>
+      <div class="meter-grid">
+        <div class="meter" id="d1-m-balance"><span class="lamp"></span><p><b>Does this entry balance?</b><span>Debits must equal credits. Post something to find out.</span></p></div>
+        <div class="meter" id="d1-m-correct"><span class="lamp"></span><p><b>Does it represent the event correctly?</b><span>A balanced entry can still be economically wrong.</span></p></div>
+      </div>
+      <div class="grid-2">
+        <div class="subpanel">
+          <h4>📒 Posted journal</h4>
+          <div id="d1-journal"><p class="hint">No entries yet.</p></div>
+        </div>
+        <div class="subpanel">
+          <h4>📊 Account balances</h4>
+          <div id="d1-balances"><p class="hint">Post entries to build balances.</p></div>
+        </div>
+      </div>
+      <div class="takeaway"><p class="takeaway-label">Demo 1 takeaway</p><p>A loan that is recorded as revenue <strong>still balances</strong> — the “balances?” meter stays green while the “correct?” meter turns red. Engineering lesson: ledger invariants catch arithmetic errors, not economic ones. Correctness needs event semantics, review, and tests.</p></div>
+    </section>
+
+    <!-- DEMO 2 -->
+    <section class="demo" id="demo-2" aria-labelledby="d2-title">
+      <p class="demo-kicker"><span class="n">02</span>FOUNDATIONS</p>
+      <h3 id="d2-title">“Organize the accounts without breaking the system”</h3>
+      <div class="concept-chips"><span>chart of accounts</span><span>account types</span><span>semantic roles</span><span>classes</span><span>templates</span><span>merging</span></div>
+      <p class="demo-intro">Rename accounts, add reporting classes, merge duplicates, apply a firm template. The rule: an account's <strong>internal ID + semantic role</strong> must survive its display name — automation keys off the role, not the label.</p>
+      <div class="grid-2">
+        <div class="subpanel">
+          <h4>🗂️ Chart of accounts</h4>
+          <p class="hint">Rename “Software subscriptions” below, then re-run the automation to prove nothing broke.</p>
+          <div id="d2-accounts"></div>
+          <div class="row" style="display:grid;grid-template-columns:1fr auto;gap:.5rem;margin-top:.6rem">
+            <input type="text" id="d2-rename" value="Tools" aria-label="New name for Software subscriptions">
+            <button class="btn btn-sm" id="d2-rename-btn" type="button">Rename</button>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-sm" id="d2-auto" type="button">⚙️ Run auto-categorize on $300 hosting charge</button>
+          </div>
+          <div id="d2-auto-out"></div>
+        </div>
+        <div class="subpanel">
+          <h4>🏷️ Account vs class vs entity</h4>
+          <p class="hint">A $300 hosting charge belongs to the <b>Hosting</b> expense account, tagged to a class, owned by an entity.</p>
+          <div class="kv"><dt>Account</dt><dd>what kind of activity? → Hosting expense</dd><dt>Class</dt><dd>which reporting segment? → <span id="d2-class-tag">Engineering</span></dd><dt>Entity</dt><dd>which legal company? → Fogline AI, Inc.</dd></div>
+          <div class="row" style="display:grid;grid-template-columns:1fr auto;gap:.5rem;margin-top:.5rem">
+            <input type="text" id="d2-class-input" placeholder="New class, e.g. Customer Support" aria-label="New class name">
+            <button class="btn btn-sm" id="d2-class-btn" type="button">Add class</button>
+          </div>
+          <div id="d2-classes" style="margin-top:.5rem"></div>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-top:1rem">
+        <div class="subpanel">
+          <h4>🔀 Merge accounts</h4>
+          <p class="hint">Merging two hosting-expense duplicates is safe. Merging a bank account into revenue must be blocked.</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
+            <div><label class="field-label" for="d2-merge-a">Keep</label><select id="d2-merge-a"></select></div>
+            <div><label class="field-label" for="d2-merge-b">Absorb</label><select id="d2-merge-b"></select></div>
+          </div>
+          <div class="btn-row"><button class="btn btn-sm" id="d2-merge-btn" type="button">Merge B into A</button></div>
+          <div id="d2-merge-out"></div>
+        </div>
+        <div class="subpanel">
+          <h4>📋 Firm template</h4>
+          <p class="hint">Apply the accounting firm's standard names. IDs and roles stay put — only labels change.</p>
+          <div class="btn-row"><button class="btn btn-sm" id="d2-template" type="button">Apply “SaaS Standard” template</button></div>
+          <div id="d2-template-out"></div>
+        </div>
+      </div>
+      <div class="takeaway"><p class="takeaway-label">Demo 2 takeaway</p><p>Customizable charts are safe only when automation binds to <strong>stable semantic roles</strong>, and merges are constrained by <strong>account-type compatibility</strong>. Rename freely; merge carefully; never let a label become an identity.</p></div>
+    </section>
+
+    <!-- ================= CHAPTER B ================= -->
+    <div class="chapter-title" id="ch-inputs">
+      <p class="eyebrow"><span class="eyebrow-line"></span> CHAPTER B · MESSY INPUTS</p>
+      <h2>From messy inputs to trustworthy books</h2>
+      <p>Bank feeds, receipts, and CSVs are evidence — not events. Learn to ingest, normalize, deduplicate, categorize with context, and reconcile.</p>
+    </div>
+
+    <!-- DEMO 3 -->
+    <section class="demo" id="demo-3" aria-labelledby="d3-title">
+      <p class="demo-kicker"><span class="n">03</span>MESSY INPUTS</p>
+      <h3 id="d3-title">“One real event, three incoming records”</h3>
+      <div class="concept-chips"><span>bank feeds</span><span>extraction</span><span>normalization</span><span>provenance</span><span>deduplication</span></div>
+      <p class="demo-intro">The same $300 hosting purchase arrives three ways. <strong>Are these three expenses, or three pieces of evidence about one expense?</strong> Select records and link them to a single economic event.</p>
+      <div class="grid-3" id="d3-sources"></div>
+      <div class="btn-row">
+        <button class="btn btn-green" id="d3-link" type="button">Link selected → one event</button>
+        <button class="btn btn-ghost btn-sm" id="d3-reset" type="button">Reset demo</button>
+      </div>
+      <div class="meter-grid">
+        <div class="meter" id="d3-m-events"><span class="lamp"></span><p><b>Accounting events recorded</b><span>Goal: exactly 1 event from 3 records.</span></p></div>
+        <div class="meter" id="d3-m-prov"><span class="lamp"></span><p><b>Provenance trail</b><span>Every event must cite its source records.</span></p></div>
+      </div>
+      <div class="subpanel">
+        <h4>💥 Failure-mode buttons</h4>
+        <p class="hint">Real feeds are lossy, duplicated, and misread. Each button injects a production failure — the system must absorb it without double-counting.</p>
+        <div class="btn-row">
+          <button class="btn btn-sm" id="d3-f-dup" type="button">Import the CSV twice</button>
+          <button class="btn btn-sm" id="d3-f-pending" type="button">Pending → settled</button>
+          <button class="btn btn-sm" id="d3-f-misread" type="button">Misread $300 as $3,000</button>
+          <button class="btn btn-sm" id="d3-f-refund" type="button">Refund arrives later</button>
+        </div>
+        <div class="prov-trail" id="d3-trail">provenance trail: (empty — link records to begin)</div>
+      </div>
+      <div class="takeaway"><p class="takeaway-label">Demo 3 takeaway</p><p>Distinguish a <strong>source record</strong> (a feed row, a scan, a CSV line) from an <strong>accounting event</strong> (the economic thing that happened). Dedupe keys, pending/settled lifecycles, amount-tolerance checks, and linked reversals are what keep N records from becoming N expenses.</p></div>
+    </section>
+
+    <!-- DEMO 4 -->
+    <section class="demo" id="demo-4" aria-labelledby="d4-title">
+      <p class="demo-kicker"><span class="n">04</span>MESSY INPUTS</p>
+      <h3 id="d4-title">“Why categorization needs context”</h3>
+      <div class="concept-chips"><span>categorization</span><span>receipts</span><span>rules</span><span>uncertainty</span><span>human review</span></div>
+      <p class="demo-intro">Four charges, one merchant: <strong>Northwind Supply</strong>. First classify from the merchant name alone — then reveal the receipts and feel the difference context makes.</p>
+      <div class="predict-card" id="q4" data-correct="c">
+        <p class="predict-kicker">Predict first</p>
+        <p class="predict-q">An auto-categorizer maps every “Northwind Supply” charge to Office supplies with 92% confidence. What's the core risk?</p>
+        <div class="predict-options">
+          <button type="button" data-choice="a">92% confidence is too low to ever auto-apply</button>
+          <button type="button" data-choice="b">Office supplies is never the right account for this vendor</button>
+          <button type="button" data-choice="c">Merchant name alone can't separate a laptop, a personal purchase, supplies, and a refund — context decides</button>
+        </div>
+        <div class="predict-reveal" hidden>
+          <p class="verdict"></p>
+          <p>Same merchant, four different economic realities. <strong>Confidence in the wrong evidence is just confident wrongness.</strong> Good systems escalate when the receipt (or missing receipt) contradicts the merchant prior.</p>
+        </div>
+      </div>
+      <div class="seg-row" role="group" aria-label="Classification phase">
+        <button class="seg-btn is-active" id="d4-phase-name" type="button">Step 1 · Merchant name only</button>
+        <button class="seg-btn" id="d4-phase-receipt" type="button">Step 2 · Reveal receipts</button>
+      </div>
+      <div class="grid-2" id="d4-txns" style="margin-top:.6rem"></div>
+      <div class="btn-row">
+        <button class="btn btn-green" id="d4-grade" type="button">Grade my classifications</button>
+        <button class="btn btn-ghost btn-sm" id="d4-reset" type="button">Reset demo</button>
+      </div>
+      <div id="d4-grade-out"></div>
+      <div class="grid-2" style="margin-top:1rem">
+        <div class="subpanel">
+          <h4>🤖 A proposal, with its evidence</h4>
+          <div class="kv">
+            <dt>Proposed account</dt><dd id="d4-prop-acct">Office supplies</dd>
+            <dt>Evidence</dt><dd id="d4-prop-ev">Merchant prior only (no receipt yet)</dd>
+            <dt>Confidence</dt><dd id="d4-prop-conf">illustrative model score: 0.92</dd>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-sm btn-green" id="d4-act-auto" type="button">Auto-apply</button>
+            <button class="btn btn-sm" id="d4-act-ask" type="button">Ask</button>
+            <button class="btn btn-sm" id="d4-act-review" type="button">Send to review</button>
+          </div>
+          <div id="d4-act-out"></div>
+        </div>
+        <div class="subpanel">
+          <h4>📏 Rule builder (with conflict)</h4>
+          <p class="hint">“For this client, classify this vendor's monthly subscription as software expense unless the receipt indicates hardware.”</p>
+          <div style="display:grid;gap:.5rem">
+            <div><label class="field-label" for="d4-rule-vendor">Vendor</label><input type="text" id="d4-rule-vendor" value="Northwind Supply"></div>
+            <div><label class="field-label" for="d4-rule-cond">Condition</label><select id="d4-rule-cond"><option value="always">Always</option><option value="no-hardware" selected>Unless receipt indicates hardware</option><option value="under500">Only if amount &lt; $500</option></select></div>
+            <div><label class="field-label" for="d4-rule-acct">Classify as</label><select id="d4-rule-acct"><option>Office supplies</option><option selected>Software expense</option><option>Computer equipment</option><option>Owner draw (personal)</option></select></div>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-sm" id="d4-rule-add" type="button">Add rule</button>
+            <button class="btn btn-sm btn-danger" id="d4-rule-conflict" type="button">Add conflicting rule</button>
+          </div>
+          <div id="d4-rules"></div>
+        </div>
+      </div>
+      <div class="takeaway"><p class="takeaway-label">Demo 4 takeaway</p><p>The lesson isn't “memorize merchant mappings” — it's learning <strong>when context is sufficient, when rules help, and when the system should abstain</strong> and ask a human. Rules need precedence and conflict resolution, not just coverage.</p></div>
+    </section>
+
+    <!-- DEMO 5 -->
+    <section class="demo" id="demo-5" aria-labelledby="d5-title">
+      <p class="demo-kicker"><span class="n">05</span>MESSY INPUTS</p>
+      <h3 id="d5-title">“Make the bank and the books agree”</h3>
+      <div class="concept-chips"><span>reconciliation</span><span>timing differences</span><span>outstanding payments</span><span>bank fees</span></div>
+      <p class="demo-intro">Ledger cash says <strong>$5,000</strong>; the bank statement says <strong>$5,175</strong>. Match items, explain differences, and add <em>only</em> the entries that are actually missing. Target: both sides adjust to <strong>$4,975</strong>.</p>
+      <div class="predict-card" id="q5" data-correct="a">
+        <p class="predict-kicker">Predict first</p>
+        <p class="predict-q">A $200 check is recorded in the books but hasn't cleared the bank. To reconcile, you should…</p>
+        <div class="predict-options">
+          <button type="button" data-choice="a">Subtract it from the bank balance as a timing difference — no new journal entry</button>
+          <button type="button" data-choice="b">Add a $200 expense entry so the books match the bank</button>
+          <button type="button" data-choice="c">Delete the check from the books until it clears</button>
+        </div>
+        <div class="predict-reveal" hidden>
+          <p class="verdict"></p>
+          <p>An outstanding check is a <strong>timing difference</strong>: the books are already right, the bank just hasn't caught up. Only the $25 bank fee — present at the bank, missing from the books — needs a new entry. Reconciliation explains differences; it never invents transactions.</p>
+        </div>
+      </div>
+      <div class="recon-cols">
+        <div class="subpanel">
+          <h4>📚 Books (ledger cash: <span class="num" id="d5-books-raw">$5,000</span>)</h4>
+          <div class="recon-item" id="d5-item-check">
+            <p>🧾 Check #1041 — contractor payment <span class="amt">$200</span></p>
+            <p class="hint">Recorded in books · not on bank statement</p>
+            <div class="btn-row">
+              <button class="btn btn-sm" data-d5="check-timing" type="button">Mark as timing difference</button>
+              <button class="btn btn-sm" data-d5="check-entry" type="button">Add compensating entry (wrong)</button>
+            </div>
+          </div>
+          <div id="d5-books-adjust"></div>
+        </div>
+        <div class="subpanel">
+          <h4>🏦 Bank (statement: <span class="num" id="d5-bank-raw">$5,175</span>)</h4>
+          <div class="recon-item" id="d5-item-fee">
+            <p>🏷️ Monthly account fee <span class="amt">$25</span></p>
+            <p class="hint">On bank statement · missing from books</p>
+            <div class="btn-row">
+              <button class="btn btn-sm" data-d5="fee-entry" type="button">Post missing fee entry</button>
+              <button class="btn btn-sm" data-d5="fee-ignore" type="button">Ignore it (wrong)</button>
+            </div>
+          </div>
+          <div id="d5-bank-adjust"></div>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-top:1rem">
+        <div class="subpanel">
+          <h4>🧮 Reconciliation math</h4>
+          <div class="balance-line"><span>Adjusted bank</span><span id="d5-adj-bank">$5,175 − ?</span></div>
+          <div class="balance-line"><span>Adjusted books</span><span id="d5-adj-books">$5,000 − ?</span></div>
+          <div class="balance-line total"><span>Status</span><span id="d5-status">not reconciled</span></div>
+          <div class="btn-row">
+            <button class="btn btn-sm btn-danger" id="d5-plug" type="button">🩹 “Plug the difference” (tempting…)</button>
+            <button class="btn btn-ghost btn-sm" id="d5-reset" type="button">Reset demo</button>
+          </div>
+          <div id="d5-plug-out"></div>
+        </div>
+        <div class="subpanel">
+          <h4>📒 Entries created by this demo</h4>
+          <div id="d5-journal"><p class="hint">The fee entry will appear here when posted.</p></div>
+        </div>
+      </div>
+      <div class="takeaway"><p class="takeaway-label">Demo 5 takeaway</p><p>Reconciliation = <strong>explain every difference</strong>, then book only what's genuinely missing. The “plug” button forces the numbers to match while creating an unexplained adjustment — a new problem wearing a solution's clothes.</p></div>
+    </section>
+
+    <!-- ================= CHAPTER C ================= -->
+    <div class="chapter-title" id="ch-timing">
+      <p class="eyebrow"><span class="eyebrow-line"></span> CHAPTER C · TIMING</p>
+      <h2>Cash, invoices, and earned revenue</h2>
+      <p>Cash moves when cash moves. Revenue is earned when obligations are satisfied. The gap between the two is where accrual accounting lives.</p>
+    </div>
+
+    <!-- DEMO 6 -->
+    <section class="demo" id="demo-6" aria-labelledby="d6-title">
+      <p class="demo-kicker"><span class="n">06</span>TIMING</p>
+      <h3 id="d6-title">“Cash received isn't always revenue earned”</h3>
+      <div class="concept-chips"><span>cash vs accrual</span><span>deferred revenue</span><span>prepaid expenses</span><span>adjusting entries</span></div>
+      <p class="demo-intro">A customer pays <strong>$12,000 upfront</strong> for 12 months starting January 1 (service provided evenly). Drag the timeline and compare the <strong>cash view</strong> against the <strong>accrual view</strong>.</p>
+      <div class="predict-card" id="q6" data-correct="b">
+        <p class="predict-kicker">Predict first</p>
+        <p class="predict-q">At the end of March, how much revenue has Fogline earned under accrual accounting?</p>
+        <div class="predict-options">
+          <button type="button" data-choice="a">$12,000 — cash was received, so it's all revenue</button>
+          <button type="button" data-choice="b">$3,000 — three of twelve months delivered, $9,000 still deferred</button>
+          <button type="button" data-choice="c">$0 — revenue counts only when the year completes</button>
+        </div>
+        <div class="predict-reveal" hidden>
+          <p class="verdict"></p>
+          <p><strong>$3,000.</strong> Revenue follows satisfaction of the performance obligation, not receipt of cash. The other $9,000 sits on the balance sheet as <strong>deferred revenue</strong> — a liability representing service still owed. (Simplified: even delivery, per the contract.)</p>
+        </div>
+      </div>
+      <div class="seg-row" role="group" aria-label="Accounting basis">
+        <button class="seg-btn is-active green" id="d6-basis-accrual" type="button">Accrual view</button>
+        <button class="seg-btn" id="d6-basis-cash" type="button">Cash view</button>
+        <button class="seg-btn" id="d6-mirror" type="button" aria-pressed="false">＋ Mirror: $1,200 prepaid insurance</button>
+      </div>
+      <div class="subpanel" style="margin-top:.6rem">
+        <label class="field-label" for="d6-month">Timeline — months elapsed since Jan 1</label>
+        <input type="range" id="d6-month" min="0" max="12" step="1" value="0">
+        <div class="control-scale"><span>Paid, no service</span><span>Jun</span><span>Dec 31</span></div>
+        <output class="control-out" id="d6-month-val">Payment received · before service</output>
+        <div class="month-cells" id="d6-cells" aria-hidden="true"></div>
+      </div>
+      <div class="grid-2" style="margin-top:1rem">
+        <div class="subpanel">
+          <h4>📊 Position at this date</h4>
+          <table class="plain">
+            <tr><th>Measure</th><th style="text-align:right">Amount</th></tr>
+            <tr><td>Cash received to date</td><td class="num" id="d6-cash">$12,000</td></tr>
+            <tr><td>Revenue to date (<span id="d6-basis-label">accrual</span>)</td><td class="num" id="d6-rev">$0</td></tr>
+            <tr><td>Deferred revenue remaining</td><td class="num" id="d6-def">$12,000</td></tr>
+            <tr id="d6-ins-row" hidden><td>Prepaid insurance remaining</td><td class="num" id="d6-ins">$1,200</td></tr>
+          </table>
+        </div>
+        <div class="subpanel">
+          <h4>📒 Entries</h4>
+          <div id="d6-journal"></div>
+        </div>
+      </div>
+      <div class="takeaway"><p class="takeaway-label">Demo 6 takeaway</p><p>Under accrual, the $12,000 payment creates <strong>cash + a liability</strong>, and each month moves $1,000 from liability to revenue via an <strong>adjusting entry</strong>. Prepaid insurance is the mirror: cash + an asset, amortized into expense. Timing differences made visible — that's what adjusting entries are for.</p></div>
+    </section>
+
+    <!-- DEMO 7 -->
+    <section class="demo" id="demo-7" aria-labelledby="d7-title">
+      <p class="demo-kicker"><span class="n">07</span>TIMING</p>
+      <h3 id="d7-title">“Follow an invoice through its lifecycle”</h3>
+      <div class="concept-chips"><span>invoicing</span><span>accounts receivable</span><span>partial payments</span><span>payment matching</span><span>accounts payable</span></div>
+      <p class="demo-intro">Invoice a customer <strong>$3,000</strong> for services already delivered, collect it in two chunks — then flip sides and owe a contractor <strong>$800</strong>. Receivables and payables are intuitive counterparts.</p>
+      <div class="grid-2">
+        <div class="subpanel">
+          <h4>📤 Accounts receivable — invoice #INV-2041 ($3,000)</h4>
+          <div class="stepper" id="d7-ar-steps">
+            <span class="step now" data-s="0">Draft</span><span class="step-arrow">→</span>
+            <span class="step" data-s="1">Issued</span><span class="step-arrow">→</span>
+            <span class="step" data-s="2">Partially paid</span><span class="step-arrow">→</span>
+            <span class="step" data-s="3">Fully paid</span>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-sm btn-green" id="d7-ar-next" type="button">Advance: issue invoice</button>
+            <button class="btn btn-ghost btn-sm" id="d7-ar-reset" type="button">Reset</button>
+          </div>
+          <table class="plain">
+            <tr><th>Measure</th><th style="text-align:right">Amount</th></tr>
+            <tr><td>Revenue (accrual)</td><td class="num" id="d7-ar-rev">$0</td></tr>
+            <tr><td>Receivable outstanding</td><td class="num" id="d7-ar-ar">$0</td></tr>
+            <tr><td>Cash collected</td><td class="num" id="d7-ar-cash">$0</td></tr>
+          </table>
+          <div id="d7-ar-journal"></div>
+        </div>
+        <div class="subpanel">
+          <h4>📥 Accounts payable — contractor bill ($800, work performed)</h4>
+          <div class="stepper" id="d7-ap-steps">
+            <span class="step now" data-s="0">No bill</span><span class="step-arrow">→</span>
+            <span class="step" data-s="1">Bill received</span><span class="step-arrow">→</span>
+            <span class="step" data-s="2">Paid</span>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-sm btn-green" id="d7-ap-next" type="button">Advance: receive bill</button>
+            <button class="btn btn-ghost btn-sm" id="d7-ap-reset" type="button">Reset</button>
+          </div>
+          <table class="plain">
+            <tr><th>Measure</th><th style="text-align:right">Amount</th></tr>
+            <tr><td>Expense (accrual)</td><td class="num" id="d7-ap-exp">$0</td></tr>
+            <tr><td>Payable outstanding</td><td class="num" id="d7-ap-ap">$0</td></tr>
+            <tr><td>Cash paid</td><td class="num" id="d7-ap-cash">$0</td></tr>
+          </table>
+          <div id="d7-ap-journal"></div>
+        </div>
+      </div>
+      <div class="predict-card" id="q7" data-correct="b">
+        <p class="predict-kicker">The challenge</p>
+        <p class="predict-q">The customer pays the final $2,000. Does Fogline record another $2,000 of revenue?</p>
+        <div class="predict-options">
+          <button type="button" data-choice="a">Yes — $2,000 of cash arrived, so $2,000 of revenue</button>
+          <button type="button" data-choice="b">No — revenue was recorded at issuance; this payment settles the receivable (Debit Cash / Credit Receivable)</button>
+        </div>
+        <div class="predict-reveal" hidden>
+          <p class="verdict"></p>
+          <p>In this accrual example the $3,000 of revenue was earned <strong>when the invoice was issued</strong> for work already delivered. Every collection after that is just <strong>swapping one asset (receivable) for another (cash)</strong>. Treating collections as new revenue double-counts.</p>
+        </div>
+      </div>
+      <div class="takeaway"><p class="takeaway-label">Demo 7 takeaway</p><p>Receivables and payables are <strong>timing bridges</strong> between economic events and cash. Revenue/expense hit when the obligation is created or satisfied; cash movements after that only settle balances.</p></div>
+    </section>
+
+    <!-- DEMO 8 -->
+    <section class="demo" id="demo-8" aria-labelledby="d8-title">
+      <p class="demo-kicker"><span class="n">08</span>TIMING</p>
+      <h3 id="d8-title">“Why a $1,000 sale deposited only $970”</h3>
+      <div class="concept-chips"><span>gross vs net</span><span>processing fees</span><span>settlement matching</span></div>
+      <p class="demo-intro">A customer paid <strong>$1,000</strong> (already invoiced), but the bank shows a <strong>$970</strong> deposit. Match the net payout to the gross payment plus the processor's fee — ingestion, invoicing, and reconciliation in one puzzle.</p>
+      <div class="grid-3">
+        <div class="source-card"><h5>🧾 Customer payment <span class="badge blue">recorded</span></h5><div class="raw">Invoice INV-2041 paid in full
+gross: $1,000.00
+receivable settled</div></div>
+        <div class="source-card"><h5>🏦 Bank deposit <span class="badge gold">unmatched</span></h5><div class="raw">STRIPE PAYOUT 02/03
+credit: $970.00</div></div>
+        <div class="source-card"><h5>🧮 Processor report <span class="badge blue">recorded</span></h5><div class="raw">payout po_88121
+gross 1,000.00 − fee 30.00
+net 970.00</div></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-green" id="d8-match" type="button">Match: $970 = $1,000 − $30 fee</button>
+        <button class="btn btn-danger" id="d8-trap" type="button">Categorize $970 as a new sale (wrong)</button>
+        <button class="btn btn-ghost btn-sm" id="d8-reset" type="button">Reset demo</button>
+      </div>
+      <div id="d8-out"></div>
+      <div class="takeaway"><p class="takeaway-label">Demo 8 takeaway</p><p>Net settlement matching: <strong>$1,000 of obligation settled = $970 cash + $30 processing expense</strong>. Treating the deposit as fresh revenue either double-counts income or leaves the real receivable rotting unresolved.</p></div>
+    </section>
+
+    <!-- DEMO 9 -->
+    <section class="demo" id="demo-9" aria-labelledby="d9-title">
+      <p class="demo-kicker"><span class="n">09</span>TIMING</p>
+      <h3 id="d9-title">“Turn a contract into a recognition schedule”</h3>
+      <div class="concept-chips"><span>performance obligations</span><span>allocation</span><span>straight-line</span><span>pro-rata</span><span>point-in-time</span><span>milestones</span></div>
+      <p class="demo-intro"><strong>$15,000 contract:</strong> $12,000 for annual software access + $3,000 for distinct training delivered in March (stipulated: allocation appropriate, training distinct). Click highlighted clauses to map them to obligations, then build the schedule.</p>
+      <div class="grid-2">
+        <div>
+          <div class="contract" id="d9-contract">
+            <p><strong>MASTER SERVICES AGREEMENT — Fogline AI × Acme Corp</strong></p>
+            <p>§1. <mark data-ob="software" tabindex="0" role="button" aria-label="Map software clause">Fogline grants Acme access to the hosted platform for 12 months from Jan 1, for a fee of $12,000, payable upfront.</mark></p>
+            <p>§2. <mark data-ob="training" tabindex="0" role="button" aria-label="Map training clause">Fogline will deliver one on-site admin training workshop ($3,000) during March; the workshop is distinct and usable without further services.</mark></p>
+            <p>§3. <mark data-ob="billing" tabindex="0" role="button" aria-label="Map billing clause">Acme will be invoiced $15,000 on Jan 1 (Milestone 1: signature). Training completion is Milestone 2 (no additional invoice).</mark></p>
+          </div>
+          <p class="fine-print">Click each clause to map it. §3 is the trap: a billing milestone is not automatically a recognition trigger.</p>
+        </div>
+        <div class="subpanel">
+          <h4>🎯 Obligations &amp; schedule</h4>
+          <div id="d9-obs"><p class="hint">No obligations mapped yet — click §1 and §2.</p></div>
+          <div style="display:grid;gap:.5rem;margin-top:.6rem">
+            <div><label class="field-label" for="d9-method">Recognition method</label>
+              <select id="d9-method">
+                <option value="correct">Software: $1,000/mo straight-line · Training: $3,000 when delivered</option>
+                <option value="billings">Recognize full $15,000 at Milestone 1 billing (wrong)</option>
+                <option value="cash">Recognize when cash arrives, ignore obligations (wrong)</option>
+              </select>
+            </div>
+            <div class="seg-row">
+              <button class="seg-btn" id="d9-midmonth" type="button" aria-pressed="false">Start mid-month (daily pro-rata)</button>
+              <button class="seg-btn" id="d9-amend" type="button">＋ Amendment: $2,400 support add-on</button>
+            </div>
+          </div>
+          <div class="btn-row"><button class="btn btn-sm btn-green" id="d9-build" type="button">Build schedule</button></div>
+          <div id="d9-sched"></div>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-top:1rem">
+        <div class="subpanel">
+          <h4>🔍 Review panel 1 — extraction</h4>
+          <p class="hint">Did the agent extract the contract terms correctly?</p>
+          <label class="checkbox-row"><input type="checkbox" id="d9-ex1"> Amounts $12,000 / $3,000 match the signed contract</label>
+          <label class="checkbox-row"><input type="checkbox" id="d9-ex2"> Training identified as distinct, March delivery</label>
+          <label class="checkbox-row"><input type="checkbox" id="d9-ex3"> Billing milestones NOT treated as obligations</label>
+        </div>
+        <div class="subpanel">
+          <h4>⚖️ Review panel 2 — treatment</h4>
+          <p class="hint">Given those terms, is the accounting treatment correct?</p>
+          <label class="checkbox-row"><input type="checkbox" id="d9-tr1"> Software recognized over time as access is provided</label>
+          <label class="checkbox-row"><input type="checkbox" id="d9-tr2"> Training recognized at delivery (point in time)</label>
+          <label class="checkbox-row"><input type="checkbox" id="d9-tr3"> Method reflects satisfaction of obligations — not chosen for attractive results</label>
+        </div>
+      </div>
+      <div id="d9-review-out" style="margin-top:.6rem"></div>
+      <div class="takeaway"><p class="takeaway-label">Demo 9 takeaway</p><p><strong>Billing ≠ earning.</strong> Recognition must reflect satisfaction of each obligation — and agent review must separate <em>“did it read the contract right?”</em> from <em>“given that reading, is the accounting right?”</em> Conflating the two hides both failure modes.</p></div>
+    </section>
+
+    <!-- ================= CHAPTER D ================= -->
+    <div class="chapter-title" id="ch-reporting">
+      <p class="eyebrow"><span class="eyebrow-line"></span> CHAPTER D · REPORTING &amp; CLOSE</p>
+      <h2>Reporting, multiple companies, closing the books</h2>
+      <p>Three statements, two companies, one month-end. Profit isn't cash, consolidation isn't addition, and close isn't hiding problems.</p>
+    </div>
+
+    <!-- DEMO 10 -->
+    <section class="demo" id="demo-10" aria-labelledby="d10-title">
+      <p class="demo-kicker"><span class="n">10</span>REPORTING</p>
+      <h3 id="d10-title">“How can a profitable company run out of cash?”</h3>
+      <div class="concept-chips"><span>income statement</span><span>balance sheet</span><span>cash flow</span><span>drill-down</span><span>cash vs profit</span></div>
+      <p class="demo-intro">Four business moves. Before applying each, <strong>predict which statements change</strong> — then click any report number to drill down: <code>report → account → journal entry → source evidence</code>.</p>
+      <div class="subpanel">
+        <h4>🎛️ Reporting panel <span class="freshness" id="d10-fresh"><span class="dot" style="background:var(--green)"></span><span id="d10-fresh-label">LIVE</span></span></h4>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem">
+          <div><label class="field-label" for="d10-entity">Entity</label><select id="d10-entity"><option value="all">Fogline Group</option><option value="parent">Fogline AI, Inc.</option><option value="sub">Fogline Labs (sub)</option></select></div>
+          <div><label class="field-label" for="d10-class">Class</label><select id="d10-class"><option value="all">All classes</option><option value="eng">Engineering</option><option value="sales">Sales</option></select></div>
+          <div><label class="field-label" for="d10-refresh">Data</label><button class="btn btn-sm" id="d10-refresh" type="button" style="width:100%">↻ Refresh snapshot</button></div>
+        </div>
+        <p class="fine-print">Filters change the numbers (illustrative splits). Snapshots go <b>stale</b> as soon as a new event posts — refresh to make them live again.</p>
+      </div>
+      <p class="hint" style="margin:.7rem 0">Tick the statements you think will move, then apply the move:</p>
+      <div class="grid-2" id="d10-moves"></div>
+      <div class="grid-3" style="margin-top:1rem">
+        <div class="subpanel"><h4>📈 Income statement</h4><div id="d10-is"></div></div>
+        <div class="subpanel"><h4>⚖️ Balance sheet</h4><div id="d10-bs"></div></div>
+        <div class="subpanel"><h4>💧 Cash flow (indirect, simplified)</h4><div id="d10-cf"></div></div>
+      </div>
+      <div class="subpanel" style="margin-top:1rem">
+        <h4>🔎 Drill-down</h4>
+        <p class="hint">Click any <u>underlined</u> report number above.</p>
+        <div class="breadcrumb" id="d10-crumb"><span>report</span>→<span>account</span>→<span>entry</span>→<span>evidence</span></div>
+        <div id="d10-drill" style="margin-top:.5rem;font-size:.86rem;color:var(--text-muted)">Nothing selected yet.</div>
+      </div>
+      <div class="btn-row"><button class="btn btn-ghost btn-sm" id="d10-reset" type="button">Reset demo</button></div>
+      <div class="takeaway"><p class="takeaway-label">Demo 10 takeaway</p><p>Revenue without collection raises <strong>profit but not cash</strong>; paying old bills burns <strong>cash but not profit</strong>. A profitable company dies when its cash bridge collapses — which is exactly why all three statements (and live, drillable data) matter.</p></div>
+    </section>
+
+    <!-- DEMO 11 -->
+    <section class="demo" id="demo-11" aria-labelledby="d11-title">
+      <p class="demo-kicker"><span class="n">11</span>REPORTING</p>
+      <h3 id="d11-title">“Two companies aren't just two labels”</h3>
+      <div class="concept-chips"><span>entity boundaries</span><span>intercompany</span><span>consolidation</span><span>eliminations</span></div>
+      <p class="demo-intro">Create a wholly owned subsidiary, move <strong>$5,000</strong> to it as an intercompany loan, and switch between <strong>separate</strong> and <strong>consolidated</strong> views. Group cash must not move on an internal transfer.</p>
+      <div class="predict-card" id="q11" data-correct="b">
+        <p class="predict-kicker">Predict first</p>
+        <p class="predict-q">The parent lends its subsidiary $5,000. On the consolidated balance sheet, group cash…</p>
+        <div class="predict-options">
+          <button type="button" data-choice="a">Falls $5,000 at the parent and rises $5,000 at the sub — net shown as +$10,000 of activity</button>
+          <button type="button" data-choice="b">Is unchanged — the internal receivable and payable eliminate; only the location of cash moved</button>
+          <button type="button" data-choice="c">Rises $5,000, because the parent now holds a $5,000 asset</button>
+        </div>
+        <div class="predict-reveal" hidden>
+          <p class="verdict"></p>
+          <p><strong>Unchanged.</strong> Consolidation presents the group as a <strong>single economic entity</strong>: intragroup balances and transactions eliminate. Each company's own books stay intact — the elimination happens only in the group view. Try it below.</p>
+        </div>
+      </div>
+      <div class="seg-row" role="group" aria-label="Reporting view">
+        <button class="seg-btn is-active" id="d11-view-sep" type="button">Separate books</button>
+        <button class="seg-btn green" id="d11-view-con" type="button">Consolidated (group as one entity)</button>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-sm btn-green" id="d11-create" type="button">🏢 Create subsidiary “Fogline Labs”</button>
+        <button class="btn btn-sm" id="d11-loan" type="button" disabled>💸 Intercompany loan $5,000</button>
+        <button class="btn btn-sm" id="d11-service" type="button" disabled>🧾 Internal service charge $1,000</button>
+        <button class="btn btn-sm btn-danger" id="d11-mismatch" type="button" disabled>⚠️ Record $5,000 vs $4,900 (mismatch)</button>
+        <button class="btn btn-ghost btn-sm" id="d11-reset" type="button">Reset</button>
+      </div>
+      <div id="d11-exception"></div>
+      <div class="grid-2" style="margin-top:.6rem">
+        <div class="subpanel"><h4>🏠 Parent — Fogline AI, Inc.</h4><div id="d11-parent"></div></div>
+        <div class="subpanel"><h4>🏬 Subsidiary — Fogline Labs</h4><div id="d11-sub"></div></div>
+      </div>
+      <div class="subpanel" style="margin-top:1rem"><h4>🌐 Group view</h4><div id="d11-group"></div></div>
+      <div class="takeaway"><p class="takeaway-label">Demo 11 takeaway</p><p>Consolidation <strong>eliminates intragroup balances and transactions</strong> — it never just adds reports together. And when the two sides disagree ($5,000 vs $4,900), the system must surface an <strong>exception</strong>, not silently pretend they match.</p></div>
+    </section>
+
+    <!-- DEMO 12 -->
+    <section class="demo" id="demo-12" aria-labelledby="d12-title">
+      <p class="demo-kicker"><span class="n">12</span>REPORTING</p>
+      <h3 id="d12-title">“Close January without hiding the problems”</h3>
+      <div class="concept-chips"><span>period close</span><span>adjustments</span><span>preparer / reviewer</span><span>locks</span><span>audit history</span><span>multiple books</span></div>
+      <p class="demo-intro">Work the January close checklist, get reviewer sign-off, lock the period — then handle a late January receipt discovered in February. Also: the same events through two <strong>books</strong> (treatments), which is not the same as two <strong>entities</strong>.</p>
+      <div class="grid-2">
+        <div class="subpanel">
+          <h4>✅ January close checklist</h4>
+          <div id="d12-list"></div>
+          <div class="progress" aria-label="Close progress"><div id="d12-bar"></div></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:.5rem">
+            <div><label class="field-label" for="d12-role">Acting as</label><select id="d12-role"><option value="preparer">Preparer (you)</option><option value="reviewer">Reviewer (Maya)</option></select></div>
+            <div><label class="field-label" for="d12-sign">Sign-off</label><button class="btn btn-sm" id="d12-sign" type="button" style="width:100%">Reviewer sign-off</button></div>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-sm btn-green" id="d12-lock" type="button">🔒 Lock January</button>
+            <button class="btn btn-ghost btn-sm" id="d12-reset" type="button">Reset</button>
+          </div>
+          <div id="d12-close-out"></div>
+        </div>
+        <div class="subpanel">
+          <h4>📬 Late arrival: January receipt found in February</h4>
+          <p class="hint">January is locked. A $450 contractor receipt dated Jan 28 surfaces on Feb 6. No universally-correct treatment is implied — pick an explicit path:</p>
+          <div class="btn-row">
+            <button class="btn btn-sm" id="d12-opt-reopen" type="button">Request reopening</button>
+            <button class="btn btn-sm" id="d12-opt-policy" type="button">Policy correction</button>
+            <button class="btn btn-sm" id="d12-opt-leave" type="button">Leave unresolved + note</button>
+          </div>
+          <div id="d12-late-out"></div>
+          <hr class="divider">
+          <h4>📚 Two books, same events</h4>
+          <p class="hint">$12,000 annual contract, January view. A different <b>treatment</b> — not a different company.</p>
+          <div class="seg-row">
+            <button class="seg-btn is-active" id="d12-book-accrual" type="button">Book A · Accrual</button>
+            <button class="seg-btn" id="d12-book-cash" type="button">Book B · Cash basis</button>
+          </div>
+          <div id="d12-book-out"></div>
+        </div>
+      </div>
+      <div class="subpanel" style="margin-top:1rem"><h4>🧾 Audit history</h4><div class="log-box" id="d12-audit" style="max-height:150px"><span class="t">— period open, no close actions yet —</span></div></div>
+      <div class="takeaway"><p class="takeaway-label">Demo 12 takeaway</p><p>Close is a <strong>workflow</strong> (prepare → review → sign off → lock), not a delete key. Locks force late items onto explicit paths, every action lands in an <strong>audit history</strong>, and books vs entities stay firmly separated concepts.</p></div>
+    </section>
+
+    <!-- ================= CHAPTER E ================= -->
+    <div class="chapter-title" id="ch-agents">
+      <p class="eyebrow"><span class="eyebrow-line"></span> CHAPTER E · THE ENGINEERING LAYER</p>
+      <h2>Let agents operate safely</h2>
+      <p>Agents propose; the system decides. Authorization at execution time, idempotent retries, and automation tuned for material errors and review cost — not raw accuracy.</p>
+    </div>
+
+    <!-- DEMO 13 -->
+    <section class="demo" id="demo-13" aria-labelledby="d13-title">
+      <p class="demo-kicker"><span class="n">13</span>AGENTS</p>
+      <h3 id="d13-title">“The agent proposes; the system decides”</h3>
+      <div class="concept-chips"><span>tool context</span><span>workspace boundaries</span><span>authorization</span><span>preview / confirmation</span><span>audit attribution</span><span>prompt injection</span></div>
+      <p class="demo-intro">Ask the agent to <strong>reclassify three transactions as software expenses</strong>. Inspect its proposal — then throw four attacks and races at the execution path.</p>
+      <div class="grid-2">
+        <div class="subpanel">
+          <h4>🤖 Agent proposal <span class="badge purple">draft</span></h4>
+          <div class="kv">
+            <dt>Entity</dt><dd>ent_fogline (Fogline AI, Inc.)</dd>
+            <dt>Transactions</dt><dd>txn_881 · txn_882 · txn_883</dd>
+            <dt>Current → proposed</dt><dd>Office supplies → Software expense</dd>
+            <dt>Total affected</dt><dd>$1,140.00</dd>
+            <dt>Evidence</dt><dd>receipt lines: “annual license”, “per-seat SaaS”</dd>
+            <dt>Requested by</dt><dd>you@fogline.ai · role: bookkeeper</dd>
+            <dt>Confirmation</dt><dd id="d13-conf">preview #pv_5017 · state: UNCONFIRMED</dd>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-sm btn-green" id="d13-approve" type="button">Human: approve preview</button>
+            <button class="btn btn-sm btn-primary" id="d13-exec" type="button">Execute</button>
+            <button class="btn btn-ghost btn-sm" id="d13-reset" type="button">Reset</button>
+          </div>
+          <div class="meter-grid" style="grid-template-columns:1fr 1fr">
+            <div class="meter" id="d13-m-preview"><span class="lamp"></span><p><b>Preview matched</b><span>Inputs hash = confirmed hash?</span></p></div>
+            <div class="meter" id="d13-m-human"><span class="lamp"></span><p><b>Human approved</b><span>Separate from token match.</span></p></div>
+          </div>
+        </div>
+        <div class="subpanel">
+          <h4>⚔️ Attacks &amp; races — pick your poison</h4>
+          <p class="hint">Each arms one failure. Then press <b>Execute</b> and watch the system (not the agent) decide.</p>
+          <div class="btn-row">
+            <button class="btn btn-sm btn-danger" id="d13-a-inject" type="button">1 · Injected receipt text</button>
+            <button class="btn btn-sm btn-danger" id="d13-a-xws" type="button">2 · Cross-workspace txn ID</button>
+            <button class="btn btn-sm btn-danger" id="d13-a-perm" type="button">3 · Permission revoked after preview</button>
+            <button class="btn btn-sm btn-danger" id="d13-a-stale" type="button">4 · Transaction changed pre-execution</button>
+          </div>
+          <div id="d13-armed"></div>
+          <div class="log-box" id="d13-log" style="margin-top:.6rem"><span class="t">execution log idle — approve, then execute.</span></div>
+        </div>
+      </div>
+      <div class="takeaway"><p class="takeaway-label">Demo 13 takeaway</p><p>Safe agent execution needs <strong>workspace-scoped tools, execution-time permission checks, stale-preview rejection, and injection-resistant evidence handling</strong>. And a confirmation token matching exact inputs is <em>not</em> by itself evidence a person approved — track the two separately.</p></div>
+    </section>
+
+    <!-- DEMO 14 -->
+    <section class="demo" id="demo-14" aria-labelledby="d14-title">
+      <p class="demo-kicker"><span class="n">14</span>AGENTS</p>
+      <h3 id="d14-title">“Retry without posting twice”</h3>
+      <div class="concept-chips"><span>idempotency</span><span>concurrency</span><span>webhooks</span><span>durable workflows</span><span>observability</span></div>
+      <p class="demo-intro">Click <strong>Record payment</strong>, then watch the network time out. Did the operation fail — or did only the <em>response</em> fail? Retry safely with idempotency keys and inspect the durable state.</p>
+      <div class="grid-2">
+        <div class="subpanel">
+          <h4>💳 Record $2,000 customer payment</h4>
+          <div class="kv">
+            <dt>Business op</dt><dd id="d14-op">op_pay_7f3a (collect INV-2041)</dd>
+            <dt>Idempotency key</dt><dd id="d14-key">idem_7f3a… (generated per intent)</dd>
+            <dt>Payload hash</dt><dd id="d14-hash">sha256:9f2c…</dd>
+            <dt>Processing state</dt><dd id="d14-state">IDLE</dd>
+            <dt>Journal entries</dt><dd id="d14-count">0 created</dd>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-sm btn-green" id="d14-pay" type="button">Record payment</button>
+            <button class="btn btn-sm btn-primary" id="d14-retry" type="button" disabled>Retry (same key)</button>
+            <button class="btn btn-ghost btn-sm" id="d14-reset" type="button">Reset</button>
+          </div>
+          <hr class="divider">
+          <h4>💥 Network &amp; delivery chaos</h4>
+          <div class="btn-row">
+            <button class="btn btn-sm" id="d14-f-webhook" type="button">Webhook ×2</button>
+            <button class="btn btn-sm" id="d14-f-concurrent" type="button">Concurrent ×2</button>
+            <button class="btn btn-sm" id="d14-f-reuse" type="button">Key reused, new content</button>
+            <button class="btn btn-sm" id="d14-f-crash" type="button">Crash after post</button>
+            <button class="btn btn-sm" id="d14-f-order" type="button">Out-of-order events</button>
+          </div>
+        </div>
+        <div class="subpanel">
+          <h4>🧾 Durable operation log</h4>
+          <div class="log-box" id="d14-log" style="max-height:330px"><span class="t">— no attempts yet —</span></div>
+          <div id="d14-journal" style="margin-top:.6rem"></div>
+        </div>
+      </div>
+      <div class="takeaway"><p class="takeaway-label">Demo 14 takeaway</p><p>The invariant is <strong>“one payment → one posting”</strong>, not “the network delivers exactly once.” Same key + same content = safe replay; same key + different content = reject; concurrency collapses onto one durable record; out-of-order events sequence by ID.</p></div>
+    </section>
+
+    <!-- DEMO 15 -->
+    <section class="demo" id="demo-15" aria-labelledby="d15-title">
+      <p class="demo-kicker"><span class="n">15</span>AGENTS</p>
+      <h3 id="d15-title">“Optimize automation without burying accountants”</h3>
+      <div class="concept-chips"><span>confidence thresholds</span><span>calibration</span><span>materiality</span><span>review cost</span><span>evaluation</span></div>
+      <p class="demo-intro">Slide the automation threshold across a 12-item labeled set. Compare a <strong>confidence-only</strong> policy against a <strong>risk-aware</strong> policy (amount + type + consequences). Highest accuracy ≠ best operating system.</p>
+      <div class="grid-2">
+        <div class="subpanel">
+          <label class="field-label" for="d15-thresh">Auto-apply threshold (confidence ≥)</label>
+          <input type="range" id="d15-thresh" min="50" max="99" step="1" value="85">
+          <div class="control-scale"><span>0.50 lax</span><span>0.75</span><span>0.99 strict</span></div>
+          <output class="control-out" id="d15-thresh-val">0.85</output>
+          <div class="seg-row" role="group" aria-label="Policy">
+            <button class="seg-btn is-active" id="d15-pol-conf" type="button">Confidence-only</button>
+            <button class="seg-btn green" id="d15-pol-risk" type="button">Risk-aware</button>
+          </div>
+          <div class="callout gold" style="margin-top:.6rem"><strong>Two cases to watch:</strong> a <b>$42 ambiguous restaurant charge</b> (cheap to get wrong) vs a <b>$18,500 transfer</b> the model wants to call revenue at 0.88 confidence (catastrophic to get wrong).</div>
+          <div id="d15-table"></div>
+        </div>
+        <div class="subpanel">
+          <h4>📊 Operating metrics <span class="badge" id="d15-pol-badge">confidence-only</span></h4>
+          <div id="d15-metrics"></div>
+          <div class="btn-row"><button class="btn btn-sm" id="d15-compare" type="button">⚖️ Head-to-head at this threshold</button></div>
+          <div id="d15-compare-out"></div>
+        </div>
+      </div>
+      <div class="takeaway"><p class="takeaway-label">Demo 15 takeaway</p><p>Evaluate <strong>material errors and accountant review time</strong>, not aggregate accuracy. A risk-aware policy routes the $18,500 almost-revenue to a human while auto-applying (or cheaply erring on) the $42 lunch — fewer catastrophes per review-minute.</p></div>
+    </section>
+
+    <!-- ================= CHAPTER F ================= -->
+    <div class="chapter-title" id="ch-business">
+      <p class="eyebrow"><span class="eyebrow-line"></span> CHAPTER F · THE BUSINESS LAYER</p>
+      <h2>Interpreting company claims critically</h2>
+      <p>Adoption isn't revenue, funding isn't traction, and throughput without scope and quality is just a number.</p>
+    </div>
+
+    <!-- DEMO 16 -->
+    <section class="demo" id="demo-16" aria-labelledby="d16-title">
+      <p class="demo-kicker"><span class="n">16</span>BUSINESS</p>
+      <h3 id="d16-title">“Is this really a 10× improvement?”</h3>
+      <div class="concept-chips"><span>segments</span><span>service scope</span><span>throughput</span><span>margins</span><span>adoption vs revenue</span><span>migration costs</span></div>
+      <p class="demo-intro">Operate a fictional accounting firm. Push the levers, then compare <strong>clients per bookkeeper</strong> under different service scopes — and classify four classic metric claims.</p>
+      <div class="grid-2">
+        <div class="subpanel">
+          <h4>🏦 Firm simulator (illustrative numbers)</h4>
+          <div class="slider-duo">
+            <div class="ctl"><label>Clients <output id="d16-o-clients">120</output></label><input type="range" id="d16-clients" min="20" max="400" step="10" value="120"></div>
+            <div class="ctl"><label>Complex clients (multi-entity, inventory…) <output id="d16-o-complex">25%</output></label><input type="range" id="d16-complex" min="0" max="80" step="5" value="25"></div>
+            <div class="ctl"><label>Monthly close share (rest annual) <output id="d16-o-monthly">60%</output></label><input type="range" id="d16-monthly" min="0" max="100" step="10" value="60"></div>
+            <div class="ctl"><label>Automation coverage <output id="d16-o-auto">55%</output></label><input type="range" id="d16-auto" min="0" max="95" step="5" value="55"></div>
+            <div class="ctl"><label>Avg review min / client / close <output id="d16-o-review">45</output></label><input type="range" id="d16-review" min="10" max="180" step="5" value="45"></div>
+            <div class="ctl"><label>Support + migration hrs / client / yr <output id="d16-o-support">6</output></label><input type="range" id="d16-support" min="0" max="30" step="1" value="6"></div>
+            <div class="ctl"><label>Software + model cost / client / mo <output id="d16-o-cost">$38</output></label><input type="range" id="d16-cost" min="5" max="150" step="1" value="38"></div>
+          </div>
+        </div>
+        <div class="subpanel">
+          <h4>📊 Throughput under two scopes</h4>
+          <div id="d16-out"></div>
+          <p class="fine-print">Model (illustrative): bookkeeper capacity 1,700 hrs/yr; simple close 1.2 hrs, complex 4.5 hrs, scaled by (1 − coverage×0.7) + review time; annual-only clients cost 3× one close. Fee: $450/mo simple, $1,400/mo complex.</p>
+        </div>
+      </div>
+      <div class="subpanel" style="margin-top:1rem">
+        <h4>🎯 Metrics classification game</h4>
+        <p class="hint">Each statement establishes exactly one thing. Classify all four:</p>
+        <div id="d16-game"></div>
+        <div class="btn-row"><button class="btn btn-sm btn-green" id="d16-grade" type="button">Grade</button></div>
+        <div id="d16-grade-out"></div>
+      </div>
+      <div class="takeaway"><p class="takeaway-label">Demo 16 takeaway</p><p>“Clients per bookkeeper” explodes if you quietly narrow scope to simple annual clients — throughput without <strong>scope, quality, and cost</strong> is theater. Read every traction metric for what it <em>establishes</em>, not what it insinuates.</p></div>
+    </section>
+
+    <!-- ================= GUIDED STORY ================= -->
+    <section class="demo" id="guided-story" aria-labelledby="story-title" style="border-color:var(--green)">
+      <p class="demo-kicker"><span class="n">★</span>GUIDED EXPERIENCE</p>
+      <h3 id="story-title">The connected story: one month at Fogline AI</h3>
+      <p class="demo-intro">The recommended path through the simulator — a single narrative from funding to close. Check steps off as you complete them (progress is kept in this browser).</p>
+      <div class="progress" aria-label="Story progress"><div id="story-bar"></div></div>
+      <ol class="story-list" id="story-list"></ol>
+    </section>
+
+    <!-- ================= APPENDICES ================= -->
+    <section class="demo" id="appendix" aria-labelledby="app-title">
+      <p class="demo-kicker"><span class="n">§</span>APPENDICES</p>
+      <h3 id="app-title">Simplifications, glossary &amp; sources</h3>
+      <div class="grid-2">
+        <div class="subpanel">
+          <h4>📓 Simplification ledger <span class="badge gold">read me</span></h4>
+          <ul class="ledger-list">
+            <li><strong>Single-currency, tax-free world.</strong> No sales tax, VAT, withholding, or FX — real books have all four.</li>
+            <li><strong>Straight-line everything.</strong> Even delivery, even amortization; real contracts have ramps, usage, and variable consideration.</li>
+            <li><strong>Toy ledger engine.</strong> No periods in the journal itself, no multi-currency remeasurement, no audit immutability beyond Demo 12's log.</li>
+            <li><strong>Illustrative model scores.</strong> “Confidence 0.92” and Demo 15's dataset are invented to teach policy design, not model evaluation.</li>
+            <li><strong>Cash-flow statement is skeletal.</strong> A simplified indirect-method sketch, not a full reconciliation.</li>
+            <li><strong>Consolidation is partial.</strong> Full elimination of one loan + one service charge; no NCI, no goodwill, no FX translation.</li>
+            <li><strong>Firm economics are caricatures.</strong> Demo 16's hours and fees illustrate scope-sensitivity, not any real firm's unit economics.</li>
+          </ul>
+        </div>
+        <div class="subpanel glossary">
+          <h4>📖 Mini-glossary</h4>
+          <dl>
+            <div><dt>Debit / credit</dt><dd>The left / right side of a journal entry. Whether a debit increases an account depends on its type (assets/expenses vs liabilities/equity/revenue).</dd></div>
+            <div><dt>Chart of accounts</dt><dd>The named list of accounts a company posts to — ideally with stable IDs and semantic roles behind the labels.</dd></div>
+            <div><dt>Accrual vs cash</dt><dd>Accrual records events when obligations arise/are satisfied; cash records when money moves.</dd></div>
+            <div><dt>Deferred revenue</dt><dd>Cash collected for service not yet delivered — a liability, not revenue.</dd></div>
+            <div><dt>Receivable / payable</dt><dd>Amounts owed <em>to</em> / <em>by</em> the company — timing bridges between events and cash.</dd></div>
+            <div><dt>Reconciliation</dt><dd>Explaining every difference between two records (e.g., bank vs books); booking only what's genuinely missing.</dd></div>
+            <div><dt>Consolidation</dt><dd>Presenting a group as one economic entity by eliminating intragroup balances and transactions.</dd></div>
+            <div><dt>Idempotency key</dt><dd>A client-supplied token letting a server recognize retries and return the original result instead of re-executing.</dd></div>
+            <div><dt>Materiality</dt><dd>Whether an error is big enough to change a decision — the lens that turns accuracy into operating policy.</dd></div>
+          </dl>
+        </div>
+      </div>
+      <p class="fine-print">Concept references: debits &amp; credits and adjusting entries via AccountingCoach; bank reconciliation via AccountingCoach; IFRS 15 on revenue from contracts with customers; IFRS 10 on consolidated financial statements. All company names, people, amounts, and contract terms in this simulator are fictional teaching scenarios.</p>
+    </section>
+
+    <footer class="page-foot">
+      <p>Run the Books: Fogline AI · part of <a href="../../">Ronnie's Experiments</a> · fictional scenarios for teaching only.</p>
+      <p><a href="#">Back to top ↑</a></p>
+    </footer>
+
+
+
+
+  </main>
+  <script src="core.js"></script>
+  <script src="demos-a.js"></script>
+  <script src="demos-b.js"></script>
+  <script src="demos-c.js"></script>
+</body>
+</html>
