@@ -1,8 +1,26 @@
 [
   {
+    "id": "coagulation-lab",
+    "title": "Inside the Coagulation Lab",
+    "description": "Interactive 11-bench tour of the listed panel: Vitamin D 25-Hydroxy (LC-MS/MS), Lupus Anticoagulant Reflex (PTT-LA/dRVVT), APS panel (aPTT/PT/INR/TT/hexagonal/aCL+\u03b22GP1), Protein S antigen (total & free), Factor V Leiden PCR, Protein S functional, Antithrombin activity, Protein C antigen, Factor II activity, Protein C functional \u2014 plus the synthesis Interpretation Report. Generic educational content only, no personal data.",
+    "path": "experiments/coagulation-lab/",
+    "category": "Education",
+    "tags": [
+      "Hematology",
+      "Coagulation",
+      "Thrombophilia",
+      "Lab Medicine",
+      "LC-MS/MS",
+      "PCR",
+      "Immunoassay",
+      "Interactive"
+    ],
+    "date": "2026-10-21"
+  },
+  {
     "id": "ald-pvd-lab",
     "title": "Thin Film Lab: ALD vs PVD",
-    "description": "Start from zero: why anyone deposits nanometer-thin films (chips, lenses, implants, crisp packets), then three interactive labs on ALD vs PVD — self-limiting reactions, trench conformality, and real growth curves.",
+    "description": "Start from zero: why anyone deposits nanometer-thin films (chips, lenses, implants, crisp packets), then three interactive labs on ALD vs PVD \u2014 self-limiting reactions, trench conformality, and real growth curves.",
     "path": "experiments/ald-pvd-lab/",
     "category": "Education",
     "tags": [
@@ -19,7 +37,7 @@
   {
     "id": "nobel-prize-explainer",
     "title": "Nobel Prize Explainer",
-    "description": "A friendly interactive gallery of the 2023–2025 Nobel Prizes, with approachable exhibits for understanding each breakthrough.",
+    "description": "A friendly interactive gallery of the 2023\u20132025 Nobel Prizes, with approachable exhibits for understanding each breakthrough.",
     "path": "experiments/nobel-prize-explainer/",
     "category": "Education",
     "tags": [

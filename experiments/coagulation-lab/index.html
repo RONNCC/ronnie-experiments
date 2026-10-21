@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a1419">
+<meta name="description" content="Inside the Coagulation Lab — 11 benches: Vitamin D 25-Hydroxy by LC-MS/MS, Lupus Anticoagulant reflex (PTT-LA/dRVVT) and APS panel, Protein S total/free antigen, Factor V Leiden PCR, Protein S functional, Antithrombin activity, Protein C antigen, Factor II activity, Protein C functional, with a final interpretation synthesis.">
+<title>Inside the Coagulation Lab — 11-Test Panel</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="back-link" href="../../" aria-label="Back to experiments"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/><path d="M9 12h11"/></svg><span>Experiments</span></a>
+    <a class="brand" href="../../"><span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M15.9 4.5c-1.5 4.3-5.2 6.4-4.7 11.1.2 2.1 1.4 3.8 3.3 4.6-1.5-2.2-.8-4.9 1.5-6.6-.3 3.7 4.3 4.8 4.1 8.1-.1 1.7-1.2 3.2-2.8 4.1 5.3-.7 8.2-5.5 6.8-10.2-.9-3-3.4-4.2-4.2-7.7-.7 2.1-1.7 3.2-2.7 3.8.3-2.6-.2-5.2-1.3-7.2Z"/><path d="M10 24.7h11.5"/></svg></span><span>RONNIE'S <b>EXPERIMENTS</b></span></a>
+    <div class="topbar-actions"><span class="topbar-tag"><span class="status-dot"></span>Interactive exhibit · 11 benches</span></div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <p class="eyebrow"><span class="eyebrow-line"></span> LABORATORY MEDICINE · GENERIC EDUCATIONAL EXHIBIT</p>
+      <h1>Inside the <span>Coagulation Lab</span></h1>
+      <p class="hero-intro">One requisition, eleven different benches. This walk-through opens each instrument, pipettes each reagent, and shows — molecules to signal — how the listed tests are <em>actually run</em>. Nothing here diagnoses anyone; every result card is a <strong>synthetic example for illustration only</strong>.</p>
+      <p class="hero-sub">For a reader who remembers cells, proteins and DNA. We explain the <em>machines themselves</em> — optics vs mechanics, quadrupoles vs ELISA washers — not just their names. Where published methods are known we cite them; where labs vary, we label the method <span class="badge">representative</span> and name the alternative.</p>
+      <div class="hero-specimen-note">
+        <p><strong>Not one tube for everything.</strong> The panel intentionally mixes specimen types:</p>
+        <ul>
+          <li><span class="chip-spec s-serum">Serum</span> — Vitamin D; anticardiolipin &amp; β<sub>2</sub>-glycoprotein I immunoassays in the APS panel</li>
+          <li><span class="chip-spec s-citrate">Citrated platelet-poor plasma (3.2% Na-citrate, 1:9)</span> — all clot-based coag, chromogenic and antigen lactic tests</li>
+          <li><span class="chip-spec s-edta">EDTA whole blood (or other validated DNA source)</span> — Factor V Leiden PCR</li>
+        </ul>
+        <p class="fine-print">Specimen containers and spin conditions vary by laboratory. The timings below are generic illustrations — <em>hands-on</em> vs <em>instrument</em> vs <em>elapsed turnaround</em> — not a claim about any specific lab’s queue. </p>
+      </div>
+      <div class="hero-bullets">
+        <div><span>🧬</span><p><strong>Quantity vs function vs gene</strong><br>Antigen (how many molecules) ≠ activity (does it work?) ≠ genotype (what code).</p></div>
+        <div><span>🔬</span><p><strong>Signal, not magic</strong><br>Clot scatters light · p-nitroaniline turns yellow · chemiluminescence glows · ions hit a detector.</p></div>
+        <div><span>🌿</span><p><strong>Conditional reflex</strong><br>Mixing/confirmation only run if screens are prolonged. Branches, not mandatory steps.</p></div>
+      </div>
+      <div class="disclaimer">Generative educational content only. No personal data, no diagnosis, no dosing. If you have a personal result, ask your care team or lab’s interpretation line.</div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="lab-bench-card">
+        <p class="bench-kicker">REQUISITION ON THE BENCH · 11 ENTRIES</p>
+        <ol class="bench-list">
+          <li><span class="num">01</span> Vitamin D, 25-Hydroxy — LC-MS/MS</li>
+          <li><span class="num">02</span> Lupus Anticoagulant Reflex — PTT-LA / dRVVT</li>
+          <li><span class="num">03</span> Antiphospholipid Syndrome Panel — clot + immuno</li>
+          <li><span class="num">04</span> Protein S Antigen — total &amp; free</li>
+          <li><span class="num">05</span> Factor V Leiden Mutation — PCR</li>
+          <li><span class="num">06</span> Protein S Functional — clot-based APC cofactor</li>
+          <li><span class="num">07</span> Antithrombin Activity — chromogenic</li>
+          <li><span class="num">08</span> Protein C Antigen — immunoassay</li>
+          <li><span class="num">09</span> Factor II Activity — PT-based one-stage</li>
+          <li><span class="num">10</span> Protein C Functional — chromogenic</li>
+          <li><span class="num">11</span> Coag Studies Interpretation Report — synthesis</li>
+        </ol>
+        <div class="bench-legend">
+          <span><i class="dot" style="background:#1E88E5"></i> CLOT-based</span>
+          <span><i class="dot" style="background:#2EC4B6"></i> CHROMOGENIC</span>
+          <span><i class="dot" style="background:#9B8EC4"></i> IMMUNOASSAY</span>
+          <span><i class="dot" style="background:#F4D35E"></i> LC-MS/MS</span>
+          <span><i class="dot" style="background:#FF8A5B"></i> DNA PCR</span>
+        </div>
+      </div>
+      <div class="spec-matrix-mini">
+        <p class="toc-label">SPECIMEN → BENCH (representative)</p>
+        <table class="mini-spec" aria-label="Specimen overview">
+          <thead><tr><th>Tube</th><th>Goes to</th></tr></thead>
+          <tbody>
+            <tr><td><span class="tag tube-red">Red / SST serum</span> 0.5 mL</td><td>Vitamin D; aCL &amp; β<sub>2</sub>GP1</td></tr>
+            <tr><td><span class="tag tube-blue">Blue citrate plasma</span> 2–3 mL PPP ×2</td><td>LA reflex, APS clot arm, Proteins C/S, AT, FII</td></tr>
+            <tr><td><span class="tag tube-purple">Lavender EDTA whole blood</span></td><td>Factor V Leiden PCR</td></tr>
+          </tbody>
+        </table>
+        <p class="fine-print">Plasma citrate tubes are typically double-spun to platelet-poor (&lt;10k/µL). Serum tubes clot 30–60 min then spin. Whole-blood for PCR is not spun. Protocols vary.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<nav class="station-rail" aria-label="Test navigation">
+  <div class="rail-inner">
+    <a href="#s1" class="rail-link is-active" data-rail="s1"><span>01</span> Vit D</a>
+    <a href="#s2" class="rail-link" data-rail="s2"><span>02</span> LA Reflex</a>
+    <a href="#s3" class="rail-link" data-rail="s3"><span>03</span> APS Panel</a>
+    <a href="#s4" class="rail-link" data-rail="s4"><span>04</span> PS Antigen</a>
+    <a href="#s5" class="rail-link" data-rail="s5"><span>05</span> FVL DNA</a>
+    <a href="#s6" class="rail-link" data-rail="s6"><span>06</span> PS Func</a>
+    <a href="#s7" class="rail-link" data-rail="s7"><span>07</span> AT Activity</a>
+    <a href="#s8" class="rail-link" data-rail="s8"><span>08</span> PC Antigen</a>
+    <a href="#s9" class="rail-link" data-rail="s9"><span>09</span> FII Activity</a>
+    <a href="#s10" class="rail-link" data-rail="s10"><span>10</span> PC Func</a>
+    <a href="#s11" class="rail-link" data-rail="s11"><span>11</span> Report</a>
+  </div>
+</nav>
+
+<main class="exhibit">
+
+<!-- ===================== TEST 01 ===================== -->
+<section class="lab is-top" id="s1" aria-labelledby="s1-title">
+  <header class="lab-header">
+    <p class="section-kicker">TEST 01 / 11 <span>· IMMUNOASSAY vs MASS SPECTROMETRY · SERUM</span></p>
+    <h2 id="s1-title">Vitamin D, 25-Hydroxy — separating D<sub>2</sub> from D<sub>3</sub></h2>
+    <p class="lab-intro">25-hydroxyvitamin D (calcidiol) is the circulating storage form that best reflects vitamin D status. The liver makes it from D<sub>3</sub> (skin + diet) and D<sub>2</sub> (plant/fungal ergocalciferol and supplements). Modern reference labs often report D<sub>2</sub> and D<sub>3</sub> separately plus a <em>total</em> (D<sub>2</sub>+D<sub>3</sub>). The reference measurement procedure is <strong>isotope-dilution LC-MS/MS</strong> <a class="cite" href="https://www.mayocliniclabs.com/test-catalog/overview/83670" target="_blank" rel="noopener">[Mayo 25HDN: LC-MS/MS]</a> <a class="cite" href="https://testguide.labmed.uw.edu/view/VITDG2" target="_blank" rel="noopener">[UW VITDG2: LC-MS/MS]</a>. Many routine labs still use automated chemiluminescent immunoassay for speed — we show both and label which is which.</p>
+  </header>
+
+  <div class="meta-grid">
+    <div class="spec-card">
+      <p class="meta-label">Specimen input (representative)</p>
+      <ul>
+        <li><strong>Container:</strong> serum — red-top (no additive) or serum-separator (SST) — spin after clot, aliquot to plastic vial.</li>
+        <li><strong>Volume:</strong> 0.5 mL serum typical; 0.25 mL minimum in cited catalogue <a class="cite" href="https://www.mayocliniclabs.com/test-catalog/download-setup?format=pdf&unit_code=83670" target="_blank" rel="noopener">[Mayo sheet 0.5 mL / 0.25 min]</a>.</li>
+        <li><strong>Not:</strong> plasma citrate — that tube is for coag benches, not here. Hemolyzed/lipemic may interfere with immunoassay more than LC-MS/MS.</li>
+      </ul>
+      <p class="meta-note">DNA and coag protein tubes are different draws — see benches 02–10. One specimen-prep does not fit all.</p>
+    </div>
+    <div class="method-card">
+      <p class="meta-label">Method class</p>
+      <p><span class="pill method-ms">LC-MS/MS <span class="badge">gold standard</span></span> — liquid chromatography separates D<sub>2</sub>/D<sub>3</sub> and the 3-epi isomer; tandem mass spectrometry identifies by mass-to-charge (m/z). <em>Representative immunoassay</em> shown as alternative: competitive binding vs labeled D.</p>
+      <p class="fine-print">LC-MS/MS is the CDC Vitamin D Standardization-Certification reference <a class="cite" href="https://www.cdc.gov/clinical-standardization-programs/media/pdfs/2024/04/CDC-Certified-Vitamin-D-Assays-508.pdf" target="_blank">[CDC VDSCP]</a>. Immunoassays can cross-react with epimers and be biased by matrix — cited in method-comparison literature <a class="cite" href="https://www.sciencedirect.com/science/article/pii/S2352551723000410" target="_blank">[LC-MS/MS vs immunoassay]</a>.</p>
+    </div>
+    <div class="time-card">
+      <p class="meta-label">Time (illustrative)</p>
+      <div class="time-bars"><div class="bar"><span style="width:18%">Hands-on 10–15 min</span><i>aliquot + internal standard + extraction</i></div><div class="bar bar-inst"><span style="width:36%">Instrument ~15–45 min/run</span><i>HPLC gradient + MS dwell (batched)</i></div><div class="bar bar-elapsed"><span style="width:72%">Elapsed turnaround 1–10 days</span><i>batch + QC + review; LabCorp lists 4–10 days for fractionated D <a class="cite" href="https://www.labcorp.com/tests/504115/25-hydroxy-vitamin-d-d2-d3-fractionated-lc-ms-ms?letter=D" target="_blank">[LabCorp 504115]</a></i></div></div>
+      <p class="fine-print">Not every D test takes days because it is slow chemistry; many are batched in reference labs and shipped. In-house immunoassay Ds can be same-day where offered.</p>
+    </div>
+  </div>
+
+  <div class="bench-grid bench-grid--vitd">
+    <div class="viz-panel">
+      <div class="viz-toolbar">
+        <p class="pane-title">Cutaway — LC-MS/MS: from serum to separated peaks to mass peaks</p>
+        <div class="transport-controls"><button class="btn btn-primary" id="vitd-play" aria-label="Play Vitamin D sequence">▶ Play</button><button class="btn" id="vitd-pause" aria-label="Pause">⏸ Pause</button><button class="btn" id="vitd-step">Step</button><button class="btn" id="vitd-reset">Reset</button><label class="toggle"><input type="checkbox" id="vitd-compare"> Show <em>representative</em> immunoassay inset</label></div>
+      </div>
+      <div class="vitd-stage" id="vitd-stage" aria-live="polite">
+        <!-- Step 1: extraction -->
+        <div class="vitd-step is-active" data-step="1">
+          <h3>① Extraction &amp; internal standard</h3>
+          <p>Tech aliquots serum, adds deuterated d<sub>6</sub>-25-OH-D<sub>3</sub> and d<sub>3</sub>-D<sub>2</sub> as <strong>internal standards</strong> (same chemistry, heavier mass → distinct m/z), then protein-precipitates and liquid-liquid extracts with heptane/hexane. Why: vitamin D is protein-bound (DBP); we free it and correct for recovery ion suppression.</p>
+          <svg viewBox="0 0 840 120" role="img" aria-label="Extraction vessels">
+            <rect x="20" y="20" width="160" height="70" rx="10" fill="#0B1E24" stroke="#2E4E58"/><text x="100" y="42" text-anchor="middle" font-size="9" fill="#E8F1F2">Serum 0.5 mL</text><text x="100" y="58" text-anchor="middle" font-size="8" fill="#F4D35E">DBP-bound 25-OH-D</text><text x="100" y="74" text-anchor="middle" font-size="7" fill="#8BA3AD">+ d6-D3 IS</text>
+            <text x="195" y="55" font-size="14" fill="#2EC4B6">→</text>
+            <rect x="220" y="20" width="160" height="70" rx="10" fill="#132E36" stroke="#2EC4B6"/><text x="300" y="42" text-anchor="middle" font-size="9" fill="#2EC4B6">Precipitate</text><text x="300" y="58" text-anchor="middle" font-size="8" fill="#C9D8DD">Acetonitrile crash</text><text x="300" y="74" text-anchor="middle" font-size="7" fill="#9ECFD5">DBP pellet ↓</text>
+            <text x="395" y="55" font-size="14" fill="#2EC4B6">→</text>
+            <rect x="420" y="20" width="160" height="70" rx="10" fill="#0B1E24" stroke="#2E4E58"/><text x="500" y="42" text-anchor="middle" font-size="9" fill="#E8F1F2">HPLC vial</text><text x="500" y="58" text-anchor="middle" font-size="8" fill="#9ECFD5">Clean extract</text><text x="500" y="74" text-anchor="middle" font-size="7" fill="#8BA3AD">in mobile phase</text>
+            <rect x="620" y="20" width="200" height="70" rx="10" fill="#021015" stroke="#3A5A63" stroke-dasharray="5 5"/><text x="720" y="42" text-anchor="middle" font-size="8" fill="#8BA3AD">Calibration + QC</text><text x="720" y="58" text-anchor="middle" font-size="7" fill="#8BA3AD">3–6 levels + 2 QCs</text><text x="720" y="74" text-anchor="middle" font-size="7" fill="#8BA3AD">per batch per CLSI</text>
+          </svg>
+        </div>
+        <!-- Step 2: HPLC -->
+        <div class="vitd-step" data-step="2">
+          <h3>② HPLC — separates by chemistry, not mass</h3>
+          <p>Autosampler injects extract onto a C18 reversed-phase column. Hydrophobic D<sub>2</sub>, D<sub>3</sub> and 3-epi-25-OH-D<sub>3</sub> partition into the stationary phase differently; gradient of methanol/water elutes them at different <strong>retention times</strong> — this is how LC-MS/MS resolves D<sub>2</sub> vs D<sub>3</sub> and the epimer that confounds immunoassays.</p>
+          <svg viewBox="0 0 840 150" role="img" aria-label="HPLC column">
+            <defs><linearGradient id="gradHPLC" x1="0" x2="1"><stop offset="0" stop-color="#0B1E24"/><stop offset="1" stop-color="#2EC4B6"/></linearGradient></defs>
+            <rect x="20" y="40" width="120" height="50" rx="8" fill="#132E36" stroke="#2EC4B6"/><text x="80" y="62" text-anchor="middle" font-size="8" fill="#E8F1F2">Autosampler</text><text x="80" y="76" text-anchor="middle" font-size="7" fill="#9ECFD5">10–20 µL</text>
+            <text x="150" y="70" font-size="14" fill="#2EC4B6">→</text>
+            <rect x="170" y="24" width="280" height="82" rx="12" fill="url(#gradHPLC)" stroke="#2E4E58"/><text x="310" y="48" text-anchor="middle" font-size="9" fill="#0A1419" font-weight="700">C18 HPLC column (30 °C)</text><text x="310" y="64" text-anchor="middle" font-size="7" fill="#0A1419">Stationary C18 beads ↔ mobile gradient</text><text x="310" y="80" text-anchor="middle" font-size="7" fill="#0A1419">D2 elutes earlier than D3; epi resolves</text>
+            <circle cx="220" cy="64" r="6" fill="#F4D35E"/><text x="220" y="68" text-anchor="middle" font-size="6" fill="#0A1419">D2</text><circle cx="310" cy="66" r="6" fill="#FF8A5B"/><text x="310" y="70" text-anchor="middle" font-size="6" fill="#fff">D3</text><circle cx="400" cy="62" r="6" fill="#9B8EC4"/><text x="400" y="66" text-anchor="middle" font-size="6" fill="#fff">epi</text>
+            <text x="470" y="70" font-size="14" fill="#2EC4B6">→</text>
+            <rect x="500" y="40" width="140" height="50" rx="8" fill="#0B1E24" stroke="#F4D35E"/><text x="570" y="62" text-anchor="middle" font-size="8" fill="#F4D35E">ESI ion source</text><text x="570" y="76" text-anchor="middle" font-size="7" fill="#8BA3AD">+H adducts [M+H-H₂O]⁺</text>
+          </svg>
+          <canvas id="vitd-chrom" width="840" height="120" aria-label="Chromatogram D2 D3 epi"></canvas>
+          <p class="fine-print">Chromatogram (representative): x = retention time (min), y = ion count. IS co-elutes with analyte — ratio corrects.</p>
+        </div>
+        <!-- Step 3: MSMS -->
+        <div class="vitd-step" data-step="3">
+          <h3>③ Tandem MS — quadrupole mass filter to photon-counted signal</h3>
+          <p>Electrospray ionizes molecules. Q1 selects <em>precursor</em> m/z (e.g., 25-OH-D<sub>3</sub> ≈ 401.3, D<sub>2</sub> ≈ 413.3), collision cell fragments, Q3 selects <em>product</em> ion. Only that precursor→product transition is counted — isotope internal standard has same transition + mass shift. Peak area ratio (analyte/IS) → concentration via calibration curve.</p>
+          <svg viewBox="0 0 840 140" role="img" aria-label="Triple quadrupole">
+            <rect x="20" y="30" width="120" height="60" rx="8" fill="#0B1E24" stroke="#F4D35E"/><text x="80" y="52" text-anchor="middle" font-size="8" fill="#F4D35E">ESI source</text><text x="80" y="68" text-anchor="middle" font-size="7" fill="#8BA3AD">[M+H]⁺ ions</text>
+            <text x="150" y="65" font-size="12" fill="#2EC4B6">→</text>
+            <rect x="170" y="36" width="130" height="48" rx="6" fill="#132E36" stroke="#2EC4B6"/><text x="235" y="58" text-anchor="middle" font-size="8" fill="#2EC4B6">Q1 quadrupole</text><text x="235" y="70" text-anchor="middle" font-size="7" fill="#C9D8DD">m/z filter</text>
+            <text x="310" y="65" font-size="12" fill="#2EC4B6">→</text>
+            <rect x="330" y="40" width="80" height="40" rx="6" fill="#0B1E24" stroke="#FF8A5B"/><text x="370" y="58" text-anchor="middle" font-size="7" fill="#FF8A5B">Collision</text><text x="370" y="70" text-anchor="middle" font-size="7" fill="#8BA3AD">Ar gas</text>
+            <text x="420" y="65" font-size="12" fill="#2EC4B6">→</text>
+            <rect x="440" y="36" width="130" height="48" rx="6" fill="#132E36" stroke="#2EC4B6"/><text x="505" y="58" text-anchor="middle" font-size="8" fill="#2EC4B6">Q3 quadrupole</text><text x="505" y="70" text-anchor="middle" font-size="7" fill="#C9D8DD">product m/z</text>
+            <text x="580" y="65" font-size="12" fill="#2EC4B6">→</text>
+            <rect x="600" y="30" width="120" height="60" rx="8" fill="#0B1E24" stroke="#9B8EC4"/><text x="660" y="52" text-anchor="middle" font-size="8" fill="#9B8EC4">Electron multiplier</text><text x="660" y="68" text-anchor="middle" font-size="7" fill="#8BA3AD">counts → voltage</text>
+            <text x="730" y="65" font-size="12" fill="#2EC4B6">→</text><text x="760" y="65" font-size="9" fill="#E8F1F2">Peak area</text>
+          </svg>
+          <p class="viz-caption">No machine model is implied — any validated LC-MS/MS with deuterated IS and C18 separation that resolves 3-epi-25-OH-D3 operates on this principle <a class="cite" href="https://testguide.labmed.uw.edu/view/VITDG2" target="_blank">[UW heptane extraction + LC-MS/MS]</a>.</p>
+        </div>
+        <div class="representative-inset" id="vitd-inset" hidden>
+          <h4>Representative alternative — chemiluminescent immunoassay (same tube, different bench)</h4>
+          <p>Competitive: anti-25-OH-D antibody + acridinium-labeled D compete for limited binding sites. Light output is <em>inverse</em> to patient D — more D = less label bound = less light. Fast, single total (not D2/D3 split), more epimer cross-reactivity. Some labs run this for routine volume; reference confirmation still LC-MS/MS.</p>
+        </div>
+      </div>
+      <p class="viz-caption"><strong>Calibration &amp; controls:</strong> 6-point calibrators (e.g., 5–120 ng/mL) + NIST SRM-traceable; two QC levels per batch; internal standard in <em>every</em> sample. Signal = area(analyte)/area(IS). Output: D<sub>2</sub>, D<sub>3</sub> and total D<sub>2</sub>+D<sub>3</sub> <a class="cite" href="https://www.mayocliniclabs.com/test-catalog/download-setup?format=pdf&unit_code=83670" target="_blank">[Mayo 25HDN panel: D2, D3, total]</a>.</p>
+    </div>
+    <div class="side-panel">
+      <div class="control">
+        <label>Interactive — mix of D<sub>2</sub> vs D<sub>3</sub></label>
+        <input type="range" id="vitd-mix" min="0" max="100" value="30">
+        <output class="control-out" id="vitd-mix-val">D2 12 ng/mL · D3 28 ng/mL → Total 40 ng/mL</output>
+        <p class="control-why" id="vitd-mix-why">D2-only from supplements; D3 from sun/animal. LC-MS/MS separates; immunoassay would lump them. Drug 3-epi contributes little here — resolved chromatographically.</p>
+      </div>
+      <div class="example-result">
+        <p class="result-label">Synthetic example result — illustration only, not a diagnosis</p>
+        <dl>
+          <div><dt>25-OH Vitamin D2</dt><dd id="vitd-r-d2">12 ng/mL</dd></div>
+          <div><dt>25-OH Vitamin D3</dt><dd id="vitd-r-d3">28 ng/mL</dd></div>
+          <div><dt>Total 25-OH Vitamin D (D2+D3)</dt><dd id="vitd-r-total"><strong>40 ng/mL</strong> <span class="u">(= 100 nmol/L × 2.496)</span></dd></div>
+        </dl>
+        <p class="fine-print">Units: ng/mL (US) or nmol/L (×2.496). Reference intervals vary by lab and season — this is a synthetic number.</p>
+      </div>
+      <div class="notes">
+        <p class="term-label">What moves the signal legitimately vs analytically</p>
+        <ul class="compact">
+          <li>Season, latitude, supplement D2 vs D3, malabsorption, liver/kidney disease — physiology.</li>
+          <li>Lipemia, hemolysis, biotin (immunoassay), 3-epi in infants — analytical where immunoassay > LC-MS/MS.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <p class="station-cite">Methods: Mayo 25HDN LC-MS/MS serum 0.5 mL <a href="https://www.mayocliniclabs.com/test-catalog/overview/83670" target="_blank">[catalog]</a>; UW heptane extraction + LC-MS/MS <a href="https://testguide.labmed.uw.edu/view/VITDG2" target="_blank">[UW]</a>; CDC reference procedure <a href="https://www.cdc.gov/clinical-standardization-programs/media/pdfs/2024/04/CDC-Certified-Vitamin-D-Assays-508.pdf" target="_blank">[CDC]</a>; LabCorp timing 4–10 d for fractionated <a href="https://www.labcorp.com/tests/504115/25-hydroxy-vitamin-d-d2-d3-fractionated-lc-ms-ms?letter=D" target="_blank">[LabCorp 504115]</a>.</p>
+</section>
+
+<!-- ===================== TEST 02 ===================== -->
+<section class="lab" id="s2" aria-labelledby="s2-title">
+  <header class="lab-header">
+    <p class="section-kicker">TEST 02 / 11 <span>· CLOT-BASED REFLEX · CITRATED PPP</span></p>
+    <h2 id="s2-title">Lupus Anticoagulant Reflex — PTT-LA and dRVVT as conditional branches</h2>
+    <p class="lab-intro">Lupus anticoagulant (LA) is a functional diagnosis: phospholipid-dependent autoantibodies that <em>prolong phospholipid-limited clotting times in vitro</em> but associate with thrombosis in vivo. Guidelines require at least two principles before exclusion — most labs pair <strong>LA-sensitive aPTT (PTT-LA / silica clotting time)</strong> and <strong>dilute Russell viper venom time (dRVVT)</strong> <a class="cite" href="https://www.islh.org/web/downloads/2020-LAC-guidance-JTH-16859413.pdf" target="_blank">[ISTH/ISLH 2020 guidance]</a>. Reflex is <em>conditional</em>: mixing and confirmation only run if screen is prolonged <a class="cite" href="https://ltd.aruplab.com/Tests/Pub/3017009" target="_blank">[ARUP 3017009 reflex]</a> <a class="cite" href="https://www.mayocliniclabs.com/test-catalog/overview/603463/lupus-anticoagulant-profile-plasma" target="_blank">[Mayo ALUPP algorithm]</a>. Not every sample sees every step.</p>
+  </header>
+
+  <div class="meta-grid">
+    <div class="spec-card">
+      <p class="meta-label">Specimen input (representative for this bench)</p>
+      <ul>
+        <li><strong>Container:</strong> citrate — 3.2% Na citrate blue-top, 1 part citrate : 9 parts blood; fill to line, gentle 3–6 inversions.</li>
+        <li><strong>Prep:</strong> rapid double-spin to platelet-poor plasma (PPP, typically &lt;10k platelets/µL); test within 4 h or freeze — platelets supply phospholipid that can mask LA. </li>
+        <li><strong>Rejection examples:</strong> underfill (&gt;10% excess citrate chelates Ca²⁺ → falsely prolonged), clotted, heparin line contamination.</li>
+      </ul>
+      <p class="fine-print">Each test in this panel has its own collection; this is the prep for the reflex LA benches (02 & 03 clot arm), not a universal prep.</p>
+    </div>
+    <div class="method-card">
+      <p class="meta-label">Method class</p>
+      <p><span class="pill method-clot">Electromagnetic mechanical / photo-optical clot detection</span> + chromogenic anti-Xa rule-out <a class="cite" href="https://arupconsult.com/ati/lupus-anticoagulant-reflex-panel" target="_blank">[ARUP method: EM clot / chromogenic]</a>. Representative analyzer: automated coagulometer with photo-optical 671 nm or steel-ball viscosity detection — no model implied.</p>
+    </div>
+    <div class="time-card">
+      <p class="meta-label">Time (illustrative)</p>
+      <div class="time-bars"><div class="bar"><span style="width:22%">Hands-on ~15 min</span><i>spin, aliquot, load</i></div><div class="bar bar-inst"><span style="width:32%">Instrument ~30 min–1 h per round</span><i>screen → conditional incubation</i></div><div class="bar bar-elapsed"><span style="width:58%">Elapsed often same day; with reflex/mixing ~4–8 h; confirm batch may next day</span><i>QC + path review</i></div></div>
+      <p class="fine-print">Not every LA requires days — screens are fast; delays come from reflex add-on, batch confirm, transport, or repeat after 12-week persistence check per classification criteria.</p>
+    </div>
+  </div>
+
+  <div class="viz-panel viz-panel--branch">
+    <div class="viz-toolbar"><p class="pane-title">Reflex tree — tap a screen result to see what reflexes actually run</p><div class="transport-controls"><button class="btn" id="la-reset">Reset</button></div></div>
+    <svg viewBox="0 0 860 420" role="img" aria-label="Lupus anticoagulant reflex tree" id="la-tree">
+      <!-- Screen row -->
+      <g id="la-screen-row">
+        <rect x="20" y="20" width="270" height="92" rx="12" fill="#132E36" stroke="#2EC4B6" stroke-width="1.4"/><text x="155" y="38" text-anchor="middle" font-size="9" font-weight="700" fill="#2EC4B6">SCREEN — always run</text><text x="155" y="54" text-anchor="middle" font-size="7" fill="#C9D8DD">PTT-LA (silica activator, low PL) + dRVVT screen (RVV-X → FXa)</text><text x="60" y="78" font-size="8" fill="#F4D35E">PTT-LA ratio</text><text x="200" y="78" font-size="8" fill="#F4D35E">dRVVT screen ratio</text><text x="60" y="94" text-anchor="middle" font-size="7" fill="#8BA3AD">≤1.20 normal (lab-specific)</text><text x="200" y="94" text-anchor="middle" font-size="7" fill="#8BA3AD">≤1.20 normal</text>
+        <rect x="310" y="40" width="42" height="22" rx="6" fill="#0B1E24" stroke="#3A5A63"/><text x="331" y="55" text-anchor="middle" font-size="7" fill="#9ECFD5">PT</text>
+        <text x="310" y="78" font-size="7" fill="#8BA3AD">PT catches</text><text x="310" y="88" font-size="7" fill="#8BA3AD">contamination / warfarin</text>
+      </g>
+      <g id="la-trigger" transform="translate(120 130)">
+        <rect x="0" y="0" width="260" height="50" rx="10" fill="#021015" stroke="#FF8A5B"/><text x="130" y="18" text-anchor="middle" font-size="8" fill="#FF8A5B">IF either screen ratio > cutoff (~1.20) → reflex</text><text x="130" y="32" text-anchor="middle" font-size="7" fill="#C9D8DD">else: report “LA not detected” + interpretation, stop</text><text x="130" y="42" text-anchor="middle" font-size="6" fill="#8BA3AD">cutoffs lab-validated per CLSI H60</text>
+      </g>
+      <!-- Second row conditional -->
+      <g id="la-conditional" opacity="0.28">
+        <rect x="20" y="200" width="260" height="90" rx="12" fill="#0B1E24" stroke="#3A5A63"/><text x="150" y="220" text-anchor="middle" font-size="8" font-weight="700" fill="#9ECFD5">ANTI-Xa / Thrombin time check</text><text x="150" y="236" text-anchor="middle" font-size="7" fill="#C9D8DD">Rule out anticoagulant in tube</text><text x="150" y="250" text-anchor="middle" font-size="7" fill="#8BA3AD">Heparin/Direct Xa may mimic LA → Hepzyme/DOAC-Stop note</text><text x="150" y="268" text-anchor="middle" font-size="7" fill="#FF8A5B">TT ≤19.5s, anti-Xa not present expected</text>
+        <rect x="310" y="200" width="250" height="90" rx="12" fill="#0B1E24" stroke="#3A5A63"/><text x="435" y="220" text-anchor="middle" font-size="8" font-weight="700" fill="#9ECFD5">MIXING — 1:1 with NPP</text><text x="435" y="236" text-anchor="middle" font-size="7" fill="#C9D8DD">Corrects deficiency; LA persists (phospholipid-dependent)</text><text x="435" y="252" text-anchor="middle" font-size="7" fill="#8BA3AD">dRVVT 1:1 mix ratio ≤1.20 if correction</text>
+        <rect x="590" y="200" width="250" height="90" rx="12" fill="#0B1E24" stroke="#3A5A63"/><text x="715" y="220" text-anchor="middle" font-size="8" font-weight="700" fill="#9ECFD5">CONFIRM — excess phospholipid</text><text x="715" y="236" text-anchor="middle" font-size="7" fill="#C9D8DD">dRVVT confirm ratio; hexagonal-phase delta (≤7.9s)</text><text x="715" y="252" text-anchor="middle" font-size="7" fill="#8BA3AD">Shortens only if phospholipid-dependent (LA)</text>
+      </g>
+      <text x="430" y="320" text-anchor="middle" font-size="9" fill="#F4D35E" font-weight="700" id="la-verdict">Select a scenario below</text>
+      <text x="430" y="338" text-anchor="middle" font-size="7" fill="#8BA3AD" id="la-verdict-sub">Screen normal = no reflex. Screen prolonged = conditional mixing/confirmation branch.</text>
+      <!-- Controls -->
+    </svg>
+    <div class="case-tabs" role="group" aria-label="LA scenarios">
+      <button class="case-btn is-active" data-la="normal">Both screens normal → no reflex</button>
+      <button class="case-btn" data-la="la">Screens prolonged, phospholipid-dependent → LA detected</button>
+      <button class="case-btn" data-la="doac">Screens prolonged on apixaban → drug mimic, uninterpretable</button>
+      <button class="case-btn" data-la="warfarin">Screens prolonged on warfarin → not LA, deficiency pattern</button>
+    </div>
+    <div class="instrument-strip">
+      <svg viewBox="0 0 860 140" role="img" aria-label="Coagulometer cutaway">
+        <text x="430" y="12" text-anchor="middle" font-size="8" font-weight="700" fill="#2EC4B6">INSIDE THE COAGULOMETER — photo-optical (671 nm) or steel-ball viscosity</text>
+        <rect x="20" y="20" width="200" height="70" rx="10" fill="#0B1E24" stroke="#2E4E58"/><text x="120" y="40" text-anchor="middle" font-size="8" fill="#E8F1F2">Cuvette 37 °C</text><text x="120" y="54" text-anchor="middle" font-size="7" fill="#9ECFD5">Silica/PL + Ca²⁺ → fibrin</text><text x="120" y="68" text-anchor="middle" font-size="7" fill="#8BA3AD">Turbidity ↑ or ball stalls</text>
+        <text x="230" y="55" font-size="12" fill="#2EC4B6">↔</text>
+        <rect x="260" y="20" width="200" height="70" rx="10" fill="#0B1E24" stroke="#2E4E58"/><text x="360" y="40" text-anchor="middle" font-size="8" fill="#E8F1F2">LED 671 nm → detector</text><text x="360" y="54" text-anchor="middle" font-size="7" fill="#9ECFD5">Δ absorbance over time</text><text x="360" y="68" text-anchor="middle" font-size="7" fill="#8BA3AD">Clot time = threshold crossing</text>
+        <rect x="500" y="20" width="200" height="70" rx="10" fill="#0B1E24" stroke="#FF8A5B"/><text x="600" y="40" text-anchor="middle" font-size="8" fill="#FF8A5B">RVV-X (dRVVT): directly activates X</text><text x="600" y="54" text-anchor="middle" font-size="7" fill="#C9D8DD">Bypasses intrinsic/extrinsic — FXa·Va·PL dependent</text><text x="600" y="68" text-anchor="middle" font-size="7" fill="#8BA3AD">Low PL → LA prolongs, excess PL corrects</text>
+        <text x="20" y="108" font-size="7" fill="#8BA3AD">Mechanical (magnetic ball) and optical detect the same event: fibrin mesh formation — method varies by platform, not implied here <a href="https://www.mayocliniclabs.com/test-catalog/overview/603463/lupus-anticoagulant-profile-plasma" target="_blank">[Mayo ALUPP: ACL TOP optical 671 nm]</a>.</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="bench-grid">
+    <div class="viz-panel">
+      <div class="viz-toolbar"><p class="pane-title">Reagents &amp; molecular logic</p></div>
+      <div class="molecule-grid">
+        <div class="mol-card"><p><strong>PTT-LA</strong><small>Silica/cell activator + low phospholipid + Ca²⁺. Intrinsic arm must assemble tenase/prothrombinase on anionic PL surface — LA antibody hides that surface → prolonged ratio.</small></p></div>
+        <div class="mol-card"><p><strong>dRVVT screen / confirm</strong><small>Russell viper venom RVV-X directly activates FX → FXa (bypasses contact/TF) <a class="cite" href="https://www.practical-haemostasis.com/Thromobophilia/APS/drvvt.html" target="_blank">[Practical Haemostasis: DRVVT]</a>. Low PL (screen) sensitive; high PL (confirm) bypasses antibody. Ratio screen/confirm &gt; cutoff suggests phospholipid dependence.</small></p></div>
+        <div class="mol-card"><p><strong>Mix 1:1 NPP</strong><small>50% normal pooled plasma supplies 50% of every factor — deficiency corrects to within ref; LA inhibitor stays in mix → persists.</small></p></div>
+        <div class="mol-card"><p><strong>Hexagonal phase</strong><small>Hexagonal phospholipid (HPE) in high hexagonal geometry avidly neutralizes LA — delta time or % correction quantifies phospholipid dependence. <a class="cite" href="https://www.ohsu.edu/sites/default/files/2019-08/Antiphospholipid%20antibody%20syndrome.pdf" target="_blank">[OHSU: hexagonal neutralisation]</a></small></p></div>
+      </div>
+      <p class="viz-caption"><strong>Calibration/QC:</strong> ratios normalize to pooled normal plasma run same day; daily QC normal/abnormal LA-sensitive controls; ISI-like standardization is PT-specific, not used here — each lab validates its own cutoffs per CLSI H60.</p>
+    </div>
+    <div class="side-panel">
+      <div class="example-result" id="la-result-card">
+        <!-- Dynamically bound to reflex-tree branch — populated by app.js -->
+        <p class="result-label">Synthetic example — screening only (no reflex needed) — illustration only</p>
+        <dl><div><dt>PT</dt><dd>13.2 s (12.0–15.5) <span class="u">ref <a href="https://ltd.aruplab.com/Tests/Pub/3017009" target="_blank">[ARUP 3017009]</a></span></dd></div><div><dt>PTT-LA ratio</dt><dd>1.05 (≤1.20)</dd></div><div><dt>dRVVT screen ratio</dt><dd>1.08 (≤1.20)</dd></div><div><dt>Reflex interpretation</dt><dd><span class="pill ok">No evidence of LA — no reflex testing performed</span></dd></div></dl>
+        <p class="fine-print">If screen(s) had been prolonged, the conditional panel would have added anti-Xa, TT, mixing and confirmation ratios + delta HPE <a href="https://arupconsult.com/ati/lupus-anticoagulant-reflex-panel" target="_blank">[ARUP reflex pattern]</a>.</p>
+      </div>
+      <p class="fine-print" id="la-result-footnote">Persistent positivity on two occasions ≥12 weeks plus clinical criteria fulfills APS classification — this single panel does not diagnose APS by itself <a href="https://arupconsult.com/content/antiphospholipid-syndrome" target="_blank">[ARUP APS criteria]</a>.</p>
+    </div>
+  </div>
+  <p class="station-cite">ARUP LA Reflex 3017009 components &amp; ratios <a href="https://ltd.aruplab.com/Tests/Pub/3017009" target="_blank">[catalog]</a>; reflex cascade <a href="https://arupconsult.com/ati/lupus-anticoagulant-reflex-panel" target="_blank">[ARUP ATI]</a>; Mayo ALUPP PT/aPTT 671 nm ACL TOP <a href="https://www.mayocliniclabs.com/test-catalog/overview/603463/lupus-anticoagulant-profile-plasma" target="_blank">[Mayo]</a>; DRVVT mechanism <a href="https://en.wikipedia.org/wiki/Dilute_Russell%27s_viper_venom_time" target="_blank">[DRVVT wiki]</a>.</p>
+</section>
+
+<!-- ===================== TEST 03 ===================== -->
+<section class="lab" id="s3" aria-labelledby="s3-title">
+  <header class="lab-header">
+    <p class="section-kicker">TEST 03 / 11 <span>· APS PANEL: CLOT + IMMUNO · SERUM + PPP</span></p>
+    <h2 id="s3-title">Antiphospholipid Syndrome Panel — clotting times plus immune capture</h2>
+    <p class="lab-intro">APS criteria combine <em>clinical</em> (thrombosis / obstetric morbidity) with <em>laboratory</em> persistence of LA, anticardiolipin (aCL) or anti-β<sub>2</sub>-glycoprotein I (aβ2GP1) <a class="cite" href="https://arupconsult.com/algorithm/antiphospholipid-syndrome-testing-algorithm" target="_blank">[ARUP APS algorithm]</a>. This panel therefore runs the LA clot arm (bench 02) <em>and</em> two solid-phase immunoassay arms on serum — each answers a different question: does plasma clot phospholipid-dependently? Do serum antibodies bind cardiolipin or β<sub>2</sub>GP1?</p>
+  </header>
+
+  <div class="meta-grid">
+    <div class="spec-card"><p class="meta-label">Specimen inputs (representative)</p><ul><li><strong>Citrate PPP (blue-top aliquot, frozen):</strong> aPTT, PT, INR, thrombin time, hexagonal phase assay — same prep as bench 02 (double-spin PPP).</li><li><strong>Serum (red/SST, fresh or frozen):</strong> aCL IgG/IgM &amp; aβ2GP1 IgG/IgM by ELISA/chemiluminescence — separate aliquot, not citrate. Order set includes serum <a class="cite" href="https://www.mayocliniclabs.com/test-catalog/overview/603463/lupus-anticoagulant-profile-plasma" target="_blank">[Mayo: recommend separate serum for aPL]</a>.</li><li><strong>Not:</strong> EDTA whole blood — that stays for DNA bench 05.</li></ul></div>
+    <div class="method-card"><p class="meta-label">Methods in this composite</p><p><span class="pill method-clot">Clot-based</span> aPTT (silica + low PL + Ca²⁺, 671 nm), PT (TF+PL+Ca²⁺, INR via ISI), thrombin time (bovine/human thrombin→ fibrin), hexagonal phase LA confirm — <a class="cite" href="https://arupconsult.com/ati/lupus-anticoagulant-reflex-panel" target="_blank">[ARUP LA method: EM/chromogenic]</a> · <span class="pill method-immuno">Semi-quant ELISA / CIA</span> aCL IgG/IgM &amp; aβ2GP1 IgG/IgM on microplates with cardiolipin-β<sub>2</sub>GP1 or β<sub>2</sub>GP1 coated wells <a class="cite" href="https://ltd.aruplab.com/Tests/Pub/0099344" target="_blank">[ARUP aCL ELISA]</a> <a class="cite" href="https://ltd.aruplab.com/Tests/Pub/0050321" target="_blank">[ARUP β2GP1 ELISA]</a>.</p></div>
+    <div class="time-card"><p class="meta-label">Time (illustrative — two benches run in parallel)</p><div class="time-bars"><div class="bar"><span style="width:20%">Hands-on ~20 min</span><i>two aliquots, plate washer priming</i></div><div class="bar bar-inst"><span style="width:36%">Instrument ~1 h clot arm + 3–5 h ELISA arm (incubations)</span><i>ELISA batch incubation dominates</i></div><div class="bar bar-elapsed"><span style="width:68%">Elapsed same-day to 2–5 d</span><i>ELISA batch + referral; persistence requires 12-week repeat</i></div></div></div>
+  </div>
+
+  <div class="bench-grid">
+    <div class="viz-panel">
+      <div class="viz-toolbar"><p class="pane-title">Two arms side-by-side — tap a panel component</p><div class="transport-controls"><button class="btn btn-primary" id="aps-play">▶ Animate clot</button><button class="btn" id="aps-pause" aria-label="Pause">⏸ Pause</button><button class="btn" id="aps-reset">Reset</button></div></div>
+      <div class="aps-stage">
+        <div class="aps-row">
+          <div class="aps-col aps-col--clot" id="aps-clot">
+            <h3>Clot arm — does phospholipid matter?</h3>
+            <svg viewBox="0 0 400 160" role="img" aria-label="APS clot arm">
+              <rect x="10" y="10" width="115" height="55" rx="8" fill="#0B1E24" stroke="#2E4E58"/><text x="67" y="30" text-anchor="middle" font-size="7" fill="#F4D35E">aPTT · silica + PL</text><text x="67" y="42" text-anchor="middle" font-size="7" fill="#9ECFD5">Ca²⁺ → tenase → fibrin</text><text x="67" y="54" text-anchor="middle" font-size="7" fill="#8BA3AD">ratio ≤1.20</text>
+              <rect x="140" y="10" width="115" height="55" rx="8" fill="#0B1E24" stroke="#2E4E58"/><text x="197" y="30" text-anchor="middle" font-size="7" fill="#F4D35E">PT / INR · TF+PL+ISI</text><text x="197" y="42" text-anchor="middle" font-size="7" fill="#9ECFD5">VIIa/TF→Xa→IIa</text><text x="197" y="54" text-anchor="middle" font-size="7" fill="#8BA3AD">12–15.5 s; INR by ISI</text>
+              <rect x="270" y="10" width="115" height="55" rx="8" fill="#132E36" stroke="#2EC4B6"/><text x="327" y="30" text-anchor="middle" font-size="7" fill="#2EC4B6">Thrombin time</text><text x="327" y="42" text-anchor="middle" font-size="7" fill="#C9D8DD">Thrombin → fibrin direct</text><text x="327" y="54" text-anchor="middle" font-size="7" fill="#8BA3AD">≤19.5 s; screens heparin</text>
+              <rect x="10" y="80" width="375" height="55" rx="10" fill="#021015" stroke="#FF8A5B"/><text x="197" y="100" text-anchor="middle" font-size="8" fill="#FF8A5B">Hexagonal (II) phospholipid confirm</text><text x="197" y="112" text-anchor="middle" font-size="7" fill="#C9D8DD">Excess hexagonal PL shortens LA-prolonged time · Δ ≤7.9 s <a href="https://ltd.aruplab.com/Tests/Pub/3017009" style="fill:#8BA3AD">[ARUP]</a></text><text x="197" y="124" text-anchor="middle" font-size="7" fill="#8BA3AD">TT run in parallel: prolonged TT → suspect anticoagulant, not LA</text>
+            </svg>
+          </div>
+          <div class="aps-col aps-col--immuno" id="aps-immuno">
+            <h3>Immuno arm — do antibodies bind?</h3>
+            <svg viewBox="0 0 400 160" role="img" aria-label="ELISA wells">
+              <rect x="10" y="10" width="180" height="70" rx="10" fill="#0B1E24" stroke="#9B8EC4"/><text x="100" y="30" text-anchor="middle" font-size="7" fill="#9B8EC4">aCL IgG / IgM ELISA</text><text x="100" y="44" text-anchor="middle" font-size="7" fill="#C9D8DD">Cardiolipin-β2GP1 coat</text><text x="100" y="56" text-anchor="middle" font-size="7" fill="#8BA3AD">Semi-quant GPL/MPL</text>
+              <rect x="210" y="10" width="180" height="70" rx="10" fill="#0B1E24" stroke="#9B8EC4"/><text x="300" y="30" text-anchor="middle" font-size="7" fill="#9B8EC4">aβ2GP1 IgG / IgM ELISA</text><text x="300" y="44" text-anchor="middle" font-size="7" fill="#C9D8DD">β2GP1 coat</text><text x="300" y="56" text-anchor="middle" font-size="7" fill="#8BA3AD">SGU/SMU</text>
+              <rect x="10" y="90" width="380" height="40" rx="8" fill="#021015" stroke="#2E4E58"/><text x="200" y="106" text-anchor="middle" font-size="7" fill="#C9D8DD">Wash → anti-human IgG/IgM-HRP → TMB → H2SO4 stop → A450</text><text x="200" y="118" text-anchor="middle" font-size="7" fill="#9B8EC4">Color ∝ antibody bound · calibrated vs standards</text>
+            </svg>
+          </div>
+        </div>
+        <canvas id="aps-curve" width="840" height="110" aria-label="aPTT clot curve"></canvas>
+        <p class="fine-print">PT/INR uses ISI/INR standardization for VKA monitoring; LA does not use ISI — ratios are lab-specific <a href="https://www.mayocliniclabs.com/api/sitecore/TestCatalog/DownloadTestCatalog?testId=602171" target="_blank">[Mayo PTSC ISI/INR]</a>. TT uses exogenous thrombin, no Ca²⁺ needed.</p>
+      </div>
+    </div>
+    <div class="side-panel">
+      <div class="example-result">
+        <p class="result-label">Synthetic APS panel — illustration only, single time point (not diagnostic alone)</p>
+        <dl>
+          <div><dt>aPTT</dt><dd>34.1 s (25–35 s) <span class="u">clot-based silica</span></dd></div>
+          <div><dt>PT</dt><dd>12.8 s (12.0–15.5) · INR 1.0</dd></div>
+          <div><dt>Thrombin time</dt><dd>16.2 s (≤19.5)</dd></div>
+          <div><dt>Hexagonal phase Δ</dt><dd>4.2 s (≤7.9)</dd></div>
+          <div><dt>Anticardiolipin IgG</dt><dd>12 GPL (≤14) <a href="https://ltd.aruplab.com/Tests/Pub/0099344" target="_blank">[ARUP]</a></dd></div>
+          <div><dt>Anticardiolipin IgM</dt><dd>6 MPL (≤12)</dd></div>
+          <div><dt>β<sub>2</sub> Glycoprotein I IgG</dt><dd>9 SGU (≤20) <a href="https://ltd.aruplab.com/Tests/Pub/0050321" target="_blank">[ARUP]</a></dd></div>
+          <div><dt>β<sub>2</sub> Glycoprotein I IgM</dt><dd>7 SMU (≤20)</dd></div>
+          <div><dt>Panel interpretation</dt><dd><span class="pill ok">Criteria antibodies not detected at this cutoff; persistence on repeat ≥12 wks required for classification</span></dd></div>
+        </dl>
+        <p class="fine-print">Cutoffs are assay-specific and vary. APS laboratory criteria require <em>persistence</em> in one or more assays <a href="https://arupconsult.com/content/antiphospholipid-syndrome" target="_blank">[ARUP APS criteria]</a> — a single panel is never enough.</p>
+      </div>
+    </div>
+  </div>
+  <p class="station-cite">ARUP APS panel composition <a href="https://ltd.aruplab.com/Tests/Pub/3017157" target="_blank">[3017157]</a>; LA reflex <a href="https://arupconsult.com/ati/lupus-anticoagulant-reflex-panel" target="_blank">[ARUP ATI]</a>; Mayo ALUPP PT/aPTT/dRVVT on ACL TOP <a href="https://www.mayocliniclabs.com/test-catalog/overview/603463/lupus-anticoagulant-profile-plasma" target="_blank">[Mayo]</a>; hexagonal-phase principle <a href="https://www.ohsu.edu/sites/default/files/2019-08/Antiphospholipid%20antibody%20syndrome.pdf" target="_blank">[OHSU]</a>.</p>
+</section>
+
+<!-- ===================== TEST 04 ===================== -->
+<section class="lab" id="s4" aria-labelledby="s4-title">
+  <header class="lab-header">
+    <p class="section-kicker">TEST 04 / 11 <span>· IMMUNOASSAY — ANTIGEN (QUANTITY) · PPP</span></p>
+    <h2 id="s4-title">Protein S Antigen — total vs free (what’s there, not what it does)</h2>
+    <p class="lab-intro">Protein S (PROS1) is a vitamin K-dependent anticoagulant cofactor for activated protein C and TFPI. In plasma ~60% circulates bound to C4b-binding protein (C4bBP) and inactive; ~40% is free and active. <strong>Total Protein S antigen</strong> measures both pools; <strong>free Protein S antigen</strong> measures only the free active fraction <a class="cite" href="https://www.mayocliniclabs.com/test-catalog/overview/80338" target="_blank">[Mayo PSF: 60% bound / 40% free]</a> <a class="cite" href="https://ltd.aruplab.com/Tests/Pub/0098894" target="_blank">[ARUP 0098894 free]</a>. Antigen ≠ function — function is bench 06.</p>
+  </header>
+
+  <div class="meta-grid">
+    <div class="spec-card"><p class="meta-label">Specimen input (representative)</p><ul><li><strong>Container:</strong> citrate PPP — blue-top 3.2% Na citrate, 1:9, double-spin to platelet-poor.</li><li><strong>Aliquot:</strong> frozen citrate plasma — 0.5–1 mL typical for antigen panel; reflex adds total if free is low <a class="cite" href="https://ltd.aruplab.com/api/ltd/hotline/2003386/1" target="_blank">[ARUP reflex: free → total]</a>.</li><li><strong>Not:</strong> serum (vit D/aPL tube) or EDTA whole blood (DNA) — different draws, different prep.</li></ul></div>
+    <div class="method-card"><p class="meta-label">Method class</p><p><span class="pill method-immuno">Microlatex particle-mediated immunoassay (representative)</span> <a class="cite" href="https://arupconsult.com/ati/thrombotic-risk-reflex-panel" target="_blank">[ARUP: microlatex for free PS]</a> or <span class="pill method-immuno">ELISA</span> sandwich where lab’s platform varies — we label “representative” and show latex turbidity, the other common mode. Measures quantity (mg/dL or % of normal), not clotting time.</p></div>
+    <div class="time-card"><p class="meta-label">Time (illustrative)</p><div class="time-bars"><div class="bar"><span style="width:16%">Hands-on ~10 min</span><i>thaw, dilute, load</i></div><div class="bar bar-inst"><span style="width:30%">Instrument ~30–60 min</span><i>incubation + wash + turbidimetric read</i></div><div class="bar bar-elapsed"><span style="width:58%">Elapsed same-day batch; reflex total adds ~1 day</span><i>QC + review</i></div></div></div>
+  </div>
+
+  <div class="bench-grid">
+    <div class="viz-panel">
+      <div class="viz-toolbar"><p class="pane-title">Cutaway — free vs total: the C4bBP-bound fraction is hidden from function but not from total antigen</p><div class="transport-controls"><button class="btn btn-primary" id="psag-play">▶ Animate</button><button class="btn" id="psag-pause" aria-label="Pause">⏸ Pause</button><button class="btn" id="psag-reset">Reset</button><label class="toggle"><input type="checkbox" id="psag-free-toggle" checked> Free assay: PEG precipitation removes C4bBP-bound</label></div></div>
+      <svg viewBox="0 0 860 170" role="img" aria-label="Protein S bound free diagram">
+        <text x="430" y="14" text-anchor="middle" font-size="8" font-weight="700" fill="#5BC0DE">PLASMA PROTEIN S POOLS — total = free (active) + C4bBP-bound (inactive)</text>
+        <g transform="translate(20 24)">
+          <rect x="0" y="0" width="260" height="110" rx="12" fill="#0B1E24" stroke="#2E4E58"/><text x="130" y="18" text-anchor="middle" font-size="8" fill="#E8F1F2">Total PS antigen well</text>
+          <circle cx="80" cy="66" r="12" fill="#F4D35E" stroke="#E8C54A"/><text x="80" y="70" text-anchor="middle" font-size="7" fill="#0A1419">PS</text>
+          <circle cx="140" cy="58" r="18" fill="#2A3A44" stroke="#5BC0DE"/><text x="140" y="60" text-anchor="middle" font-size="6" fill="#C9D8DD">C4bBP</text><text x="140" y="66" text-anchor="middle" font-size="5" fill="#8BA3AD">PS—C4bBP</text>
+          <text x="130" y="98" text-anchor="middle" font-size="7" fill="#9ECFD5">Anti-PS antibody captures both → total</text>
+          <circle cx="200" cy="66" r="9" fill="#F4D35E" stroke="#E8C54A"/><text x="200" y="69" text-anchor="middle" font-size="6" fill="#0A1419">PS</text>
+        </g>
+        <text x="310" y="85" font-size="14" fill="#2EC4B6">→</text>
+        <g transform="translate(340 24)">
+          <rect x="0" y="0" width="260" height="110" rx="12" fill="#132E36" stroke="#5BC0DE"/><text x="130" y="18" text-anchor="middle" font-size="8" fill="#5BC0DE">Free PS antigen well (representative: PEG precipitation)</text>
+          <text x="130" y="36" text-anchor="middle" font-size="7" fill="#C9D8DD">PEG precipitates C4bBP-PS complex ↓ pellet</text>
+          <rect x="20" y="44" width="220" height="28" rx="6" fill="#0B1E24" stroke="#5BC0DE"/><text x="130" y="62" text-anchor="middle" font-size="7" fill="#F4D35E">Supernatant = free PS → latex assay</text>
+          <text x="130" y="80" text-anchor="middle" font-size="7" fill="#8BA3AD">Latex beads coated anti-PS → agglutination</text><text x="130" y="98" text-anchor="middle" font-size="7" fill="#9ECFD5">Turbidity ∝ free PS quantity (calibration 20–150%)</text>
+        </g>
+        <g transform="translate(620 24)">
+          <rect x="0" y="0" width="220" height="110" rx="12" fill="#0B1E24" stroke="#2E4E58"/><text x="110" y="18" text-anchor="middle" font-size="8" fill="#E8F1F2">Quantity ≠ function</text><text x="110" y="36" text-anchor="middle" font-size="7" fill="#C9D8DD">Type I: ↓ free + ↓ total (low production)</text><text x="110" y="52" text-anchor="middle" font-size="7" fill="#C9D8DD">Type III: ↓ free, total normal (shift to bound)</text><text x="110" y="68" text-anchor="middle" font-size="7" fill="#FF8A5B">Type II (rare): normal antigen, low function → needs bench 06</text><text x="110" y="88" text-anchor="middle" font-size="7" fill="#8BA3AD">Subtyping uses both antigen results</text>
+        </g>
+      </svg>
+      <canvas id="psag-canvas" width="860" height="120" aria-label="Latex agglutination curve"></canvas>
+      <p class="viz-caption"><strong>Signal:</strong> antibody-coated latex beads bridge via PS antigen → aggregates scatter light (nephelometry/turbidimetry at ~540–800 nm). More antigen = larger Δ absorbance. <strong>Calibration:</strong> pooled normal plasma assigned 100% free PS; 5–6 calibrator levels; QC normal/low. Result as % of normal or mg/L — units must be checked (not interchangeable without lab conversion).</p>
+    </div>
+    <div class="side-panel">
+      <div class="control">
+        <label>Interactive — pregnancy / oral estrogen shifts C4bBP</label>
+        <input type="range" id="psag-slider" min="35" max="140" value="68">
+        <output class="control-out" id="psag-slider-val">Free PS 68% · Total 92% → pattern: low free, normal total (Type III-like acquired)</output>
+        <p class="control-why">Estrogen ↑ C4bBP → more PS bound → free falls while total stays normal — acquired dip that mimics inherited Type III pattern. Interpretation needs context (age, sex, pregnancy, inflammation).</p>
+      </div>
+      <div class="example-result">
+        <p class="result-label">Synthetic example result — illustration only</p>
+        <dl><div><dt>Total Protein S Antigen</dt><dd>88% of normal (reference example: 70–140% — lab-specific)</dd></div><div><dt>Free Protein S Antigen</dt><dd>62% of normal (reference example: 60–140% — female lower)</dd></div><div><dt>Assay note</dt><dd>Microlatex immunoassay; free measured after PEG precipitation of C4bBP-bound fraction (representative) <a href="https://ltd.aruplab.com/Tests/Pub/0098894" target="_blank">[ARUP]</a></dd></div></dl>
+        <p class="fine-print">Not a diagnosis. Inherited Type III shows similar divergence persistently; acquired causes (pregnancy, estrogen, acute phase, liver disease) also do — repeat remote and correlate with functional bench.</p>
+      </div>
+    </div>
+  </div>
+  <p class="station-cite">Free vs total physiology <a href="https://www.mayocliniclabs.com/test-catalog/overview/80338" target="_blank">[Mayo PSF]</a>; ARUP free by microlatex, total reflex <a href="https://ltd.aruplab.com/Tests/Pub/0098894" target="_blank">[0098894]</a> <a href="https://ltd.aruplab.com/api/ltd/hotline/2003386/1" target="_blank">[reflex total]</a>; lab interpretation nuances <a href="https://www.labcorp.com/tests/117754/protein-s-deficiency-profile" target="_blank">[LabCorp 117754]</a>.</p>
+</section>
+
+<!-- ===================== TEST 05 ===================== -->
+<section class="lab" id="s5" aria-labelledby="s5-title">
+  <header class="lab-header">
+    <p class="section-kicker">TEST 05 / 11 <span>· DNA-BASED · WHOLE BLOOD</span></p>
+    <h2 id="s5-title">Factor V Leiden Mutation — reading G1691A, not timing a clot</h2>
+    <p class="lab-intro">Factor V Leiden is a single-base substitution in F5 (c.1691G>A, p.Arg506Gln) that removes an activated protein C cleavage site — factor Va resists inactivation. Labs detect the <em>letter</em>, not the clotting time: targeted genotyping by polymerase chain reaction (PCR) with allele-specific probes / melt or sequencing <a class="cite" href="https://ltd.aruplab.com/Tests/Pub/0097720" target="_blank">[ARUP F5 Leiden PCR]</a> <a class="cite" href="https://www.labcorp.com/tests/148881/factor-v-leiden-r506q-mutation" target="_blank">[LabCorp FVL]</a>.</p>
+  </header>
+
+  <div class="meta-grid">
+    <div class="spec-card"><p class="meta-label">Specimen input (representative)</p><ul><li><strong>Container:</strong> EDTA whole blood (lavender) — unspun, or buccal swab/saliva where validated. Not serum/plasma (those are acellular).</li><li><strong>Why different:</strong> DNA comes from leukocytes; clot/serum has no cells; citrate plasma has no cells. Different question, different tube.</li><li><strong>Stability:</strong> refrigerated days to weeks; PCR tolerates heparin poorly (EDTA preferred) — varies by lab.</li></ul></div>
+    <div class="method-card"><p class="meta-label">Method class</p><p><span class="pill method-dna">Allele-specific PCR / melt / targeted genotyping</span> — DNA extracted (spin column/beads), amplified with F5 exon 10 primers flanking 1691, detected with wild-type (G) and mutant (A) probes. No clotting reagent involved.</p></div>
+    <div class="time-card"><p class="meta-label">Time (illustrative)</p><div class="time-bars"><div class="bar"><span style="width:18%">Hands-on ~15 min</span><i>extract, master mix</i></div><div class="bar bar-inst"><span style="width:28%">Instrument ~90–150 min</span><i>thermocycling + melt</i></div><div class="bar bar-elapsed"><span style="width:62%">Elapsed 1–5 days</span><i>batch + QC; reflex from APC resistance adds time</i></div></div></div>
+  </div>
+
+  <div class="bench-grid">
+    <div class="viz-panel">
+      <div class="viz-toolbar"><p class="pane-title">Cutaway — DNA to answer: thermocycler + melt discrimination</p><div class="transport-controls"><button class="btn btn-primary" id="fvl-play">▶ Cycle PCR</button><button class="btn" id="fvl-pause" aria-label="Pause">⏸ Pause</button><button class="btn" id="fvl-reset">Reset</button><div class="segmented" role="group"><button class="seg-btn is-active" data-gene="wt">G/G wild-type</button><button class="seg-btn" data-gene="het">G/A heterozygous</button><button class="seg-btn" data-gene="hom">A/A homozygous</button></div></div></div>
+      <div class="pcr-grid">
+        <div>
+          <svg viewBox="0 0 400 140" role="img" aria-label="PCR wells">
+            <text x="200" y="12" text-anchor="middle" font-size="8" font-weight="700" fill="#E8F1F2">Extraction → PCR wells with G-probe (VIC) &amp; A-probe (FAM)</text>
+            <rect x="10" y="20" width="180" height="50" rx="10" fill="#0B1E24" stroke="#2E4E58"/><text x="100" y="40" text-anchor="middle" font-size="7" fill="#C9D8DD">Lysed WBC → silica column</text><text x="100" y="54" text-anchor="middle" font-size="7" fill="#8BA3AD">Genomic DNA template</text>
+            <text x="200" y="45" font-size="12" fill="#2EC4B6">→</text>
+            <rect x="220" y="20" width="170" height="50" rx="10" fill="#132E36" stroke="#2EC4B6"/><text x="305" y="36" text-anchor="middle" font-size="7" fill="#2EC4B6">96-well: primers + probes</text><text x="305" y="48" text-anchor="middle" font-size="7" fill="#C9D8DD">F5 exon 10 flanks 1691</text><text x="305" y="60" text-anchor="middle" font-size="7" fill="#8BA3AD">WT= G·CTC | MUT= A·CTC</text>
+          </svg>
+          <canvas id="fvl-amp-canvas" width="400" height="160" aria-label="Amplification curves FVL"></canvas>
+          <p class="chart-head-mini">Real-time amplification — which probe lights?</p>
+        </div>
+        <div>
+          <canvas id="fvl-melt-canvas" width="400" height="170" aria-label="Melt curves FVL"></canvas>
+          <p class="chart-head-mini">Melt / allelic discrimination — genotype by peak(s)</p>
+          <svg viewBox="0 0 400 60" role="img" aria-label="Codon context">
+            <rect x="10" y="10" width="380" height="40" rx="8" fill="#0B1E24" stroke="#2E4E58"/><text x="200" y="28" text-anchor="middle" font-size="7" fill="#F4D35E">F5 c.1691G>A: CGA (Arg506) → CAA (Gln506) — APC cleavage site lost</text><text x="200" y="40" text-anchor="middle" font-size="7" fill="#8BA3AD">Heterozygous vs homozygous determines risk magnitude, not just presence</text>
+          </svg>
+        </div>
+      </div>
+      <p class="viz-caption"><strong>Signal:</strong> fluorophore released on probe cleavage (TaqMan) or melt peak shift (FRET). Wild-type melt ~65 °C, mutant ~58 °C — illustrative, lab-validated. <strong>Controls:</strong> known G/G, G/A, A/A and no-template control each run. Variant reported as c.1691G>A genotype per HGVS.</p>
+    </div>
+    <div class="side-panel">
+      <div class="control">
+        <label>Genotype to illustration mapping</label>
+        <div class="readout-grid"><div class="readout"><p class="readout-label">Alleles</p><p class="readout-val" id="fvl-alleles">G/G</p></div><div class="readout"><p class="readout-label">Protein effect</p><p class="readout-val small" id="fvl-protein">Arg506 present</p></div></div>
+        <p class="control-why">DNA result is permanent (germline). It does not equal protein level — that’s benches 04, 06, 08, 10.</p>
+      </div>
+      <div class="example-result">
+        <p class="result-label">Synthetic example result — illustration only, not a diagnosis</p>
+        <dl><div><dt>Factor V Leiden (F5 c.1691G>A)</dt><dd id="fvl-call"><strong>G/G wild-type</strong> — no variant detected</dd></div><div><dt>Method</dt><dd>Allele-specific PCR (representative) <a href="https://ltd.aruplab.com/Tests/Pub/0097720" target="_blank">[ARUP FVL PCR]</a></dd></div><div><dt>Note</dt><dd>This DNA test does not assess Factor II clotting activity — that is bench 09, a one-stage PT-based assay <a href="https://www.mayocliniclabs.com/test-catalog/overview/9121" target="_blank">[Mayo F2]</a>. Different bench, different question.</dd></div></dl>
+      </div>
+    </div>
+  </div>
+  <p class="station-cite">ARUP F5 R506Q PCR <a href="https://ltd.aruplab.com/Tests/Pub/0097720" target="_blank">[catalog]</a>; LabCorp FVL R506Q <a href="https://www.labcorp.com/tests/148881/factor-v-leiden-r506q-mutation" target="_blank">[LabCorp]</a>; F2 activity vs F2 gene distinction <a href="https://www.mayocliniclabs.com/test-catalog/overview/9121" target="_blank">[Mayo F2 activity]</a>.</p>
+</section>
+
+<!-- ===================== TEST 06 ===================== -->
+<section class="lab" id="s6" aria-labelledby="s6-title">
+  <header class="lab-header">
+    <p class="section-kicker">TEST 06 / 11 <span>· CLOT-BASED FUNCTIONAL · PPP · APC COFACTOR</span></p>
+    <h2 id="s6-title">Protein S Functional — the APC cofactor’s stopwatch</h2>
+    <p class="lab-intro">Functional Protein S measures whether your free PS actually helps activated protein C (APC) shut down Va/VIIIa. Patient PPP is mixed into <strong>Protein S-deficient substrate plasma</strong> (all factors except PS supplied), then APC (or Protac-activated endogenous PC) is added and a clotting time is triggered — prolongation is proportional to PS function <a class="cite" href="https://ltd.aruplab.com/Tests/Pub/0030114" target="_blank">[ARUP PS Functional: EM clot]</a> <a class="cite" href="https://www.mayocliniclabs.com/test-catalog/overview/617792" target="_blank">[Mayo SFX: PT-based APC]</a>.</p>
+  </header>
+
+  <div class="meta-grid">
+    <div class="spec-card"><p class="meta-label">Specimen input (representative)</p><ul><li><strong>Container:</strong> citrate PPP — blue-top 1:9, double-spin. Functional assays are exquisitely sensitive to residual platelets and to lipemia.</li><li><strong>Interferences (this bench only):</strong> acute thrombosis, pregnancy, estrogen, warfarin/Vit K antagonists ↓, acute-phase ↑FVIII/LA, FVL APC resistance — all falsely mimic or mask.</li></ul></div>
+    <div class="method-card"><p class="meta-label">Method class</p><p><span class="pill method-clot">Clot-based APC cofactor assay</span> — PT- or aPTT-based trigger <a class="cite" href="https://ltd.aruplab.com/Tests/Pub/0030114" target="_blank">[ARUP EM mechanical]</a> vs Mayo PT-based recombinant TF + PL + APC <a class="cite" href="https://www.mayocliniclabs.com/test-catalog/overview/617792" target="_blank">[Mayo SFX]</a>. Representative instrument: automated coagulometer (mechanical/optical).</p></div>
+    <div class="time-card"><p class="meta-label">Time (illustrative)</p><div class="time-bars"><div class="bar"><span style="width:16%">Hands-on ~10 min</span><i>mix substrate + sample</i></div><div class="bar bar-inst"><span style="width:30%">Instrument ~30 min</span><i>incubate + trigger + detect</i></div><div class="bar bar-elapsed"><span style="width:52%">Elapsed same-day to 1 d</span><i>QC; often batched with AT/PC</i></div></div></div>
+  </div>
+
+  <div class="bench-grid">
+    <div class="viz-panel">
+      <div class="viz-toolbar"><p class="pane-title">Cutaway — substrate + patient → time prolongs only if PS works</p><div class="transport-controls"><button class="btn btn-primary" id="psfunc-play">▶ Run</button><button class="btn" id="psfunc-pause" aria-label="Pause">⏸ Pause</button><button class="btn" id="psfunc-reset">Reset</button></div></div>
+      <svg viewBox="0 0 860 150" role="img" aria-label="PS functional cartoon">
+        <rect x="20" y="20" width="200" height="80" rx="10" fill="#0B1E24" stroke="#2E4E58"/><text x="120" y="38" text-anchor="middle" font-size="8" fill="#E8F1F2">PS-deficient plasma</text><text x="120" y="52" text-anchor="middle" font-size="7" fill="#9ECFD5">All factors except PS</text><text x="120" y="66" text-anchor="middle" font-size="7" fill="#8BA3AD">+ APC + PL + TF/Ca²⁺</text>
+        <text x="230" y="60" font-size="14" fill="#2EC4B6">+</text>
+        <rect x="260" y="20" width="170" height="80" rx="10" fill="#132E36" stroke="#5BC0DE"/><text x="345" y="38" text-anchor="middle" font-size="8" fill="#5BC0DE">Patient PPP dilution</text><text x="345" y="52" text-anchor="middle" font-size="7" fill="#C9D8DD">Supplies PS; dilutes inhibitors</text><text x="345" y="66" text-anchor="middle" font-size="7" fill="#8BA3AD">APC cofactor step</text>
+        <text x="440" y="60" font-size="14" fill="#2EC4B6">→</text>
+        <rect x="470" y="20" width="220" height="80" rx="10" fill="#0B1E24" stroke="#F4D35E"/><text x="580" y="38" text-anchor="middle" font-size="8" fill="#F4D35E">Clot detection cuvette 37 °C</text><text x="580" y="54" text-anchor="middle" font-size="7" fill="#C9D8DD">APC·PS inactivates Va/VIIIa → longer PT/aPTT</text><text x="580" y="70" text-anchor="middle" font-size="7" fill="#9ECFD5">Time ∝ functional PS (calibration curve)</text>
+        <text x="700" y="60" font-size="14" fill="#2EC4B6">→</text>
+        <rect x="730" y="30" width="110" height="60" rx="8" fill="#021015" stroke="#3A5A63"/><text x="785" y="52" text-anchor="middle" font-size="7" fill="#8BA3AD">% activity</text><text x="785" y="66" text-anchor="middle" font-size="10" fill="#E8F1F2" id="psfunc-val">—</text>
+      </svg>
+      <canvas id="psfunc-canvas" width="860" height="120" aria-label="PS functional calibration"></canvas>
+      <p class="viz-caption"><strong>Why functional is fragile:</strong> FVL (APC resistance), lupus anticoagulant, high FVIII, and heparins/DOACs all alter clotting times independently of PS — free antigen (bench 04) is the preferred screen for that reason <a class="cite" href="https://ltd.aruplab.com/Tests/Pub/0030114" target="_blank">[ARUP: preferred free PS antigen]</a>. <strong>Calibration:</strong> pooled normal plasma dilutions assigned 100% activity; patient time interpolated on log-log curve; QC normal/abnormal.</p>
+    </div>
+    <div class="side-panel">
+      <div class="control">
+        <label>Interactive — PS activity dilution effect</label>
+        <input type="range" id="psfunc-slider" min="15" max="150" value="82">
+        <output class="control-out" id="psfunc-slider-val">82% — within illustrative normal (60–140%)</output>
+        <p class="control-why">Short time = low PS function (less APC assistance); long time = high PS function. But if LA present, time also long for the wrong reason — assay flags may say “interference” rather than report.</p>
+      </div>
+      <div class="example-result">
+        <p class="result-label">Synthetic example result — illustration only</p>
+        <dl><div><dt>Protein S Functional</dt><dd>82% of normal <span class="u">(illustrative ref ~60–140%)</span></dd></div><div><dt>Method</dt><dd>Clot-based APC cofactor (representative) — PT-based <a href="https://www.mayocliniclabs.com/test-catalog/overview/617792" target="_blank">[Mayo SFX]</a> vs aPTT-based <a href="https://ltd.aruplab.com/Tests/Pub/0030114" target="_blank">[ARUP]</a> both exist</dd></div></dl>
+      </div>
+    </div>
+  </div>
+  <p class="station-cite">ARUP PS Functional EM clot <a href="https://ltd.aruplab.com/Tests/Pub/0030114" target="_blank">[catalog]</a>; Mayo SFX PT-based <a href="https://www.mayocliniclabs.com/test-catalog/overview/617792" target="_blank">[Mayo]</a>; substrate principle <a href="https://practical-haemostasis.com/Thromobophilia/ps_assays.html" target="_blank">[Practical Haemostasis]</a>.</p>
+</section>
+
+<!-- ===================== TEST 07 ===================== -->
+<section class="lab" id="s7" aria-labelledby="s7-title">
+  <header class="lab-header">
+    <p class="section-kicker">TEST 07 / 11 <span>· CHROMOGENIC ENZYMATIC ACTIVITY · PPP</span></p>
+    <h2 id="s7-title">Antithrombin Activity — heparin-cofactor chromogenic assay</h2>
+    <p class="lab-intro">Antithrombin (SERPINC1) is a heparin-activated serpin that traps thrombin (IIa) and FXa. Activity assays measure <em>how well</em> it inhibits, not how many molecules: plasma + excess heparin and fixed FXa (or IIa) → residual enzyme cleaves a chromogenic substrate to release yellow p-nitroaniline (pNA). More antithrombin = less residual enzyme = less color — an <em>inverse</em> readout <a class="cite" href="https://ltd.aruplab.com/Tests/Pub/0030010" target="_blank">[ARUP AT activity: chromogenic]</a> <a class="cite" href="https://www.labcorp.com/tests/015040/antithrombin-at-activity" target="_blank">[LabCorp AT: thrombin inhibition ∝ AT]</a>.</p>
+  </header>
+
+  <div class="meta-grid">
+    <div class="spec-card"><p class="meta-label">Specimen input (representative)</p><ul><li><strong>Container:</strong> citrate PPP — blue-top 1:9, double-spin. Antigen (quantity) vs activity (function) distinction matters — this bench is activity.</li><li><strong>Stability:</strong> frozen citrate plasma typical; thaw once, assay prompt — lab-specific.</li></ul></div>
+    <div class="method-card"><p class="meta-label">Method class</p><p><span class="pill method-chrom">Chromogenic (representative: FXa-based)</span> — heparin + bovine/human FXa or thrombin + chromogenic substrate (e.g., S-2765/S-2238). Some labs use anti-IIa variant; each has different heparin sensitivity — we label which is shown.</p></div>
+    <div class="time-card"><p class="meta-label">Time (illustrative)</p><div class="time-bars"><div class="bar"><span style="width:14%">Hands-on ~10 min</span><i>thaw, heparin incubation</i></div><div class="bar bar-inst"><span style="width:24%">Instrument ~15 min</span><i>chromogenic kinetic at 405 nm</i></div><div class="bar bar-elapsed"><span style="width:52%">Elapsed same-day batch</span><i>often batched with Proteins C/S</i></div></div></div>
+  </div>
+
+  <div class="bench-grid">
+    <div class="viz-panel">
+      <div class="viz-toolbar"><p class="pane-title">Cutaway — heparin makes antithrombin fast; leftover FXa makes color</p><div class="transport-controls"><button class="btn btn-primary" id="at-play">▶ React</button><button class="btn" id="at-pause" aria-label="Pause">⏸ Pause</button><button class="btn" id="at-reset">Reset</button></div></div>
+      <svg viewBox="0 0 860 150" role="img" aria-label="Antithrombin chromogenic">
+        <rect x="20" y="20" width="180" height="80" rx="10" fill="#0B1E24" stroke="#2E4E58"/><text x="110" y="38" text-anchor="middle" font-size="8" fill="#E8F1F2">Patient PPP</text><text x="110" y="54" text-anchor="middle" font-size="7" fill="#9ECFD5">AT in sample</text><text x="110" y="68" text-anchor="middle" font-size="7" fill="#8BA3AD">+ Heparin cofactor</text>
+        <text x="210" y="60" font-size="14" fill="#2EC4B6">+</text>
+        <rect x="240" y="20" width="180" height="80" rx="10" fill="#132E36" stroke="#2EC4B6"/><text x="330" y="38" text-anchor="middle" font-size="8" fill="#2EC4B6">Excess FXa (or IIa)</text><text x="330" y="54" text-anchor="middle" font-size="7" fill="#C9D8DD">AT·heparin traps FXa</text><text x="330" y="68" text-anchor="middle" font-size="7" fill="#8BA3AD">1:1 stoichiometry</text>
+        <text x="430" y="60" font-size="14" fill="#2EC4B6">→</text>
+        <rect x="460" y="20" width="200" height="80" rx="10" fill="#0B1E24" stroke="#F4D35E"/><text x="560" y="38" text-anchor="middle" font-size="8" fill="#F4D35E">Residual FXa + S-2765</text><text x="560" y="54" text-anchor="middle" font-size="7" fill="#C9D8DD">FXa cleaves Arg—pNA → pNA yellow</text><text x="560" y="70" text-anchor="middle" font-size="7" fill="#9ECFD5">A405 rate ∝ residual FXa ∝ 1/AT</text>
+        <text x="670" y="60" font-size="14" fill="#2EC4B6">→</text>
+        <rect x="700" y="20" width="140" height="80" rx="10" fill="#021015" stroke="#3A5A63"/><text x="770" y="38" text-anchor="middle" font-size="7" fill="#8BA3AD">Spectrophotometer 405 nm</text><text x="770" y="56" text-anchor="middle" font-size="9" fill="#E8F1F2">ΔA/min</text><text x="770" y="70" text-anchor="middle" font-size="7" fill="#F4D35E" id="at-rate">—</text>
+      </svg>
+      <canvas id="at-canvas" width="860" height="130" aria-label="Antithrombin chromogenic kinetics"></canvas>
+      <p class="viz-caption"><strong>Detection:</strong> kinetic absorbance at 405 nm; rate vs log(AT) calibration (human pooled normal = 100% activity ≈ 1 IU/mL). <strong>Controls:</strong> normal/deficient QC each run; heparin in sample spuriously raises apparent activity with FXa-based assays if not quenched — labs note therapy.</p>
+    </div>
+    <div class="side-panel">
+      <div class="control">
+        <label>Interactive — AT activity vs color rate (inverse)</label>
+        <input type="range" id="at-slider" min="20" max="150" value="92">
+        <output class="control-out" id="at-slider-val">92% activity — illustrative normal (80–120%) → low residual FXa → low color rate</output>
+        <p class="control-why">Type I deficiency: low molecules &amp; activity. Type II: normal quantity, dysfunctional (e.g., heparin-binding or RS defect) — needs antigen (immunoassay) to subtype.</p>
+      </div>
+      <div class="example-result">
+        <p class="result-label">Synthetic example result — illustration only</p>
+        <dl><div><dt>Antithrombin Activity</dt><dd>92% (80–120% example ref) <span class="u">chromogenic FXa-heparin, % of normal</span></dd></div><div><dt>Method</dt><dd>Chromogenic anti-FXa (representative) <a href="https://ltd.aruplab.com/Tests/Pub/0030010" target="_blank">[ARUP]</a>; LabCorp anti-IIa variant also exists <a href="https://www.labcorp.com/tests/015040/antithrombin-at-activity" target="_blank">[LabCorp]</a></dd></div></dl>
+        <p class="fine-print">Heparin therapy, acute thrombosis, estrogen, pregnancy and liver disease lower measured AT for physiological reasons — not necessarily inherited deficiency; repeat remote off therapy.</p>
+      </div>
+    </div>
+  </div>
+  <p class="station-cite">ARUP AT enzymatic activity <a href="https://ltd.aruplab.com/Tests/Pub/0030010" target="_blank">[catalog]</a>; LabCorp AT activity method <a href="https://www.labcorp.com/tests/015040/antithrombin-at-activity" target="_blank">[LabCorp]</a>; functional vs antigen distinction in guidelines.</p>
+</section>
+
+<!-- ===================== TEST 08 ===================== -->
+<section class="lab" id="s8" aria-labelledby="s8-title">
+  <header class="lab-header">
+    <p class="section-kicker">TEST 08 / 11 <span>· IMMUNOASSAY ANTIGEN (QUANTITY) · PPP</span></p>
+    <h2 id="s8-title">Protein C Antigen — how many Protein C molecules, not how well they work</h2>
+    <p class="lab-intro">Protein C (PROC) is a vitamin K-dependent zymogen activated by thrombin-thrombomodulin to APC, which clips Va/VIIIa. <strong>Antigen assays count molecules</strong> by antibody capture; <strong>functional assays time activity</strong> (bench 10). Both needed to subtype type I (low quantity &amp; low function) vs type II (normal quantity, low function) <a class="cite" href="https://ltd.aruplab.com/Tests/Pub/0030111" target="_blank">[ARUP PC antigen]</a>.</p>
+  </header>
+
+  <div class="meta-grid">
+    <div class="spec-card"><p class="meta-label">Specimen input (representative)</p><ul><li><strong>Container:</strong> citrate PPP — blue-top 1:9. Same tube as benches 02, 04, 06, 07, 09, 10 — but each assay’s prep has its own dilutions/buffers.</li><li><strong>Anticoagulant sensitivity:</strong> warfarin lowers VK-dependent proteins (II, VII, IX, X, Protein C/S) — antigen will be low on warfarin for physiological reason, not inherited.</li></ul></div>
+    <div class="method-card"><p class="meta-label">Method class</p><p><span class="pill method-immuno">Sandwich ELISA / microlatex immunoassay (representative)</span> — capture anti-Protein C + patient PC + HRP-labeled detector → TMB color. Some platforms use latex-enhanced immunoturbidimetry. We show ELISA washer cutaway — no model implied.</p></div>
+    <div class="time-card"><p class="meta-label">Time (illustrative)</p><div class="time-bars"><div class="bar"><span style="width:16%">Hands-on ~10 min</span><i>plate setup</i></div><div class="bar bar-inst"><span style="width:30%">Instrument ~3–4 h</span><i>incubate/wash/develop</i></div><div class="bar bar-elapsed"><span style="width:58%">Elapsed same-day to 1–2 d batched</span><i>reflex from low functional adds time</i></div></div></div>
+  </div>
+
+  <div class="bench-grid">
+    <div class="viz-panel">
+      <div class="viz-toolbar"><p class="pane-title">Cutaway — antibody sandwich captures Protein C</p><div class="transport-controls"><button class="btn btn-primary" id="pcag-play">▶ Wash → Develop</button><button class="btn" id="pcag-pause" aria-label="Pause">⏸ Pause</button><button class="btn" id="pcag-reset">Reset</button></div></div>
+      <svg viewBox="0 0 860 150" role="img" aria-label="Protein C ELISA sandwich">
+        <rect x="20" y="20" width="200" height="80" rx="10" fill="#0B1E24" stroke="#9B8EC4"/><text x="120" y="34" text-anchor="middle" font-size="7" fill="#9B8EC4">Capture plate: anti-PC</text><text x="120" y="48" text-anchor="middle" font-size="7" fill="#C9D8DD">Mab bound to wells</text><text x="120" y="64" text-anchor="middle" font-size="7" fill="#8BA3AD">Block nonspecific</text>
+        <text x="230" y="60" font-size="14" fill="#2EC4B6">→</text>
+        <rect x="260" y="20" width="200" height="80" rx="10" fill="#132E36" stroke="#5BC0DE"/><text x="360" y="34" text-anchor="middle" font-size="8" fill="#5BC0DE">Patient PPP (diluted)</text><text x="360" y="48" text-anchor="middle" font-size="7" fill="#C9D8DD">PC antigen binds capture</text><text x="360" y="62" text-anchor="middle" font-size="7" fill="#8BA3AD">Unbound washed away</text>
+        <text x="470" y="60" font-size="14" fill="#2EC4B6">→</text>
+        <rect x="500" y="20" width="180" height="80" rx="10" fill="#0B1E24" stroke="#F4D35E"/><text x="590" y="34" text-anchor="middle" font-size="8" fill="#F4D35E">Detector: anti-PC-HRP</text><text x="590" y="48" text-anchor="middle" font-size="7" fill="#C9D8DD">TMB → blue → H2SO4 yellow</text><text x="590" y="62" text-anchor="middle" font-size="7" fill="#9ECFD5">A450 ∝ PC antigen</text>
+        <text x="690" y="60" font-size="14" fill="#2EC4B6">→</text>
+        <rect x="720" y="20" width="120" height="80" rx="10" fill="#021015" stroke="#3A5A63"/><text x="780" y="36" text-anchor="middle" font-size="7" fill="#8BA3AD">Plate reader 450 nm</text><text x="780" y="52" text-anchor="middle" font-size="10" fill="#E8F1F2">OD</text><text x="780" y="66" text-anchor="middle" font-size="7" fill="#F4D35E" id="pcag-od">—</text>
+      </svg>
+      <canvas id="pcag-canvas" width="860" height="120" aria-label="Protein C ELISA calibration"></canvas>
+      <p class="viz-caption"><strong>Calibration:</strong> human pooled normal plasma standards (e.g., 20–150% assigned by reference material); log(OD) vs log(conc) curve; QC high/low. Result as % of normal or mg/L (mass) — units lab-specific.</p>
+    </div>
+    <div class="side-panel">
+      <div class="control">
+        <label>Interactive — antigen vs functional (preview with bench 10)</label>
+        <input type="range" id="pcag-slider" min="20" max="150" value="88">
+        <output class="control-out" id="pcag-slider-val">88% antigen — illustrative normal (70–140%)</output>
+        <p class="control-why">Interpret antigen <em>with</em> functional: low/low = type I (low production); normal/low = type II (dysfunctional) — needs both benches to subtype <a href="https://ltd.aruplab.com/Tests/Pub/0030111" target="_blank">[ARUP]</a>.</p>
+      </div>
+      <div class="example-result">
+        <p class="result-label">Synthetic example result — illustration only</p>
+        <dl><div><dt>Protein C Antigen</dt><dd>88% (70–140% example) <span class="u">latex/ELISA immunoassay</span></dd></div><div><dt>Companion insight</dt><dd>If bench 10 functional were 84% here, pattern would be concordant normal — not this bench alone.</dd></div></dl>
+      </div>
+    </div>
+  </div>
+  <p class="station-cite">ARUP PC antigen for subtyping <a href="https://ltd.aruplab.com/Tests/Pub/0030111" target="_blank">[0030111]</a>; LabCorp PC antigen profile <a href="https://www.labcorp.com/tests/500530/protein-c-antigen-factor-vii" target="_blank">[LabCorp 500530]</a>; functional vs antigen subtype logic in guidelines.</p>
+</section>
+
+<!-- ===================== TEST 09 ===================== -->
+<section class="lab" id="s9" aria-labelledby="s9-title">
+  <header class="lab-header">
+    <p class="section-kicker">TEST 09 / 11 <span>· CLOT-BASED ONE-STAGE ACTIVITY · PPP · PT-BASED</span></p>
+    <h2 id="s9-title">Factor II Activity — the prothrombin stopwatch (not a gene test)</h2>
+    <p class="lab-intro"><strong>Factor II activity measures functional prothrombin in plasma by how fast it clots when everything else is in excess.</strong> It is <em>not</em> prothrombin G20210A gene testing (that is a DNA test like bench 05). Method: patient PPP mixed with Factor II-deficient substrate plasma (normal plasma immunodepleted of FII), then PT reagent (tissue factor + phospholipid + Ca²⁺) triggers clotting; time to fibrin is compared to a calibration curve <a class="cite" href="https://www.mayocliniclabs.com/test-catalog/overview/9121" target="_blank">[Mayo F2: ACL TOP PT method]</a> <a class="cite" href="https://www.labcorp.com/tests/086231/factor-ii-activity" target="_blank">[LabCorp 086231: PT-based one-stage]</a>.</p>
+  </header>
+
+  <div class="meta-grid">
+    <div class="spec-card"><p class="meta-label">Specimen input (representative)</p><ul><li><strong>Container:</strong> citrate PPP — blue-top 1:9, double-spin. Same family as LA/proteins but assay-specific dilutions.</li><li><strong>Pre-analytical:</strong> fill to line; test promptly or freeze. Heparin or direct thrombin/Xa inhibitors prolong — assay will read falsely low if drug present (note on report).</li><li><strong>Distinction:</strong> Factor II <em>activity</em> (this bench, % activity) ≠ prothrombin <em>G20210A</em> gene variant (DNA, bench 05 analogue) — different specimen, different bench, different question.</li></ul></div>
+    <div class="method-card"><p class="meta-label">Method class</p><p><span class="pill method-clot">One-stage PT-based clotting assay</span> — substrate plasma supplies FV, VII, X, fibrinogen etc. in excess; only FII comes from patient dilution. Representative coagulometer: mechanical or optical clot detection.</p></div>
+    <div class="time-card"><p class="meta-label">Time (illustrative)</p><div class="time-bars"><div class="bar"><span style="width:14%">Hands-on ~10 min</span><i>dilute 1:10, mix substrate</i></div><div class="bar bar-inst"><span style="width:22%">Instrument ~10–15 min</span><i>PT trigger → fibrin time</i></div><div class="bar bar-elapsed"><span style="width:50%">Elapsed same-day</span><i>QC + review; inhibitor workup (Bethesda) would be add-on</i></div></div></div>
+  </div>
+
+  <div class="bench-grid">
+    <div class="viz-panel">
+      <div class="viz-toolbar"><p class="pane-title">Cutaway — deficient substrate makes patient FII rate-limiting</p><div class="transport-controls"><button class="btn btn-primary" id="f2-play">▶ Clot</button><button class="btn" id="f2-pause" aria-label="Pause">⏸ Pause</button><button class="btn" id="f2-reset">Reset</button></div></div>
+      <svg viewBox="0 0 860 150" role="img" aria-label="Factor II one-stage">
+        <rect x="20" y="20" width="180" height="80" rx="10" fill="#0B1E24" stroke="#2E4E58"/><text x="110" y="34" text-anchor="middle" font-size="8" fill="#E8F1F2">FII-deficient substrate plasma</text><text x="110" y="48" text-anchor="middle" font-size="7" fill="#9ECFD5">All factors except FII</text><text x="110" y="62" text-anchor="middle" font-size="7" fill="#8BA3AD">Immunodepleted normal pool</text>
+        <text x="210" y="60" font-size="14" fill="#2EC4B6">+</text>
+        <rect x="240" y="20" width="160" height="80" rx="10" fill="#132E36" stroke="#F4D35E"/><text x="320" y="34" text-anchor="middle" font-size="8" fill="#F4D35E">Patient PPP 1:10 dilution</text><text x="320" y="48" text-anchor="middle" font-size="7" fill="#C9D8DD">Only source of FII</text><text x="320" y="62" text-anchor="middle" font-size="7" fill="#8BA3AD">Log dilution → curve</text>
+        <text x="410" y="60" font-size="14" fill="#2EC4B6">→</text>
+        <rect x="440" y="20" width="200" height="80" rx="10" fill="#0B1E24" stroke="#2EC4B6"/><text x="540" y="34" text-anchor="middle" font-size="8" fill="#2EC4B6">PT reagent (TF + PL + Ca²⁺)</text><text x="540" y="48" text-anchor="middle" font-size="7" fill="#C9D8DD">TF/VIIa → Xa/Va → IIa → fibrin</text><text x="540" y="62" text-anchor="middle" font-size="7" fill="#8BA3AD">Rate-limit = FII from patient</text>
+        <text x="650" y="60" font-size="14" fill="#2EC4B6">→</text>
+        <rect x="680" y="30" width="150" height="60" rx="10" fill="#021015" stroke="#3A5A63"/><text x="755" y="50" text-anchor="middle" font-size="7" fill="#8BA3AD">Clot detection</text><text x="755" y="64" text-anchor="middle" font-size="10" fill="#E8F1F2" id="f2-time">— s</text>
+      </svg>
+      <canvas id="f2-canvas" width="860" height="150" aria-label="FII calibration log curve"></canvas>
+      <p class="viz-caption"><strong>Calibration &amp; controls:</strong> pooled normal plasma assigned 100% FII (≈1.0 IU/mL) diluted 1:10–1:80 vs time; log-log curve; patient % interpolated; QC normal/low <a href="https://www.mayocliniclabs.com/test-catalog/overview/9121" target="_blank">[Mayo calibration]</a>. <strong>Signal:</strong> fibrin formation time (mechanical/optical). Short time = high FII; long = low.</p>
+    </div>
+    <div class="side-panel">
+      <div class="control"><label>Interactive — FII activity vs clotting time (inverse)</label><input type="range" id="f2-slider" min="15" max="160" value="98"><output class="control-out" id="f2-slider-val">98% — illustrative normal (70–130% example)</output><p class="control-why">Warfarin, vitamin K deficiency, liver disease, DIC consumption ↓; acute phase not raise much (FII stable). Direct oral anticoagulants prolong spuriously — note therapy.</p></div>
+      <div class="example-result">
+        <p class="result-label">Synthetic example result — illustration only</p>
+        <dl><div><dt>Factor II Activity</dt><dd>98% <span class="u">(example ref 70–130% — lab-specific)</span> <a href="https://www.labcorp.com/tests/086231/factor-ii-activity" target="_blank">[LabCorp 086231]</a></dd></div><div><dt>Method</dt><dd>PT-based one-stage with FII-deficient plasma (representative) <a href="https://www.mayocliniclabs.com/api/sitecore/TestCatalog/DownloadTestCatalog?testId=9121" target="_blank">[Mayo sheet]</a></dd></div><div><dt>Note</dt><dd>Separate from prothrombin gene test — a normal FII activity does not exclude G20210A carrier status.</dd></div></dl>
+      </div>
+    </div>
+  </div>
+  <p class="station-cite">Mayo F2 PT method 1:10 dilution <a href="https://www.mayocliniclabs.com/api/sitecore/TestCatalog/DownloadTestCatalog?testId=9121" target="_blank">[sheet]</a>; LabCorp one-stage <a href="https://www.labcorp.com/tests/086231/factor-ii-activity" target="_blank">[086231]</a>; Bethesda inhibitor note <a href="https://www.mayocliniclabs.com/test-catalog/overview/607427" target="_blank">[Mayo F2 Inhibitor]</a>.</p>
+</section>
+
+<!-- ===================== TEST 10 ===================== -->
+<section class="lab" id="s10" aria-labelledby="s10-title">
+  <header class="lab-header">
+    <p class="section-kicker">TEST 10 / 11 <span>· CHROMOGENIC FUNCTIONAL · PPP · PROTAC + pNA</span></p>
+    <h2 id="s10-title">Protein C Functional — chromogenic venom-activated assay</h2>
+    <p class="lab-intro">Functional Protein C measures APC activity after activating zymogen PC with Protac (copperhead <em>Agkistrodon contortrix contortrix</em> venom fraction). Activated PC cleaves a chromogenic substrate (e.g., S-2366) releasing yellow p-nitroaniline — color rate ∝ functional PC <a class="cite" href="https://www.mayocliniclabs.com/test-catalog/overview/9339" target="_blank">[Mayo CFX: Protac + S-2366]</a> <a class="cite" href="https://www.labcorp.com/tests/117705/protein-c-functional" target="_blank">[LabCorp 117705: chromogenic]</a> <a class="cite" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6594720/" target="_blank">[PMC 6594720 chromogenic vs clot]</a>. No phospholipid, no calcium needed — it’s a fluid-phase enzyme assay, not a clot (clot-based PC alternative exists but chromogenic is preferred for specificity).</p>
+  </header>
+
+  <div class="meta-grid">
+    <div class="spec-card"><p class="meta-label">Specimen input (representative)</p><ul><li><strong>Container:</strong> citrate PPP — blue-top 1:9. Functional assays sensitive to residual platelets/lipemia and to recent thrombosis/anticoagulation.</li><li><strong>Companion:</strong> pair with antigen (bench 08) to subtype type I (low-low) vs type II (normal antigen, low function).</li></ul></div>
+    <div class="method-card"><p class="meta-label">Method class</p><p><span class="pill method-chrom">Chromogenic (representative: Protac-activated)</span> — Protac activates PC → APC cleaves S-2366 → pNA at 405 nm, kinetic <a href="https://diapharma.com/protein-c/" target="_blank">[DiaPharma S-2366]</a>. Clot-based Protac-aPTT alternative would prolong aPTT — we note it but show chromogenic.</p></div>
+    <div class="time-card"><p class="meta-label">Time (illustrative)</p><div class="time-bars"><div class="bar"><span style="width:14%">Hands-on ~10 min</span><i>Protac incubation</i></div><div class="bar bar-inst"><span style="width:26%">Instrument ~15–20 min</span><i>kinetic A405</i></div><div class="bar bar-elapsed"><span style="width:52%">Elapsed same-day batch</span><i>often batched with AT/S</i></div></div></div>
+  </div>
+
+  <div class="bench-grid">
+    <div class="viz-panel">
+      <div class="viz-toolbar"><p class="pane-title">Cutaway — Protac → APC → yellow pNA rate</p><div class="transport-controls"><button class="btn btn-primary" id="pcf-play">▶ Activate</button><button class="btn" id="pcf-pause" aria-label="Pause">⏸ Pause</button><button class="btn" id="pcf-reset">Reset</button></div></div>
+      <svg viewBox="0 0 860 150" role="img" aria-label="Protein C chromogenic">
+        <rect x="20" y="20" width="170" height="80" rx="10" fill="#0B1E24" stroke="#2E4E58"/><text x="105" y="38" text-anchor="middle" font-size="8" fill="#E8F1F2">Patient PPP (PC zymogen)</text><text x="105" y="54" text-anchor="middle" font-size="7" fill="#9ECFD5">Vit K-dependent</text><text x="105" y="68" text-anchor="middle" font-size="7" fill="#8BA3AD">Half-life ~6–10 h</text>
+        <text x="200" y="60" font-size="14" fill="#2EC4B6">+</text>
+        <rect x="230" y="20" width="160" height="80" rx="10" fill="#132E36" stroke="#2EC4B6"/><text x="310" y="38" text-anchor="middle" font-size="8" fill="#2EC4B6">Protac (A. contortrix venom)</text><text x="310" y="54" text-anchor="middle" font-size="7" fill="#C9D8DD">Specific PC activator</text><text x="310" y="68" text-anchor="middle" font-size="7" fill="#8BA3AD">5 min 37 °C</text>
+        <text x="400" y="60" font-size="14" fill="#2EC4B6">→</text>
+        <rect x="430" y="20" width="200" height="80" rx="10" fill="#0B1E24" stroke="#F4D35E"/><text x="530" y="38" text-anchor="middle" font-size="8" fill="#F4D35E">APC + S-2366 substrate</text><text x="530" y="54" text-anchor="middle" font-size="7" fill="#C9D8DD">S-2366 (pyroGlu-Pro-Arg-pNA)</text><text x="530" y="68" text-anchor="middle" font-size="7" fill="#9ECFD5">APC cleaves → pNA yellow</text>
+        <text x="640" y="60" font-size="14" fill="#2EC4B6">→</text>
+        <rect x="670" y="20" width="170" height="80" rx="10" fill="#021015" stroke="#3A5A63"/><text x="755" y="36" text-anchor="middle" font-size="7" fill="#8BA3AD">405 nm kinetic</text><text x="755" y="52" text-anchor="middle" font-size="10" fill="#E8F1F2">ΔA405/min</text><text x="755" y="68" text-anchor="middle" font-size="7" fill="#F4D35E" id="pcf-rate">—</text><text x="755" y="78" text-anchor="middle" font-size="7" fill="#8BA3AD">∝ APC = ∝ PC func</text>
+      </svg>
+      <canvas id="pcf-canvas" width="860" height="140" aria-label="Protein C chromogenic kinetics"></canvas>
+      <p class="viz-caption"><strong>Calibration:</strong> pooled normal plasma 100% PC assigned (~4 µg/mL, ~65 nM) — 6-level curve; rate vs log(PC) linear; QC normal/low. Chromogenic avoids LA/FVIII/FVL interference that plagues clot-based PC; limitation is type IIb phospholipid-binding variants more visible in clot-based systems <a class="cite" href="https://ltd.aruplab.com/api/ltd/hotline/2003386/1" target="_blank">[ARUP: low PC → reflex total]</a>.</p>
+    </div>
+    <div class="side-panel">
+      <div class="control"><label>Interactive — PC functional vs chromogenic rate (direct)</label><input type="range" id="pcf-slider" min="20" max="150" value="84"><output class="control-out" id="pcf-slider-val">84% functional — illustrative normal (70–140%) → moderate pNA rate</output><p class="control-why">More functional PC → more APC generated → faster pNA → higher ΔA/min. This assay is not affected by heparin/DOAC anti-Xa in chromogenic format (unlike clot), but still wary of lipemia.</p></div>
+      <div class="example-result">
+        <p class="result-label">Synthetic example result — illustration only</p>
+        <dl><div><dt>Protein C Functional</dt><dd>84% <span class="u">(example ref 70–140%)</span> <a href="https://www.labcorp.com/tests/117705/protein-c-functional" target="_blank">[LabCorp 117705]</a></dd></div><div><dt>Method</dt><dd>Chromogenic Protac + S-2366, 405 nm kinetic (representative) <a href="https://www.mayocliniclabs.com/test-catalog/overview/9339" target="_blank">[Mayo CFX]</a></dd></div><div><dt>Reflex note</dt><dd>If low, some labs reflex to total antigen to subtype type I vs II <a href="https://ltd.aruplab.com/api/ltd/hotline/2003386/1" target="_blank">[ARUP reflex]</a>.</dd></div></dl>
+      </div>
+    </div>
+  </div>
+  <p class="station-cite">Mayo CFX Protac S-2366 <a href="https://www.mayocliniclabs.com/test-catalog/overview/9339" target="_blank">[catalog]</a> <a href="https://diapharma.com/protein-c/" target="_blank">[DiaPharma S-2366]</a>; LabCorp chromogenic <a href="https://www.labcorp.com/tests/117705/protein-c-functional" target="_blank">[117705]</a>; clot vs chromogenic comparison <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6594720/" target="_blank">[PMC6594720]</a>.</p>
+</section>
+
+<!-- ===================== TEST 11 ===================== -->
+<section class="lab is-report" id="s11" aria-labelledby="s11-title">
+  <header class="lab-header">
+    <p class="section-kicker">TEST 11 / 11 <span>· NO ANALYZER — HUMAN SYNTHESIS</span></p>
+    <h2 id="s11-title">Coag Studies Interpretation Report — from ten benches to one story</h2>
+    <p class="lab-intro">This is not another tube or another machine. A board-certified pathologist/heme reviewer opens the charts from benches 01–10, checks QC, flags pre-analytical and drug interferences, compares total vs free vs functional, and writes a narrative impression that ties the panel together. It is the only entry on this requisition that <em>creates</em> no new analyte — it interprets the ones already measured.</p>
+  </header>
+
+  <div class="meta-grid">
+    <div class="spec-card"><p class="meta-label">Input</p><ul><li><strong>Charts consulted:</strong> LA reflex branches (02), APS immuno + clot (03), PS total/free (04) vs PS functional (06), AT (07), PC antigen (08) vs PC functional (10), FII activity (09), FVL genotype (05), Vitamin D (01) where relevant to bone panel vs clot.</li><li><strong>Plus:</strong> age/sex/pregnancy, anticoagulant list, QC flags (icterus/hemolysis/lipemia, underfill, platelet clump, drug screen).</li></ul></div>
+    <div class="method-card"><p class="meta-label">Method class</p><p><span class="pill method-interp">Interpretive synthesis — manual review + templated comment</span>. Reflex patterns (ARUP/Mayo) generate auto-comments (e.g., “LA not detected” vs “LA detected”) <a class="cite" href="https://ltd.aruplab.com/Tests/Pub/3017009" target="_blank">[ARUP LA interpretation]</a>; APS panels add criteria note about 12-week persistence <a class="cite" href="https://arupconsult.com/content/antiphospholipid-syndrome" target="_blank">[ARUP APS]</a>. Lab director may edit.</p></div>
+    <div class="time-card"><p class="meta-label">Time (illustrative)</p><div class="time-bars"><div class="bar"><span style="width:20%">Hands-on ~10–30 min</span><i>chart review, interference check</i></div><div class="bar bar-inst"><span style="width:0%">Instrument — none</span><i>no reaction</i></div><div class="bar bar-elapsed"><span style="width:72%">Elapsed after last bench + up to 24 h for sign-out</span><i>Batch sign-out; complex panels held for all results</i></div></div></div>
+  </div>
+
+  <div class="bench-grid bench-grid--report">
+    <div class="viz-panel">
+      <div class="viz-toolbar"><p class="pane-title">Synthesis board — how the reviewer reasons (tap elements)</p><div class="transport-controls"><button class="btn" id="report-toggle">Toggle interference overlay</button></div></div>
+      <svg viewBox="0 0 860 260" role="img" aria-label="Interpretation synthesis diagram">
+        <rect x="20" y="16" width="200" height="60" rx="10" fill="#0B1E24" stroke="#F4D35E"/><text x="120" y="36" text-anchor="middle" font-size="8" fill="#F4D35E">Quantity (antigen)</text><text x="120" y="50" text-anchor="middle" font-size="7" fill="#C9D8DD">PC 88% · PS total 88% / free 62%</text><text x="120" y="62" text-anchor="middle" font-size="7" fill="#8BA3AD">= how many molecules</text>
+        <rect x="240" y="16" width="200" height="60" rx="10" fill="#0B1E24" stroke="#2EC4B6"/><text x="340" y="36" text-anchor="middle" font-size="8" fill="#2EC4B6">Function (activity)</text><text x="340" y="50" text-anchor="middle" font-size="7" fill="#C9D8DD">AT 92% · PC 84% · PS 82% · FII 98%</text><text x="340" y="62" text-anchor="middle" font-size="7" fill="#8BA3AD">= does it work? (clot/chromogenic)</text>
+        <rect x="460" y="16" width="180" height="60" rx="10" fill="#132E36" stroke="#FF8A5B"/><text x="550" y="36" text-anchor="middle" font-size="8" fill="#FF8A5B">Gene (PCR)</text><text x="550" y="50" text-anchor="middle" font-size="7" fill="#C9D8DD">F5 G/G wild-type</text><text x="550" y="62" text-anchor="middle" font-size="7" fill="#8BA3AD">= permanent code</text>
+        <rect x="660" y="16" width="180" height="60" rx="10" fill="#0B1E24" stroke="#9B8EC4"/><text x="750" y="36" text-anchor="middle" font-size="8" fill="#9B8EC4">Immune (ELISA)</text><text x="750" y="50" text-anchor="middle" font-size="7" fill="#C9D8DD">aCL IgG/IgM · aβ2GP1 IgG/IgM</text><text x="750" y="62" text-anchor="middle" font-size="7" fill="#8BA3AD">= antibody binds coat</text>
+        <text x="430" y="96" text-anchor="middle" font-size="14" fill="#2EC4B6">▼ compare &amp; correlate</text>
+        <rect x="200" y="110" width="460" height="80" rx="12" fill="#021015" stroke="#2E4E58"/><text x="430" y="130" text-anchor="middle" font-size="8" fill="#E8F1F2">Interpretation logic (representative)</text><text x="430" y="146" text-anchor="middle" font-size="7" fill="#9ECFD5">Low free PS + low PS function + normal total → Type III pattern — but pregnancy/acute phase can mimic; check functional for interference</text><text x="430" y="160" text-anchor="middle" font-size="7" fill="#9ECFD5">Normal PC antigen + low PC function → possible type II — but confirm with chromogenic vs clot context</text><text x="430" y="174" text-anchor="middle" font-size="7" fill="#8BA3AD">Prolonged screen that corrects with PL but not with NPP = LA, not factor deficiency · 12-week persistence needed for APS</text>
+      </svg>
+      <div class="report-flags" id="report-flags">
+        <span class="flag ok">QC passed: Calibrators &amp; controls within range</span>
+        <span class="flag ok">No drug interference noted on anti-Xa/TT screen</span>
+        <span class="flag warn">Context: female, not pregnant (PS interpret accordingly)</span>
+      </div>
+      <p class="viz-caption"><strong>Controls here are human:</strong> reviewer checks delta-from-prior, fill adequacy, platelet-poor verification, reagent lot QC, and that antigen/activity pairs make sense (e.g., low activity should not coexist with normal antigen without explanation like type II or assay interference).</p>
+    </div>
+    <div class="side-panel">
+      <div class="example-result example-result--report">
+        <p class="result-label">Synthetic interpretation report — illustration only, not medical advice</p>
+        <pre class="report-text">COAG STUDIES INTERPRETATION — SYNTHETIC EXAMPLE
+Specimens: Serum (Vit D, aPL) + citrate PPP (coag/proteins) + EDTA whole blood (FVL) — collected 10 Oct 2026
+
+Summary:
+- Vitamin D 25-OH total 40 ng/mL (D2 12, D3 28) — method LC-MS/MS — see vit D bench for units caveat.
+- LA reflex: PTT-LA 1.05 &amp; dRVVT screen 1.08 — no reflex performed — no evidence of LA in this sample.
+- APS panel clot+immuno: aPTT 34.1 s, PT 12.8 s/INR 1.0, TT 16.2 s, hexagonal Δ 4.2 s, aCL IgG 12 GPL, IgM 6 MPL, aβ2GP1 IgG 9 SGU, IgM 7 SMU — criteria antibodies not detected in this sample; persistence ≥12 weeks required for classification.
+- Protein S: total 88%, free 62%; functional 82% — concordant mild divergence total vs free — clinical correlation suggested; repeat remote if indicated.
+- Antithrombin activity 92%; Protein C antigen 88% &amp; functional 84%; Factor II activity 98% — within illustrative normals.
+- Factor V Leiden G/G wild-type — no variant detected by allele-specific PCR.
+
+Limitations: Results affected by anticoagulants, acute thrombosis/phase, pregnancy/estrogen, liver disease, underfilled citrate. Single time point does not establish heritable deficiency or APS — suggest repeat where guideline-indicated.
+
+— Board-certified reviewer, electronic signature 11 Oct 2026 09:42
+</pre>
+        <p class="fine-print">Synthetic text generated for education. Real reports include reference intervals, method footnotes, and disclaimer about persistence/therapy. No personal data here.</p>
+      </div>
+    </div>
+  </div>
+  <p class="station-cite">Report structure modeled on ARUP/Mayo narrative interpretation <a href="https://ltd.aruplab.com/Tests/Pub/3017009" target="_blank">[ARUP 3017009 interpretation]</a> <a href="https://arupconsult.com/content/antiphospholipid-syndrome" target="_blank">[ARUP APS]</a>; Mayo ALUPP profile includes Tech Interp component <a href="https://ltd.aruplab.com/Tests/Pub/3017156" target="_blank">[ARUP 3017156 TI]</a>.</p>
+</section>
+
+</main>
+
+<footer class="wrapup" id="references" aria-labelledby="ref-title">
+  <h2 id="ref-title" style="padding:1rem 1rem 0; font-size:1.15rem;">How we know — references beside each bench (not one claim without a source)</h2>
+  <div class="refs-sheet">
+    <div class="ref-col">
+      <h3>General panel notes</h3>
+      <ul>
+        <li>Specimen types per bench are representative: serum red/SST, citrate blue-top 1:9, EDTA lavender — not universal across all tests. Citrate fill, double-spin PPP, and tube-specific stability per test directory.</li>
+        <li>Instrument names are classes (automated coagulometer, LC-MS/MS, ELISA washer, thermocycler/sequencer) — no model implied. Methods labeled <span class="badge">representative</span> where valid alternatives exist (e.g., FXa-based vs thrombin-based AT; PT-based vs aPTT-based PS functional).</li>
+        <li>Turnaround times are illustrative categories (hands-on / instrument / elapsed with batch/QC/reflex) — not a claim about any lab’s queue. LabCorp fractionated Vit D 4–10 d cited where published; otherwise noted as batch-dependent.</li>
+      </ul>
+      <h3>Selected authoritative sources (beside each claim inline)</h3>
+      <ul class="ref-list">
+        <li>[Mayo 25HDN] <a href="https://www.mayocliniclabs.com/test-catalog/overview/83670" target="_blank">25-Hydroxyvitamin D2 and D3, Serum — LC-MS/MS</a>; sheet <a href="https://www.mayocliniclabs.com/test-catalog/download-setup?format=pdf&unit_code=83670" target="_blank">PDF</a>; UW <a href="https://testguide.labmed.uw.edu/view/VITDG2" target="_blank">VITDG2 heptane LC-MS/MS</a>; CDC VDSCP <a href="https://www.cdc.gov/clinical-standardization-programs/media/pdfs/2024/04/CDC-Certified-Vitamin-D-Assays-508.pdf" target="_blank">reference procedure</a>.</li>
+        <li>[ARUP LA] <a href="https://ltd.aruplab.com/Tests/Pub/3017009" target="_blank">3017009 LA Reflex — components &amp; ratios</a>; ATI <a href="https://arupconsult.com/ati/lupus-anticoagulant-reflex-panel" target="_blank">reflex pattern &amp; method EM/chromogenic</a>; Mayo ALUPP <a href="https://www.mayocliniclabs.com/test-catalog/overview/603463/lupus-anticoagulant-profile-plasma" target="_blank">PT/aPTT 671 nm ACL TOP</a>; DRVVT mechanism <a href="https://en.wikipedia.org/wiki/Dilute_Russell%27s_viper_venom_time" target="_blank">wiki</a> &amp; <a href="https://www.practical-haemostasis.com/Thromobophilia/APS/drvvt.html" target="_blank">Practical Haem</a>; ISTH/ISLH guideline <a href="https://www.islh.org/web/downloads/2020-LAC-guidance-JTH-16859413.pdf" target="_blank">2020</a>.</li>
+        <li>[ARUP APS] <a href="https://ltd.aruplab.com/Tests/Pub/3017157" target="_blank">3017157 APS Reflex</a>; <a href="https://ltd.aruplab.com/Tests/Pub/0099344" target="_blank">aCL IgG/IgM ELISA</a>; <a href="https://ltd.aruplab.com/Tests/Pub/0050321" target="_blank">β2GP1 ELISA</a>; Mayo <a href="https://www.mayocliniclabs.com/test-catalog/overview/603463/lupus-anticoagulant-profile-plasma" target="_blank">ALUPP serum for aPL</a>; APS criteria <a href="https://arupconsult.com/content/antiphospholipid-syndrome" target="_blank">ARUP APS</a>; hexagonal <a href="https://www.ohsu.edu/sites/default/files/2019-08/Antiphospholipid%20antibody%20syndrome.pdf" target="_blank">OHSU</a>.</li>
+        <li>[PS Antigen] <a href="https://ltd.aruplab.com/Tests/Pub/0098894" target="_blank">0098894 Free PS microlatex</a>; <a href="https://www.mayocliniclabs.com/test-catalog/overview/80338" target="_blank">Mayo PSF 60/40 bound/free</a>; <a href="https://ltd.aruplab.com/api/ltd/hotline/2003386/1" target="_blank">reflex total</a>.</li>
+        <li>[FVL] <a href="https://ltd.aruplab.com/Tests/Pub/0097720" target="_blank">ARUP F5 R506Q PCR</a>; <a href="https://www.labcorp.com/tests/148881/factor-v-leiden-r506q-mutation" target="_blank">LabCorp FVL</a>; F2 activity distinction <a href="https://www.mayocliniclabs.com/test-catalog/overview/9121" target="_blank">Mayo F2</a>.</li>
+        <li>[PS Functional] <a href="https://ltd.aruplab.com/Tests/Pub/0030114" target="_blank">ARUP PS Functional EM</a>; <a href="https://www.mayocliniclabs.com/test-catalog/overview/617792" target="_blank">Mayo SFX PT-based</a>; <a href="https://practical-haemostasis.com/Thromobophilia/ps_assays.html" target="_blank">Practical Haemostasis PS assays</a>.</li>
+        <li>[AT Activity] <a href="https://ltd.aruplab.com/Tests/Pub/0030010" target="_blank">ARUP AT activity chromogenic</a>; <a href="https://www.labcorp.com/tests/015040/antithrombin-at-activity" target="_blank">LabCorp AT heparin+thrombin → chromogenic</a>.</li>
+        <li>[PC Antigen] <a href="https://ltd.aruplab.com/Tests/Pub/0030111" target="_blank">ARUP PC antigen</a>; <a href="https://www.labcorp.com/tests/500530/protein-c-antigen-factor-vii" target="_blank">LabCorp PC antigen</a>.</li>
+        <li>[FII Activity] <a href="https://www.mayocliniclabs.com/test-catalog/overview/9121" target="_blank">Mayo F2 overview</a>; sheet <a href="https://www.mayocliniclabs.com/api/sitecore/TestCatalog/DownloadTestCatalog?testId=9121" target="_blank">1:10 + deficient plasma</a>; <a href="https://www.labcorp.com/tests/086231/factor-ii-activity" target="_blank">LabCorp 086231 one-stage</a>.</li>
+        <li>[PC Functional] <a href="https://www.mayocliniclabs.com/test-catalog/overview/9339" target="_blank">Mayo CFX Protac S-2366</a>; <a href="https://www.labcorp.com/tests/117705/protein-c-functional" target="_blank">LabCorp 117705 chromogenic</a>; <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6594720/" target="_blank">PMC6594720 clot vs chromogenic</a>; <a href="https://diapharma.com/protein-c/" target="_blank">DiaPharma S-2366</a>.</li>
+      </ul>
+    </div>
+    <div class="ref-col">
+      <h3>Simplification ledger</h3>
+      <ul>
+        <li>Cartoon kinetics — coagulation is amplification with feedback and inhibition (TFPI, AT, APC/PS, fibrinolysis). Times are reagent-specific normalizations, not pure % math.</li>
+        <li>Cutoffs shown (e.g., LA ratios ≤1.20, TT ≤19.5 s, PT 12.0–15.5 s) are lab-specific examples per ARUP/Mayo — not universal normals.</li>
+        <li>Detection varies: optical 405/671 nm, electromechanical, nephelometric, chemiluminescent — curves simplified to threshold/time or ΔA.</li>
+        <li>Persistence (≥12 wks) and clinical criteria required for APS classification — single panel never diagnostic — cited inline.</li>
+        <li>Vitamin D immunoassay shown as representative alternative; not every lab offers fractionated D; not every FVL assay uses same primers/probes.</li>
+      </ul>
+      <h3>Citations live beside explanations</h3>
+      <p class="fine-print">Every bench above has a <a class="cite" href="#references">[source]</a> next to the claim it supports — e.g., Mayo catalog for tube volumes, ARUP for reflex steps and methods. Where a published method could not be reliably identified for a given panel name, the method is labeled <span class="badge">representative</span> and the alternative named.</p>
+    </div>
+  </div>
+  <footer class="page-foot">
+    <p>Inside the Coagulation Lab · part of <a href="../../">Ronnie’s Experiments</a> · synthetic results only, no personal data · citations are public lab directories and peer-reviewed references · last updated 2026-10-21</p>
+  </footer>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
+
+
+
