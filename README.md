@@ -12,6 +12,7 @@ Interactive prototypes, physics simulations, algorithmic visualizers, and learni
 
 | Experiment | Category | Description | Path |
 |---|---|---|---|
+| **Eliquis, Modern Blood Thinners & Alcohol: Inside Your Brain** | Education | Plain-English interactive brain cutaway, microscopic blood-vessel patch simulator, DOAC family tree, hangover-vs-bleed unmasker, and 48-hour body curve lab explaining how modern blood thinners and alcohol interact inside your brain and body. | [`experiments/brain-blood-thinners/`](experiments/brain-blood-thinners/) |
 | **Thin Film Lab: ALD vs PVD** | Education | Zero-background on-ramp (why deposit nanometer-thin films at all — chips, lenses, implants, crisp packets) plus interactive labs on Atomic Layer Deposition vs. Physical Vapor Deposition: self-limiting reactions, trench conformality, and real growth curves. | [`experiments/ald-pvd-lab/`](experiments/ald-pvd-lab/) |
 | **Tabby Slink** | Visualizations | A detailed 3D brown mackerel tabby on a low nocturnal stalk through a moonlit room. | [`experiments/tabby-slink/`](experiments/tabby-slink/) |
 | **Particle Vector Field** | Visualizations | Real-time canvas flow field with trigonometric velocity vectors, gravitational cursor attraction, and palette controls. | [`experiments/particle-field/`](experiments/particle-field/) |
