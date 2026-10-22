@@ -1,5 +1,23 @@
 [
   {
+    "id": "brain-blood-thinners",
+    "title": "Eliquis, Modern Blood Thinners & Alcohol: Inside Your Brain",
+    "description": "Plain-English interactive brain cutaway, microscopic vessel patch lab, clotting-cascade family explorer, hangover-vs-bleed unmasker, and 48-hour body simulator explaining why mixing DOACs (Eliquis, Xarelto, Pradaxa) with alcohol cuts both clotting safety brakes inside a rigid skull.",
+    "path": "experiments/brain-blood-thinners/",
+    "category": "Education",
+    "tags": [
+      "Beginner-friendly",
+      "Neuroscience",
+      "Hematology",
+      "Eliquis",
+      "DOACs",
+      "Health Education",
+      "Simulation",
+      "Interactive"
+    ],
+    "date": "2026-10-22"
+  },
+  {
     "id": "fogline-books",
     "title": "Run the Books: Fogline AI — Accounting Flight Simulator",
     "description": "Operate a fictional AI startup's books across 16 interactive demos: double-entry, ingestion & dedupe, reconciliation, deferred revenue, invoicing, consolidation, month-end close, safe agent execution, idempotent retries, automation policy, and reading business metrics critically.",

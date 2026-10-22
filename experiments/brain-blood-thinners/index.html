@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1017">
+  <meta name="description" content="Plain-English interactive brain and blood-vessel simulations explaining how Eliquis (apixaban), modern 2nd-generation DOAC blood thinners, and alcohol interact inside your brain and body.">
+  <title>Eliquis, Modern Blood Thinners &amp; Alcohol: Inside Your Brain — Ronnie's Experiments</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Sticky Hub Header + Plain-English / Clinical Depth Switcher -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="back-link" href="../../" aria-label="Back to experiments hub">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/><path d="M9 12h11"/></svg>
+        <span>Experiments</span>
+      </a>
+      <a class="brand" href="../../" aria-label="Ronnie's Experiments home">
+        <span class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><path d="M15.9 4.5c-1.5 4.3-5.2 6.4-4.7 11.1.2 2.1 1.4 3.8 3.3 4.6-1.5-2.2-.8-4.9 1.5-6.6-.3 3.7 4.3 4.8 4.1 8.1-.1 1.7-1.2 3.2-2.8 4.1 5.3-.7 8.2-5.5 6.8-10.2-.9-3-3.4-4.2-4.2-7.7-.7 2.1-1.7 3.2-2.7 3.8.3-2.6-.2-5.2-1.3-7.2Z"/><path d="M10 24.7h11.5"/></svg>
+        </span>
+        <span>RONNIE'S <b>EXPERIMENTS</b></span>
+      </a>
+
+      <div class="topbar-controls">
+        <div class="mode-switch" role="group" aria-label="Explanation depth level">
+          <button type="button" class="mode-btn is-active" data-depth-mode="plain">Plain English</button>
+          <button type="button" class="mode-btn" data-depth-mode="clinical">+ Medical Notes</button>
+        </div>
+        <button type="button" class="pause-global-btn" id="globalPauseBtn" aria-pressed="false">
+          ⏸ Pause Animations
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO: Zero Medical Background Needed -->
+    <section class="hero" aria-labelledby="hero-heading">
+      <div>
+        <p class="eyebrow"><span class="eyebrow-line"></span> INTERACTIVE BRAIN &amp; BIOLOGY EXPLAINER · ZERO DOCTOR JARGON ASSUMED</p>
+        <h1 id="hero-heading">Why <span>Eliquis, Newer Blood Thinners &amp; Alcohol</span> Are Dangerous Together — Inside Your Brain</h1>
+        <p class="hero-lead">
+          Doctors often say <em>“don’t drink heavily on blood thinners — bleeding risk goes up”</em> and move right on.
+          If you aren’t a doctor, that sounds super vague! Does blood literally get watery? Why doesn’t <button type="button" class="jargon" data-jargon="eliquis">Eliquis</button> make you bleed all day normally? And why is <strong>your brain</strong> uniquely vulnerable when alcohol enters the picture?
+        </p>
+        <div class="safety-banner">
+          <strong>Important Real-World Context First:</strong> Medications like <button type="button" class="jargon" data-jargon="eliquis">Eliquis (apixaban)</button> and other <button type="button" class="jargon" data-jargon="doac">DOACs</button> save lives every single day by stopping dangerous clots in leg veins (DVT), lungs (PE), or the heart. <strong>Never stop or skip a prescribed dose on your own</strong> (Lab 4 shows why skipping a pill to drink backfires dangerously!). Tap any <span class="jargon" data-jargon="platelets">dashed blue term</span> anywhere on this page for an instant plain-English translation.
+        </div>
+      </div>
+
+      <aside class="hero-summary-card" aria-label="The entire story in 30 seconds">
+        <p class="summary-kicker">THE WHOLE STORY IN 3 SENTENCES</p>
+        <div class="two-brake-mini">
+          <div class="brake-row">
+            <span class="brake-badge b-platelet">Brake #1</span>
+            <p><strong>Platelets (“Instant Sandbags”):</strong> Tiny cells that rush into microscopic daily blood-vessel tears within seconds. <strong>Eliquis leaves them 100% alone</strong> — that’s how you stay safe every day!</p>
+          </div>
+          <div class="brake-row">
+            <span class="brake-badge b-fibrin">Brake #2</span>
+            <p><strong>Clotting Factors &amp; Fibrin (“Steel Rebar”):</strong> Tough protein cables woven to lock big clots together. <strong>Eliquis &amp; modern DOACs dial Brake #2 down on purpose</strong> so dangerous clots can’t grow.</p>
+          </div>
+          <div class="brake-row">
+            <span class="brake-badge b-skull">Alcohol</span>
+            <p><strong>Alcohol cuts Brake #1 (stuns platelets!)</strong>, spikes blood pressure, shrinks brain fluid so veins stretch tight inside a <strong>zero-stretch bone skull</strong>, causes falls, AND disguises brain-bleed warning signs as a normal hangover!</p>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- Sticky Chapter Jump Rail -->
+    <nav class="chapter-rail" aria-label="Interactive lab sections">
+      <a class="rail-pill is-active" href="#stage-vessel"><span>Lab 1</span> Two-Brake Pipe Patch</a>
+      <a class="rail-pill" href="#stage-drugs"><span>Lab 2</span> Eliquis &amp; “Type 2 / New-Gen” Thinners</a>
+      <a class="rail-pill" href="#stage-brain"><span>Lab 3</span> Interactive Brain &amp; Skull Sim</a>
+      <a class="rail-pill" href="#stage-camouflage"><span>Lab 4</span> Hangover vs. Brain Bleed</a>
+      <a class="rail-pill" href="#stage-body"><span>Lab 5</span> Liver, Stomach &amp; Skipped Pills</a>
+      <a class="rail-pill" href="#stage-myths"><span>Lab 6</span> Quiz &amp; ER Rescue Tools</a>
+    </nav>
+
+    <!-- ============================================================
+         STAGE 0 / LAB 1: ZERO-BACKGROUND MICROSCOPIC VESSEL LAB
+         ============================================================ -->
+    <section class="stage" id="stage-vessel" aria-labelledby="s0-title">
+      <header class="stage-header">
+        <p class="stage-kicker">LAB 01 · START HERE — ZERO MEDICAL BACKGROUND NEEDED</p>
+        <h2 id="s0-title">First Myth Busted: “Blood Thinners” Don’t Actually Make Blood Thin!</h2>
+        <p class="stage-intro">
+          Neither <button type="button" class="jargon" data-jargon="eliquis">Eliquis</button> nor alcohol turns blood watery like paint thinner. Instead, think of every tiny blood vessel in your brain like a soft garden hose carrying pulsed pressure 70 times every minute. Tiny microscopic pinholes happen naturally from everyday wear — and your body seals them using <strong>two completely separate emergency crews working as partners</strong>:
+        </p>
+      </header>
+
+      <div class="analogy-grid">
+        <div class="analogy-card c-platelet">
+          <div class="analogy-icon">🟨</div>
+          <h3>Crew 1: Platelets = Instant Sandbags (Seconds)</h3>
+          <p>
+            <button type="button" class="jargon" data-jargon="platelets">Platelets</button> float everywhere in your blood waiting for trouble. The instant a vessel wall nick exposes underlying fibers, platelets grab hold, sprout spiky arms, fire a chemical flare (<button type="button" class="jargon" data-jargon="txa2">TXA2</button>), and pile together into a fast sandbag plug.
+          </p>
+        </div>
+        <div class="analogy-card c-fibrin">
+          <div class="analogy-icon">🟦</div>
+          <h3>Crew 2: Fibrin Mesh = Concrete Rebar (Minutes)</h3>
+          <p>
+            Sandbags alone can get washed away by high pressure! So numbered proteins in your blood (<button type="button" class="jargon" data-jargon="factorXa">Factor Xa</button> → <button type="button" class="jargon" data-jargon="factorIIa">Factor IIa / Thrombin</button>) weave tough <button type="button" class="jargon" data-jargon="fibrin">Fibrin cables</button> right over the sandbags to lock the patch rock-solid.
+          </p>
+        </div>
+        <div class="analogy-card c-danger">
+          <div class="analogy-icon">🚨</div>
+          <h3>Why Mixing Alcohol + Eliquis Cuts BOTH Crews</h3>
+          <p>
+            <strong>Eliquis intentionally holds back Crew 2</strong> so dangerous clots can’t grow in your veins — relying on <strong>Crew 1 (Platelets)</strong> to patch tiny daily nicks. <strong>Alcohol stuns Crew 1 AND spikes hose pressure</strong> — leaving zero backup!
+          </p>
+        </div>
+      </div>
+
+      <!-- Predict First Interactive Prompt -->
+      <div class="predict-box">
+        <div class="predict-head">
+          <p class="predict-q">🤔 Quick guess before touching the simulator: Why don’t people taking Eliquis (with NO alcohol) bleed into their brain every day from tiny routine vessel wear?</p>
+          <div class="predict-btns">
+            <button type="button" class="predict-choice" data-predict-ans="platelets">Because their Platelets (Crew 1) still work at 100%!</button>
+            <button type="button" class="predict-choice" data-predict-ans="walls">Because Eliquis makes vessel walls thicker</button>
+          </div>
+        </div>
+        <p class="predict-answer" id="predictStage0Feedback"></p>
+      </div>
+
+      <!-- Interactive Canvas Workspace -->
+      <div class="sim-workspace">
+        <div class="canvas-frame">
+          <div class="canvas-topbar">
+            <span class="canvas-title">🔬 Live Zoom: Tiny Brain Vessel Wall Tear (Click Anywhere on the Vessel to Poke a New Tear!)</span>
+            <div class="canvas-actions">
+              <button type="button" class="action-btn danger-btn" id="pokeTearBtn">⚡ Poke Fresh Micro-Tear</button>
+            </div>
+          </div>
+          <canvas id="vesselCanvas" class="sim-canvas" width="760" height="370" aria-label="Animated microscopic brain blood vessel showing red blood cells, yellow platelets, and teal fibrin strands patching or failing to patch a tear"></canvas>
+          <div class="legend-row">
+            <span class="legend-item"><i class="swatch" style="background:#d9384a"></i> Red blood cells</span>
+            <span class="legend-item"><i class="swatch" style="background:#f7c948"></i> Platelets (Brake #1 Sandbags)</span>
+            <span class="legend-item"><i class="swatch" style="background:#39d2c0"></i> Fibrin cables (Brake #2 Rebar)</span>
+            <span class="legend-item"><i class="swatch" style="background:#ff9f43"></i> Torn wall collagen fibers</span>
+          </div>
+        </div>
+
+        <div class="control-card">
+          <div class="preset-group" role="group" aria-label="Vessel simulation presets">
+            <button type="button" class="preset-btn is-active" data-vessel-preset="normal">
+              <strong><span>1. Healthy Baseline (No Meds, No Alcohol)</span><span>✓ Both Brakes</span></strong>
+              <small>Sandbags + Fibrin rebar seal leaks in seconds</small>
+            </button>
+            <button type="button" class="preset-btn" data-vessel-preset="doacOnly">
+              <strong><span>2. Eliquis / DOAC Alone (As Prescribed)</span><span>✓ Safe Day-to-Day</span></strong>
+              <small>Fibrin dialed down, BUT healthy yellow platelets still plug the nick!</small>
+            </button>
+            <button type="button" class="preset-btn" data-vessel-preset="alcoholOnly">
+              <strong><span>3. Heavy Alcohol Alone (5+ Drinks)</span><span>⚠ Slippery Platelets</span></strong>
+              <small>Alcohol blocks TXA2 flare so platelets slide past; Fibrin scrambles</small>
+            </button>
+            <button type="button" class="preset-btn danger-active" data-vessel-preset="combo">
+              <strong><span>4. Eliquis + Heavy Alcohol Together</span><span>🚨 BOTH BRAKES CUT</span></strong>
+              <small>Platelets slip off AND Fibrin is blocked — watch blood pour out!</small>
+            </button>
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-header">
+              <label for="vesselBpSlider">Blood Pressure Surge in Vessel</label>
+              <span class="slider-val" id="vesselBpVal">120 / 77 mmHg</span>
+            </div>
+            <input type="range" id="vesselBpSlider" min="105" max="180" step="1" value="120">
+            <div class="slider-scale"><span>Calm (105)</span><span>Normal (120)</span><span>Alcohol Surge (175)</span></div>
+          </div>
+
+          <div class="meter-grid" aria-live="polite">
+            <div class="meter-box">
+              <div class="meter-label">Brake #1 · Platelets</div>
+              <div class="meter-value" id="meterPlatelet">100% active</div>
+            </div>
+            <div class="meter-box">
+              <div class="meter-label">Brake #2 · Fibrin Mesh</div>
+              <div class="meter-value" id="meterFibrin">0% woven</div>
+            </div>
+            <div class="meter-box">
+              <div class="meter-label">Tear Status</div>
+              <div class="meter-value" id="meterSeal">Patching</div>
+            </div>
+            <div class="meter-box">
+              <div class="meter-label">Escaped Into Brain</div>
+              <div class="meter-value" id="meterLeak">0.0 units</div>
+            </div>
+          </div>
+
+          <div class="explain-live" id="vesselLiveExplain"></div>
+          <div class="clinical-deep">
+            <span class="clinical-tag">Cellular Mechanism</span>
+            Acute ethanol (BAC ≥ 0.08%) inhibits platelet phospholipase A2, suppressing arachidonic acid release and <strong>thromboxane A2 (TXA2)</strong> synthesis while blunting collagen-induced GP IIb/IIIa fibrinogen receptor activation. Chronic heavy intake further causes bone-marrow megakaryocyte suppression (thrombocytopenia) and impaired von Willebrand multimer function.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         STAGE 1 / LAB 2: ELIQUIS & "TYPE 2 / NEW-GEN" BLOOD THINNERS
+         ============================================================ -->
+    <section class="stage" id="stage-drugs" aria-labelledby="s1-title">
+      <header class="stage-header">
+        <p class="stage-kicker">LAB 02 · DECODING THE MEDICATION NAMES IN PLAIN ENGLISH</p>
+        <h2 id="s1-title">Wait — What Are “Eliquis” &amp; “Type 2 / New-Generation” Blood Thinners?</h2>
+        <p class="stage-intro">
+          Medical names around blood thinners are needlessly confusing because people use the number <strong>“2”</strong> in <em>two totally different ways</em>! Once you see both side-by-side on one map, every pill name clicks forever:
+        </p>
+      </header>
+
+      <div class="clarifier-banner">
+        <strong>Two Plain-English Meanings Behind “New-Generation / Type 2 Blood Thinners”:</strong>
+        <div class="clarifier-cols">
+          <div class="clarifier-item">
+            <h3>1️⃣ Generation 1 (Old) vs. Generation 2 (“New-Gen” = DOACs)</h3>
+            <p>
+              <strong>1st-Generation (1950s): Warfarin (Coumadin)</strong> — slows Vitamin K in your liver so <em>four</em> clotting proteins come out unfinished (needs constant blood tests &amp; diet rules).<br>
+              <strong>2nd-Generation (2010s+): <button type="button" class="jargon" data-jargon="doac">DOACs</button></strong> (<em>Direct Oral Anticoagulants</em>) — modern precision pills like <strong>Eliquis, Xarelto, Savaysa, and Pradaxa</strong> that cleanly block <strong>one single enzyme gear</strong> with predictable dosing!
+            </p>
+          </div>
+          <div class="clarifier-item">
+            <h3>2️⃣ Inside DOACs: Factor Xa Blockers vs. Factor II (“Factor 2!”) Blockers</h3>
+            <p>
+              Modern DOACs split into two sister families right at the end of clotting:<br>
+              • <strong><button type="button" class="jargon" data-jargon="factorXa">Factor Xa (“Ten-a”)</button> blockers (end in <em>-xaban</em>):</strong> <strong>Eliquis</strong> (api<em>xaban</em>) &amp; <strong>Xarelto</strong> (rivaro<em>xaban</em>).<br>
+              • <strong><button type="button" class="jargon" data-jargon="factorIIa">Factor IIa (“Factor 2” / Thrombin)</button> blockers (end in <em>-gatran</em>):</strong> <strong>Pradaxa</strong> (dabi<em>gatran</em>) — directly blocks activated Factor 2 itself!
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Pill Picker + Alcohol Toggle -->
+      <div class="pill-selector-bar" role="group" aria-label="Choose a medication to inspect on the clotting machine">
+        <button type="button" class="drug-pill-btn" data-drug-pick="none">Healthy Baseline</button>
+        <button type="button" class="drug-pill-btn is-active" data-drug-pick="eliquis">Eliquis (Factor Xa · 2nd-Gen)</button>
+        <button type="button" class="drug-pill-btn" data-drug-pick="xarelto">Xarelto (Factor Xa · 2nd-Gen)</button>
+        <button type="button" class="drug-pill-btn" data-drug-pick="pradaxa">Pradaxa (Factor IIa / “Factor 2”)</button>
+        <button type="button" class="drug-pill-btn" data-drug-pick="warfarin">Warfarin (1st-Gen Old School)</button>
+        <button type="button" class="drug-pill-btn" data-drug-pick="aspirin">Aspirin / Ibuprofen (Platelets)</button>
+        <button type="button" class="alcohol-overlay-toggle" id="cascadeAlcoholToggle">🍷 + Overlay Alcohol on Diagram</button>
+      </div>
+
+      <div class="cascade-grid">
+        <div class="cascade-diagram-box">
+          <svg class="cascade-svg" viewBox="0 0 650 385" role="img" aria-label="Interactive diagram of Brake 1 Platelets and Brake 2 Coagulation Cascade showing where each medication acts">
+            <!-- Lane 1: Brake 1 Platelets -->
+            <rect x="16" y="18" width="618" height="96" rx="12" fill="#121a26" stroke="#3c4b5e"/>
+            <text x="32" y="42" fill="#f7c948" font-size="12" font-weight="800">BRAKE #1 — INSTANT SANDBAG PLUG (Platelets · Seconds)</text>
+            <text x="32" y="62" fill="#b6c4d6" font-size="11.5">Vessel Nick → Platelets Stick → TXA2 Flare → Soft Emergency Plug</text>
+            <rect x="32" y="76" width="140" height="12" rx="6" fill="#1e293b"/>
+            <rect id="barPlatelet" x="32" y="76" width="140" height="12" rx="6" fill="#f7c948"/>
+            <text id="txtPlateletPct" x="184" y="86" fill="#eef4fb" font-size="11.5" font-weight="700">100% stickiness</text>
+
+            <g id="lockPlatelet" opacity="0.14">
+              <rect x="405" y="34" width="212" height="62" rx="9" fill="#361a14" stroke="#ff8b5a" stroke-width="1.8"/>
+              <text x="511" y="57" text-anchor="middle" fill="#ffb290" font-size="11.5" font-weight="800">⛔ BLOCKED BY ALCOHOL / NSAIDs!</text>
+              <text x="511" y="76" text-anchor="middle" fill="#ffd9c7" font-size="10.5">Platelets lose TXA2 &amp; slip right off</text>
+            </g>
+
+            <!-- Lane 2: Brake 2 Clotting Factor Dominoes -->
+            <rect x="16" y="130" width="618" height="162" rx="12" fill="#121a26" stroke="#3c4b5e"/>
+            <text x="32" y="154" fill="#39d2c0" font-size="12" font-weight="800">BRAKE #2 — STEEL REBAR MESH (Coagulation Cascade · Minutes)</text>
+
+            <!-- Step Box A: Liver Upstream Factors -->
+            <rect x="32" y="170" width="132" height="68" rx="9" fill="#182436" stroke="#445873"/>
+            <text x="98" y="191" text-anchor="middle" fill="#eef4fb" font-size="11" font-weight="700">Liver Factors</text>
+            <text x="98" y="207" text-anchor="middle" fill="#8496ad" font-size="10">VII · IX · X · II</text>
+            <g id="lockVitK" opacity="0.14">
+              <rect x="38" y="214" width="120" height="19" rx="5" fill="#3b2610" stroke="#f7c948"/>
+              <text x="98" y="227" text-anchor="middle" fill="#f7c948" font-size="9.5" font-weight="800">WARFARIN BLOCKS</text>
+            </g>
+
+            <text x="174" y="208" fill="#58a6ff" font-size="18" font-weight="800">→</text>
+
+            <!-- Step Box B: Factor Xa Amplifier -->
+            <rect x="196" y="170" width="196" height="68" rx="9" fill="#182436" stroke="#58a6ff"/>
+            <text x="294" y="190" text-anchor="middle" fill="#79b8ff" font-size="11.5" font-weight="800">Factor Xa (“10a” Amplifier)</text>
+            <text x="294" y="206" text-anchor="middle" fill="#b6c4d6" font-size="10">1 Xa triggers ~1,000× Thrombin!</text>
+            <g id="lockXa" opacity="1">
+              <rect x="208" y="213" width="172" height="20" rx="5" fill="#133252" stroke="#79b8ff"/>
+              <text x="294" y="227" text-anchor="middle" fill="#bfe0ff" font-size="9.5" font-weight="800">🛡️ ELIQUIS / XARELTO PLUG HERE</text>
+            </g>
+
+            <text x="401" y="208" fill="#58a6ff" font-size="18" font-weight="800">→</text>
+
+            <!-- Step Box C: Factor IIa (Thrombin) -> Fibrin -->
+            <rect x="422" y="170" width="196" height="68" rx="9" fill="#182436" stroke="#b392f0"/>
+            <text x="520" y="190" text-anchor="middle" fill="#d2bfff" font-size="11.5" font-weight="800">Factor IIa (“Factor 2” / Thrombin)</text>
+            <text x="520" y="206" text-anchor="middle" fill="#b6c4d6" font-size="10">Snips Fibrinogen → Tough Fibrin</text>
+            <g id="lockIIa" opacity="0.14">
+              <rect x="434" y="213" width="172" height="20" rx="5" fill="#2b1e4a" stroke="#b392f0"/>
+              <text x="520" y="227" text-anchor="middle" fill="#e2d4ff" font-size="9.5" font-weight="800">🛡️ PRADAXA PLUGS FACTOR 2 HERE</text>
+            </g>
+
+            <!-- Gauges inside Lane 2 -->
+            <rect x="32" y="256" width="140" height="11" rx="5.5" fill="#1e293b"/>
+            <rect id="barXa" x="32" y="256" width="38" height="11" rx="5.5" fill="#79b8ff"/>
+            <text id="txtXaPct" x="180" y="266" fill="#b6c4d6" font-size="11" font-weight="700">24% amplifier flow</text>
+
+            <rect x="330" y="256" width="140" height="11" rx="5.5" fill="#1e293b"/>
+            <rect id="barIIa" x="330" y="256" width="36" height="11" rx="5.5" fill="#b392f0"/>
+            <text id="txtIIaPct" x="478" y="266" fill="#b6c4d6" font-size="11" font-weight="700">22% thrombin scissors</text>
+
+            <!-- Combined Output Bar -->
+            <rect x="16" y="308" width="618" height="60" rx="12" fill="#0d1420" stroke="#3c4b5e"/>
+            <text x="32" y="331" fill="#eef4fb" font-size="11.5" font-weight="800">COMBINED EMERGENCY BRAIN-VESSEL SEAL PROTECTION:</text>
+            <rect x="32" y="342" width="140" height="13" rx="6.5" fill="#1e293b"/>
+            <rect id="barSealTotal" x="32" y="342" width="90" height="13" rx="6.5" fill="#3fb950"/>
+            <text id="txtSealTotal" x="184" y="353" fill="#eef4fb" font-size="12" font-weight="800">65% emergency leak protection</text>
+          </svg>
+        </div>
+
+        <div class="drug-detail-card" aria-live="polite">
+          <div>
+            <div class="drug-badge-row">
+              <span class="mini-pill" id="drugCardGen">2nd-Gen DOAC</span>
+              <span class="mini-pill" id="drugCardTarget">Blocks Factor Xa</span>
+            </div>
+            <h3 style="margin-top:0.6rem;font-size:1.2rem" id="drugCardName">Eliquis (apixaban)</h3>
+            <p style="margin-top:0.4rem;font-size:0.9rem;color:var(--text-soft)" id="drugCardOneLine"></p>
+          </div>
+
+          <dl class="fact-list">
+            <div class="fact-row">
+              <dt>How Long One Pill Stays Active</dt>
+              <dd id="drugCardHalfLife"></dd>
+            </div>
+            <div class="fact-row">
+              <dt>How Your Body Clears It</dt>
+              <dd id="drugCardClearance"></dd>
+            </div>
+            <div class="fact-row" style="border-color:rgba(255,139,90,0.45)">
+              <dt style="color:var(--alcohol)">🍷 What Happens When Alcohol Joins In</dt>
+              <dd id="drugCardAlcohol"></dd>
+            </div>
+          </dl>
+
+          <div class="clinical-deep" id="drugCardClinical"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         STAGE 2 / LAB 3: INTERACTIVE ANATOMICAL BRAIN & SKULL SIMULATOR
+         ============================================================ -->
+    <section class="stage" id="stage-brain" aria-labelledby="s2-title">
+      <header class="stage-header">
+        <p class="stage-kicker">LAB 03 · INTERACTIVE BRAIN SIMULATOR — CLICK, SCRUB TIME &amp; TEST SCENARIOS</p>
+        <h2 id="s2-title">Inside Your Skull: 7 Reasons Your Brain Takes the Worst Hit</h2>
+        <p class="stage-intro">
+          If you bump your shin while taking Eliquis after a few drinks, your leg just gets an ugly purple bruise because <strong>skin stretches outward</strong>. Your brain has NO stretchy skin room: it sits inside a <strong>sealed solid-bone helmet</strong> (<button type="button" class="jargon" data-jargon="monroKellie">Monro–Kellie Rule</button>). Use the quick buttons, drag the <strong>Drinks</strong> and <strong>Hours Later</strong> sliders, and <strong>click Pins ①–⑦ directly on the brain</strong> to see all 7 biological mechanisms live!
+        </p>
+      </header>
+
+      <!-- 1-Click Scenario Comparison Presets -->
+      <div class="pill-selector-bar" style="margin-bottom:0.9rem" role="group" aria-label="Quick brain comparison scenarios">
+        <span style="font-size:0.8rem;font-weight:700;color:var(--text-muted)">TRY THESE 4 COMPARISONS:</span>
+        <button type="button" class="action-btn" data-brain-quick="healthyBump">① Sober + No Meds (Cabinet Bump)</button>
+        <button type="button" class="action-btn" data-brain-quick="safeDoac">② Eliquis + 0 Drinks (Cabinet Bump)</button>
+        <button type="button" class="action-btn danger-btn" data-brain-quick="sneakySubdural">③ Eliquis + 5 Drinks (“Sleeping Off” a Bump)</button>
+        <button type="button" class="action-btn danger-btn" data-brain-quick="bpStroke">④ Eliquis + 6 Drinks (BP Surge — No Fall!)</button>
+      </div>
+
+      <!-- 4 Live Interactive Controls -->
+      <div class="brain-controls-bar">
+        <div class="ctrl-field">
+          <label for="brainDrugSelect">Blood Thinner Active</label>
+          <select id="brainDrugSelect">
+            <option value="none">None (Natural Clotting)</option>
+            <option value="eliquis" selected>Eliquis (apixaban · Factor Xa)</option>
+            <option value="xarelto">Xarelto (rivaroxaban · Peak Xa)</option>
+            <option value="pradaxa">Pradaxa (dabigatran · Factor IIa)</option>
+            <option value="warfarin">Warfarin (1st-Gen Vitamin K)</option>
+          </select>
+        </div>
+
+        <div class="ctrl-field">
+          <label for="brainDrinkSlider">
+            <span>Alcohol Tonight</span>
+            <output id="brainDrinksOut" style="color:var(--alcohol)">5 drinks (~0.12% peak)</output>
+          </label>
+          <input type="range" id="brainDrinkSlider" min="0" max="8" step="1" value="5">
+          <div class="slider-scale"><span>0 (Sober)</span><span>2</span><span>5 (Binge)</span><span>8+</span></div>
+        </div>
+
+        <div class="ctrl-field">
+          <label for="brainTriggerSelect">Trigger Inside Skull</label>
+          <select id="brainTriggerSelect">
+            <option value="micro">Everyday Tiny Vessel Pulse Only</option>
+            <option value="bump" selected>Minor Cabinet / Car-Door Head Bump</option>
+            <option value="bp">Blood Pressure Spike (Deep Brain Arteries)</option>
+            <option value="fall">2 AM Bathroom Stumble / Fall</option>
+          </select>
+        </div>
+
+        <div class="ctrl-field">
+          <label for="brainHourSlider">
+            <span>Time Since Event</span>
+            <output id="brainHourOut" style="color:var(--accent)">Hour 10 · Next morning</output>
+          </label>
+          <input type="range" id="brainHourSlider" min="0" max="24" step="0.5" value="10">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:0.2rem">
+            <span style="font-size:0.72rem;color:var(--text-muted)">0h → 12h (Morning) → 24h</span>
+            <button type="button" class="action-btn primary" id="playBrainHoursBtn">▶ Play 24h Timeline</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Brain Cutaway + Right-Side Hotspot Inspector & Monro-Kellie Curve -->
+      <div class="brain-main-grid">
+        <div class="canvas-frame">
+          <canvas id="brainCanvas" class="sim-canvas" width="740" height="470" aria-label="Interactive sagittal brain cutaway inside rigid skull bone showing bridging veins, CSF cushion, cortex, deep arterioles, hippocampus, pituitary ADH switch, cerebellum, and brainstem"></canvas>
+          <div class="hotspot-strip" id="brainHotspotStrip" aria-label="Select a brain region hotspot"></div>
+          <div class="meter-grid" style="margin-top:0.75rem" aria-live="polite">
+            <div class="meter-box">
+              <div class="meter-label">Pooled Blood in Skull</div>
+              <div class="meter-value" id="bStatBleed">0.0 mL</div>
+            </div>
+            <div class="meter-box">
+              <div class="meter-label">Spare Fluid Cushion (CSF)</div>
+              <div class="meter-value" id="bStatCsf">100% left</div>
+            </div>
+            <div class="meter-box">
+              <div class="meter-label">Skull Pressure (Normal 7–15)</div>
+              <div class="meter-value" id="bStatIcp">10.0 mmHg</div>
+            </div>
+            <div class="meter-box">
+              <div class="meter-label">Hangover Masking &amp; Sway</div>
+              <div class="meter-value" id="bStatMask">0% masked</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="brain-side-stack">
+          <div class="hotspot-inspector" aria-live="polite">
+            <span class="inspector-kicker">BRAIN REGION INSPECTOR (CLICK ANY PIN ①–⑦)</span>
+            <h3 id="hsTitle">① Subdural Bridging Veins</h3>
+            <div class="inspector-body">
+              <p id="hsPlain"></p>
+              <p style="color:#ffd4c2" id="hsMix"></p>
+              <div class="explain-live" id="hsLiveStatus"></div>
+              <div class="clinical-deep" id="hsClinical"></div>
+            </div>
+          </div>
+
+          <div class="icp-panel">
+            <div class="icp-head">
+              <h4>📈 Sealed Skull Pressure Cliff (<button type="button" class="jargon" data-jargon="monroKellie">Monro–Kellie Curve</button>)</h4>
+              <span class="icp-status-pill" id="icpZonePill">Silent Cushion Zone</span>
+            </div>
+            <p style="font-size:0.79rem;color:var(--text-muted);margin-bottom:0.5rem">
+              Notice why <strong>just 3 tablespoons (~45 mL)</strong> of un-clotted blood sends skull pressure shooting straight up after spare fluid cushion runs out:
+            </p>
+            <canvas id="icpCanvas" class="sim-canvas" width="430" height="205" aria-label="Graph of intracranial pressure in mmHg versus leaked blood volume in tablespoons inside the rigid skull"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         STAGE 3 / LAB 4: HANGOVER VS. BRAIN BLEED CAMOUFLAGE UNMASKER
+         ============================================================ -->
+    <section class="stage" id="stage-camouflage" aria-labelledby="s3-title">
+      <header class="stage-header">
+        <p class="stage-kicker">LAB 04 · REAL-WORLD CONTEXT — THE “HANGOVER CAMOUFLAGE” TRAP</p>
+        <h2 id="s3-title">Why Alcohol Is Especially Deceptive: It Looks Exactly Like the Warning Signs!</h2>
+        <p class="stage-intro">
+          Normally, if someone on Eliquis develops a brain bleed on a Tuesday afternoon, sudden headache, confusion, or sleepiness immediately sets off alarm bells and gets them to an ER fast. After drinking, <strong>alcohol mimics every single early symptom</strong>. Click each morning-after feeling below to see why:
+        </p>
+      </header>
+
+      <div class="symptom-tabs" id="symptomTabs" role="tablist" aria-label="Overlapping symptoms"></div>
+
+      <div class="camouflage-comparison" aria-live="polite">
+        <div class="camo-col hangover-col">
+          <h3>🍷 Why Last Night’s Alcohol Causes This</h3>
+          <p id="camoHangoverWhy"></p>
+        </div>
+        <div class="camo-col bleed-col">
+          <h3>🧠 Why a Growing Brain Bleed Causes the EXACT Same Thing</h3>
+          <p id="camoBleedWhy"></p>
+        </div>
+        <div class="camo-col action-col">
+          <h3>🚨 Never “Sleep These Off” — Get Checked Immediately If:</h3>
+          <ul id="camoRedFlags"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         STAGE 4 / LAB 5: WHOLE-BODY 48H TIMELINE (LIVER, GUT, SKIPPED PILLS & ADVIL)
+         ============================================================ -->
+    <section class="stage" id="stage-body" aria-labelledby="s4-title">
+      <header class="stage-header">
+        <p class="stage-kicker">LAB 05 · WHOLE-BODY CONTEXT — LIVER, STOMACH, SKIPPED PILLS &amp; MORNING PAIN PILLS</p>
+        <h2 id="s4-title">The 48-Hour Weekend Simulator: What Happens Across Your Whole Body?</h2>
+        <p class="stage-intro">
+          Non-doctors often wonder two super practical questions: <em>“Does alcohol make Eliquis build up in my liver?”</em> and <em>“Should I just skip my Friday night pill if I’m going to a wedding?”</em> Test all 5 scenarios below — and try clicking the <strong>Saturday 9 AM Ibuprofen / Aspirin</strong> button to see the hidden morning-after trap!
+        </p>
+      </header>
+
+      <div class="pk-controls" role="group" aria-label="48-hour body scenarios">
+        <button type="button" class="drug-pill-btn" data-pk-scenario="steady">1. Normal Schedule · 0 Drinks</button>
+        <button type="button" class="drug-pill-btn" data-pk-scenario="light">2. Eliquis + 1 Drink w/ Food</button>
+        <button type="button" class="drug-pill-btn is-active" data-pk-scenario="binge">3. Friday Binge (5+ Drinks)</button>
+        <button type="button" class="drug-pill-btn" data-pk-scenario="chronic">4. Chronic Heavy Drinking</button>
+        <button type="button" class="drug-pill-btn" data-pk-scenario="skipTrap">5. TRAP: Skip Pill to Drink!</button>
+        <button type="button" class="nsaid-toggle" id="pkNsaidToggle">💊 + Add Sat 9 AM Ibuprofen / Aspirin Pill</button>
+      </div>
+
+      <div class="canvas-frame">
+        <div class="canvas-topbar">
+          <span class="canvas-title" id="pkCursorReadout">Inspecting Friday Midnight</span>
+          <span style="font-size:0.76rem;color:var(--text-muted)">Dashed blue = Eliquis alone · Solid line = Total Bleed / Clot Risk</span>
+        </div>
+        <canvas id="pkCanvas" class="sim-canvas" width="760" height="265" aria-label="48-hour chart from Friday morning to Sunday morning showing therapeutic window, bleed danger zone, and clot rebound zone"></canvas>
+      </div>
+
+      <div class="explain-live" style="margin-top:1rem" id="pkSummaryText"></div>
+
+      <div class="body-organs-strip">
+        <div class="organ-card">
+          <h4><span>🏭 Liver (<button type="button" class="jargon" data-jargon="cyp3a4">CYP3A4</button> &amp; Clotting Factory)</span></h4>
+          <p id="organLiverText"></p>
+        </div>
+        <div class="organ-card">
+          <h4><span>🫗 Stomach Lining &amp; Fainting Link</span></h4>
+          <p id="organStomachText"></p>
+          <p style="margin-top:0.45rem;font-size:0.79rem;color:var(--text-muted)">
+            <strong>Hidden Brain Link:</strong> Silent stomach bleeding drops blood pressure → makes you black out standing up in the bathroom → head strike on tile!
+          </p>
+        </div>
+        <div class="organ-card">
+          <h4><span>🧠 Brain Microvessels &amp; Clot Protection</span></h4>
+          <p id="organBrainText"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         STAGE 5 / LAB 6: MYTH-BUSTERS & HOSPITAL REVERSAL CONTEXT
+         ============================================================ -->
+    <section class="stage" id="stage-myths" aria-labelledby="s5-title">
+      <header class="stage-header">
+        <p class="stage-kicker">LAB 06 · TEST YOUR INTUITION + GOOD NEWS ABOUT MODERN HOSPITAL CARE</p>
+        <h2 id="s5-title">5 Real-Life Questions Every Non-Doctor Wonders About</h2>
+        <p class="stage-intro">
+          Tap <strong>Fact / Safe</strong> or <strong>Myth / Risky!</strong> on each real-world situation below to check your intuition — then see how modern emergency rooms actually treat DOAC emergencies when caught early.
+        </p>
+      </header>
+
+      <div class="myth-grid" id="mythGrid"></div>
+
+      <div class="er-rescue-panel">
+        <h3 style="font-size:1.15rem;color:#fff">🏥 Why Getting Checked Early Saves Lives: Modern ERs Are NOT Empty-Handed!</h3>
+        <p style="font-size:0.9rem;color:var(--text-soft);margin-top:0.35rem">
+          Years ago, people worried that “new-generation blood thinners have no antidote.” Today, emergency departments have fast, targeted tools — <strong>as long as you arrive early instead of trying to “sleep it off”</strong>:
+        </p>
+        <div class="er-grid">
+          <div class="er-step">
+            <h4>1. 60-Second Head CT Scan</h4>
+            <p>Completely painless, non-invasive X-ray ring that spots even tiny fresh blood inside the skull immediately — even if you bumped your head hours ago and still feel fine.</p>
+          </div>
+          <div class="er-step">
+            <h4>2. <button type="button" class="jargon" data-jargon="andexanet">Andexanet alfa</button> &amp; 4-Factor PCC</h4>
+            <p>For major life-threatening bleeds on <strong>Eliquis or Xarelto</strong>, hospitals can give a clever “decoy Factor Xa sponge” infusion (or concentrated clotting factors) that restores clotting rapidly.</p>
+          </div>
+          <div class="er-step">
+            <h4>3. Precision Antibody for Factor IIa</h4>
+            <p>For <strong>Pradaxa (dabigatran)</strong>, an IV antibody called <strong>Idarucizumab (Praxbind)</strong> snaps onto Pradaxa within minutes and neutralizes it completely.</p>
+          </div>
+          <div class="er-step">
+            <h4>4. 4 Smart Questions for Your Doctor</h4>
+            <p>Ask your prescriber or pharmacist: <em>(1) Is an occasional single drink safe for MY liver, kidneys &amp; stomach? (2) What pain reliever is safe for headaches? (3) How long will I need Eliquis? (4) What symptoms mean go straight to the ER?</em></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="page-footer">
+      <p><strong>Educational Disclaimer:</strong> This interactive visualization is for general biology and health education only and is not personal medical advice, diagnosis, or dosing guidance. Never start, stop, or change a prescribed anticoagulant without speaking to your healthcare team. If someone taking a blood thinner hits their head or develops a sudden/worsening headache, confusion, weakness, slurred speech, vision change, vomiting, black stools, or unusual bleeding, seek urgent medical care right away.</p>
+      <p>Part of <a href="../../">Ronnie's Experiments &amp; Visualizations</a> · Built with vanilla HTML, CSS, SVG &amp; HTML5 Canvas.</p>
+    </footer>
+  </main>
+
+  <!-- Floating Plain-English Jargon Translator Card -->
+  <div class="glossary-popover" id="glossaryPopover" role="dialog" aria-labelledby="glossaryTitle" hidden>
+    <button type="button" class="glossary-close" id="glossaryClose" aria-label="Close definition">×</button>
+    <p class="glossary-term-title" id="glossaryTitle"></p>
+    <p class="glossary-pronounce" id="glossaryPronounce"></p>
+    <p class="glossary-plain" id="glossaryPlain"></p>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="sim-vessel.js"></script>
+  <script src="sim-brain.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
