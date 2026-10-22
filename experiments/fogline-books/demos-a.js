@@ -96,7 +96,6 @@
     });
 
     function postEntry(da, ca, amt) {
-      const t = { debit: da, credit: ca };
       entries.push({ memo: current.label.replace(/^[^\s]+\s/, ''), date: 'Jan', lines: [
         { account: acctName(da), tag: acctType(da), debit: amt, credit: 0 },
         { account: acctName(ca), tag: acctType(ca), debit: 0, credit: amt },
@@ -152,7 +151,8 @@
       $('#d2-accounts').innerHTML = h + '</table>';
       const opts = accounts.map(a => '<option value="' + a.id + '">' + esc(a.name) + ' (' + a.type + ')</option>').join('');
       $('#d2-merge-a').innerHTML = opts; $('#d2-merge-b').innerHTML = opts;
-      $('#d2-merge-a').value = 'acct_host'; $('#d2-merge-b').value = 'acct_host2';
+      if (byId('acct_host')) $('#d2-merge-a').value = 'acct_host';
+      if (byId('acct_host2')) $('#d2-merge-b').value = 'acct_host2';
     }
     function renderClasses() {
       $('#d2-classes').innerHTML = classes.map(c =>
@@ -166,13 +166,23 @@
     renderAccounts(); renderClasses();
 
     $('#d2-rename-btn').addEventListener('click', () => {
+      const acct = byId('acct_sw');
+      if (!acct) {
+        $('#d2-auto-out').innerHTML = '<div class="callout gold"><strong>Nothing to rename.</strong> “Software subscriptions” (<code>acct_sw</code>) was merged away earlier — the surviving account carries its entries, and retired IDs are never reused.</div>';
+        return;
+      }
       const v = $('#d2-rename').value.trim() || 'Tools';
-      byId('acct_sw').name = v;
+      acct.name = v;
       renderAccounts();
       $('#d2-auto-out').innerHTML = '<div class="callout"><strong>Renamed.</strong> <code>acct_sw</code> now displays as “' + esc(v) + '” — ID and role <code>software</code> untouched. Run the automation to verify.</div>';
     });
     $('#d2-auto').addEventListener('click', () => {
-      const sw = byId('acct_sw'), host = byId('acct_host');
+      const byRole = r => accounts.find(a => a.role === r);
+      const host = byRole('hosting'), sw = byRole('software');
+      if (!host || !sw) {
+        $('#d2-auto-out').innerHTML = '<div class="callout gold"><strong>Automation stalled.</strong> A merge retired the account behind the <code>' + (!host ? 'hosting' : 'software') + '</code> role, so there is nothing to route to. Remap the role to a surviving account before re-running — roles are stable, but they still need a live account behind them.</div>';
+        return;
+      }
       $('#d2-auto-out').innerHTML = '<div class="callout green"><strong>Automation ran on roles, not labels.</strong><br>“ACME CLOUD $300” → <code>' + host.id + '</code> (role <code>hosting</code>, shown as “' + esc(host.name) + '”).<br>“Fogline seats $49” → <code>' + sw.id + '</code> (role <code>software</code>, shown as “' + esc(sw.name) + '”).<br>Renames never break routing.</div>';
     });
     $('#d2-class-btn').addEventListener('click', () => {
@@ -254,12 +264,14 @@
         extraCards.push({ id: 'csv2', title: '📄 CSV export (re-import!)', badge: 'import', raw: '2026-01-14,ACME*CLD,300.00\nbatch imp_2207, row 3  ← same row, new batch', norm: '<b>Acme Cloud</b> · $300.00 · 01/14' });
         render();
       }
-      trail.push('<span class="warn">dedupe: csv row matches key acme|300.00|0114</span> → flagged DUPLICATE of evt_exp_001 · suppressed, operator notified');
+      trail.push(expenseEvents
+        ? '<span class="warn">dedupe: csv row matches key acme|300.00|0114</span> → flagged DUPLICATE of evt_exp_001 · suppressed, operator notified'
+        : '<span class="warn">dedupe: csv row matches key acme|300.00|0114</span> → held as duplicate candidate · link records first to attach it to evt_exp_001');
       paintTrail(); paintMeters();
     });
     $('#d3-f-pending').addEventListener('click', () => {
       trail.push('feed: <span class="warn">PENDING</span> “ACME CLOUD $300” → held, not posted (pending ≠ expense)');
-      trail.push('feed: <span class="ok">SETTLED</span> cc_99120 → matched to pending, posted once as evidence for evt_exp_001');
+      trail.push('feed: <span class="ok">SETTLED</span> cc_99120 → matched to pending, posted once' + (expenseEvents ? ' as evidence for evt_exp_001' : ' as evt_exp_001 (created)'));
       if (expenseEvents === 0) { expenseEvents = 1; }
       paintTrail(); paintMeters();
     });
@@ -397,7 +409,9 @@
         { account: 'Mystery expense', tag: 'expense', debit: 200, credit: 0 }, { account: 'Checking cash', tag: 'asset', debit: 0, credit: 200 }] });
       if (plug) es.push({ memo: 'Plug — unexplained adjustment', date: 'Jan 31', lines: [
         { account: 'Unexplained plug', tag: '???', debit: 0, credit: 0 }] });
-      $('#d5-journal').innerHTML = es.length ? journalTable(es.slice(0, plug && es.length === 1 ? 0 : es.length)) + (plug ? '<div class="callout red"><strong>Plug of ' + money(plug) + ':</strong> an unexplained adjustment that forces agreement while hiding the real cause. Marked as an unresolved accounting problem.</div>' : '') : '<p class="hint">The fee entry will appear here when posted.</p>';
+      const plugNote = plug ? '<div class="callout red"><strong>Plug of ' + money(plug) + ':</strong> an unexplained adjustment that forces agreement while hiding the real cause. Marked as an unresolved accounting problem.</div>' : '';
+      const showEs = (plug && es.length === 1) ? [] : es;
+      $('#d5-journal').innerHTML = showEs.length ? journalTable(showEs) + plugNote : (plugNote || '<p class="hint">The fee entry will appear here when posted.</p>');
       $('#d5-item-check').className = 'recon-item' + (check === 'timing' ? ' matched-ok' : check ? ' matched-warn' : '');
       $('#d5-item-fee').className = 'recon-item' + (fee === 'entry' ? ' matched-ok' : fee ? ' matched-warn' : '');
     }

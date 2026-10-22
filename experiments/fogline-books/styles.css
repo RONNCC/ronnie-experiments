@@ -245,11 +245,13 @@ table.plain tr:last-child td { border-bottom: none; }
 .contract mark { background: rgba(210, 153, 34, 0.35); border-bottom: 2px solid var(--gold); border-radius: 3px; padding: 0 2px; cursor: pointer; }
 .contract mark:hover { background: rgba(210, 153, 34, 0.6); }
 .contract mark.mapped { background: rgba(63, 185, 80, 0.35); border-color: var(--green); }
+.contract mark:focus-visible { outline: 2px solid #1f6feb; outline-offset: 2px; }
 .obligation-chip { display: inline-flex; align-items: center; gap: 0.4rem; border: 1px solid var(--green); background: var(--green-dim); color: #7ee787; border-radius: 20px; padding: 0.3rem 0.8rem; font-size: 0.82rem; margin: 0.2rem 0.25rem 0.2rem 0; }
 
 /* ---------- drilldown / reports ---------- */
-.report-num { cursor: pointer; border-bottom: 1px dashed var(--accent); }
+.report-num { background: none; border: none; border-bottom: 1px dashed var(--accent); color: inherit; font: inherit; cursor: pointer; padding: 0; text-align: right; }
 .report-num:hover { color: var(--accent); }
+.report-num:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
 .breadcrumb { display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center; font-family: var(--mono); font-size: 0.8rem; margin-top: 0.6rem; }
 .breadcrumb span { background: var(--card-bg-2); border: 1px solid var(--border); border-radius: 6px; padding: 0.25rem 0.6rem; }
 .freshness { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.76rem; font-family: var(--mono); }
@@ -304,4 +306,13 @@ table.plain tr:last-child td { border-bottom: none; }
   .demo { padding: 1.05rem; }
   .month-cells { grid-template-columns: repeat(6, 1fr); }
   .bar-row { grid-template-columns: 110px 1fr 60px; }
+  .topbar-inner { gap: 0.6rem; padding: 0.6rem 0.9rem; }
+  .brand span:last-child { display: none; }
+  .topbar-tag { display: none; }
+}
+.filter-row { display: grid; grid-template-columns: 1fr; gap: 0.5rem; }
+@media (min-width: 700px) { .filter-row { grid-template-columns: 1fr 1fr 1fr; } }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }

@@ -133,6 +133,7 @@
       li.querySelector('a').addEventListener('click', ev => {
         ev.preventDefault();
         flashDemo(s.demo);
+        try { history.pushState(null, '', '#' + s.demo); } catch (e) { /* non-critical */ }
       });
       list.appendChild(li);
     });
@@ -151,7 +152,10 @@
         if (!id || !id.startsWith('#')) return;
         ev.preventDefault();
         const el = document.querySelector(id);
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          try { history.pushState(null, '', id); } catch (e) { /* non-critical (e.g. file://) */ }
+        }
       });
     });
   }

@@ -28,7 +28,7 @@
       $('#d6-rev').textContent = money(rev);
       $('#d6-def').textContent = money(def);
       $('#d6-basis-label').textContent = basis;
-      $('#d6-ins-row').hidden = !mirror;
+      $('#d6-ins-row').hidden = !mirror || basis === 'cash';
       if (mirror) $('#d6-ins').textContent = money(1200 - m * 100);
       // journal
       const es = [];
@@ -46,8 +46,7 @@
       } else {
         es.push({ memo: 'Jan 1 · cash view: receipt = revenue', lines: [
           { account: 'Cash', tag: 'asset', debit: 12000, credit: 0 }, { account: 'Subscription revenue', tag: 'revenue', debit: 0, credit: 12000 }] });
-        if (m > 0 || true) es.push({ memo: 'No adjusting entries under cash basis', lines: [] });
-        es.pop();
+        // No adjusting entries under cash basis — intentionally nothing else to push.
       }
       $('#d6-journal').innerHTML = journalTable(es) +
         (basis === 'cash' ? '<div class="callout gold"><strong>Cash view:</strong> the full $12,000 counts as January revenue and no liability is ever recorded. Simple — and blind to the 11 months of service still owed.</div>' : '');
