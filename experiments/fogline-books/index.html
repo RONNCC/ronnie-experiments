@@ -177,7 +177,7 @@
         <div class="subpanel">
           <h4>🏷️ Account vs class vs entity</h4>
           <p class="hint">A $300 hosting charge belongs to the <b>Hosting</b> expense account, tagged to a class, owned by an entity.</p>
-          <div class="kv"><dt>Account</dt><dd>what kind of activity? → Hosting expense</dd><dt>Class</dt><dd>which reporting segment? → <span id="d2-class-tag">Engineering</span></dd><dt>Entity</dt><dd>which legal company? → Fogline AI, Inc.</dd></div>
+          <dl class="kv"><dt>Account</dt><dd>what kind of activity? → Hosting expense</dd><dt>Class</dt><dd>which reporting segment? → <span id="d2-class-tag">Engineering</span></dd><dt>Entity</dt><dd>which legal company? → Fogline AI, Inc.</dd></dl>
           <div class="row" style="display:grid;grid-template-columns:1fr auto;gap:.5rem;margin-top:.5rem">
             <input type="text" id="d2-class-input" placeholder="New class, e.g. Customer Support" aria-label="New class name">
             <button class="btn btn-sm" id="d2-class-btn" type="button">Add class</button>
@@ -274,11 +274,11 @@
       <div class="grid-2" style="margin-top:1rem">
         <div class="subpanel">
           <h4>🤖 A proposal, with its evidence</h4>
-          <div class="kv">
+          <dl class="kv">
             <dt>Proposed account</dt><dd id="d4-prop-acct">Office supplies</dd>
             <dt>Evidence</dt><dd id="d4-prop-ev">Merchant prior only (no receipt yet)</dd>
             <dt>Confidence</dt><dd id="d4-prop-conf">illustrative model score: 0.92</dd>
-          </div>
+          </dl>
           <div class="btn-row">
             <button class="btn btn-sm btn-green" id="d4-act-auto" type="button">Auto-apply</button>
             <button class="btn btn-sm" id="d4-act-ask" type="button">Ask</button>
@@ -584,7 +584,7 @@ net 970.00</div></div>
       <p class="demo-intro">Four business moves. Before applying each, <strong>predict which statements change</strong> — then click any report number to drill down: <code>report → account → journal entry → source evidence</code>.</p>
       <div class="subpanel">
         <h4>🎛️ Reporting panel <span class="freshness" id="d10-fresh"><span class="dot" style="background:var(--green)"></span><span id="d10-fresh-label">LIVE</span></span></h4>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem">
+        <div class="filter-row">
           <div><label class="field-label" for="d10-entity">Entity</label><select id="d10-entity"><option value="all">Fogline Group</option><option value="parent">Fogline AI, Inc.</option><option value="sub">Fogline Labs (sub)</option></select></div>
           <div><label class="field-label" for="d10-class">Class</label><select id="d10-class"><option value="all">All classes</option><option value="eng">Engineering</option><option value="sales">Sales</option></select></div>
           <div><label class="field-label" for="d10-refresh">Data</label><button class="btn btn-sm" id="d10-refresh" type="button" style="width:100%">↻ Refresh snapshot</button></div>
@@ -707,7 +707,7 @@ net 970.00</div></div>
       <div class="grid-2">
         <div class="subpanel">
           <h4>🤖 Agent proposal <span class="badge purple">draft</span></h4>
-          <div class="kv">
+          <dl class="kv">
             <dt>Entity</dt><dd>ent_fogline (Fogline AI, Inc.)</dd>
             <dt>Transactions</dt><dd>txn_881 · txn_882 · txn_883</dd>
             <dt>Current → proposed</dt><dd>Office supplies → Software expense</dd>
@@ -715,13 +715,13 @@ net 970.00</div></div>
             <dt>Evidence</dt><dd>receipt lines: “annual license”, “per-seat SaaS”</dd>
             <dt>Requested by</dt><dd>you@fogline.ai · role: bookkeeper</dd>
             <dt>Confirmation</dt><dd id="d13-conf">preview #pv_5017 · state: UNCONFIRMED</dd>
-          </div>
+          </dl>
           <div class="btn-row">
             <button class="btn btn-sm btn-green" id="d13-approve" type="button">Human: approve preview</button>
             <button class="btn btn-sm btn-primary" id="d13-exec" type="button">Execute</button>
             <button class="btn btn-ghost btn-sm" id="d13-reset" type="button">Reset</button>
           </div>
-          <div class="meter-grid" style="grid-template-columns:1fr 1fr">
+          <div class="meter-grid">
             <div class="meter" id="d13-m-preview"><span class="lamp"></span><p><b>Preview matched</b><span>Inputs hash = confirmed hash?</span></p></div>
             <div class="meter" id="d13-m-human"><span class="lamp"></span><p><b>Human approved</b><span>Separate from token match.</span></p></div>
           </div>
@@ -751,13 +751,13 @@ net 970.00</div></div>
       <div class="grid-2">
         <div class="subpanel">
           <h4>💳 Record $2,000 customer payment</h4>
-          <div class="kv">
+          <dl class="kv">
             <dt>Business op</dt><dd id="d14-op">op_pay_7f3a (collect INV-2041)</dd>
             <dt>Idempotency key</dt><dd id="d14-key">idem_7f3a… (generated per intent)</dd>
             <dt>Payload hash</dt><dd id="d14-hash">sha256:9f2c…</dd>
             <dt>Processing state</dt><dd id="d14-state">IDLE</dd>
             <dt>Journal entries</dt><dd id="d14-count">0 created</dd>
-          </div>
+          </dl>
           <div class="btn-row">
             <button class="btn btn-sm btn-green" id="d14-pay" type="button">Record payment</button>
             <button class="btn btn-sm btn-primary" id="d14-retry" type="button" disabled>Retry (same key)</button>
