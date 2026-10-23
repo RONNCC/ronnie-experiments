@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1020">
+  <meta name="description" content="An interactive systems-design field guide to legal AI: Docusign IAM, EveOS, Harvey, CoCounsel Legal, and Legora aOS. Public product facts are separated from engineering reconstructions.">
+  <title>Inside Legal AI — Systems Design Field Guide</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to the guide</a>
+
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="back-link" href="../../" aria-label="Back to Ronnie's Experiments">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 5-7 7 7 7"/><path d="M7 12h12"/></svg>
+        <span>Experiments</span>
+      </a>
+      <div class="header-mark" aria-label="Inside Legal AI Systems Design Field Guide">
+        <span class="mark-dot" aria-hidden="true"></span>
+        <span>LEGAL AI <b>SYSTEMS</b></span>
+      </div>
+      <span class="header-meta">Research edition · 23 Oct 2026</span>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="hero shell" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span></span> A SYSTEMS-DESIGN FIELD GUIDE</p>
+        <h1>How legal AI products likely work <em>under the hood.</em></h1>
+        <p class="hero-lede">
+          Five production archetypes, from agreement intelligence to plaintiff-firm operations and agentic legal research.
+          Start with the matrix, then open a vendor system to trace its data, models, orchestration, safeguards, and interview-ready redesign.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="#comparison">Compare the systems <span aria-hidden="true">↓</span></a>
+          <button class="button ghost" type="button" id="open-first-vendor">Start with Docusign <span aria-hidden="true">→</span></button>
+        </div>
+      </div>
+      <aside class="truth-card" aria-labelledby="truth-title">
+        <div class="truth-card-top">
+          <span class="status-pip"></span>
+          <p id="truth-title">Read this like an engineer</p>
+        </div>
+        <ul>
+          <li><span class="tag public">PUBLIC</span><span>Vendor-stated capabilities, linked to primary sources.</span></li>
+          <li><span class="tag inferred">RECONSTRUCTION</span><span>A plausible production design — <strong>not</strong> a claim about private implementation.</span></li>
+          <li><span class="tag decision">DESIGN CALL</span><span>A recommendation you can defend in an interview.</span></li>
+        </ul>
+        <p class="truth-foot">Foundation-model weights, training sets, and exact service topology are mostly non-public. The useful skill is knowing what must exist, what can vary, and what to ask.</p>
+      </aside>
+    </section>
+
+    <section class="field-note-wrap">
+      <div class="shell field-note">
+        <div class="note-index">01</div>
+        <div>
+          <p class="section-kicker">The big idea</p>
+          <p><strong>“Legal AI” is not one architecture.</strong> It is a stack: permissioned data + document understanding + evidence retrieval + a model/agent layer + verification + a lawyer’s approval. Different products put their moat in different layers.</p>
+        </div>
+        <a href="#patterns" class="text-link">See the reusable primitives <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
+    <section id="comparison" class="comparison-section shell" aria-labelledby="comparison-title">
+      <div class="section-heading split">
+        <div>
+          <p class="section-kicker">02 · ORIENTATION</p>
+          <h2 id="comparison-title">Feature &amp; architecture matrix</h2>
+          <p>Click a system name or any cell to jump to its deep dive. This is a representative set of five architectures — not a claim that every legal-AI vendor is identical.</p>
+        </div>
+        <div class="matrix-legend" aria-label="Matrix legend">
+          <span><i class="legend-dot contract"></i> agreement data</span>
+          <span><i class="legend-dot matter"></i> matter data</span>
+          <span><i class="legend-dot authority"></i> legal authority</span>
+          <span><i class="legend-dot agent"></i> agent execution</span>
+        </div>
+      </div>
+
+      <div class="matrix-wrap" role="region" aria-label="Legal AI system comparison matrix" tabindex="0">
+        <table class="comparison-table" id="comparison-table">
+          <caption class="visually-hidden">Comparison of Docusign, Eve, Harvey, CoCounsel Legal, and Legora legal AI systems</caption>
+          <thead>
+            <tr>
+              <th scope="col">System</th>
+              <th scope="col">Core job</th>
+              <th scope="col">Primary data gravity</th>
+              <th scope="col">Public model signal</th>
+              <th scope="col">Orchestration pattern</th>
+              <th scope="col">Proof / control primitive</th>
+            </tr>
+          </thead>
+          <tbody id="comparison-body"></tbody>
+        </table>
+      </div>
+      <p class="matrix-hint"><span>↔</span> Scroll sideways on small screens · labels summarize the architecture rather than rank products.</p>
+    </section>
+
+    <section class="systems-section" aria-labelledby="systems-title">
+      <div class="shell">
+        <div class="section-heading systems-heading">
+          <p class="section-kicker">03 · DEEP DIVES</p>
+          <h2 id="systems-title">Trace the request through each system</h2>
+          <p>Each tab separates evidence from inference, then turns a feature into a whiteboardable architecture.</p>
+        </div>
+        <div class="vendor-tabs" role="tablist" aria-label="Legal AI system deep dives" id="vendor-tabs"></div>
+      </div>
+
+      <div class="vendor-panel-wrap">
+        <div class="shell" id="vendor-panel" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section id="patterns" class="patterns-section shell" aria-labelledby="patterns-title">
+      <div class="section-heading split">
+        <div>
+          <p class="section-kicker">04 · REUSABLE ARCHITECTURE</p>
+          <h2 id="patterns-title">The legal-AI reference stack</h2>
+          <p>If you can draw this, explain the interfaces, and defend the guardrails, you can redesign most features in this guide.</p>
+        </div>
+        <button class="button ghost compact" id="rotate-lens" type="button">Change design lens <span aria-hidden="true">↻</span></button>
+      </div>
+      <div class="reference-stack" id="reference-stack"></div>
+      <div class="lens-card" id="lens-card"></div>
+    </section>
+
+    <section class="interview-section" aria-labelledby="interview-title">
+      <div class="shell interview-grid">
+        <div>
+          <p class="section-kicker">05 · INTERVIEW STUDIO</p>
+          <h2 id="interview-title">How to answer: “Design legal AI contract review.”</h2>
+          <p class="interview-intro">Don’t begin with “use an LLM.” Begin with the legal work product, evidentiary standard, and action boundary.</p>
+          <ol class="answer-frame">
+            <li><span>01</span><div><strong>Frame the operating context.</strong><p>Who relies on it, what can it change, which sources are authoritative, and what confidentiality wall applies?</p></div></li>
+            <li><span>02</span><div><strong>Specify the evidence contract.</strong><p>Every material finding gets a source span; every cited authority is resolved by metadata, not model free-text.</p></div></li>
+            <li><span>03</span><div><strong>Split deterministic from generative work.</strong><p>OCR, parsing, entity normalization, exact dates, permissions, and policy checks are services — not prompts.</p></div></li>
+            <li><span>04</span><div><strong>Constrain the model and agent.</strong><p>Retrieve only permitted context, use schemas/tool calls, set budgets, and make draft / send / file distinct authorization levels.</p></div></li>
+            <li><span>05</span><div><strong>Prove it in evals.</strong><p>Measure extraction, retrieval, groundedness, calibration, workflow success, and harmful-error rate on a frozen matter-safe set.</p></div></li>
+          </ol>
+        </div>
+        <aside class="whiteboard-card" aria-labelledby="whiteboard-title">
+          <div class="whiteboard-head">
+            <span class="small-orb"></span>
+            <p id="whiteboard-title">Practice prompt</p>
+          </div>
+          <p id="drill-prompt" class="drill-prompt"></p>
+          <div id="drill-answer" class="drill-answer" hidden></div>
+          <button type="button" class="button primary compact" id="reveal-drill">Reveal a strong outline</button>
+          <button type="button" class="text-button" id="next-drill">Another prompt <span aria-hidden="true">→</span></button>
+        </aside>
+      </div>
+    </section>
+
+    <section class="sources-section shell" aria-labelledby="sources-title">
+      <div class="section-heading split">
+        <div>
+          <p class="section-kicker">06 · RESEARCH TRAIL</p>
+          <h2 id="sources-title">Primary sources &amp; scope</h2>
+          <p>Product surfaces evolve quickly. Facts in the guide are anchored to vendor materials available on 23 October 2026; implementation reconstructions are intentionally labeled.</p>
+        </div>
+        <button class="button ghost compact" id="copy-sources" type="button">Copy source list</button>
+      </div>
+      <div class="source-filters" id="source-filters" aria-label="Filter sources by system"></div>
+      <div class="source-list" id="source-list"></div>
+      <div class="scope-note">
+        <strong>Scope boundary.</strong> This is a technical learning artifact, not legal advice, vendor due diligence, or a security certification. “No model training,” scale limits, and compliance claims refer to the cited vendor statements and should be re-validated in procurement.
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell"><span>Inside Legal AI · a Ronnie’s Experiments learning sandbox</span><a href="#main-content">Back to top ↑</a></div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
