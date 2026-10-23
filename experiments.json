@@ -1,5 +1,24 @@
 [
   {
+    "id": "legal-ai-systems",
+    "title": "Inside Legal AI \u2014 Systems Design Field Guide",
+    "description": "An interactive, evidence-labeled systems-design field guide to Docusign IAM, EveOS, Harvey, CoCounsel Legal, and Legora aOS. Compare feature matrices, trace request flows, inspect rough architectures and data pipelines, and practice interview-ready redesigns with public claims separated from engineering reconstructions.",
+    "path": "experiments/legal-ai-systems/",
+    "category": "Education",
+    "tags": [
+      "Legal AI",
+      "Docusign",
+      "Harvey",
+      "Eve",
+      "CoCounsel",
+      "Agents",
+      "RAG",
+      "Systems Design",
+      "Interactive"
+    ],
+    "date": "2026-10-23"
+  },
+  {
     "id": "brain-blood-thinners",
     "title": "Eliquis, Modern Blood Thinners & Alcohol: Inside Your Brain",
     "description": "Plain-English interactive brain cutaway, microscopic vessel patch lab, clotting-cascade family explorer, hangover-vs-bleed unmasker, and 48-hour body simulator explaining why mixing DOACs (Eliquis, Xarelto, Pradaxa) with alcohol cuts both clotting safety brakes inside a rigid skull.",
