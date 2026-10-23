@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#08111f">
+<meta name="description" content="Private Markets, Opto-Ready: an interactive textbook for a Head of Engineering interview — Opto deep dive, private-markets fluency, engineering blog decoded, player atlas, simulators, and questions for Ryan VanGorder & Matt Reed.">
+<title>Private Markets, Opto-Ready — Head of Engineering Field Guide</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to textbook</a>
+<header class="site-header">
+  <div class="shell header-inner">
+    <a class="back-link" href="../../"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 5-7 7 7 7"/><path d="M7 12h12"/></svg><span>Experiments</span></a>
+    <div class="header-mark"><span class="mark-dot"></span><span>PRIVATE MARKETS <b>OPTO-READY</b></span></div>
+    <span class="header-meta">Head of Eng edition · 23 Oct 2026</span>
+  </div>
+  <nav class="toc-bar shell" aria-label="Textbook chapters">
+    <a href="#opto">1 Opto</a><a href="#verify">2 Verify</a><a href="#map">3 Market map</a><a href="#fund">4 How a fund works</a><a href="#metrics">5 Metrics lab</a><a href="#players">6 Players</a><a href="#engineering">7 Engineering</a><a href="#architecture">8 Architecture</a><a href="#business">9 Business & moat</a><a href="#news">10 News for Ryan</a><a href="#people">11 People</a><a href="#role">12 Role playbook</a><a href="#glossary">13 Glossary</a><a href="#drill">14 Drill</a>
+  </nav>
+</header>
+
+<main id="main">
+  <!-- HERO -->
+  <section class="hero shell">
+    <div>
+      <p class="eyebrow"><span></span> AN INTERACTIVE TEXTBOOK · NOT AFFILIATED WITH OPTO</p>
+      <h1>Sound like you've <em>operated</em> private markets — because you understand the system.</h1>
+      <p class="hero-lede">You are not competing on deal-picking. Your edge is turning messy documents and human processes into <strong>permissioned, auditable workflows</strong>. This guide makes you fluent enough to use that edge with Ryan VanGorder (CEO) and Matt Reed (CTO) — and diligent enough not to repeat a recruiter pitch as fact.</p>
+      <div class="hero-actions">
+        <a class="button primary" href="#opto">Start: Opto in one picture ↓</a>
+        <a class="button ghost" href="#role">Jump to Ryan questions →</a>
+        <a class="button ghost" href="TEXTBOOK.md">Open printable textbook (MD)</a>
+      </div>
+      <div class="path-cards" role="list" aria-label="Study paths">
+        <article class="path-card"><p class="path-time">⏱ 60 seconds</p><h3>The brief</h3><p>Opto sells a <b>functioning private-markets program</b> — Build → Fundraise → Manage — not software seats. Small team only works if <b>service effort per fund falls</b>. Clarify <b>Head of Eng vs CTO</b> first.</p><a href="#opto">Read §1 →</a></article>
+        <article class="path-card"><p class="path-time">⏱ 30 minutes</p><h3>Interview-ready</h3><p>§1 Opto + §2 Verify + §7 Engineering (3 must-reads) + §10 News + §12 Questions. Copy the opening line in §12 verbatim until it's natural.</p><a href="#engineering">Read §7 →</a></article>
+        <article class="path-card"><p class="path-time">⏱ 2 hours</p><h3>Comparable to insiders</h3><p>All chapters + run every simulator + finish the quiz at ≥80%. You'll be able to whiteboard a fund lifecycle, a bitemporal merge, and an operating-leverage argument.</p><a href="#drill">Drill §14 →</a></article>
+      </div>
+    </div>
+    <aside class="truth-card">
+      <div class="truth-top"><span class="pip"></span><p>How to read evidence here</p></div>
+      <ul>
+        <li><span class="tag public">PUBLIC</span><span>Opto site / eng blog / press release. Linked in Sources.</span></li>
+        <li><span class="tag dump">DATA DUMP</span><span>From your provided research dump (starting point). Treated as researched, not gospel.</span></li>
+        <li><span class="tag inferred">RECONSTRUCTION</span><span>Plausible system design. <strong>Never</strong> present as Opto's actual internals.</span></li>
+        <li><span class="tag warn">UNVERIFIED</span><span>Recruiter claim with no public corroboration. Ask, don't assert.</span></li>
+        <li><span class="tag teach">TEACHING MODEL</span><span>Invented numbers to learn mechanics. Not a forecast.</span></li>
+      </ul>
+      <p class="truth-foot">Golden rule for the call: <b>“Here's what I read publicly — help me understand where that's incomplete.”</b> That sentence turns missing domain years into diligence.</p>
+      <div class="progress-box">
+        <label for="progressRange">Your prep progress <span id="progressPct">0%</span></label>
+        <input id="progressRange" type="range" min="0" max="100" value="0" aria-describedby="progressHint">
+        <p id="progressHint" class="hint">Tick chapters as you finish — saved on this device.</p>
+        <div id="checklist" class="checklist"></div>
+      </div>
+    </aside>
+  </section>
+
+  <div class="field-note-wrap"><div class="shell field-note"><div class="note-index">§</div><div><p class="kicker">The one-sentence thesis to carry into the room</p><p><strong>Opto's engineering problem is operating leverage:</strong> can ~60 people run more funds, more investors, and more administrators <em>without</em> manual work scaling linearly — while never getting a permission, a document, or a point-in-time number wrong?</p></div><a class="text-link" href="#business">See the leverage simulator →</a></div></div>
+
+  <!-- 1 OPTO -->
+  <section id="opto" class="section shell">
+    <div class="section-heading"><p class="kicker">01 · OPTO IN ONE PICTURE</p><h2>They sell a program, not a login</h2><p>Opto Investments (<a href="https://www.optoinvest.com" target="_blank" rel="noopener">optoinvest.com</a>) helps RIAs, family offices, and private banks <b>create their own branded private funds</b>, raise from clients, and operate them for years. Software + investment + legal/compliance + operations, as one system. <span class="tag public">PUBLIC</span> <span class="tag dump">DATA DUMP §1–2</span></p></div>
+
+    <div class="workflow" aria-label="Build Fundraise Manage stepper">
+      <div class="workflow-tabs" role="tablist" aria-label="Opto workflow phases" id="workflowTabs"></div>
+      <div class="workflow-panel" id="workflowPanel"></div>
+    </div>
+
+    <div class="grid-2">
+      <article class="card">
+        <h3>🎯 A concrete customer story</h3>
+        <ol class="numbered">
+          <li>Wealth manager wants a diversified private-growth program for HNW clients.</li>
+          <li>Investment team picks strategy + underlying managers (with Opto diligence help).</li>
+          <li>Opto helps structure a <b>proprietary / white-label fund</b> — legal, compliance, ops setup (public claim: ~2–3 wks feeder, 6–8 wks diversified fund).</li>
+          <li>Advisers present via branded materials + Planner proposals; clients e-sign subscription docs.</li>
+          <li>Ops tracks commitments, <b>KYC</b>, <b>NIGO</b> (“Not In Good Order” — fix this doc), capital calls, admin status.</li>
+          <li>Clients see reporting in a white-labeled portal; one K-1 instead of many.</li>
+        </ol>
+        <p class="callout"><b>Real anchor:</b> Mercer Advisors' <b>Aspen Partners</b> (June 2024) — built with Opto as end-to-end tech + ops platform. Mercer later folded it into <b>Aspen Investing</b> (Oct 2026 rollout). Don't date Aspen Partners as “new in 2026.”</p>
+      </article>
+      <article class="card">
+        <h3>🧑‍🤝‍🧑 Buyer ≠ user (why eng is hard)</h3>
+        <p>There are <b>several products hiding inside “one platform”</b>:</p>
+        <table class="mini-table"><thead><tr><th>Persona</th><th>Job</th><th>Error tolerance</th></tr></thead><tbody>
+          <tr><td>CIO / investment team</td><td>Diligence, allocation, pacing</td><td>Wrong benchmark = bad decision</td></tr>
+          <tr><td>Adviser</td><td>Explain + sell to client</td><td>Confusing proposal = no raise</td></tr>
+          <tr><td>Operations</td><td>Subs, KYC, calls, NIGO chases</td><td>Missed call = cash + trust failure</td></tr>
+          <tr><td>End investor</td><td>Sign, fund, read reports</td><td>Leaked data = catastrophic</td></tr>
+          <tr><td>Opto internal (IM/Legal/Finance)</td><td>Run the above at scale</td><td>Manual queue = margin death</td></tr>
+        </tbody></table>
+        <p class="hint">Different permissions, different UX, same underlying fund state. That's your authorization + workflow pitch.</p>
+      </article>
+    </div>
+
+    <div class="grid-3">
+      <article class="card accent-gold"><h3>💰 Business model (stated)</h3><p>Fees <b>weighted toward performance / long term</b>; Opto says it does <b>not take compensation from fund managers</b> to list funds — alignment vs marketplace pay-to-play. No public price schedule. <span class="tag warn">UNVERIFIED MIX</span> Ask Ryan how revenue splits: recurring servicing vs implementation vs performance.</p></article>
+      <article class="card"><h3>🧭 Differentiation (interpretation)</h3><p>Strongest plausible edge = <b>fund formation + investment judgment + distribution workflow + ongoing ops</b> in one motion. Portals/extraction alone are copyable; embedded programs + normalized history + integrations create switching costs — <em>if</em> service cost falls.</p></article>
+      <article class="card"><h3>🔌 Dependencies = strategy</h3><p>Custodians: BNY Pershing, Schwab, Fidelity. Reporting: Addepar, Orion, Gen II, Envestnet Tamarac, Black Diamond. Plus <b>fund administrators</b> with wildly different capabilities. A new admin/custodian integration can decide whether a customer can even onboard.</p></article>
+    </div>
+    <p class="say-box"><span class="say-label">SAY THIS</span> “My read is Opto isn't a fund marketplace — you're the operating system for an RIA to <i>become</i> a fund sponsor without hiring the whole back office. Is that the right mental model, or is the center of gravity shifting toward Diligence AI as a standalone product?” <button class="copy-btn" data-copy="My read is Opto isn't a fund marketplace — you're the operating system for an RIA to become a fund sponsor without hiring the whole back office. Is that the right mental model, or is the center of gravity shifting toward Diligence AI as a standalone product?">Copy</button></p>
+  </section>
+
+  <!-- 2 VERIFY -->
+  <section id="verify" class="section shell">
+    <div class="section-heading"><p class="kicker">02 · DON'T REPEAT THE PITCH — VERIFY IT</p><h2>Recruiter claims: verified vs. “prove it”</h2><p>Your dump's most valuable table. In the interview, <b>asking these well signals seniority</b>; asserting the unverified ones signals the opposite.</p></div>
+    <div class="table-wrap"><table class="data-table" id="verifyTable"><thead><tr><th>Claim</th><th>Status</th><th>What to ask instead</th></tr></thead><tbody></tbody></table></div>
+    <div class="grid-2">
+      <article class="card warn-card"><h3>⚠️ Decompose “$1B+” before you ever say it</h3><ul class="bullets"><li>Committed vs <b>funded / paid-in</b> capital?</li><li>Current NAV vs cumulative invested?</li><li>AUM vs AUA vs “assets on platform”?</li><li>Revenue-bearing vs all associated assets?</li><li>As of when, vs what prior period?</li></ul><p>The senior question isn't “can 60 people support $1B?” — it's <b>“how do revenue and contribution margin move as funds / investors / transactions grow?”</b></p></article>
+      <article class="card"><h3>🧾 Corporate $ vs fund $ — don't confuse them</h3><p><b>$145M Series A (Sep 2022, Tiger Global-led)</b> = Opto the company raised money. Reported ~$475M valuation then — <em>not</em> today's valuation.</p><p><b>$40M AI Fund close (May 2026)</b> and <b>DayMark Fund I $25M (June 2026)</b> = investment products Opto built for clients. Proof of product activity, <em>not</em> corporate revenue or a new VC round.</p><p class="hint">GIC holds stakes in both Mercer and Opto (per Mercer release) — Mercer is real customer evidence, but shared backing may explain the intro. Repeatability is the open question.</p></article>
+    </div>
+  </section>
+
+  <!-- 3 MAP -->
+  <section id="map" class="section shell">
+    <div class="section-heading"><p class="kicker">03 · PRIVATE MARKETS MAP</p><h2>What “private” even means</h2><p>Public markets = trade on an exchange, daily price, anyone can buy. Private markets = ownership negotiated off-exchange, priced quarterly by appraisal/model, locked up for years, restricted to eligible investors. Companies now stay private ~16 years to IPO — so growth that used to accrue to public shareholders increasingly accrues privately first. That's the demand story every RIA is hearing from clients.</p></div>
+    <div class="compare-strip">
+      <div class="compare-col"><h3>Public (S&P 500, bonds)</h3><ul><li>Daily liquidity + transparent price</li><li>Low fees, instant diversification</li><li>Mark-to-market volatility you <i>feel</i> daily</li><li>Shrinking opportunity set (fewer listed cos)</li></ul></div>
+      <div class="compare-vs">vs</div>
+      <div class="compare-col priv"><h3>Private (PE, credit, VC…)</h3><ul><li>Illiquid 5–12 yrs; quarterly NAV, lagged</li><li>High fees (often 2% + 20% carry at GP level)</li><li>Smoother <i>reported</i> volatility (debated: real or appraisal lag?)</li><li>Access to pre-IPO growth, direct lending, real assets</li></ul></div>
+    </div>
+    <h3 class="subhead">The asset classes — click to deep-dive</h3>
+    <div class="asset-tabs" id="assetTabs" role="tablist" aria-label="Asset classes"></div>
+    <div class="asset-panel" id="assetPanel"></div>
+
+    <div class="grid-2" style="margin-top:1.2rem">
+      <article class="card"><h3>🏛 Who can buy? (U.S. shorthand)</h3><table class="mini-table"><thead><tr><th>Label</th><th>Rough bar</th><th>Why it matters</th></tr></thead><tbody>
+        <tr><td><b>Accredited investor</b></td><td>$200k income / $1M net worth excl. home (simplified)</td><td>Gate for most Reg D private funds</td></tr>
+        <tr><td><b>Qualified purchaser (QP)</b></td><td>$5M investments</td><td>Gate for 3(c)(7) funds — most institutional-quality feeders</td></tr>
+        <tr><td><b>Retail / non-accredited</b></td><td>—</td><td>Only via registered wrappers: interval / tender-offer / BDC / non-traded REIT</td></tr>
+      </tbody></table><p class="hint">Opto's core = accredited/QP clients of RIAs via custom drawdown funds + increasingly registered vehicles. The 2025–26 policy wave (401(k) EO, SEC retailization) is about widening that last row — see §10.</p></article>
+      <article class="card"><h3>📦 Vehicle chooser — same asset, different plumbing</h3><div id="vehicleTable"></div><p class="hint"><b>Interview trap:</b> “Evergreen = liquid private equity.” No — evergreen = <i>periodic, capped</i> liquidity (often 5%/quarter) against illiquid assets. Gates in stress are a feature you must explain to clients <i>before</i> they need money.</p></article>
+    </div>
+  </section>
+
+  <!-- 4 FUND -->
+  <section id="fund" class="section shell">
+    <div class="section-heading"><p class="kicker">04 · HOW A PRIVATE FUND ACTUALLY WORKS</p><h2>Commit → call → invest → return: the 12-year machine</h2><p>A drawdown fund is not “wire money, own assets.” Investors <b>commit</b> a promise; the GP <b>calls</b> cash over ~5 years as deals close; value builds; exits <b>distribute</b> cash back. Run the teaching simulator — then you'll never fumble “capital call” again. <span class="tag teach">TEACHING MODEL</span></p></div>
+
+    <div class="sim-card">
+      <div class="sim-controls">
+        <label>Commitment <output id="commitOut">$10.0M</output><input type="range" id="commitRange" min="1" max="50" value="10" step="1"></label>
+        <label>Gross return on invested capital <output id="retOut">1.80×</output><input type="range" id="retRange" min="0.8" max="3" value="1.8" step="0.05"></label>
+        <label>Mgmt fee drag (yrs 1–5) <output id="feeOut">2.0%/yr</output><input type="range" id="feeRange" min="0" max="3" value="2" step="0.25"></label>
+        <button class="button primary compact" id="replayFund">↻ Replay lifecycle</button>
+        <p class="hint">Step through years. Watch <b>paid-in</b> rise, NAV dip (J-curve), then distributions overtake.</p>
+        <div class="year-stepper"><button id="prevYear" class="button ghost compact">← Prev year</button><span id="yearLabel">Year 0 — Commitment signed</span><button id="nextYear" class="button ghost compact">Next year →</button></div>
+        <p id="yearNarrative" class="narrative"></p>
+      </div>
+      <div class="sim-viz">
+        <canvas id="jcurveCanvas" width="640" height="360" aria-label="J-curve chart: cumulative net cash flow by year"></canvas>
+        <div class="metric-tiles" id="metricTiles"></div>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <article class="card"><h3>GP vs LP</h3><p><b>GP (general partner)</b> = the manager (e.g., a buyout firm). Picks deals, charges mgmt fee + <b>carry</b> (~20% over hurdle). <b>LP (limited partner)</b> = the investor. In Opto's world the RIA's custom fund is often <i>one LP</i> into many GP funds — Opto aggregates many end-clients into that single LP seat.</p></article>
+      <article class="card"><h3>Vintage & pacing</h3><p><b>Vintage</b> = year a fund starts investing. You don't put 20% into privates in one year — you <b>pace</b> commitments across vintages so calls/distributions smooth out and you aren't concentrated in one market year. Opto's <b>Planner</b> tool models exactly this ramp.</p></article>
+      <article class="card"><h3>Secondaries & continuation vehicles</h3><p><b>LP-led:</b> an LP sells its fund stake early (often ~90% of NAV). <b>GP-led / CV:</b> GP moves a prized asset into a new vehicle; old LPs cash out or roll. Secondaries hit ~$210B volume in 2025 — they're now core liquidity plumbing, not a distress signal. Ask how Opto diligence prices CV conflicts (same GP on both sides).</p></article>
+    </div>
+  </section>
+
+  <!-- 5 METRICS -->
+  <section id="metrics" class="section shell">
+    <div class="section-heading"><p class="kicker">05 · METRICS LAB — SPEAK THE LANGUAGE</p><h2>Four numbers run every LP conversation</h2><p>Insiders judge a fund on <b>DPI + RVPI = TVPI</b>, plus <b>IRR</b>. Learn what each hides.</p></div>
+    <div class="grid-2">
+      <div class="card">
+        <h3>🧮 Try it: paid-in, distributions, NAV</h3>
+        <div class="calc-grid">
+          <label>Paid-in ($) <input type="number" id="calcPaid" value="8000000" step="100000"></label>
+          <label>Distributions back ($) <input type="number" id="calcDist" value="5200000" step="100000"></label>
+          <label>Remaining NAV ($) <input type="number" id="calcNav" value="6800000" step="100000"></label>
+        </div>
+        <div class="calc-out" id="calcOut"></div>
+        <p class="hint"><b>DPI</b> is cash reality (no estimate). <b>TVPI</b> is only as honest as the NAV inside it. Early “great TVPI, zero DPI” = marks, not money. LPs in 2025–26 gate re-ups on DPI.</p>
+      </div>
+      <div class="card">
+        <h3>🎯 Pacing calculator (RIA portfolio)</h3>
+        <div class="calc-grid">
+          <label>Client portfolio ($) <input type="number" id="pacePort" value="10000000" step="500000"></label>
+          <label>Target private allocation (%) <input type="number" id="paceTarget" value="20" step="1" min="0" max="60"></label>
+          <label>Ramp period (years) <input type="number" id="paceYears" value="4" step="1" min="1" max="10"></label>
+        </div>
+        <div class="calc-out" id="paceOut"></div>
+        <p class="hint">Rule-of-thumb teaching model: over-commit because capital is called gradually and distributions recycle. Real pacing models simulate call/distribution curves by strategy — that's the analytics Opto sells.</p>
+      </div>
+    </div>
+    <div class="metric-cards" id="metricCards"></div>
+    <p class="say-box"><span class="say-label">SOUND SENIOR</span> “Early IRR mostly tells me about the J-curve and subscription-line timing, not skill. I'd want DPI by vintage and PME vs a public benchmark before I believed a track record.” <button class="copy-btn" data-copy="Early IRR mostly tells me about the J-curve and fee timing, not skill. I'd want DPI by vintage and PME versus a public benchmark before I believed a track record.">Copy</button></p>
+  </section>
+
+  <!-- 6 PLAYERS -->
+  <section id="players" class="section shell">
+    <div class="section-heading"><p class="kicker">06 · PLAYER ATLAS</p><h2>Who does what — and where Opto actually sits</h2><p>Filter the map. The key insight: <b>iCapital/CAIS are primarily marketplaces/feeders at massive scale; Opto's bet is bespoke program-building for RIAs who want their <i>own</i> fund</b>. Different job, overlapping buyer.</p></div>
+    <div class="filter-bar"><input type="search" id="playerSearch" placeholder="Search players (e.g. Blackstone, admin, feeder)…" aria-label="Search players"><div class="filter-pills" id="playerFilters"></div></div>
+    <div class="player-grid" id="playerGrid"></div>
+    <div class="table-wrap"><table class="data-table"><caption>Platform face-off (public claims, Oct 2026 — verify scale figures live)</caption><thead><tr><th></th><th>Opto</th><th>iCapital</th><th>CAIS</th></tr></thead><tbody>
+      <tr><td><b>Core job</b></td><td>Build <i>your</i> custom fund program end-to-end</td><td>Marketplace + feeder infrastructure at wirehouse scale</td><td>Marketplace + adviser education; independent-RIA focus</td></tr>
+      <tr><td><b>Stated alignment</b></td><td>No manager-paid placement; performance-weighted fees</td><td>Fees embedded in feeder stack</td><td>Embedded / fee-share with managers; Mercer diligence</td></tr>
+      <tr><td><b>Scale signal</b></td><td>250+ RIAs (2024–25 reporting); $1B+ commitments reported</td><td>~$7.5B valuation (2025 raise); ~80% marketplace share (Cerulli via press)</td><td>$2B+ valuation on $170M Vista-led round (2026)</td></tr>
+      <tr><td><b>Your eng angle</b></td><td colspan="3">“Marketplaces optimize <i>transactions</i>; program-builders optimize <i>lifecycles</i>. Lifecycle state, permissions, and point-in-time truth are the hard engineering — and the moat.”</td></tr>
+    </tbody></table></div>
+  </section>
+
+  <!-- 7 ENGINEERING -->
+  <section id="engineering" class="section shell">
+    <div class="section-heading"><p class="kicker">07 · ENGINEERING DEEP DIVE ★ HIGHEST LEVERAGE FOR YOU</p><h2>The blog is the interview</h2><p>Opto's engineering writing (<a href="https://thesis.optoinvest.com/posts/" target="_blank" rel="noopener">thesis.optoinvest.com</a>) is unusually substantive. Each card: mechanism → tradeoff → <b>the exact question to ask</b>. Read the ★3 in full before the call. <span class="tag public">PUBLIC</span> <span class="tag dump">DATA DUMP §5</span></p></div>
+    <div class="eng-grid" id="engGrid"></div>
+    <div class="grid-2">
+      <article class="card accent-teal"><h3>📚 The 3 you must personally read</h3><ol class="numbered"><li><b>Internal tools (Aug 2026)</b> — clearest link: eng investment → small-company model survives.</li><li><b>Backfilling (July 2026)</b> — concrete Dagster config, MCP investigation, “migration code is production code.”</li><li><b>Two clocks (July 2026)</b> — proof this is beyond fintech CRUD: business time vs system time.</li></ol><p class="hint">Recurring theme = <b>controlled automation</b>: preserve provenance, reuse workflows, let a small team safely operate more. That's a credible hiring narrative; “we use AI” is not.</p></article>
+      <article class="card"><h3>🧰 Documented stack (don't over-claim)</h3><ul class="bullets"><li><b>Product:</b> TypeScript / React / Next.js (Vercel in older listings); Python FastAPI + Java REST; AWS Lambda + containers; Aurora; multiple deploys/day; team service ownership.</li><li><b>Data:</b> Dagster, DuckDB/MotherDuck, DuckLake/S3 (lakehouse writing), Snowflake (older listings), bitemporal models, MotherDuck MCP.</li><li><b>AI dev:</b> Claude via Amazon Bedrock; Zed + git worktrees + parallel agents (individual workflow, not company standard).</li></ul><p class="hint">⚠️ Bedrock ≠ self-hosted. Ask about endpoints, logging/retention, identity boundaries, vendor terms — don't equate “in AWS” with a complete security story.</p></article>
+    </div>
+    <h3 class="subhead">Five problems you can credibly own in conversation</h3>
+    <div class="table-wrap"><table class="data-table"><thead><tr><th>Problem</th><th>Why it matters at Opto</th><th>Your bridge (only claim what's true)</th><th>Ask as org design</th></tr></thead><tbody>
+      <tr><td><b>Authorization across firms/roles</b></td><td>Internal staff, advisers, investors, AI tools — one leak ends trust</td><td>MCP tool auth, enterprise access design</td><td>Which invariants are centrally enforced vs team-owned?</td></tr>
+      <tr><td><b>Long-running fund workflows</b></td><td>Docs/checks/approvals/admins never complete synchronously</td><td>Case management, distributed workflows</td><td>What requires human approval vs straight-through?</td></tr>
+      <tr><td><b>Point-in-time correctness</b></td><td>Corrections must not rewrite what a CIO saw when deciding</td><td>Data modeling, observability</td><td>Where does correctness depend on vigilance today?</td></tr>
+      <tr><td><b>Document → data AI reliability</b></td><td>A wrong extracted fee/term contaminates diligence memos</td><td>Enterprise LLM apps, evals, agent tooling</td><td>How do you eval when outcomes take years?</td></tr>
+      <tr><td><b>Business-process observability</b></td><td>200 OK ≠ subscription completed / call funded</td><td>Cloud infra, tracing</td><td>Do you measure uptime or <i>workflow completion</i>?</td></tr>
+    </tbody></table></div>
+  </section>
+
+  <!-- 8 ARCHITECTURE -->
+  <section id="architecture" class="section shell">
+    <div class="section-heading"><p class="kicker">08 · ARCHITECTURE RECONSTRUCTION</p><h2>A whiteboard you can draw — labeled as a hypothesis</h2><p>Components below are documented; boundaries/topology are <b>not</b>. Say so out loud — that honesty is the point. <span class="tag inferred">RECONSTRUCTION</span></p></div>
+    <div class="arch-diagram" role="img" aria-label="Hypothesized two-plane architecture: transactional workflow plane and analytical data plane">
+      <div class="arch-plane"><h3>Plane A — Transactional / workflow (system of action)</h3><div class="arch-flow"><span>Advisers · CIOs · Ops · Investors</span><b>→</b><span>Branded web apps + internal tools<br><small>role-based views, Fund Admin console</small></span><b>→</b><span>APIs · permissions · workflow state<br><small>subs, KYC, NIGO, calls, approvals</small></span><b>→</b><span>Fund admins · custodians · reporting<br><small>BNY/Schwab/Fidelity · Addepar/Orion…</small></span></div></div>
+      <div class="arch-plane alt"><h3>Plane B — Analytical / diligence (system of insight)</h3><div class="arch-flow"><span>Data rooms · filings (Form ADV) · market data</span><b>→</b><span>Extract → raw → transform<br><small>Dagster configs: incremental / full / single-entity</small></span><b>→</b><span>Bitemporal models · lakehouse<br><small>business time + system time, append-only</small></span><b>→</b><span>Diligence AI · benchmarking · IC memos · Planner</span></div></div>
+    </div>
+    <div class="grid-2">
+      <article class="card"><h3>🕰 Teach-back: the two clocks (60 seconds)</h3><p><b>Business time</b> = when a fact was true in the world. <b>System time</b> = when Opto learned it. A late correction shouldn't overwrite history — you close the old system-version and insert a rebuilt business timeline per entity. Now you can answer both <i>“what's true now?”</i> and <i>“what did we believe on decision day?”</i> Tradeoff: write amplification + concurrency care.</p><p class="say-box small"><span class="say-label">ASK MATT</span> “How do you resolve conflicting observations with the same effective date, and what makes a timeline rebuild atomic?”</p></article>
+      <article class="card"><h3>🤖 Teach-back: man-machine symbiosis + Diligence AI</h3><p>Opto's stated philosophy (Apr 2025 post): <b>augment, don't replace</b> the adviser/CIO/ops expert. Diligence AI turns data-room troves into screening memos in minutes so humans debate judgment, not PDFs. Fund-formation doc generator does the same for legal drafts. Your line: <i>“AI for throughput, humans for accountability — with evals and permissions between them.”</i></p><p class="hint">Don't claim the ontology/feedback-learning vision (Aug 2025 “AI for finance”) is fully shipped. Ask which parts are production today.</p></article>
+    </div>
+  </section>
+
+  <!-- 9 BUSINESS -->
+  <section id="business" class="section shell">
+    <div class="section-heading"><p class="kicker">09 · BUSINESS, MOAT & RISKS</p><h2>The only chart Ryan ultimately cares about</h2><p>Ryan's background — Quellos → BlackRock MD (APAC finance, iShares FP&A) → Opto CFO → CEO — means he'll evaluate engineering through <b>economics and execution</b>. Show you think in service-hours per fund. <span class="tag teach">TEACHING MODEL</span></p></div>
+    <div class="sim-card">
+      <div class="sim-controls">
+        <label>Funds operated <output id="fundsOut">50</output><input type="range" id="fundsRange" min="10" max="300" value="50" step="10"></label>
+        <label>Manual hrs / fund / month today <output id="hrsOut">40h</output><input type="range" id="hrsRange" min="5" max="120" value="40" step="5"></label>
+        <label>Automation improvement / year <output id="autoOut">20%</output><input type="range" id="autoRange" min="0" max="50" value="20" step="5"></label>
+        <p class="hint">If hours/fund don't fall, headcount must grow linearly — the “deliberately small” thesis dies. Internal-tools team (Aug 2026) exists precisely to bend this curve.</p>
+      </div>
+      <div class="sim-viz"><canvas id="leverageCanvas" width="640" height="300" aria-label="Operating leverage chart: total service hours vs funds under two automation scenarios"></canvas><div class="calc-out" id="leverageOut"></div></div>
+    </div>
+    <div class="grid-2">
+      <article class="card"><h3>🏰 Strongest moat argument</h3><p>Embedded workflows + normalized bitemporal history + integration coverage + customer-specific programs → switching costs. Evidence of <i>capability</i> exists (temporal data, admin-neutral workflow). Proof at scale = retention + margin data you don't have — ask for it.</p><h3>🗡 Best counter-argument</h3><p>An incumbent (iCapital/CAIS/custodian) bundles “good enough” through an existing relationship, while bespoke support leaves Opto with services economics in software clothing. Large RIAs may also in-source (PitchBook, July 2026: wealth firms “ditch the middleman”).</p></article>
+      <article class="card warn-card"><h3>🔍 Risks to diligence (ask, don't accuse)</h3><ul class="bullets"><li><b>Services intensity:</b> human hrs per fund/investor trend?</li><li><b>Revenue timing:</b> performance-weighted = lumpy cash vs SaaS smoothness?</li><li><b>Concentration:</b> one top-5 bank could hijack the roadmap.</li><li><b>Correctness:</b> one permissions/NAV error torpedoes fiduciary trust.</li><li><b>AI differentiation:</b> extraction + memo-gen commoditize fast.</li><li><b>Breadth:</b> external platform + internal ops + IM + proprietary funds, one small eng org.</li></ul></article>
+    </div>
+  </section>
+
+  <!-- 10 NEWS -->
+  <section id="news" class="section shell">
+    <div class="section-heading"><p class="kicker">10 · RECENT NEWS TO BRING TO Ryan</p><h2>Bring articles as questions, not trivia</h2><p>Each brief ends with a copy-ready line. Pick <b>two</b> max for a first call — depth beats a news dump.</p></div>
+    <div class="filter-pills" id="newsFilters" aria-label="Filter news by theme"></div>
+    <div class="news-grid" id="newsGrid"></div>
+  </section>
+
+  <!-- 11 PEOPLE -->
+  <section id="people" class="section shell">
+    <div class="section-heading"><p class="kicker">11 · PEOPLE MAP</p><h2>Know who you're actually talking to</h2><p>Historical accuracy matters: Opto emerged from stealth (Sep 2022) with <b>Mark Machin</b> (ex-CPP Investments CEO) as co-founder/CEO; today Ryan VanGorder is CEO and Machin sits on the advisory council. Matt Reed's absence from a web leadership grid ≠ departure — confirm, never speculate.</p></div>
+    <div class="people-grid" id="peopleGrid"></div>
+  </section>
+
+  <!-- 12 ROLE -->
+  <section id="role" class="section shell">
+    <div class="section-heading"><p class="kicker">12 · ROLE PLAYBOOK — HEAD OF ENGINEERING</p><h2>First clarify the job. Then earn it.</h2><p>No public Head of Eng JD was found (board showed Product Engineer + Director of Private Market Operations). A recruiter-led exec search can be unlisted — but <b>scope is unproven until Ryan/Matt define it</b>.</p></div>
+
+    <article class="card accent-gold big-quote"><h3>🎙 Your grounded opening (memorize the shape, not the script)</h3><blockquote>“What interests me is that the engineering problem is fundamentally about operating leverage: helping a small organization run more funds and serve more investors without scaling manual work proportionally. I read the internal fund-administration tooling post and the data-engineering series. The combination of permissioned workflows, heterogeneous integrations, and point-in-time correctness is much closer to my enterprise systems and AI background than a generic AI product.”</blockquote><button class="copy-btn" data-copy="What interests me is that the engineering problem is fundamentally about operating leverage: helping a small organization run more funds and serve more investors without scaling manual work proportionally. I read the internal fund-administration tooling post and the data-engineering series. The combination of permissioned workflows, heterogeneous integrations, and point-in-time correctness is much closer to my enterprise systems and AI background than a generic AI product.">Copy opening</button></article>
+
+    <div class="q-tabs" role="tablist" aria-label="Question sets" id="qTabs"></div>
+    <div class="q-panel" id="qPanel"></div>
+
+    <div class="grid-2">
+      <article class="card"><h3>📅 A credible 90 days (no rewrite, no hiring spree)</h3><ul class="bullets"><li><b>Days 1–30:</b> Map fund lifecycle, org, incidents, manual queues, largest customer commitments. Listen.</li><li><b>30–60:</b> Agree few shared measures: workflow completion time, exception/NIGO volume, service effort/fund, reconciliation quality, delivery reliability.</li><li><b>60–90:</b> Ship <i>one</i> bounded high-friction workflow improvement; clarify ownership + release controls.</li></ul><p class="hint">Positioning: not “make Opto AI-native” — <b>“turn complex enterprise workflows into secure, observable systems, and prove where AI improves throughput without weakening control.”</b></p></article>
+      <article class="card"><h3>🗂 Story bank — build yours here</h3><p class="hint">Draft 4 stories (saved locally, never sent anywhere). Only use metrics you can defend.</p><div id="storyBank"></div><button class="button ghost compact" id="exportStories">⬇ Export my prep notes (.txt)</button></article>
+    </div>
+    <div class="grid-2">
+      <article class="card"><h3>✅ Foreground</h3><ul class="bullets"><li>A workflow you made more reliable / less manual</li><li>An authorization boundary you designed</li><li>An AI system you evaluated beyond a demo</li><li>An integration failure you diagnosed + prevented</li><li>Leadership evidence <i>only where true</i>: priorities, conflict, hiring, delivery</li></ul></article>
+      <article class="card warn-card"><h3>🚫 Don't over-claim</h3><ul class="bullets"><li>Generic agent enthusiasm; investor prestige as health proof</li><li>Planet-scale infra for its own sake (their problem is heterogeneity, not volume)</li><li>Investment expertise or management scope you haven't held</li><li>Product Engineer comp ($160–240k listing) as Head-of-Eng comp — different job</li></ul></article>
+    </div>
+  </section>
+
+  <!-- 13 GLOSSARY -->
+  <section id="glossary" class="section shell">
+    <div class="section-heading"><p class="kicker">13 · GLOSSARY — DECODE THE ROOM IN REAL TIME</p><h2>Search 44 key terms</h2><p>Keep this open on a second screen during prep. Tap a term for a dinner-table explanation + “why Ryan cares.”</p></div>
+    <input type="search" id="glossSearch" class="big-search" placeholder="Try: DPI, NIGO, vintage, feeder, bitemporal, carry…" aria-label="Search glossary">
+    <div class="gloss-grid" id="glossGrid"></div>
+  </section>
+
+  <!-- 14 DRILL -->
+  <section id="drill" class="section shell">
+    <div class="section-heading"><p class="kicker">14 · DRILL — FLASHCARDS & QUIZ</p><h2>Prove fluency before the call</h2><p>Flashcards for recall; quiz for judgment. Target ≥80% and be able to <i>say</i> each flashcard answer out loud in &lt;20 seconds.</p></div>
+    <div class="grid-2">
+      <div class="card flash-card">
+        <p class="kicker">FLASHCARD <span id="flashIdx"></span></p>
+        <div id="flashBody" class="flash-body" tabindex="0" role="button" aria-label="Flashcard, activate to flip"></div>
+        <div class="flash-actions"><button class="button ghost compact" id="flashPrev">← Prev</button><button class="button primary compact" id="flashFlip">Flip</button><button class="button ghost compact" id="flashNext">Next →</button><button class="button ghost compact" id="flashShuffle">🔀 Shuffle</button></div>
+      </div>
+      <div class="card quiz-card">
+        <p class="kicker">QUIZ <span id="quizScore"></span></p>
+        <div id="quizBody"></div>
+        <div class="flash-actions"><button class="button ghost compact" id="quizRestart">↻ Restart quiz</button></div>
+      </div>
+    </div>
+    <article class="card" style="margin-top:1.2rem"><h3>🌙 Night-before one-pager</h3><div class="onepager" id="onePager"></div><button class="button primary compact" onclick="window.print()">⎙ Print this page</button> <a class="button ghost compact" href="CHEATSHEET.md">Cheatsheet (.md)</a> <a class="button ghost compact" href="TEXTBOOK.md">Full textbook (.md)</a></article>
+  </section>
+
+  <section class="section shell" id="sources">
+    <div class="section-heading"><p class="kicker">APPENDIX · SOURCES & READING</p><h2>Where this came from</h2><p>Starting point: your provided research dump (Oct 2026). Cross-checked against Opto's public site/blog and linked press below. Anything not linked is labeled reconstruction/teaching. Educational only — not investment advice, not affiliated with Opto Investments.</p></div>
+    <div id="sourceList" class="source-list"></div>
+    <p class="fineprint">Private-markets figures (market sizes, benchmarks) vary by provider and vintage definition — in conversation, cite the provider (“Morningstar put semiliquid funds near $600B…”) rather than presenting any number as settled truth. That habit alone reads as insider.</p>
+  </section>
+</main>
+
+<footer class="site-footer shell"><p>Private Markets, Opto-Ready · Ronnie's Experiments · Built 23 Oct 2026 · <a href="../../">All experiments</a> · Good luck with Ryan — bring diligence, not hype. 🤝</p></footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
