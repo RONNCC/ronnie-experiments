@@ -1,20 +1,20 @@
 [
   {
     "id": "private-markets-opto",
-    "title": "Private Markets, Opto-Ready \u2014 Head of Engineering Field Guide",
-    "description": "Interactive textbook for an Opto Investments Head of Engineering interview: Opto Build/Fundraise/Manage deep dive, recruiter-claim verifier, private-markets map, J-curve & pacing simulators, player atlas (Opto vs iCapital/CAIS), Opto engineering-blog decoder (bitemporal data, backfilling, internal tools), operating-leverage simulator, 2025\u201326 news briefs with copy-ready questions for Ryan VanGorder & Matt Reed, searchable glossary, flashcards and quiz. Includes printable TEXTBOOK.md and night-before cheatsheet.",
+    "title": "Private Markets & Opto \u2014 An Operator's Field Guide",
+    "description": "How private markets actually run: the major players first (pensions, sovereign funds, endowments, insurers, family offices, hedge funds, mega alternative managers, gatekeepers and infrastructure), then asset classes, fund mechanics and metrics with simulators \u2014 and a full Opto Investments brief covering its Build/Fundraise/Manage platform, verified-vs-unverified claims, engineering blog (bitemporal data, backfilling, internal Fund Admin tooling), operating leverage, recent developments, and the leadership team. Includes printable TEXTBOOK.md and a one-page brief.",
     "path": "experiments/private-markets-opto/",
     "category": "Education",
     "tags": [
       "Private Markets",
       "Opto",
+      "Family Offices",
+      "Hedge Funds",
       "Private Equity",
       "Private Credit",
       "RIA",
       "Systems Design",
       "Bitemporal Data",
-      "AI Workflows",
-      "Interview Prep",
       "Interactive"
     ],
     "date": "2026-10-23"

@@ -1,13 +1,23 @@
-# Night-Before Cheatsheet — Opto / Ryan VanGorder
+# Opto — One-Page Brief
 
-Print me. One page in spirit. (23 Oct 2026 · companion to TEXTBOOK.md + website)
+(23 Oct 2026 · companion to TEXTBOOK.md and the website. Written to be re-read the morning of.)
 
-## Say first (shape, not script)
+## Opening frame
 "What interests me is that the engineering problem is fundamentally about **operating leverage**:
 helping a small organization run more funds and serve more investors without scaling manual work
 proportionally. I read the internal fund-administration tooling post and the data-engineering series.
 Permissioned workflows + heterogeneous integrations + point-in-time correctness is much closer to my
 enterprise systems and AI background than a generic AI product."
+
+## The cast in 30 seconds
+- **Capital:** pensions (CalPERS, CPP), sovereign funds (GIC, ADIA, Norway), endowments (Yale model),
+  insurers (Apollo–Athene pattern), **family offices**, wealthy families via advisers.
+- **Gatekeepers:** RIAs/private banks, consultants & fund-of-funds (Mercer, Hamilton Lane), platforms.
+- **Managers:** Blackstone/Apollo/KKR-scale multi-strategy firms; buyout, VC, private credit, real
+  assets, secondaries — and **hedge funds** (Millennium, Citadel, Bridgewater) trading liquid markets
+  alongside them in alternatives allocations.
+- **Infrastructure:** fund administrators, custodians/prime brokers, Kirkland-class law firms, Big Four,
+  PitchBook/Preqin data, SEC/DOL rules. **Opto serves the gatekeepers.**
 
 ## Opto in 20 seconds
 - Builds RIAs/family offices/private banks their **own branded private funds**: **Build → Fundraise → Manage**
@@ -51,6 +61,6 @@ Head of Eng = top tech job (**ask re: Matt Reed first**) · $475M as current val
 Don't: sell "AI-native" · cite investor prestige as health · claim fund-accounting or mgmt scope you
 don't have · present the architecture reconstruction as fact · dump 10 news items.
 
-## Your line
+## Positioning
 "I turn complex enterprise workflows into secure, observable systems — and prove where AI improves
 throughput without weakening control."

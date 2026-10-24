@@ -10,7 +10,7 @@ function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("sh
 document.addEventListener("click", e=>{
   const b = e.target.closest("[data-copy]"); if(!b) return;
   const text = b.getAttribute("data-copy");
-  if(navigator.clipboard) navigator.clipboard.writeText(text).then(()=>toast("Copied — say it like you mean it ✓")).catch(()=>toast("Copy failed — select manually"));
+  if(navigator.clipboard) navigator.clipboard.writeText(text).then(()=>toast("Copied ✓")).catch(()=>toast("Copy failed — select manually"));
   else toast("Clipboard unavailable in this browser");
 });
 
@@ -29,7 +29,7 @@ function refreshProgress(){
 checkWrap.addEventListener("change", e=>{
   const i=e.target.getAttribute("data-chk"); if(i===null) return;
   state["chk"+i]=e.target.checked; save(); refreshProgress();
-  if(D.checklist.every((_,j)=>state["chk"+j])) toast("Textbook complete — now go say it out loud 🎙");
+  if(D.checklist.every((_,j)=>state["chk"+j])) toast("All chapters read ✓");
 });
 $("#progressRange").addEventListener("input", e=>{ $("#progressPct").textContent = e.target.value+"% (dragging — use checkboxes to save)"; });
 $("#progressRange").addEventListener("change", refreshProgress);
@@ -42,7 +42,7 @@ function renderWF(i){
   const w=D.workflow[i];
   $$(".wf-tab",wfTabs).forEach((t,j)=>t.setAttribute("aria-selected", String(j===i)));
   wfPanel.innerHTML = `<div><h3>What the customer does</h3><p>${esc(w.customer)}</p><h3 style="margin-top:1rem">Engineering reality</h3><p>${esc(w.eng)}</p></div>
-  <div><h3>What the software must coordinate</h3><ul class="bullets">${w.software.map(s=>`<li>${esc(s)}</li>`).join("")}</ul><p class="say-box small"><span class="say-label">ASK</span>${esc(w.ask)}</p></div>`;
+  <div><h3>What the software must coordinate</h3><ul class="bullets">${w.software.map(s=>`<li>${esc(s)}</li>`).join("")}</ul><p class="say-box small"><span class="say-label">QUESTION</span>${esc(w.ask)}</p></div>`;
 }
 wfTabs.addEventListener("click", e=>{ const t=e.target.closest("[data-wf]"); if(t) renderWF(+t.getAttribute("data-wf")); });
 renderWF(0);
@@ -59,7 +59,7 @@ function renderAsset(i){
   aPanel.innerHTML = `<h3>${a.emoji} ${esc(a.name)}</h3><div class="asset-meta"><span>⏳ ${esc(a.horizon)}</span><span>⚖️ ${esc(a.risk)}</span><span>🎯 ${esc(a.target)}</span></div>
   <p><b style="color:#e6eeff">What it is:</b> ${esc(a.what)}</p><p><b style="color:#e6eeff">Why own it:</b> ${esc(a.why)}</p>
   <p><b style="color:#e6eeff">Watch out:</b> ${esc(a.watch)}</p><p><b style="color:#e6eeff">Example:</b> ${esc(a.example)}</p>
-  <p class="say-box small"><span class="say-label">ASK Ryan</span>${esc(a.ask)}</p>`;
+  <p class="say-box small"><span class="say-label">NOTE</span>${esc(a.ask)}</p>`;
 }
 aTabs.addEventListener("click", e=>{ const t=e.target.closest("[data-asset]"); if(t) renderAsset(+t.getAttribute("data-asset")); });
 renderAsset(0);
@@ -173,20 +173,20 @@ function calcPacing(){
 $("#metricCards").innerHTML = D.metrics.map(m=>`<article class="card"><h3 style="color:var(--gold)">${esc(m.k)}</h3><p><b>${esc(m.full)}</b></p><p>${esc(m.plain)}</p><p style="color:#fecdd3">⚠️ ${esc(m.trap)}</p></article>`).join("");
 
 /* ---------- Players ---------- */
-const cats=["All","Platforms","GPs — mega","GPs — specialists","Allocators","Infrastructure"];
+const cats=["All","Capital","Managers","Hedge funds","Intermediaries","Platforms","Infrastructure"];
 let activeCat="All";
 $("#playerFilters").innerHTML = cats.map(c=>`<button class="pill-btn ${c==="All"?"active":""}" data-cat="${esc(c)}">${esc(c)}</button>`).join("");
 function renderPlayers(){
   const q=($("#playerSearch").value||"").toLowerCase();
   const list=D.players.filter(p=>(activeCat==="All"||p.cat===activeCat) && (p.name+" "+p.role+" "+p.detail).toLowerCase().includes(q));
-  $("#playerGrid").innerHTML = list.length ? list.map(p=>`<article class="player-card"><div class="card-top"><h3>${esc(p.name)}</h3><span class="cat-chip">${esc(p.cat)}</span></div><p><b style="color:#e6eeff">${esc(p.role)}</b></p><p>${esc(p.detail)}</p><p class="ask-line">💬 ${esc(p.ask)}</p></article>`).join("")
+  $("#playerGrid").innerHTML = list.length ? list.map(p=>`<article class="player-card"><div class="card-top"><h3>${esc(p.name)}</h3><span class="cat-chip">${esc(p.cat)}</span></div><p><b style="color:#e6eeff">${esc(p.role)}</b></p><p>${esc(p.detail)}</p><p class="ask-line">${esc(p.ask)}</p></article>`).join("")
     : `<p style="color:var(--muted)">No players match — clear search or pick another layer.</p>`;
 }
 $("#playerFilters").addEventListener("click", e=>{ const b=e.target.closest("[data-cat]"); if(!b)return; activeCat=b.getAttribute("data-cat"); $$("#playerFilters .pill-btn").forEach(x=>x.classList.toggle("active",x===b)); renderPlayers(); });
 $("#playerSearch").addEventListener("input", renderPlayers); renderPlayers();
 
 /* ---------- Engineering cards ---------- */
-$("#engGrid").innerHTML = D.engPosts.map(p=>`<article class="eng-card ${p.must?"must":""}"><div class="card-top"><h3>${p.must?"★ ":""}${esc(p.title)}</h3></div><p class="eng-meta">${esc(p.date)} · ${esc(p.author)} · <a href="${esc(p.url)}" target="_blank" rel="noopener">Read post ↗</a></p><p><b style="color:#e6eeff">Mechanism:</b> ${esc(p.mech)}</p><p><b style="color:#e6eeff">Tradeoff:</b> ${esc(p.trade)}</p><p class="ask-line">🎙 ${esc(p.q)} <button class="copy-btn" data-copy="${esc(p.q)}">Copy</button></p></article>`).join("");
+$("#engGrid").innerHTML = D.engPosts.map(p=>`<article class="eng-card ${p.must?"must":""}"><div class="card-top"><h3>${p.must?"★ ":""}${esc(p.title)}</h3></div><p class="eng-meta">${esc(p.date)} · ${esc(p.author)} · <a href="${esc(p.url)}" target="_blank" rel="noopener">Read post ↗</a></p><p><b style="color:#e6eeff">Mechanism:</b> ${esc(p.mech)}</p><p><b style="color:#e6eeff">Tradeoff:</b> ${esc(p.trade)}</p><p class="ask-line">Worth asking: ${esc(p.q)} <button class="copy-btn" data-copy="${esc(p.q)}">Copy</button></p></article>`).join("");
 
 /* ---------- Operating leverage simulator ---------- */
 function drawLeverage(){
@@ -215,13 +215,13 @@ const themes=["All","Opto","Competition","Regulation","Market"]; let activeTheme
 $("#newsFilters").innerHTML = themes.map(t=>`<button class="pill-btn ${t==="All"?"active":""}" data-theme="${t}">${t}</button>`).join("");
 function renderNews(){
   const list=D.news.filter(n=>activeTheme==="All"||n.theme===activeTheme);
-  $("#newsGrid").innerHTML=list.map(n=>`<article class="news-card"><div class="card-top"><h3>${esc(n.title)}</h3><span class="cat-chip">${esc(n.theme)}</span></div><p class="eng-meta">${esc(n.date)} · <a href="${esc(n.url)}" target="_blank" rel="noopener">Source ↗</a></p><p><b style="color:#e6eeff">What:</b> ${esc(n.what)}</p><p><b style="color:#e6eeff">Why it matters:</b> ${esc(n.why)}</p><p class="ask-line">🎙 ${esc(n.ask)} <button class="copy-btn" data-copy="${esc(n.ask)}">Copy</button></p></article>`).join("");
+  $("#newsGrid").innerHTML=list.map(n=>`<article class="news-card"><div class="card-top"><h3>${esc(n.title)}</h3><span class="cat-chip">${esc(n.theme)}</span></div><p class="eng-meta">${esc(n.date)} · <a href="${esc(n.url)}" target="_blank" rel="noopener">Source ↗</a></p><p><b style="color:#e6eeff">What:</b> ${esc(n.what)}</p><p><b style="color:#e6eeff">Why it matters:</b> ${esc(n.why)}</p><p class="ask-line">The question it opens: ${esc(n.ask)} <button class="copy-btn" data-copy="${esc(n.ask)}">Copy</button></p></article>`).join("");
 }
 $("#newsFilters").addEventListener("click", e=>{ const b=e.target.closest("[data-theme]"); if(!b)return; activeTheme=b.getAttribute("data-theme"); $$("#newsFilters .pill-btn").forEach(x=>x.classList.toggle("active",x===b)); renderNews(); });
 renderNews();
 
 /* ---------- People ---------- */
-$("#peopleGrid").innerHTML = D.people.map(p=>`<article class="person-card"><h3>${esc(p.name)}</h3><p><b style="color:var(--gold)">${esc(p.role)}</b></p><p>${esc(p.bg)}</p><p><b style="color:#e6eeff">Lens:</b> ${esc(p.lens)}</p><p class="ask-line">💬 ${esc(p.ask)}</p></article>`).join("");
+$("#peopleGrid").innerHTML = D.people.map(p=>`<article class="person-card"><h3>${esc(p.name)}</h3><p><b style="color:var(--gold)">${esc(p.role)}</b></p><p>${esc(p.bg)}</p><p><b style="color:#e6eeff">Lens:</b> ${esc(p.lens)}</p><p class="ask-line">${esc(p.ask)}</p></article>`).join("");
 
 /* ---------- Question sets ---------- */
 const qTabs=$("#qTabs"), qPanel=$("#qPanel");
@@ -246,7 +246,7 @@ const storyPrompts=[
 $("#storyBank").innerHTML = storyPrompts.map((s,i)=>`<div class="story-field"><label for="story${i}">${i+1}. ${esc(s[0])}</label><textarea id="story${i}" placeholder="${esc(s[1])}">${esc(state["story"+i]||"")}</textarea></div>`).join("");
 storyPrompts.forEach((_,i)=>{ $("#story"+i).addEventListener("input", e=>{ state["story"+i]=e.target.value; save(); }); });
 $("#exportStories").addEventListener("click", ()=>{
-  let txt="OPTO INTERVIEW PREP NOTES — exported "+new Date().toLocaleDateString()+"\n\n";
+  let txt="OPTO — WORKING NOTES — exported "+new Date().toLocaleDateString()+"\n\n";
   storyPrompts.forEach((s,i)=>{ txt+=`## ${s[0]}\n${state["story"+i]||"(blank)"}\n\n`; });
   txt+="## Night-before one-pager\n"+D.onePager.map(r=>`- ${r[0]} ${r[1]}`).join("\n")+"\n";
   const a=document.createElement("a");
@@ -273,7 +273,7 @@ function renderFlash(){
   const card=D.flashcards[flashOrder[flashPos]];
   $("#flashIdx").textContent = (flashPos+1)+" / "+flashOrder.length;
   $("#flashBody").innerHTML = flipped
-    ? `<div><p style="color:var(--teal);font-size:.7rem;font-weight:850;letter-spacing:.1em">ANSWER — SAY IT OUT LOUD</p><p style="font-size:1rem;color:#e6eeff">${esc(card[1])}</p><p style="font-size:.75rem">Click to flip back</p></div>`
+    ? `<div><p style="color:var(--teal);font-size:.7rem;font-weight:850;letter-spacing:.1em">ANSWER</p><p style="font-size:1rem;color:#e6eeff">${esc(card[1])}</p><p style="font-size:.75rem">Click to flip back</p></div>`
     : `<div><h3>${esc(card[0])}</h3><p>Click / Flip to reveal</p></div>`;
   $("#flashFlip").textContent = flipped ? "Flip back" : "Flip";
 }
@@ -292,7 +292,7 @@ function renderQuiz(){
   $("#quizScore").textContent = quizIdx? `· ${quizCorrect}/${quizIdx} so far` : "";
   if(quizIdx>=D.quiz.length){
     const pct=Math.round(quizCorrect/D.quiz.length*100);
-    body.innerHTML=`<h3 style="margin:0 0 .5rem">Score: ${quizCorrect}/${D.quiz.length} (${pct}%)</h3><p style="color:var(--muted)">${pct>=80?"✅ Interview-ready range. Now rehearse flashcards out loud and reread the ★3 eng posts.":pct>=60?"Close — revisit §§4–5 and §2, then retake. Fluency is repetition.":"Loop back through §§1–5 slowly with the simulators. The quiz will feel different in an hour."}</p>`;
+    body.innerHTML=`<h3 style="margin:0 0 .5rem">Score: ${quizCorrect}/${D.quiz.length} (${pct}%)</h3><p style="color:var(--muted)">${pct>=80?"✅ A solid grasp. Worth finishing with the three ★ engineering posts in §7 and the one-pager below.":pct>=60?"Close — §§5–6 (mechanics and metrics) and §3 (what is verified) are the sections to revisit before retaking.":"Work back through §§1–6 with the simulators to hand; the questions are drawn directly from them."}</p>`;
     if(pct>=80){ state["chk13"]=true; save(); const c=$('[data-chk="13"]'); if(c) c.checked=true; refreshProgress(); }
     return;
   }
