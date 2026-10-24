@@ -1,5 +1,24 @@
 [
   {
+    "id": "ai-systems-textbook",
+    "title": "Applied AI Systems — A Design and Operations Textbook",
+    "description": "A deeply worked, source-linked AI engineering textbook expanding a 2026 agentic-engineering roadmap: models and inference, workflows, contracts and durable state, retrieval, tools, security, evaluation, operations, voice, eight hypothetical reference architectures, design drills, and an interactive tradeoff and capacity lab. Includes a printable TEXTBOOK.md.",
+    "path": "experiments/ai-systems-textbook/",
+    "category": "Education",
+    "tags": [
+      "AI Engineering",
+      "Applied AI",
+      "Systems Design",
+      "Agents",
+      "RAG",
+      "Evaluation",
+      "Security",
+      "Voice",
+      "Interactive"
+    ],
+    "date": "2026-10-24"
+  },
+  {
     "id": "private-markets-opto",
     "title": "Private Markets & Opto \u2014 An Operator's Field Guide",
     "description": "How private markets actually run: the major players first (pensions, sovereign funds, endowments, insurers, family offices, hedge funds, mega alternative managers, gatekeepers and infrastructure), then asset classes, fund mechanics and metrics with simulators \u2014 and a full Opto Investments brief covering its Build/Fundraise/Manage platform, verified-vs-unverified claims, engineering blog (bitemporal data, backfilling, internal Fund Admin tooling), operating leverage, recent developments, and the leadership team. Includes printable TEXTBOOK.md and a one-page brief.",

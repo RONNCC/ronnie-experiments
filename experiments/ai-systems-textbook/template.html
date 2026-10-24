@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111d27">
+  <meta name="description" content="A detailed applied AI systems textbook: model mechanics, retrieval, agent workflows, state, security, evaluation, serving, and eight worked architecture designs.">
+  <title>Applied AI Systems — A Design and Operations Textbook</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.mjs"></script>
+</head>
+<body>
+  <a class="skip-link" href="#book">Skip to the textbook</a>
+  <div class="read-progress" id="read-progress" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="back-link" href="../../" aria-label="Back to Ronnie's Experiments">← <span>Experiments</span></a>
+      <a class="wordmark" href="#top" aria-label="Applied AI Systems, back to top"><span class="wordmark-icon" aria-hidden="true">◈</span> APPLIED <b>AI</b> SYSTEMS</a>
+      <nav class="top-nav" aria-label="Main navigation">
+        <a href="#lab">Design lab</a>
+        <a href="#book">Textbook</a>
+        <a class="nav-download" href="TEXTBOOK.md" download>Download Markdown <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="hero shell" id="top" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="signal-dot" aria-hidden="true"></span> THE FIELD MANUAL / RESEARCH EDITION 2026</p>
+        <h1 id="hero-title">Design the <em>system.</em><br>Not just the prompt.</h1>
+        <p class="hero-lead">From model calls to world-changing actions: a rigorous guide to evidence, state, tools, failure, and the engineering choices that make applied AI useful in production.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#chapter-0">Start reading <span aria-hidden="true">→</span></a>
+          <a class="button outline" href="#lab">Open the design lab <span aria-hidden="true">↘</span></a>
+        </div>
+        <p class="hero-note">An original expansion of Dr. Maryam Miradi’s supplied 2026 roadmap · Hypothetical worked designs, not descriptions of private systems.</p>
+      </div>
+      <div class="system-map" role="img" aria-label="System path: evidence, judgment, validation, authorized action, and verification">
+        <div class="map-top"><span class="map-line"></span> A REQUEST, END TO END <span>01 / 05</span></div>
+        <div class="map-node"><span class="map-index">01</span><div><small>OBSERVE</small><strong>Evidence &amp; identity</strong><p>What do we know, and whose is it?</p></div><span class="map-glyph">◇</span></div>
+        <div class="map-node"><span class="map-index">02</span><div><small>REASON</small><strong>Model + deterministic logic</strong><p>Which work actually needs judgment?</p></div><span class="map-glyph">✳</span></div>
+        <div class="map-node"><span class="map-index">03</span><div><small>CONSTRAIN</small><strong>Policy &amp; contract checks</strong><p>Can this principal do this, now?</p></div><span class="map-glyph">▣</span></div>
+        <div class="map-node"><span class="map-index">04</span><div><small>ACT</small><strong>Durable, scoped execution</strong><p>Did the system of record commit?</p></div><span class="map-glyph">↗</span></div>
+        <div class="map-node last"><span class="map-index">05</span><div><small>PROVE</small><strong>Postcondition &amp; recovery</strong><p>What happened when things failed?</p></div><span class="map-glyph">✓</span></div>
+        <p class="map-footer"><span class="pulse" aria-hidden="true"></span> An AI system is an accountable process.</p>
+      </div>
+    </section>
+
+    <section class="stats-wrap" aria-label="Book overview"><div class="shell stat-grid">
+      <div><strong>{{CHAPTER_COUNT}}</strong><span>numbered chapters</span></div>
+      <div><strong>08</strong><span>worked architectures</span></div>
+      <div><strong>12</strong><span>roadmap skills expanded</span></div>
+      <div><strong>{{WORD_COUNT}}</strong><span>words of original material</span></div>
+    </div></section>
+
+    <section class="paths shell" aria-labelledby="paths-title">
+      <div class="section-heading"><p class="section-kicker">CHOOSE A THREAD</p><h2 id="paths-title">One framework. Many systems.</h2><p>Read sequentially, or use a design question to find the right chapter. The full book is available below and as a single Markdown file.</p></div>
+      <div class="path-grid">
+        <a class="path-card" href="#chapter-1"><span>01 / FOUNDATIONS</span><strong>Start with boundaries</strong><p>Scope, model mechanics, mechanism selection, and software contracts.</p><i aria-hidden="true">↗</i></a>
+        <a class="path-card" href="#chapter-7"><span>02 / EVIDENCE</span><strong>Design the knowledge path</strong><p>Retrieval, permissions, freshness, grounding, and memory.</p><i aria-hidden="true">↗</i></a>
+        <a class="path-card" href="#chapter-14"><span>03 / BLUEPRINTS</span><strong>Trace an end-to-end build</strong><p>Eight systems, from customer actions to a coding agent and port scheduling.</p><i aria-hidden="true">↗</i></a>
+        <a class="path-card" href="#chapter-23"><span>04 / PRACTICE</span><strong>Stress-test a design</strong><p>Adversarial variations, answer outlines, and a project laboratory.</p><i aria-hidden="true">↗</i></a>
+      </div>
+    </section>
+
+    <section class="lab" id="lab" aria-labelledby="lab-title"><div class="shell">
+      <div class="section-heading lab-heading"><p class="section-kicker">INTERACTIVE / THE DESIGN LAB</p><h2 id="lab-title">Make the tradeoff visible.</h2><p>These are transparent teaching heuristics and arithmetic, not an AI architect or a vendor quote. Change a constraint, inspect the recommendation, then read the underlying chapter.</p></div>
+      <noscript><p class="noscript-note">The interactive controls require JavaScript. The complete textbook below remains available without it.</p></noscript>
+      <div class="lab-grid">
+        <div class="lab-card architecture-card">
+          <div class="card-label"><span>01 — MECHANISM SELECTOR</span><span aria-hidden="true">◈</span></div>
+          <h3>Where should agency live?</h3>
+          <div id="design-controls" role="group" aria-label="Architecture scenario constraints">
+            <label for="scenario">Scenario</label>
+            <select id="scenario" name="scenario">
+              <option value="support">Customer account assistant</option>
+              <option value="code">Repository coding agent</option>
+              <option value="evidence">Document evidence analyst</option>
+              <option value="gateway">Model-serving platform</option>
+              <option value="disaster">Disaster risk alert</option>
+              <option value="port">Port scheduler</option>
+              <option value="security">Security triage</option>
+              <option value="voice">Live voice support</option>
+            </select>
+            <div class="control-pair">
+              <div><label for="effect">External effect</label><select id="effect" name="effect"><option value="read">Read / explain</option><option value="write">Change world state</option></select></div>
+              <div><label for="risk">Cost of error</label><select id="risk" name="risk"><option value="moderate">Moderate</option><option value="high">High / irreversible</option></select></div>
+            </div>
+            <div class="control-pair">
+              <div><label for="path">Path to answer</label><select id="path" name="path"><option value="known">Known steps</option><option value="open">Open-ended search</option></select></div>
+              <div><label for="freshness">Evidence freshness</label><select id="freshness" name="freshness"><option value="static">Versioned documents</option><option value="live">Live system state</option></select></div>
+            </div>
+          </div>
+          <div class="recommendation" aria-live="polite" aria-atomic="true">
+            <p class="recommendation-label">RECOMMENDED STARTING POINT</p>
+            <strong id="route-title">Explicit workflow + domain policy</strong>
+            <p id="route-reason">Pick a scenario to see an accountable starting architecture.</p>
+            <div class="route-detail"><span>READ PATH</span><p id="route-data"></p></div>
+            <div class="route-detail"><span>ACTION BOUNDARY</span><p id="route-gate"></p></div>
+            <div class="route-detail"><span>TEST FIRST</span><p id="route-test"></p></div>
+            <a id="route-link" href="#chapter-14" class="text-link">Open the full design <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+        <div class="lab-card calculator-card">
+          <div class="card-label"><span>02 — CAPACITY &amp; COST</span><span aria-hidden="true">∑</span></div>
+          <h3>Give the diagram a load.</h3>
+          <p class="card-subtitle">Illustrative numbers from Chapter 11. Change the assumptions; the outputs are a lower-bound model-token subtotal, not a quote.</p>
+          <div id="cost-controls" role="group" aria-label="Traffic and token pricing assumptions">
+            <div class="control-pair"><div><label for="sessions">Sessions / day</label><input type="number" id="sessions" min="0" max="10000000" step="1" value="100000"></div><div><label for="calls">Model calls / session</label><input type="number" id="calls" min="0" max="100" step="0.1" value="3"></div></div>
+            <div class="control-pair"><div><label for="peak">Busiest-hour share (%)</label><input type="number" id="peak" min="0" max="100" step="0.1" value="10"></div><div><label for="seconds">Mean call seconds</label><input type="number" id="seconds" min="0" max="3600" step="0.1" value="4"></div></div>
+            <div class="control-pair"><div><label for="input-tokens">Input tokens / call</label><input type="number" id="input-tokens" min="0" max="1000000" step="1" value="4000"></div><div><label for="output-tokens">Output tokens / call</label><input type="number" id="output-tokens" min="0" max="1000000" step="1" value="500"></div></div>
+            <div class="control-pair"><div><label for="input-price">Input $ / 1M tokens</label><input type="number" id="input-price" min="0" max="1000" step="0.01" value="0.5"></div><div><label for="output-price">Output $ / 1M tokens</label><input type="number" id="output-price" min="0" max="1000" step="0.01" value="2"></div></div>
+            <div class="control-pair"><div><label for="stable">Stable input prefix (%)</label><input type="number" id="stable" min="0" max="100" step="1" value="50"></div><div><label for="hit">Prefix cache hit (%)</label><input type="number" id="hit" min="0" max="100" step="1" value="60"></div></div>
+            <div><label for="cache-factor">Cache-read price / normal input price (%)</label><input type="number" id="cache-factor" min="0" max="100" step="1" value="10"></div>
+          </div>
+          <p id="cost-error" class="form-error" role="alert" hidden>Enter finite values within the field limits.</p>
+          <div class="cost-results" aria-live="polite" aria-atomic="true">
+            <div class="cost-primary"><span>ESTIMATED MODEL $ / DAY</span><strong id="day-cost">$738</strong></div>
+            <div class="cost-metrics">
+              <div><span>30-day subtotal</span><strong id="month-cost">$22,140</strong></div>
+              <div><span>Peak calls / second</span><strong id="peak-rps">8.33</strong></div>
+              <div><span>Mean in-flight</span><strong id="concurrency">33.3</strong></div>
+              <div><span>Peak input TPM</span><strong id="input-tpm">2.00M</strong></div>
+            </div>
+          </div>
+          <p class="lab-foot">Assumes a 30-day month; cache hits discount the stable input fraction. Excludes cache-write premiums, retries, tools, storage, humans, and tail headroom. Prices are editable examples, not current provider pricing. <a href="#chapter-11">Derivation →</a></p>
+        </div>
+      </div>
+    </div></section>
+
+    <section class="book-wrap shell" id="book" aria-label="Full applied AI systems textbook">
+      <div class="book-intro"><p class="section-kicker">THE COMPLETE TEXTBOOK</p><h2>Read it end to end.</h2><p>All {{CHAPTER_COUNT}} chapters are on this page. Use the chapter index or search to move through the book. Print this page for a clean paper/PDF layout, or <a href="TEXTBOOK.md" download>download the Markdown source</a>.</p></div>
+      <div class="book-layout">
+        <aside class="book-sidebar" aria-label="Book navigation">
+          <div class="sidebar-sticky">
+            <label for="book-search">SEARCH THE BOOK</label>
+            <input type="search" id="book-search" placeholder="e.g. idempotency, RAG…" autocomplete="off" aria-controls="search-results">
+            <div id="search-results" class="search-results" hidden></div>
+            <nav id="chapter-nav" aria-label="Table of contents">{{CHAPTER_NAV}}</nav>
+          </div>
+        </aside>
+        <article class="book-article prose">{{BOOK_CONTENT}}</article>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="shell footer-inner"><div><strong>APPLIED AI SYSTEMS</strong><p>A learning artifact from Ronnie's Experiments. Educational only; public references are linked in Chapter 28.</p></div><a href="#top">Back to top ↑</a></div></footer>
+</body>
+</html>
