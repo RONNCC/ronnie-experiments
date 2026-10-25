@@ -10,6 +10,7 @@ Thumbs.db
 
 # Node / Build artifacts (if any subproject uses them)
 node_modules/
+.venv/
 dist/
 __pycache__/
 *.pyc

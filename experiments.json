@@ -1,5 +1,24 @@
 [
   {
+    "id": "agent-harness-textbook",
+    "title": "AI Agent Harnesses — A Systems Textbook",
+    "description": "An in-depth, source-linked textbook on AI agent harnesses: three perspectives (control allocation, feedback/observability, state/time) are tested and refined against current papers and major open/proprietary systems. Connects harness design to pretraining, SFT, preference optimization, RL/RLVR, evaluations, security, and systems. Includes interview drills, 48 annotated sources, an interactive reliability lab, and printable textbook.",
+    "path": "experiments/agent-harness-textbook/",
+    "category": "Education",
+    "tags": [
+      "AI Agents",
+      "Harness Engineering",
+      "Post-Training",
+      "RLVR",
+      "Evaluation",
+      "Safety",
+      "Open Source",
+      "Interview Prep",
+      "Interactive"
+    ],
+    "date": "2026-10-25"
+  },
+  {
     "id": "vision-architecture-textbook",
     "title": "Vision Models & ML Architecture — A Four-Lens Textbook",
     "description": "A research-edition textbook on the current state of the art in vision models: why transformers, convolutional networks and state-space models are used, and when each is the wrong choice. Every claim is argued through four named perspectives — inductive bias, optimization, expressivity and systems. Covers the CNN/ViT data-scale crossover, soft and hybrid biases, reverse migration, rank collapse and registers, geometry and packing, self-supervised pre-training (DINOv3, SigLIP 2, Perception Encoder), the four-stage pipeline, RLVR and on-policy distillation, NaViT and variable resolution, FlashAttention and the roofline, mobile silicon, dense prediction (DETR to SAM 3), VLMs, video DiTs, and a four-lens reading of public research from Anthropic and Thinking Machines. Includes 100+ sourced references, a one-page mental model, forty interview questions, a printable TEXTBOOK.md, and an interactive roofline/attention/backbone lab.",
