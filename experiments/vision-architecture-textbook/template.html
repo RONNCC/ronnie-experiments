@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111d27">
+  <meta name="description" content="A research-edition textbook on vision model architecture: why transformers, CNNs and state-space models are used, examined through four lenses — inductive bias, optimization, expressivity, and systems.">
+  <title>Vision Architecture — A Four-Lens Textbook</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.mjs"></script>
+</head>
+<body>
+  <a class="skip-link" href="#book">Skip to the textbook</a>
+  <div class="read-progress" id="read-progress" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="back-link" href="../../" aria-label="Back to Ronnie's Experiments">← <span>Experiments</span></a>
+      <a class="wordmark" href="#top" aria-label="Vision Architecture, back to top"><span class="wordmark-icon" aria-hidden="true">◈</span> VISION <b>ARCHITECTURE</b></a>
+      <nav class="top-nav" aria-label="Main navigation">
+        <a href="#lab">Lenses lab</a>
+        <a href="#book">Textbook</a>
+        <a class="nav-download" href="TEXTBOOK.md" download>Download Markdown <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="hero shell" id="top" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="signal-dot" aria-hidden="true"></span> RESEARCH EDITION 2026 · INTERVIEW PREPARATION</p>
+        <h1 id="hero-title">Why this model,<br>and not a <em>CNN?</em></h1>
+        <p class="hero-lead">A deep, sourced examination of the current state of the art in vision models — how convolutions, transformers and state-space models really differ, and what that costs and buys you, through four lenses: <strong>inductive bias, optimization, expressivity and systems</strong>.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#chapter-0">Start reading <span aria-hidden="true">→</span></a>
+          <a class="button outline" href="#lab">Open the lenses lab <span aria-hidden="true">↘</span></a>
+        </div>
+        <p class="hero-note">An original synthesis of 100+ research papers and lab engineering posts. No conclusion is presented without a named source or an explicit "what would change my mind".</p>
+      </div>
+      <div class="system-map" role="img" aria-label="Four lenses: inductive bias, optimization, expressivity, and systems, feeding one decision">
+        <div class="map-top"><span class="map-line"></span> ONE QUESTION, FOUR LENSES <span>01 / 04</span></div>
+        <div class="map-node"><span class="map-index">01</span><div><small>LENS 1</small><strong>Inductive bias</strong><p>What priors are baked in, and what do they cost?</p></div><span class="map-glyph">○</span></div>
+        <div class="map-node"><span class="map-index">02</span><div><small>LENS 2</small><strong>Optimization</strong><p>Does it train, and how well?</p></div><span class="map-glyph">∞</span></div>
+        <div class="map-node"><span class="map-index">03</span><div><small>LENS 3</small><strong>Expressivity</strong><p>What can it represent?</p></div><span class="map-glyph">⊲</span></div>
+        <div class="map-node last"><span class="map-index">04</span><div><small>LENS 4</small><strong>Systems</strong><p>How does it map to hardware?</p></div><span class="map-glyph">▤</span></div>
+        <p class="map-footer"><span class="pulse" aria-hidden="true"></span> One decision, four tradeoffs.</p>
+      </div>
+    </section>
+
+    <section class="stats-wrap" aria-label="Book overview"><div class="shell stat-grid">
+      <div><strong>{{CHAPTER_COUNT}}</strong><span>numbered chapters</span></div>
+      <div><strong>06</strong><span>named perspectives</span></div>
+      <div><strong>04</strong><span>lenses in every chapter</span></div>
+      <div><strong>{{WORD_COUNT}}</strong><span>words of original analysis</span></div>
+    </div></section>
+
+    <section class="paths shell" aria-labelledby="paths-title">
+      <div class="section-heading"><p class="section-kicker">CHOOSE A LENS</p><h2 id="paths-title">One question. Four answers.</h2><p>Read sequentially, or start from the lens you are least sure about. The full book is below and as a single Markdown file.</p></div>
+      <div class="path-grid">
+        <a class="path-card" href="#chapter-1"><span>01 / LENS 1</span><strong>What priors are baked in?</strong><p>Locality, equivariance, hierarchy, flat token grids, and the data-scale crossover.</p><i aria-hidden="true">↗</i></a>
+        <a class="path-card" href="#chapter-5"><span>02 / LENS 2</span><strong>How does it train?</strong><p>BatchNorm versus LayerNorm, scaling laws, self-supervision, and post-training.</p><i aria-hidden="true">↗</i></a>
+        <a class="path-card" href="#chapter-8"><span>03 / LENS 3</span><strong>What can it represent?</strong><p>Universality, rank collapse, associative recall, and the limits of linear attention.</p><i aria-hidden="true">↗</i></a>
+        <a class="path-card" href="#chapter-12"><span>04 / LENS 4</span><strong>How does it map to hardware?</strong><p>Rooflines, memory walls, FlashAttention, and mobile versus server silicon.</p><i aria-hidden="true">↗</i></a>
+      </div>
+    </section>
+
+    <section class="lab" id="lab" aria-labelledby="lab-title"><div class="shell">
+      <div class="section-heading lab-heading"><p class="section-kicker">INTERACTIVE / THE LENSES LAB</p><h2 id="lab-title">Make the tradeoff visible.</h2><p>These are transparent teaching heuristics and arithmetic, not a benchmark or a deployment advisor. Change a constraint, inspect the numbers, then read the underlying chapter.</p></div>
+      <noscript><p class="noscript-note">The interactive controls require JavaScript. The complete textbook below remains available without it.</p></noscript>
+      <div class="lab-grid">
+        <div class="lab-card architecture-card">
+          <div class="card-label"><span>01 — ROOFLINE EXPLORER</span><span aria-hidden="true">≈</span></div>
+          <h3>Is this kernel memory-bound?</h3>
+          <p class="card-subtitle">From Chapter 12. The roofline bound is <code>P = min(π, β·AI)</code>. Below the ridge point the op is bandwidth-bound; above it, compute-bound.</p>
+          <div id="roofline-controls" role="group" aria-label="Hardware and arithmetic intensity">
+            <div><label for="roofline-hardware">Hardware</label><select id="roofline-hardware">
+              <option value="a100">NVIDIA A100 (BF16)</option>
+              <option value="h100" selected>NVIDIA H100 (BF16)</option>
+              <option value="b200">NVIDIA B200 (FP8)</option>
+            </select></div>
+            <div><label for="roofline-intensity">Arithmetic intensity (FLOP/byte)</label><input type="number" id="roofline-intensity" min="0" max="10000" step="0.1" value="128"></div>
+          </div>
+          <div class="cost-results" aria-live="polite" aria-atomic="true">
+            <div class="cost-primary"><span>PERFORMANCE BOUND</span><strong id="roofline-tflops">—</strong></div>
+            <div class="cost-metrics">
+              <div><span>Ridge point (FLOP/byte)</span><strong id="roofline-ridge">—</strong></div>
+              <div><span>Regime</span><strong id="roofline-regime">—</strong></div>
+              <div><span>Utilisation of peak</span><strong id="roofline-util">—</strong></div>
+              <div><span>Memory rate needed</span><strong id="roofline-rate">—</strong></div>
+            </div>
+          </div>
+          <p class="lab-foot">Convolution sits near the right of the ridge on H100-class parts; naive attention sits near the left. FlashAttention moves attention's intensity up by <em>N</em>, not by a hardware change. <a href="#chapter-12">Derivation →</a></p>
+        </div>
+
+        <div class="lab-card calculator-card">
+          <div class="card-label"><span>02 — ATTENTION MEMORY</span><span aria-hidden="true">Σ</span></div>
+          <h3>What does the N×N cost?</h3>
+          <p class="card-subtitle">From Chapter 13. Same FLOPs, radically different bytes: naive attention materialises the score matrix, FlashAttention never does.</p>
+          <div id="attention-controls" role="group" aria-label="Attention shape, phase and flash mode">
+            <div class="control-pair">
+              <div><label for="att-seq">Sequence length</label><input type="number" id="att-seq" min="64" max="65536" step="64" value="4096"></div>
+              <div><label for="att-dim">Head dimension</label><input type="number" id="att-dim" min="8" max="1024" step="1" value="64"></div>
+            </div>
+            <div class="control-pair">
+              <div><label for="att-heads">Heads</label><input type="number" id="att-heads" min="1" max="256" step="1" value="16"></div>
+              <div><label for="att-batch">Batch size</label><input type="number" id="att-batch" min="1" max="8192" step="1" value="8"></div>
+            </div>
+            <div class="control-pair">
+              <div><label for="att-phase">Phase</label><select id="att-phase"><option value="prefill" selected>Prefill (all tokens attend)</option><option value="decode">Decode (one new token)</option></select></div>
+              <label class="switch"><input type="checkbox" id="att-flash" checked> Fused attention</label>
+            </div>
+          </div>
+          <p id="attention-error" class="form-error" role="alert" hidden>Enter finite values within the field limits.</p>
+          <div class="cost-results" aria-live="polite" aria-atomic="true">
+            <div class="cost-primary"><span>PHASE &amp; SCHEME</span><strong id="attention-scheme">—</strong></div>
+            <div class="cost-metrics">
+              <div><span>FLOPs</span><strong id="att-flops">—</strong></div>
+              <div><span>Bytes HBM</span><strong id="att-bytes">—</strong></div>
+              <div><span>Intensity (FLOP/byte)</span><strong id="att-intensity">—</strong></div>
+              <div><span>Naive intensity</span><strong id="att-naive">—</strong></div>
+            </div>
+          </div>
+          <p class="lab-foot">Prefill is where fusion matters: naive intensity sits near <em>d</em> and fused intensity rises past the ridge. Decode is memory-bound at any batch size — the K/V stream dominates — so batching raises throughput, not arithmetic intensity. <a href="#chapter-13">Derivation →</a></p>
+        </div>
+
+        <div class="lab-card architecture-card wide">
+          <div class="card-label"><span>03 — BACKBONE RECOMMENDER</span><span aria-hidden="true">◈</span></div>
+          <h3>Which backbone for this constraint set?</h3>
+          <p class="card-subtitle">From Chapter 16. A transparent scoring heuristic across five families — not a NAS run, and not a deployment decision. It is designed to show the shape of the tradeoff.</p>
+          <div id="recommend-controls" role="group" aria-label="Backbone scenario constraints">
+            <div class="control-pair">
+              <div><label for="rec-data">Training data available</label><select id="rec-data">
+                <option value="small">Small (below 10M images)</option>
+                <option value="large" selected>Large (100M+ images)</option>
+              </select></div>
+              <div><label for="rec-latency">Target latency budget</label><select id="rec-latency">
+                <option value="server" selected>Server GPU</option>
+                <option value="mobile">Mobile / NPU</option>
+              </select></div>
+            </div>
+            <div class="control-pair">
+              <div><label for="rec-resolution">Resolution behaviour</label><select id="rec-resolution">
+                <option value="fixed" selected>Fixed square input</option>
+                <option value="variable">Variable aspect ratio and size</option>
+              </select></div>
+              <div><label for="rec-hardware">Longest sequence needed</label><select id="rec-hardware">
+                <option value="short" selected>Short (4k tokens)</option>
+                <option value="edge-long">Long (video, 100k+ tokens)</option>
+              </select></div>
+            </div>
+            <label class="switch"><input type="checkbox" id="rec-dense"> Dense prediction (segmentation / detection)</label>
+          </div>
+          <div class="recommendation" aria-live="polite" aria-atomic="true">
+            <p class="recommendation-label">RECOMMENDED STARTING BACKBONE</p>
+            <strong id="route-title">—</strong>
+            <p id="route-reason">Pick a constraint set to see a recommendation.</p>
+            <div class="route-detail"><span>ALTERNATIVE</span><p id="route-runner">—</p></div>
+            <div class="route-detail"><span>LENSES AT WORK</span><p id="route-lenses">—</p></div>
+            <div class="route-detail"><span>READ PATH</span><p id="route-data">—</p></div>
+            <div class="route-detail"><span>TEST FIRST</span><p id="route-test">—</p></div>
+            <a id="route-link" href="#chapter-0" class="text-link">Open the full textbook <span aria-hidden="true">→</span></a>
+          </div>
+          <p class="lab-foot">Every family is a defensible optimum for some constraint set — the point of the tool is that there is no universal optimum. <a href="#chapter-16">The landscape →</a></p>
+        </div>
+      </div>
+    </div></section>
+
+    <section class="book-wrap shell" id="book" aria-label="Full vision architecture textbook">
+      <div class="book-intro"><p class="section-kicker">THE COMPLETE TEXTBOOK</p><h2>Read it end to end.</h2><p>All {{CHAPTER_COUNT}} chapters are on this page. Use the chapter index or search to move through the book. Print this page for a clean paper/PDF layout, or <a href="TEXTBOOK.md" download>download the Markdown source</a>.</p></div>
+      <div class="book-layout">
+        <aside class="book-sidebar" aria-label="Book navigation">
+          <div class="sidebar-sticky">
+            <label for="book-search">SEARCH THE BOOK</label>
+            <input type="search" id="book-search" placeholder="e.g. rank collapse, registers, FlashAttention…" autocomplete="off" aria-controls="search-results">
+            <div id="search-results" class="search-results" hidden></div>
+            <nav id="chapter-nav" aria-label="Table of contents">{{CHAPTER_NAV}}</nav>
+          </div>
+        </aside>
+        <article class="book-article prose">{{BOOK_CONTENT}}</article>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="shell footer-inner"><div><strong>VISION ARCHITECTURE</strong><p>A learning artifact from Ronnie's Experiments. Educational only; every research claim carries a source link in Chapter 22.</p></div><a href="#top">Back to top ↑</a></div></footer>
+</body>
+</html>
