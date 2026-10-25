@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111d27">
+  <meta name="description" content="An interactive, source-linked textbook on AI agent harnesses, tool interfaces, post-training, safety, and evaluation for frontier AI interviews.">
+  <title>Agent Harnesses — A Systems Textbook</title>
+  <link rel="stylesheet" href="styles.css"><script type="module" src="app.mjs"></script>
+</head>
+<body>
+  <a class="skip-link" href="#book">Skip to the textbook</a><div class="read-progress" id="read-progress" aria-hidden="true"></div>
+  <header class="site-header"><div class="shell header-inner">
+    <a class="back-link" href="../../" aria-label="Back to Ronnie's Experiments">← <span>Experiments</span></a>
+    <a class="wordmark" href="#top" aria-label="Agent Harnesses, back to top"><span class="wordmark-icon" aria-hidden="true">◈</span> AGENT <b>HARNESSES</b></a>
+    <nav class="top-nav" aria-label="Main navigation"><a href="#lab">Reliability lab</a><a href="#book">Textbook</a><a class="nav-download" href="TEXTBOOK.md" download>Download Markdown <span aria-hidden="true">↗</span></a></nav>
+  </div></header>
+  <main>
+    <section class="hero shell" id="top" aria-labelledby="hero-title"><div class="hero-copy">
+      <p class="eyebrow"><span class="signal-dot" aria-hidden="true"></span> RESEARCH EDITION · 25 OCTOBER 2026 · INTERVIEW PREPARATION</p>
+      <h1 id="hero-title">The model is not<br>the <em>whole system.</em></h1>
+      <p class="hero-lead">A deep, source-linked textbook on agent harnesses: the runtimes, tools, context, state, safety controls, training feedback, and evaluations that turn model capability into useful behavior. Built for rigorous conversations about pre-training, post-training, and deployed AI systems.</p>
+      <div class="hero-actions"><a class="button primary" href="#chapter-0">Start reading <span aria-hidden="true">→</span></a><a class="button outline" href="#lab">Try the reliability lab <span aria-hidden="true">↘</span></a></div>
+      <p class="hero-note">Three perspectives are proposed, tested against papers and open systems, then refined. Public claims are separated from interpretation; every chapter ends with what would change the analysis.</p>
+    </div>
+    <div class="system-map" role="img" aria-label="The agent loop connects control, feedback, persistent state, and bounded resources">
+      <div class="map-top"><span class="map-line"></span> ONE LOOP, FOUR DESIGN QUESTIONS <span>01 / 04</span></div>
+      <div class="map-node"><span class="map-index">01</span><div><small>PERSPECTIVE 1</small><strong>Control</strong><p>Who decides, authorizes, and acts?</p></div><span class="map-glyph">↗</span></div>
+      <div class="map-node"><span class="map-index">02</span><div><small>PERSPECTIVE 2</small><strong>Feedback</strong><p>What evidence can correct the next move?</p></div><span class="map-glyph">↻</span></div>
+      <div class="map-node"><span class="map-index">03</span><div><small>PERSPECTIVE 3</small><strong>State &amp; time</strong><p>What must persist and recover?</p></div><span class="map-glyph">▤</span></div>
+      <div class="map-node last"><span class="map-index">04</span><div><small>REFINEMENT</small><strong>Budgets &amp; evidence</strong><p>How do we know it works safely?</p></div><span class="map-glyph">✓</span></div>
+      <p class="map-footer"><span class="pulse" aria-hidden="true"></span> The model is one component of a system.</p>
+    </div></section>
+    <section class="stats-wrap" aria-label="Book overview"><div class="shell stat-grid"><div><strong>{{CHAPTER_COUNT}}</strong><span>numbered chapters</span></div><div><strong>03</strong><span>perspectives tested</span></div><div><strong>48+</strong><span>primary sources</span></div><div><strong>{{WORD_COUNT}}</strong><span>words of original synthesis</span></div></div></section>
+    <section class="paths shell" aria-labelledby="paths-title"><div class="section-heading"><p class="section-kicker">THREE STARTING PERSPECTIVES</p><h2 id="paths-title">A lens, not a leaderboard.</h2><p>Use the perspectives to diagnose a system, then challenge them with evidence. The refined model and full reading list are below.</p></div>
+      <div class="path-grid"><a class="path-card" href="#chapter-1"><span>01 / CONTROL</span><strong>Who owns the next decision?</strong><p>Model autonomy, deterministic transitions, human approval, and authority boundaries.</p><i aria-hidden="true">↗</i></a><a class="path-card" href="#chapter-1"><span>02 / FEEDBACK</span><strong>What can correct an error?</strong><p>Tools, observations, verifiers, observability, and the difference between a trace and truth.</p><i aria-hidden="true">↗</i></a><a class="path-card" href="#chapter-1"><span>03 / STATE &amp; TIME</span><strong>What survives the next turn?</strong><p>Context, memory, checkpoints, source of truth, interruption, and recovery.</p><i aria-hidden="true">↗</i></a><a class="path-card" href="#chapter-2"><span>04 / TEST &amp; REFINE</span><strong>Where does this frame break?</strong><p>Harness confounds, security, cost, measurement, and the fourth dimension: evidence.</p><i aria-hidden="true">↗</i></a></div>
+    </section>
+    <section class="lab" id="lab" aria-labelledby="lab-title"><div class="shell">
+      <div class="section-heading lab-heading"><p class="section-kicker">INTERACTIVE / RELIABILITY LAB</p><h2 id="lab-title">Small errors compound. Gates change the math.</h2><p>A deliberately simple probability model. It assumes independent steps and a detector with fixed sensitivity; real agent failures are correlated, heterogeneous, and affected by retry policy. Use it to build intuition, not predict production performance.</p></div>
+      <noscript><p class="noscript-note">JavaScript is needed for the calculator. The complete textbook below remains available.</p></noscript>
+      <div class="lab-grid"><div class="lab-card architecture-card wide">
+        <div class="card-label"><span>STEP SUCCESS × TASK HORIZON × VERIFICATION</span><span aria-hidden="true">≈</span></div><h3>What changes task-level reliability?</h3>
+        <p class="card-subtitle">Baseline probability that all sequential steps succeed is pⁿ. A verification-and-recovery layer can catch a fraction of failed steps and recover some of them, at extra cost. It does not make independent errors realistic; it makes their compounding visible.</p>
+        <div id="reliability-controls" role="group" aria-label="Reliability assumptions">
+          <div class="control-pair"><div><label for="step-success">Per-step success probability (%)</label><input type="range" id="step-success" min="90" max="99.9" value="98" step="0.1"><output id="step-success-out" for="step-success">98%</output></div><div><label for="steps">Sequential steps</label><input type="range" id="steps" min="1" max="100" value="30" step="1"><output id="steps-out" for="steps">30</output></div></div>
+          <div class="control-pair"><div><label for="detect-rate">Failure detection rate (%)</label><input type="range" id="detect-rate" min="0" max="100" value="80" step="1"><output id="detect-rate-out" for="detect-rate">80%</output></div><div><label for="recover-rate">Recovery success when detected (%)</label><input type="range" id="recover-rate" min="0" max="100" value="60" step="1"><output id="recover-rate-out" for="recover-rate">60%</output></div></div>
+        </div>
+        <div class="cost-results" aria-live="polite" aria-atomic="true"><div class="cost-primary"><span>VERIFIED TASK SUCCESS (SIMPLIFIED)</span><strong id="task-success">—</strong></div><div class="cost-metrics"><div><span>No verification</span><strong id="raw-success">—</strong></div><div><span>With detect &amp; recover</span><strong id="gated-success">—</strong></div><div><span>Expected failed steps</span><strong id="failed-steps">—</strong></div><div><span>Assumed recovery fraction</span><strong id="recovery-fraction">—</strong></div></div></div>
+        <p class="lab-foot">The simplified effective step success is <code>p + (1−p) × detection × recovery</code>, then raised to <code>n</code>. This assumes every detected error is independently repaired and no new error is introduced. Real systems require fault-class-specific empirical rates. <a href="#chapter-6">Reliability chapter →</a></p>
+      </div></div>
+    </div></section>
+    <section class="book-wrap shell" id="book" aria-label="Full agent harness textbook"><div class="book-intro"><p class="section-kicker">THE COMPLETE TEXTBOOK</p><h2>Read it end to end.</h2><p>All {{CHAPTER_COUNT}} chapters are on this page. Search the book, or <a href="TEXTBOOK.md" download>download the printable Markdown source</a>.</p></div>
+      <div class="book-layout"><aside class="book-sidebar" aria-label="Book navigation"><div class="sidebar-sticky"><label for="book-search">SEARCH THE BOOK</label><input type="search" id="book-search" placeholder="e.g. RLVR, tools, context, OpenHands…" autocomplete="off" aria-controls="search-results"><div id="search-results" class="search-results" hidden></div><nav id="chapter-nav" aria-label="Table of contents">{{CHAPTER_NAV}}</nav></div></aside><article class="book-article prose">{{BOOK_CONTENT}}</article></div>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="shell footer-inner"><div><strong>AGENT HARNESSES</strong><p>A research learning artifact. Public-source synthesis only; verify current APIs and papers before relying on them.</p></div><a href="#top">Back to top ↑</a></div></footer>
+</body></html>
