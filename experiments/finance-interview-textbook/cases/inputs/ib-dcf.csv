@@ -1,0 +1,7 @@
+record,year,revenue,ebit_margin,tax_rate,da,capex,delta_nwc,wacc,terminal_growth,terminal_roic,debt,cash,preferred,minority,shares
+forecast,1,520,0.18,0.25,18,25,4,,,,,,,,
+forecast,2,556,0.19,0.25,19,27,4.5,,,,,,,,
+forecast,3,594,0.20,0.25,20,29,5,,,,,,,,
+forecast,4,630,0.205,0.25,21,30,4.5,,,,,,,,
+forecast,5,662,0.21,0.25,22,31,4,,,,,,,,
+control,,,,,,,,0.095,0.025,0.12,120,35,0,8,50

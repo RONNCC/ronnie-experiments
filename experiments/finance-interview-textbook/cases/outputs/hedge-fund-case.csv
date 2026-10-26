@@ -1,0 +1,14 @@
+metric,value
+riskBudget,500000
+longShares,31250
+shortShares,20833.3333
+longNotional,1562500
+shortNotional,1666666.6667
+grossExposurePct,3.2292
+netExposurePct,-0.1042
+grossLimitPct,200
+netLimitPct,25
+stressPnl,-750000
+stopLossBudget,500000
+grossLimitPass,true
+netLimitPass,true

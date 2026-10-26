@@ -1,0 +1,7 @@
+record,year,ebitda,cash_taxes,capex,delta_nwc,mandatory_amortization,interest_rate,purchase_ev,refinanced_debt,fees,minimum_cash,new_debt,management_rollover,cash_sweep_pct,exit_multiple,exit_fees,interim_distributions,downside_exit_multiple
+control,,,,,,,,500,80,12,10,260,30,0.75,9,8,0,7
+year,1,85,17,16,3,8,0.09,,,,,,,,,,,
+year,2,94,19,17,3,8,0.09,,,,,,,,,,,
+year,3,103,22,18,3,8,0.09,,,,,,,,,,,
+year,4,112,25,19,2,8,0.09,,,,,,,,,,,
+year,5,122,28,21,2,8,0.09,,,,,,,,,,,
