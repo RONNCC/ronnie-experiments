@@ -1,0 +1,11 @@
+metric,value
+grossLeverage,3.5
+leverageHeadroomTurns,1
+debtCapacityAtLimit,40
+liquidityAfterMinimum,20
+runwayMonths,5
+collateralNetOfCosts,87
+seniorSecuredRecovery,87
+seniorSecuredRecoveryPct,87
+otherClaimsRecovery,0
+otherClaimsRecoveryPct,0

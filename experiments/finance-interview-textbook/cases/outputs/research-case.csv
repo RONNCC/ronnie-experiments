@@ -1,0 +1,12 @@
+metric,value
+oldEps,4
+newEps,3.6
+epsRevisionPct,-10
+targetPe,18
+targetPrice,64.8
+sharePrice,60
+priceUpsidePct,8
+illustrativeTotalReturnPct,10
+illustrativeRating,Neutral
+positiveThresholdPct,15
+negativeThresholdPct,-10

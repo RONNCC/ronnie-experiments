@@ -1,0 +1,15 @@
+metric,value
+bondPrice,970.5365
+macaulayDuration,6.2287
+modifiedDuration,5.9605
+convexity,43.8149
+bondPriceChangePct,-4.3471
+bondDollarPnl,-42.1906
+optionDelta,0.584
+optionGamma,0.0276
+optionVegaPerVolPoint,0.2758
+deltaHedgeShares,-583.998
+optionStressApproxPnl,3816.4
+deltaHedgeStressPnl,-2919.9898
+hedgedOptionStressApproxPnl,896.4102
+combinedStressPnl,854.2196
