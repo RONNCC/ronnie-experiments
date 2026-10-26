@@ -1,7 +1,22 @@
 [
   {
+    "id": "ai-eng-interview-textbook",
+    "title": "AI Engineering Interviews \u2014 A Choice, Reason, Trade-off Textbook",
+    "description": "Interactive interview-prep textbook with 25 original four-part model answers across RAG, agents, and evaluation; includes a RAG pipeline diagram, self-tests, flashcard-style answer reveals, practice timer, and local progress tracking. Question list transcribed from screenshots of a Bashiri Smith post (not independently verified).",
+    "path": "experiments/ai-eng-interview-textbook/",
+    "category": "Education",
+    "tags": [
+      "AI Engineering",
+      "Interviews",
+      "RAG",
+      "Agents",
+      "Evaluation"
+    ],
+    "date": "2026-10-25"
+  },
+  {
     "id": "agent-harness-textbook",
-    "title": "AI Agent Harnesses — A Systems Textbook",
+    "title": "AI Agent Harnesses \u2014 A Systems Textbook",
     "description": "An in-depth, source-linked textbook on AI agent harnesses: three perspectives (control allocation, feedback/observability, state/time) are tested and refined against current papers and major open/proprietary systems. Connects harness design to pretraining, SFT, preference optimization, RL/RLVR, evaluations, security, and systems. Includes interview drills, 48 annotated sources, an interactive reliability lab, and printable textbook.",
     "path": "experiments/agent-harness-textbook/",
     "category": "Education",
@@ -20,8 +35,8 @@
   },
   {
     "id": "vision-architecture-textbook",
-    "title": "Vision Models & ML Architecture — A Four-Lens Textbook",
-    "description": "A research-edition textbook on the current state of the art in vision models: why transformers, convolutional networks and state-space models are used, and when each is the wrong choice. Every claim is argued through four named perspectives — inductive bias, optimization, expressivity and systems. Covers the CNN/ViT data-scale crossover, soft and hybrid biases, reverse migration, rank collapse and registers, geometry and packing, self-supervised pre-training (DINOv3, SigLIP 2, Perception Encoder), the four-stage pipeline, RLVR and on-policy distillation, NaViT and variable resolution, FlashAttention and the roofline, mobile silicon, dense prediction (DETR to SAM 3), VLMs, video DiTs, and a four-lens reading of public research from Anthropic and Thinking Machines. Includes 100+ sourced references, a one-page mental model, forty interview questions, a printable TEXTBOOK.md, and an interactive roofline/attention/backbone lab.",
+    "title": "Vision Models & ML Architecture \u2014 A Four-Lens Textbook",
+    "description": "A research-edition textbook on the current state of the art in vision models: why transformers, convolutional networks and state-space models are used, and when each is the wrong choice. Every claim is argued through four named perspectives \u2014 inductive bias, optimization, expressivity and systems. Covers the CNN/ViT data-scale crossover, soft and hybrid biases, reverse migration, rank collapse and registers, geometry and packing, self-supervised pre-training (DINOv3, SigLIP 2, Perception Encoder), the four-stage pipeline, RLVR and on-policy distillation, NaViT and variable resolution, FlashAttention and the roofline, mobile silicon, dense prediction (DETR to SAM 3), VLMs, video DiTs, and a four-lens reading of public research from Anthropic and Thinking Machines. Includes 100+ sourced references, a one-page mental model, forty interview questions, a printable TEXTBOOK.md, and an interactive roofline/attention/backbone lab.",
     "path": "experiments/vision-architecture-textbook/",
     "category": "Education",
     "tags": [
@@ -42,7 +57,7 @@
   },
   {
     "id": "ai-systems-textbook",
-    "title": "Applied AI Systems — A Design and Operations Textbook",
+    "title": "Applied AI Systems \u2014 A Design and Operations Textbook",
     "description": "A deeply worked, source-linked AI engineering textbook expanding a 2026 agentic-engineering roadmap: models and inference, workflows, contracts and durable state, retrieval, tools, security, evaluation, operations, voice, eight hypothetical reference architectures, design drills, and an interactive tradeoff and capacity lab. Includes a printable TEXTBOOK.md.",
     "path": "experiments/ai-systems-textbook/",
     "category": "Education",
