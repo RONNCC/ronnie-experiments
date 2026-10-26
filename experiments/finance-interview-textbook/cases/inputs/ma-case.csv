@@ -1,0 +1,2 @@
+acquirer_net_income,acquirer_shares,acquirer_price,target_net_income,target_shares,offer_per_target_share,debt_fraction,stock_fraction,debt_rate,cash_yield,synergies,incremental_amortization,tax_rate,one_time_cost
+200,100,40,35,20,30,0.5,0.25,0.06,0.03,20,8,0.25,30

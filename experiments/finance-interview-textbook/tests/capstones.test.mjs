@@ -10,7 +10,7 @@ function inputs(testCase) { return parseCsv(fs.readFileSync(path.join(root,testC
 function expected(testCase) { return Object.fromEntries(parseCsv(fs.readFileSync(path.join(root,testCase.outputs),'utf8')).map(row=>[row.metric,row.value])); }
 
 test('all capstone output CSVs reproduce from their downloadable input CSVs',()=>{
-  assert.equal(caseRegistry.length,7);
+  assert.equal(caseRegistry.length,8);
   for(const testCase of caseRegistry){
     const rows=inputs(testCase); assert.ok(rows.length>0,`${testCase.id} input rows`);
     const actual=flattenResult(calculateCase(testCase,rows)); const wanted=expected(testCase);
@@ -35,13 +35,21 @@ test('LBO sources and uses balance; annual debt, interest and return schedule re
   const c=caseRegistry.find(x=>x.id==='pe-lbo'), rows=inputs(c), control=rows.find(r=>r.record==='control'), result=calculateCase(c,rows);
   near(result.sources,result.uses); near(result.sponsorEquity,result.uses-Number(control.new_debt)-Number(control.management_rollover));
   result.schedule.forEach((year,i)=>{near(year.interest,year.beginningDebt*Number(rows.find(r=>r.record==='year'&&Number(r.year)===i+1).interest_rate)); near(year.endingDebt,year.beginningDebt-year.mandatory-year.sweep); if(i)near(year.beginningDebt,result.schedule[i-1].endingDebt); assert.ok(year.cashBeforeAmort>=year.mandatory,`year ${year.year} cash funds scheduled amortization`);});
-  near(result.irr,((result.exitEquityProceeds/result.sponsorEquity)**(1/5)-1)*100,0.001); near(result.exitEquityProceeds,result.exitEnterpriseValue-result.exitDebt+result.exitCash-Number(control.exit_fees)+Number(control.interim_distributions)); result.schedule.forEach((year,i)=>{near(year.endingCash,year.beginningCash+year.cashRetained);if(i)near(year.beginningCash,result.schedule[i-1].endingCash);});
+  near(result.irr,((result.exitEquityProceeds/result.sponsorEquity)**(1/5)-1)*100,0.001); near(result.totalExitEquityProceeds,result.exitEnterpriseValue-result.exitDebt+result.exitCash-Number(control.exit_fees)); near(result.exitEquityProceeds,result.totalExitEquityProceeds*result.sponsorEquity/(result.sponsorEquity+result.rollover)); near(result.uses,Number(control.purchase_ev)+Number(control.fees)+Number(control.minimum_cash)); result.schedule.forEach((year,i)=>{near(year.endingCash,year.beginningCash+year.cashRetained);if(i)near(year.beginningCash,result.schedule[i-1].endingCash);});
 });
 
 test('credit, long/short, market-risk, research and retirement outputs are input-sensitive and bounded',()=>{
-  const credit=caseRegistry.find(x=>x.id==='credit-case'),cr=calculateCase(credit,inputs(credit)); near(cr.netLeverage,140/40); near(cr.runwayMonths,(15+10-5)/4); assert.ok(cr.seniorSecuredRecovery<=100);
+  const credit=caseRegistry.find(x=>x.id==='credit-case'),cr=calculateCase(credit,inputs(credit)); near(cr.grossLeverage,140/40); near(cr.runwayMonths,(15+10-5)/4); assert.ok(cr.seniorSecuredRecovery<=100);
   const hf=caseRegistry.find(x=>x.id==='hedge-fund-case'),hr=calculateCase(hf,inputs(hf)); assert.equal(hr.grossLimitPass,true); assert.equal(hr.netLimitPass,true); assert.ok(hr.stressPnl < -hr.stopLossBudget,'joint stress can exceed stop-based risk budget');
   const markets=caseRegistry.find(x=>x.id==='markets-case'),mr=calculateCase(markets,inputs(markets)); assert.ok(mr.bondPrice>0&&mr.modifiedDuration>0&&mr.convexity>0); assert.ok(mr.optionDelta>0&&mr.optionDelta<1); near(mr.deltaHedgeShares,-mr.optionDelta*10*100,0.01);
   const research=caseRegistry.find(x=>x.id==='research-case'), rr=calculateCase(research,inputs(research)); near(rr.epsRevisionPct,-10); near(rr.targetPrice,3.6*18); assert.equal(rr.illustrativeRating,'Neutral');
   const wealth=caseRegistry.find(x=>x.id==='wealth-case'), wr=calculateCase(wealth,inputs(wealth)); assert.ok(wr.projectedNominalAssets>500000); assert.ok(wr.illustrativeAfterTaxAssets<wr.projectedNominalAssets); assert.ok(wr.fundedRatioPct>0);
 });
+
+test('growth sensitivity changes terminal NOPAT and interim distributions cannot use single-exit shortcut',()=>{
+const d=caseRegistry.find(c=>c.id==='ib-dcf'), rows=inputs(d), result=calculateCase(d,rows);
+for(const cell of result.sensitivity){const changed=rows.map(r=>({...r}));const c=changed.find(r=>r.record==='control');c.wacc=String(cell.wacc/100);c.terminal_growth=String(cell.terminalGrowth/100);near(calculateCase(d,changed).enterpriseValue,cell.enterpriseValue);}
+const l=caseRegistry.find(c=>c.id==='pe-lbo'), lr=inputs(l);lr.find(r=>r.record==='control').interim_distributions='10';assert.throws(()=>calculateCase(l,lr),/Dated interim/);
+});
+
+test('merger financing and EPS bridge recomputes from full consideration',()=>{const c=caseRegistry.find(c=>c.id==='ma-case'), r=calculateCase(c,inputs(c));near(r.targetEquityPrice,600);near(r.newDebt+r.stockConsideration+r.cashUsed,600);near(r.sharesIssued,3.75);near(r.recurringNetIncome,200+35+(20-8-18-4.5)*.75);near(r.firstYearNetIncome,r.recurringNetIncome-30*.75);assert.ok(r.recurringAccretionPct>0);assert.ok(r.firstYearAccretionPct<0);});

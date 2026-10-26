@@ -1,5 +1,5 @@
 metric,value
-netLeverage,3.5
+grossLeverage,3.5
 leverageHeadroomTurns,1
 debtCapacityAtLimit,40
 liquidityAfterMinimum,20

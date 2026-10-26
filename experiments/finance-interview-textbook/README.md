@@ -1,5 +1,7 @@
 # Advanced Finance Interview Textbook
 
+Eight integrated cases now include an added M&A financing/EPS bridge alongside the seven role cases.
+
 A dependency-free static ES-module app with the original seven tracks and 70 original topics retained. Each topic is paired by stable ID with an advanced module containing three topic-specific deep dives, two challenging follow-up questions with model answers, a diagnostic drill with a worked answer and scoring rubric, and links that state which claims the source supports. Topic-specific judgment and technical-boundary modules supplement those sections. A structural word-count check finds an average of about 654 substantive advanced words per topic (minimum 600), counting named sections, judgment/boundary analysis and source-claim notes; this is an editorial coverage measure, not a guarantee that every word is instructional prose. The advanced modules are separate from the base track files so the original lessons, examples, formulas, three interview questions and self-checks remain intact.
 
 ## Run locally

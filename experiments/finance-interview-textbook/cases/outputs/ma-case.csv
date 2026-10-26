@@ -1,0 +1,17 @@
+metric,value
+targetEquityPrice,600
+newDebt,300
+stockConsideration,150
+cashUsed,150
+sharesIssued,3.75
+newDebtInterest,18
+foregoneCashInterest,4.5
+pretaxRecurringAdjustment,-10.5
+recurringNetIncome,227.125
+combinedShares,103.75
+standaloneEps,2
+recurringEps,2.1892
+recurringAccretionPct,9.4578
+firstYearNetIncome,204.625
+firstYearEps,1.9723
+firstYearAccretionPct,-1.3855
