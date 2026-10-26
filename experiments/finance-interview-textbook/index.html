@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111d27">
+  <meta name="description" content="An interactive finance interview textbook with seven career tracks, 70 original worked topics, interview practice, glossary, and saved progress.">
+  <title>Finance Interview Textbook — Seven Career Tracks</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#textbook">Skip to the textbook</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="back-link" href="../../">← <span>Experiments</span></a>
+      <a class="wordmark" href="#top"><span aria-hidden="true">◈</span> FINANCE <b>INTERVIEW</b></a>
+      <nav class="top-nav" aria-label="Main navigation"><a href="#tracks">Career tracks</a><a href="#textbook">Textbook</a><a href="#glossary">Glossary</a></nav>
+    </div>
+  </header>
+  <main id="top">
+    <section class="hero shell">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="signal-dot" aria-hidden="true"></span> AN ORIGINAL, PRACTICAL INTERVIEW FIELD GUIDE</p>
+        <h1>Finance, explained.<br><em>Seven career tracks.</em></h1>
+        <p class="hero-lead">Seventy concise textbook sections for building sound financial intuition, checking the arithmetic, and explaining your reasoning in an interview.</p>
+        <p class="hero-note">Plain-English lessons · frameworks and formulas · worked examples · model answers · quick self-checks</p>
+        <a class="button primary" href="#textbook">Open the textbook <span aria-hidden="true">→</span></a>
+      </div>
+      <aside class="system-map" aria-label="Study sequence">
+        <div class="map-top">A REPEATABLE WAY TO ANSWER <span>01 / 04</span></div>
+        <div class="map-node"><span class="map-index">01</span><div><small>DEFINE</small><strong>What decision?</strong><p>Set the objective, period, and convention.</p></div></div>
+        <div class="map-node"><span class="map-index">02</span><div><small>ANALYZE</small><strong>Which drivers?</strong><p>Connect assumptions to the framework.</p></div></div>
+        <div class="map-node"><span class="map-index">03</span><div><small>CALCULATE</small><strong>Show the work.</strong><p>Check units and internal consistency.</p></div></div>
+        <div class="map-node last"><span class="map-index">04</span><div><small>QUALIFY</small><strong>Name the risk.</strong><p>State what could change your conclusion.</p></div></div>
+        <p class="map-footer"><span class="pulse" aria-hidden="true"></span> Learn the logic, not a script.</p>
+      </aside>
+    </section>
+    <section class="stats-wrap" aria-label="Textbook progress"><div class="shell stats">
+      <div class="statline"><strong><span id="done-count">0</span> / 70</strong><span>topics marked done</span><span class="saved-note">Progress saved on this device</span><button id="reset-progress" class="text-button" type="button">Reset</button></div>
+      <div class="progress" role="progressbar" aria-label="Topics completed" aria-valuemin="0" aria-valuemax="70" aria-valuenow="0"><i id="progress-bar"></i></div>
+    </div></section>
+    <section class="shell track-intro" id="tracks">
+      <p class="section-kicker">CHOOSE A THREAD</p><h2>Seven paths into finance.</h2>
+      <div class="track-grid" id="track-cards"></div>
+    </section>
+    <section class="shell book-layout" id="textbook" aria-label="Textbook and table of contents">
+      <aside class="book-sidebar">
+        <div class="sidebar-sticky">
+          <p class="section-kicker">THE TEXTBOOK</p><h2>Find a topic</h2>
+          <label class="search-label" for="book-search">Search all 70 topics</label>
+          <input id="book-search" type="search" placeholder="Try “duration” or “DCF”" autocomplete="off">
+          <p id="search-status" class="search-status" aria-live="polite"></p>
+          <nav id="chapter-nav" aria-label="Table of contents"></nav>
+        </div>
+      </aside>
+      <div class="book-content" id="book-content" aria-live="polite"></div>
+    </section>
+    <section class="shell glossary" id="glossary">
+      <p class="section-kicker">REFERENCE</p><h2>Glossary</h2>
+      <p class="glossary-intro">Short definitions for recurring terms. A term’s precise meaning can depend on the relevant agreement, accounting policy, mandate, or jurisdiction.</p>
+      <dl class="glossary-list" id="glossary-list"></dl>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="shell footer-inner"><div><strong>FINANCE INTERVIEW TEXTBOOK</strong><p>Original educational material. Illustrations use stated assumptions and are not investment, tax, legal, or financial advice.</p></div><a href="#top">Back to top ↑</a></div></footer>
+</body>
+</html>

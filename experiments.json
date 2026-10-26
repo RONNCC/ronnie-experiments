@@ -15,6 +15,23 @@
     "date": "2026-10-25"
   },
   {
+    "id": "finance-interview-textbook",
+    "title": "Finance Interview Textbook — Seven Career Tracks",
+    "description": "An interactive finance interview textbook covering 70 topics across investment banking, private credit, private equity, hedge funds, sales & trading, equity research, and wealth management. Each section includes an original plain-English explanation, formulas and frameworks, checked worked arithmetic, interview model answers, self-checks, search, and saved progress.",
+    "path": "experiments/finance-interview-textbook/",
+    "category": "Education",
+    "tags": [
+      "Finance",
+      "Interview Prep",
+      "Accounting",
+      "Valuation",
+      "Private Credit",
+      "Private Equity",
+      "Interactive"
+    ],
+    "date": "2026-10-26"
+  },
+  {
     "id": "agent-harness-textbook",
     "title": "AI Agent Harnesses \u2014 A Systems Textbook",
     "description": "An in-depth, source-linked textbook on AI agent harnesses: three perspectives (control allocation, feedback/observability, state/time) are tested and refined against current papers and major open/proprietary systems. Connects harness design to pretraining, SFT, preference optimization, RL/RLVR, evaluations, security, and systems. Includes interview drills, 48 annotated sources, an interactive reliability lab, and printable textbook.",
