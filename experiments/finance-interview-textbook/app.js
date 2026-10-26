@@ -41,13 +41,21 @@ function renderToc() {
   $("#chapter-nav").innerHTML = tracks.map((track, i) => `<details class="toc-track" open><summary>${esc(track.name)}</summary><div class="toc-links">${track.topics.map(topic => `<a href="#${esc(topic.id)}">${esc(topic.title)}</a>`).join("")}</div></details>`).join("");
 }
 
+function exampleText(topic) {
+  if (typeof topic.example === "string") return topic.example;
+  return `${topic.example.assumptions} ${topic.example.steps.join(" ")}`;
+}
+function exampleMarkup(topic) {
+  if (typeof topic.example === "string") return `<p>${esc(topic.example)}</p>`;
+  return `<p><strong>Assumptions:</strong> ${esc(topic.example.assumptions)}</p><ol>${topic.example.steps.map(step => `<li>${esc(step)}</li>`).join("")}</ol>`;
+}
 function topicMarkup(topic, index) {
   const questions = topic.questions.map((item, i) => `<details class="question"><summary>Interview question ${i + 1}: ${esc(item.q)}</summary><div class="answer"><p>${esc(item.a)}</p><p class="mistake"><strong>Typical mistake:</strong> ${esc(item.mistake)}</p></div></details>`).join("");
-  return `<article class="topic" id="${esc(topic.id)}" data-search="${esc([topic.title, topic.track, topic.explanation, topic.framework, topic.example, ...topic.questions.flatMap(q => [q.q, q.a, q.mistake])].join(" ").toLowerCase())}">
+  return `<article class="topic" id="${esc(topic.id)}" data-search="${esc([topic.title, topic.track, topic.explanation, topic.framework, exampleText(topic), ...topic.questions.flatMap(q => [q.q, q.a, q.mistake])].join(" ").toLowerCase())}">
     <div class="topic-top"><div><span class="topic-number">${String(index).padStart(2, "0")} · ${esc(topic.track.toUpperCase())}</span><h3>${esc(topic.title)}</h3></div><label class="done-label"><input type="checkbox" data-done="${esc(topic.id)}" ${completed.has(topic.id) ? "checked" : ""}><span>Mark done</span></label></div>
     <p class="explanation">${esc(topic.explanation)}</p>
     <h4>Key formulas &amp; framework</h4><div class="formula"><p>${esc(topic.framework)}</p><p class="notation"><strong>Notation:</strong> EBIT = earnings before interest and taxes; EBITDA = earnings before interest, taxes, depreciation, and amortization; NI = net income; EPS = earnings per share; EV = enterprise value; UFCF = unlevered free cash flow; WACC = weighted average cost of capital; TV = terminal value; g = growth rate; NWC = net working capital; Δ = change; t = period index; n = number of periods; r = rate per period; y = bond yield; K = option strike; S = underlying price; w = portfolio weight; Σ = sum. Any additional terms are defined in the explanation or example; conventions may vary.</p></div>
-    <h4>Worked example</h4><div class="example"><p>${esc(topic.example)}</p></div>
+    <h4>Worked example</h4><div class="example">${exampleMarkup(topic)}</div>
     <h4>Interview practice</h4>${questions}
     <details class="self-check"><summary>Quick self-check · click to reveal</summary><p><strong>${esc(topic.selfCheck.question)}</strong></p><p>${esc(topic.selfCheck.answer)}</p></details>
   </article>`;
@@ -57,7 +65,7 @@ function renderBook(query = "") {
   const normalized = query.trim().toLocaleLowerCase();
   let hitCount = 0;
   const html = tracks.map((track, trackIndex) => {
-    const matching = track.topics.filter(topic => !normalized || [topic.title, topic.track, topic.explanation, topic.framework, topic.example, ...topic.questions.flatMap(q => [q.q, q.a, q.mistake])].join(" ").toLocaleLowerCase().includes(normalized));
+    const matching = track.topics.filter(topic => !normalized || [topic.title, topic.track, topic.explanation, topic.framework, exampleText(topic), ...topic.questions.flatMap(q => [q.q, q.a, q.mistake])].join(" ").toLocaleLowerCase().includes(normalized));
     if (!matching.length) return "";
     hitCount += matching.length;
     return `<section class="track-section" id="track-${trackIndex}"><header class="track-heading"><p class="section-kicker">CAREER TRACK 0${trackIndex + 1} · ${matching.length} ${normalized ? "MATCHING " : ""}TOPICS</p><h2>${esc(track.name)}</h2></header>${matching.map(topic => topicMarkup(topic, track.topics.indexOf(topic) + 1)).join("")}</section>`;
