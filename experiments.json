@@ -1,5 +1,24 @@
 [
   {
+    "id": "vla-staff-roadmap",
+    "title": "VLA Staff Engineer — From Pixels to Reliable Robot Action",
+    "description": "A 23,000-word, source-linked fieldbook built around the Nidus Staff ML Engineer, VLA Training role. Learn behavior cloning, multimodal and generative policies, robot data engineering, distributed training, evaluation, and on-robot debugging; then prove the skills through seven scoped portfolio builds with explicit simulation and hardware gates. Includes interactive memory, data-mixture, and evaluation-uncertainty labs.",
+    "path": "experiments/vla-staff-roadmap/",
+    "category": "Education",
+    "tags": [
+      "VLA",
+      "Robotics",
+      "PyTorch",
+      "Distributed Training",
+      "Behavior Cloning",
+      "Diffusion Policy",
+      "Evaluation",
+      "Portfolio",
+      "Interactive"
+    ],
+    "date": "2026-10-27"
+  },
+  {
     "id": "ai-eng-interview-textbook",
     "title": "AI Engineering Interviews \u2014 A Choice, Reason, Trade-off Textbook",
     "description": "Interactive interview-prep textbook with 25 original four-part model answers across RAG, agents, and evaluation; includes a RAG pipeline diagram, self-tests, flashcard-style answer reveals, practice timer, and local progress tracking. Question list transcribed from screenshots of a Bashiri Smith post (not independently verified).",
