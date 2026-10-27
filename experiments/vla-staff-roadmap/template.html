@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101c26">
+  <meta name="description" content="A project-based VLA staff-engineering textbook: behavior cloning, multimodal policies, robot data, distributed training, evaluation, on-robot debugging, and seven portfolio builds.">
+  <title>VLA Staff Engineer — From Pixels to Reliable Robot Action</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.mjs"></script>
+</head>
+<body>
+  <a class="skip-link" href="#book">Skip to the fieldbook</a>
+  <div class="read-progress" id="read-progress" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="back-link" href="../../" aria-label="Back to Ronnie's Experiments">← <span>Experiments</span></a>
+      <a class="wordmark" href="#top" aria-label="VLA Staff Engineer, back to top"><span class="wordmark-icon" aria-hidden="true">⌁</span> VLA <b>FIELD MANUAL</b></a>
+      <nav class="top-nav" aria-label="Main navigation">
+        <a href="#lab">Training lab</a>
+        <a href="#chapter-16">Seven builds</a>
+        <a class="nav-download" href="TEXTBOOK.md" download>Download Markdown <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="hero shell" id="top" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="signal-dot" aria-hidden="true"></span> STAFF ML ENGINEERING · PROJECT-BASED EDITION</p>
+        <h1 id="hero-title">Teach a robot.<br>Then <em>prove it.</em></h1>
+        <p class="hero-lead">A deep, source-linked fieldbook for the <strong>Nidus Staff ML Engineer, VLA Training</strong> role — from behavior cloning and diffusion policies to sharded data, multi-node training, and defensible on-robot evaluation.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#chapter-0">Start the fieldbook <span aria-hidden="true">→</span></a>
+          <a class="button outline" href="#chapter-16">See the seven builds <span aria-hidden="true">↘</span></a>
+        </div>
+        <p class="hero-note">Independent study material, not affiliated with Nidus. Role snapshot: 27 October 2026. Projects produce evidence; no roadmap can substitute for professional experience, hardware access, or a robot-safety program.</p>
+      </div>
+      <div class="system-map" role="img" aria-label="The robot learning loop: perceive, predict, act within limits, then measure and improve">
+        <div class="map-top"><span class="map-line"></span> THE ROBOT LEARNING LOOP <span>01 / 04</span></div>
+        <div class="map-node"><span class="map-index">01</span><div><small>PERCEIVE</small><strong>Synchronize the world</strong><p>Video + language + state + calibration.</p></div><span class="map-glyph">◉</span></div>
+        <div class="map-node"><span class="map-index">02</span><div><small>PREDICT</small><strong>Model action, not just tokens</strong><p>BC + transformers + diffusion / flow.</p></div><span class="map-glyph">λ</span></div>
+        <div class="map-node"><span class="map-index">03</span><div><small>ACT</small><strong>Close the loop within limits</strong><p>Action chunks + latency + safety bounds.</p></div><span class="map-glyph">↗</span></div>
+        <div class="map-node last"><span class="map-index">04</span><div><small>IMPROVE</small><strong>Turn failures into data</strong><p>Evaluate + diagnose + collect + retrain.</p></div><span class="map-glyph">↻</span></div>
+        <p class="map-footer"><span class="pulse" aria-hidden="true"></span> A model is only one part of the system.</p>
+      </div>
+    </section>
+
+    <section class="stats-wrap" aria-label="Fieldbook overview"><div class="shell stat-grid">
+      <div><strong>{{CHAPTER_COUNT}}</strong><span>numbered chapters</span></div>
+      <div><strong>07</strong><span>cumulative portfolio builds</span></div>
+      <div><strong>36</strong><span>week experienced-engineer plan</span></div>
+      <div><strong>{{WORD_COUNT}}</strong><span>words of original guidance</span></div>
+    </div></section>
+
+    <section class="paths shell" aria-labelledby="paths-title">
+      <div class="section-heading"><p class="section-kicker">CHOOSE YOUR ENTRY POINT</p><h2 id="paths-title">One role. Four systems to master.</h2><p>Read sequentially, or begin where your evidence is weakest. Every chapter ends with an artifact to build, measure, or explain.</p></div>
+      <div class="path-grid">
+        <a class="path-card" href="#chapter-2"><span>01 / POLICY</span><strong>Learn from demonstrations.</strong><p>Behavior cloning, VLA fusion, action chunking, diffusion, flow matching, and adaptation.</p><i aria-hidden="true">↗</i></a>
+        <a class="path-card" href="#chapter-6"><span>02 / DATA + SCALE</span><strong>Make training reproducible.</strong><p>Synchronized trajectories, mixtures, high-throughput loaders, FSDP, and resilient checkpoints.</p><i aria-hidden="true">↗</i></a>
+        <a class="path-card" href="#chapter-11"><span>03 / EVIDENCE</span><strong>Debug the whole robot.</strong><p>Offline and online evaluation, confidence intervals, trajectory inspection, and failure isolation.</p><i aria-hidden="true">↗</i></a>
+        <a class="path-card" href="#chapter-16"><span>04 / PORTFOLIO</span><strong>Ship seven small systems.</strong><p>Scoped pet projects with milestones, tests, ablations, deliverables, and honest hardware gates.</p><i aria-hidden="true">↗</i></a>
+      </div>
+    </section>
+
+    <section class="lab" id="lab" aria-labelledby="lab-title"><div class="shell">
+      <div class="section-heading lab-heading"><p class="section-kicker">INTERACTIVE / TRAINING &amp; EVIDENCE LAB</p><h2 id="lab-title">Put numbers on the tradeoffs.</h2><p>Transparent arithmetic for three recurring staff-level conversations. These are planning models, not measured performance, a cluster capacity promise, or a substitute for a full evaluation.</p></div>
+      <noscript><p class="noscript-note">The interactive controls require JavaScript. The complete fieldbook below remains available without it.</p></noscript>
+      <div class="lab-grid">
+        <div class="lab-card architecture-card">
+          <div class="card-label"><span>01 — TRAINING MEMORY</span><span aria-hidden="true">▤</span></div>
+          <h3>Will the optimizer fit?</h3>
+          <p class="card-subtitle">Idealized BF16 AdamW: 16 bytes per parameter before activations. DDP replicates static state; ideal FSDP shards it. Decimal GB, not GiB. <a href="#chapter-9">Chapter 9 →</a></p>
+          <div id="memory-controls" role="group" aria-label="Training memory assumptions">
+            <div class="control-pair">
+              <div><label for="mem-params">Parameters (billions)</label><input type="number" id="mem-params" min="0.01" max="1000" step="0.1" value="7"></div>
+              <div><label for="mem-scheme">Parallelism</label><select id="mem-scheme"><option value="ddp">DDP · replicated</option><option value="fsdp" selected>FSDP · ideally sharded</option></select></div>
+            </div>
+            <div class="control-pair">
+              <div><label for="mem-gpus">GPU count</label><input type="number" id="mem-gpus" min="1" max="1024" step="1" value="8"></div>
+              <div><label for="mem-gpu-memory">Memory per GPU (GB)</label><input type="number" id="mem-gpu-memory" min="1" max="2048" step="1" value="80"></div>
+            </div>
+            <div class="control-pair">
+              <div><label for="mem-activation">Activations / rank (GB)</label><input type="number" id="mem-activation" min="0" max="2048" step="0.5" value="18"></div>
+              <div><label for="mem-runtime">Runtime allowance / rank (GB)</label><input type="number" id="mem-runtime" min="0" max="512" step="0.5" value="6"></div>
+            </div>
+          </div>
+          <p id="memory-error" class="form-error" role="alert" hidden>Enter finite values within the field limits; GPU count must be an integer.</p>
+          <div class="cost-results" aria-live="polite" aria-atomic="true">
+            <div class="cost-primary"><span>IDEALIZED BUDGET</span><strong id="mem-fit">—</strong></div>
+            <div class="cost-metrics">
+              <div><span>Static state / rank</span><strong id="mem-static">—</strong></div>
+              <div><span>Total budget / rank</span><strong id="mem-total">—</strong></div>
+              <div><span>Headroom / rank</span><strong id="mem-headroom">—</strong></div>
+              <div><span>W + G + optimizer</span><strong id="mem-breakdown">—</strong></div>
+            </div>
+          </div>
+          <p class="lab-foot">A “fits” result only means this arithmetic fits. Temporary buffers, unsharded parameters, allocator fragmentation, communication workspaces, and activation implementation can change the answer. Profile a real step.</p>
+        </div>
+
+        <div class="lab-card calculator-card">
+          <div class="card-label"><span>02 — EVALUATION UNCERTAINTY</span><span aria-hidden="true">±</span></div>
+          <h3>What does 84% success mean?</h3>
+          <p class="card-subtitle">A 95% Wilson score interval for independent Bernoulli trials. It does not capture correlated initial states, changing hardware, or distribution shift. <a href="#chapter-11">Chapter 11 →</a></p>
+          <div id="evaluation-controls" role="group" aria-label="Robot evaluation results and trial planning">
+            <div class="control-pair">
+              <div><label for="eval-successes">Successful rollouts</label><input type="number" id="eval-successes" min="0" max="1000000" step="1" value="42"></div>
+              <div><label for="eval-trials">Total rollouts</label><input type="number" id="eval-trials" min="1" max="1000000" step="1" value="50"></div>
+            </div>
+            <div class="control-pair">
+              <div><label for="eval-expected">Planning success rate (%)</label><input type="number" id="eval-expected" min="0.1" max="99.9" step="1" value="80"></div>
+              <div><label for="eval-margin">Desired half-width (± %)</label><input type="number" id="eval-margin" min="0.1" max="49.9" step="0.5" value="5"></div>
+            </div>
+          </div>
+          <p id="evaluation-error" class="form-error" role="alert" hidden>Use whole rollout counts with 0 ≤ successes ≤ trials; percentages must stay within their field limits.</p>
+          <div class="cost-results" aria-live="polite" aria-atomic="true">
+            <div class="cost-primary"><span>OBSERVED SUCCESS</span><strong id="eval-rate">—</strong></div>
+            <div class="cost-metrics">
+              <div><span>95% Wilson interval</span><strong id="eval-ci">—</strong></div>
+              <div><span>Interval width</span><strong id="eval-width">—</strong></div>
+              <div><span>Rough planning count</span><strong id="eval-plan">—</strong></div>
+              <div><span>Planning model</span><strong>Normal approx.</strong></div>
+            </div>
+          </div>
+          <p class="lab-foot">Never compare two checkpoints by point estimates alone. Use the same pre-registered task matrix, report paired initial conditions where possible, and inspect failures. The planning count is only a normal-approximation starting point.</p>
+        </div>
+
+        <div class="lab-card architecture-card wide">
+          <div class="card-label"><span>03 — DATA MIXTURE TEMPERATURE</span><span aria-hidden="true">α</span></div>
+          <h3>Who gets the next training sample?</h3>
+          <p class="card-subtitle">Temperature sampling uses <code>pᵢ ∝ nᵢ^α</code>. At α=1 you sample naturally; at α=0 every dataset has equal probability. Intermediate values rebalance without making tiny datasets disappear. <a href="#chapter-7">Chapter 7 →</a></p>
+          <div id="mixture-controls" role="group" aria-label="Three dataset sizes, mixture temperature, and sample budget">
+            <div class="control-pair control-triple">
+              <div><label for="mix-pick">Pick samples</label><input type="number" id="mix-pick" min="1" max="1000000000" step="100" value="80000"></div>
+              <div><label for="mix-wipe">Wipe samples</label><input type="number" id="mix-wipe" min="1" max="1000000000" step="100" value="20000"></div>
+              <div><label for="mix-fold">Fold samples</label><input type="number" id="mix-fold" min="1" max="1000000000" step="100" value="5000"></div>
+            </div>
+            <div class="control-pair">
+              <div><label for="mix-alpha">Temperature α · <output id="mix-alpha-value" for="mix-alpha">0.50</output></label><input type="range" id="mix-alpha" min="0" max="1" step="0.05" value="0.5"></div>
+              <div><label for="mix-draws">Training draws</label><input type="number" id="mix-draws" min="1" max="1000000000" step="1000" value="100000"></div>
+            </div>
+          </div>
+          <p id="mixture-error" class="form-error" role="alert" hidden>Enter positive finite dataset sizes and a positive draw count within the field limits.</p>
+          <div class="table-scroll" tabindex="0" aria-label="Mixture results; scroll horizontally on small screens">
+            <table class="mixture-table">
+              <thead><tr><th>Dataset</th><th>Sampling probability</th><th>Expected draws</th><th>Passes over data</th><th>Vs. natural rate</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Pick</th><td id="mix-0-prob">—</td><td id="mix-0-draws">—</td><td id="mix-0-epochs">—</td><td id="mix-0-relative">—</td></tr>
+                <tr><th scope="row">Wipe</th><td id="mix-1-prob">—</td><td id="mix-1-draws">—</td><td id="mix-1-epochs">—</td><td id="mix-1-relative">—</td></tr>
+                <tr><th scope="row">Fold</th><td id="mix-2-prob">—</td><td id="mix-2-draws">—</td><td id="mix-2-epochs">—</td><td id="mix-2-relative">—</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="lab-foot" id="mix-note">More sampling is not automatically better: a tiny dataset can be memorized while a large one is undertrained. Validate per task and per embodiment, and keep evaluation data out of every mixture.</p>
+        </div>
+      </div>
+    </div></section>
+
+    <section class="book-wrap shell" id="book" aria-label="Complete VLA staff engineering fieldbook">
+      <div class="book-intro"><p class="section-kicker">THE COMPLETE FIELDBOOK</p><h2>Learn the system. Build the evidence.</h2><p>All {{CHAPTER_COUNT}} chapters are on this page. Search titles and chapter text, follow the source links, or <a href="TEXTBOOK.md" download>download the printable Markdown edition</a>. The seven builds in Chapter 16 turn the material into a coherent portfolio.</p></div>
+      <div class="book-layout">
+        <aside class="book-sidebar" aria-label="Fieldbook navigation">
+          <div class="sidebar-sticky">
+            <label for="book-search">SEARCH THE FIELDBOOK</label>
+            <input type="search" id="book-search" placeholder="e.g. FSDP, action chunks, Wilson…" autocomplete="off" aria-controls="search-results">
+            <div id="search-results" class="search-results" hidden aria-live="polite"></div>
+            <nav id="chapter-nav" aria-label="Table of contents">{{CHAPTER_NAV}}</nav>
+          </div>
+        </aside>
+        <article class="book-article prose">{{BOOK_CONTENT}}</article>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="shell footer-inner"><div><strong>VLA FIELD MANUAL</strong><p>Independent educational material. Public sources are annotated in Chapter 20; physical-robot work requires qualified supervision and a site-specific safety process.</p></div><a href="#top">Back to top ↑</a></div></footer>
+</body>
+</html>
