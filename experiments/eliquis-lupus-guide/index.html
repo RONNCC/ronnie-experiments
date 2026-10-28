@@ -10,6 +10,7 @@
     <title>Eliquis & Lupus Anticoagulant — The Hematology Atlas</title>
     <link rel="stylesheet" href="styles.css" />
     <script src="app.js" defer></script>
+    <script src="stories.js" defer></script>
   </head>
   <body>
     <header class="topbar">
@@ -29,10 +30,9 @@
             <span class="eyebrow-line"></span> A HEMATOLOGIST'S GUIDE
             <span class="edition">EDITION 01 — 2026</span>
           </div>
-          <h1>Two stories.<br /><em>One clotting system.</em></h1>
+          <h1>How blood makes a plug.<br /><em>And why tests get tricky.</em></h1>
           <p>
-            Explore how apixaban quiets coagulation—and why lupus anticoagulant
-            makes the laboratory tell a more complicated story.
+            Blood can form a plug to stop a cut from bleeding. Eliquis slows this process. A different thing, an immune protein called lupus anticoagulant, can make a lab test misleading. Start with the stories; no biology background needed.
           </p>
           <div class="hero-bottom">
             <a href="#exhibit" class="primary-link"
@@ -62,8 +62,7 @@
           <p>
             <b>A note before we begin.</b> This is generic teaching content, not
             medical advice. All interactive values and cases are synthetic,
-            illustrative, and not for clinical interpretation. Never change
-            anticoagulation without the treating team.
+            illustrative, and not for clinical interpretation. Never change a blood thinner without the treating team.
           </p>
         </div>
       </div>
@@ -80,6 +79,27 @@
             begin.
           </p>
         </div>
+        <section class="begin-here" aria-labelledby="begin-heading">
+          <div class="begin-heading"><span class="micro">START HERE · NO PRIOR KNOWLEDGE NEEDED</span><h3 id="begin-heading">First, meet the cast.</h3><p>Imagine a leak in a pipe. Blood makes a temporary plug, then strengthens it with a net. These words are the characters in that story; you can come back to them at any time.</p></div>
+          <div class="word-grid">
+            <p><b>Clot</b> — a plug made by blood to stop a leak. Inside a blood vessel, a clot can also block the flow.</p>
+            <p><b>Plasma</b> — the liquid part of blood, like the broth carrying ingredients in soup.</p>
+            <p><b>Platelet</b> — a tiny piece of a blood cell that gathers at a cut and helps make the first plug.</p>
+            <p><b>Factor</b> — a protein that takes part in clotting; each numbered factor is a different relay runner.</p>
+            <p><b>Enzyme</b> — a protein that helps a chemical reaction happen, like a worker operating a machine.</p>
+            <p><b>Fibrin</b> — sticky protein threads that weave a mesh to reinforce a clot, like netting over a patch.</p>
+            <p><b>Phospholipid</b> — a fatty building block of cell surfaces; it provides a workbench where clotting proteins can assemble.</p>
+            <p><b>Antibody</b> — an immune-system protein that recognizes a target, like a lock fitting a key.</p>
+            <p><b>Anticoagulant</b> — a medicine that slows clotting, often called a blood thinner. It does not literally dilute blood.</p>
+            <p><b>Assay</b> — a laboratory test. A clotting assay measures what happens to a blood sample in a tube.</p>
+            <p><b>Ratio</b> — one number divided by another; for example, 60 seconds ÷ 30 seconds is a ratio of 2.</p>
+            <p><b>Thrombin</b> — a clotting protein that sends the instruction to turn fibrinogen into fibrin threads.</p>
+            <p><b>Fibrinogen</b> — a protein dissolved in plasma that thrombin changes into fibrin, the net’s threads.</p>
+            <p><b>Antithrombin</b> — a natural protein that acts as a brake on clotting; some medicines boost it.</p>
+          </div>
+          <p class="word-note">A <b>cascade</b> is a chain reaction: one step turns on the next, like dominoes. “Activated” means a factor has been switched on. The small “a” in Xa means activated factor X. Despite its name, lupus anticoagulant is an antibody pattern, not an anticoagulant medicine.</p>
+        </section>
+        <div class="plain-intro"><b>Choose your story.</b> Like choosing a chapter in a book, use these two tabs to switch between how the medicine works and why a lab result can be misleading.</div>
         <div class="tabs" role="tablist" aria-label="Exhibit chapters">
           <button
             class="tab active"
@@ -105,6 +125,7 @@
             ><span class="tab-arrow">↗</span>
           </button>
         </div>
+        <div class="reading-key"><p><b>What you are looking at:</b> The highlighted tab is the chapter that is open. Tap the other tab to change chapters.</p><p><b>So what:</b> You can explore either story first and return whenever you like.</p></div>
         <div
           id="panel-drug"
           role="tabpanel"
@@ -119,8 +140,7 @@
               </div>
               <h2>A small molecule.<br /><em>A pivotal target.</em></h2>
               <p>
-                Apixaban (Eliquis) interrupts the cascade at factor Xa, upstream
-                of the thrombin burst. Select a node to follow the pathway.
+                A clotting cascade is a relay race: one factor switches on the next. At the finish line is a clot, a mesh that plugs a cut. We need clots to stop bleeding, but an unwanted clot can block a blood vessel. Eliquis (also called apixaban) slows the relay by blocking one key runner, factor Xa.
               </p>
             </div>
             <div class="chapter-aside">
@@ -132,6 +152,22 @@
               </p>
             </div>
           </div>
+          <section class="story-block" aria-labelledby="clot-heading">
+            <div class="story-intro"><span class="micro">01 / FIRST THE BIG PICTURE · A GUIDED STORY</span><h3 id="clot-heading">How a cut becomes a plug</h3><p>Picture a hole in a garden hose. First a quick patch covers the leak; then a net reinforces it. Press Play to watch the body make its own patch, one step at a time.</p></div>
+            <div class="story-player panel" id="story-clot" data-story="clot"><noscript>Turn on JavaScript to play this guided story.</noscript></div>
+            <div class="reading-key"><p><b>What you are looking at:</b> The red channel is a blood vessel, the gap is a cut, gold dots are platelets, labeled shapes are clotting factors, and pale threads are fibrin. The bright part is the current step; the words beside it tell the story.</p><p><b>So what:</b> A clot is useful at a cut, but a clot inside an unbroken vessel can block blood flow.</p></div>
+          </section>
+          <section class="story-block" aria-labelledby="block-heading">
+            <div class="story-intro"><span class="micro">02 / THE MEDICINE · A GUIDED STORY</span><h3 id="block-heading">Where Eliquis slows the relay</h3><p>Now imagine a relay runner blocked before passing the baton. Play the story to see how Eliquis temporarily blocks factor Xa, so less of the clot-building signal called thrombin is made.</p></div>
+            <div class="story-player panel" id="story-block" data-story="block"><noscript>Turn on JavaScript to play this guided story.</noscript></div>
+            <div class="reading-key"><p><b>What you are looking at:</b> The circles are relay runners. The arrows show the next handoff; the peach shield is Eliquis blocking Xa. The shrinking glow represents less thrombin being made, not a complete stop.</p><p><b>So what:</b> Eliquis is a brake on clotting, not a medicine that instantly dissolves a clot or turns blood into water.</p></div>
+          </section>
+          <section class="story-block" aria-labelledby="race-heading">
+            <div class="story-intro"><span class="micro">03 / IN A TEST TUBE · A GUIDED STORY</span><h3 id="race-heading">A clotting race, with and without medicine</h3><p>Imagine two cups of cake mixture: if one ingredient is slowed, that cup may take longer to set. In some clotting tests, a sample containing Eliquis may take longer to clot than a sample without it.</p></div>
+            <div class="story-player panel" id="story-race" data-story="race"><noscript>Turn on JavaScript to play this guided story.</noscript></div>
+            <div class="reading-key"><p><b>What you are looking at:</b> Two tubes compare illustrative samples; dots are medicine and the pale mesh means a clot has formed. The progress strips are a story, not real measured seconds. Play, pause, or step through.</p><p><b>So what:</b> The effect depends on the test and its ingredients. A normal routine test does not prove Eliquis is absent; thrombin time is usually normal.</p></div>
+          </section>
+          <div class="plain-intro"><b>Before you explore:</b> The diagram is a relay map, not a picture of blood cells. Follow the arrows from the top toward the fibrin net at the bottom. Each box is a helper in the chain. Try No drug first; then choose Eliquis (apixaban) to see the blocked runner.</div>
           <div class="cascade-card panel">
             <div class="panel-heading">
               <div>
@@ -500,8 +536,7 @@
                 <span class="micro">FACTOR FIELD NOTES</span>
                 <h4 id="node-title">Factor Xa</h4>
                 <p id="node-description">
-                  The intersection of the pathways. Xa assembles with Va,
-                  phospholipid and calcium to make prothrombinase.
+                  Two routes meet here. Xa joins a helper called Va on a fatty workbench to make the signal thrombin.
                 </p>
                 <div class="detail-divider"></div>
                 <span class="micro">LOOK FOR</span>
@@ -514,15 +549,14 @@
             <div class="map-caption">
               <span>✳</span>
               <p>
-                <b>Direct by design.</b> Apixaban reversibly occupies the active
-                site of free, clot-bound, and prothrombinase-bound Xa. It does
-                <b>not</b> require antithrombin.
+                <b>Direct by design.</b> Eliquis temporarily covers Xa’s working site, whether Xa is floating freely, attached to a clot, or working in its helper team. It does <b>not</b> need antithrombin, the body’s natural clotting brake.
                 <strong id="cascade-outcome"
                   >Switch apixaban on to see its effect.</strong
                 >
               </p>
             </div>
           </div>
+          <div class="reading-key"><p><b>What you are looking at:</b> Boxes are factors or teams; arrows show who helps switch on the next step. Peach outlines mark the chosen drug’s targets; grey Xa and a smaller glow show the Eliquis brake. Tap a box for its job; the switch turns Eliquis on or off.</p><p><b>So what:</b> Many different medicines slow clotting at different points. Eliquis blocks factor Xa, so the relay makes less thrombin, the signal that starts building fibrin.</p></div>
           <div class="compare-grid">
             <div class="compare-intro">
               <span class="micro">THE ANTICOAGULANT LANDSCAPE</span>
@@ -532,7 +566,7 @@
             <div class="compare-list">
               <div>
                 <span>01</span><b>Heparin / LMWH</b>
-                <p>Potentiate antithrombin; LMWH acts predominantly on Xa.</p>
+                <p>Boost the body’s natural brake, antithrombin; low-molecular-weight heparin (LMWH) acts mainly on Xa.</p>
               </div>
               <div>
                 <span>02</span><b>Warfarin</b>
@@ -543,11 +577,11 @@
               </div>
               <div>
                 <span>03</span><b>Dabigatran</b>
-                <p>Direct thrombin (IIa) inhibitor.</p>
+                <p>Directly blocks thrombin (IIa), the signal that helps make the net.</p>
               </div>
               <div>
                 <span>04</span><b>Rivaroxaban</b>
-                <p>Another direct factor Xa inhibitor.</p>
+                <p>Another medicine that directly blocks factor Xa.</p>
               </div>
             </div>
           </div>
@@ -562,6 +596,7 @@
               </p>
             </div>
           </div>
+          <div class="plain-intro"><b>Before you explore:</b> Think of filling and draining a bathtub: after each dose, the amount of medicine in the body rises, then gradually falls. A graph is a picture of that change over time. Drag the slider to follow the dot.</div>
           <div class="pharm-grid">
             <div class="panel curve-panel">
               <div class="panel-heading compact">
@@ -639,37 +674,35 @@
             <div class="pharm-facts">
               <div>
                 <span>01</span><strong>~50%</strong>
-                <p>oral bioavailability</p>
+                <p>of a swallowed dose reaches the bloodstream, approximately</p>
               </div>
               <div>
                 <span>02</span><strong>3–4 h</strong>
-                <p>time to peak concentration</p>
+                <p>after a dose until the amount in blood usually peaks</p>
               </div>
               <div>
                 <span>03</span><strong>~12 h</strong>
-                <p>apparent half-life</p>
+                <p>approximate half-life: time for the amount in blood to fall by half</p>
               </div>
               <div>
                 <span>04</span><strong>~27%</strong>
-                <p>renal contribution to total clearance</p>
+                <p>of removal from the body is through the kidneys, approximately</p>
               </div>
               <p class="fact-note">
-                A substrate of <b>CYP3A4 and P-gp</b>: strong dual inhibitors or
-                inducers can change exposure. Check the label and interactions.
+                The liver enzyme <b>CYP3A4</b> and the transport protein <b>P-gp</b> help process or move the drug. Some other medicines change their activity and can change Eliquis levels. Check the label and interactions.
               </p>
             </div>
           </div>
+          <div class="reading-key"><p><b>What you are looking at:</b> Read left to right as hours pass. Higher on the curve means more medicine in this invented example; the dot and dashed line follow the slider. The two labeled points along the bottom are the two doses.</p><p><b>So what:</b> A peak is a high point after a dose; a trough is a low point before the next dose. The curve is a teaching sketch, not anyone’s actual level.</p></div>
           <div class="clinical-grid">
             <article>
               <span class="micro">01 / USE</span>
               <h3>Where it fits</h3>
               <p>
-                Stroke and systemic embolism prevention in nonvalvular atrial
-                fibrillation; DVT and PE treatment and prevention of recurrence;
-                and postoperative DVT prophylaxis after hip or knee replacement.
+                Eliquis helps prevent stroke and traveling clots in some people with atrial fibrillation (an irregular heartbeat not caused by certain valve problems). It also treats and helps prevent deep vein thrombosis (DVT, a clot in a deep vein) and pulmonary embolism (PE, a clot in the lungs); it can help prevent DVT after hip or knee replacement.
               </p>
               <p>
-                For acute VTE treatment, the usual adult lead-in is
+                For treatment of a new DVT or PE (together called venous thromboembolism, or VTE), the usual adult starting dose is
                 <b>10 mg twice daily for 7 days</b>, then 5 mg twice daily.
                 Extended prevention has a separate regimen.
               </p>
@@ -678,9 +711,9 @@
               <span class="micro">02 / DOSE</span>
               <h3>When less is more</h3>
               <p>
-                For nonvalvular AF, reduce from 5 mg to 2.5 mg twice daily when
+                For atrial fibrillation (AF) without the specified valve problems, the label reduces the dose from 5 mg to 2.5 mg twice daily when
                 <b>at least two</b> are present: age ≥80 years, weight ≤60 kg,
-                or serum creatinine ≥1.5 mg/dL. This rule is not the VTE
+                or a kidney-function blood marker called serum creatinine ≥1.5 mg/dL. This rule is not the VTE
                 treatment dosing rule.
               </p>
             </article>
@@ -689,15 +722,12 @@
               <h3>Bleeding & procedures</h3>
               <p>
                 Bleeding is the principal risk. For life-threatening or
-                uncontrolled bleeding, andexanet alfa is a specific reversal
-                agent; 4-factor PCC may be considered according to local
-                protocols.
+                uncontrolled bleeding, andexanet alfa is a medicine that can reverse the effect; a concentrated mixture of clotting proteins called 4-factor PCC may also be considered under local protocols.
               </p>
               <p>
                 Label guidance: hold at least <b>24 h</b> for low-risk
                 procedures, and <b>48 h</b> for moderate/high bleeding risk.
-                Individualize for renal function, procedure and thrombosis risk
-                with the treating team.
+                The treating team adjusts the plan for kidney function, the procedure and clot risk. Do not hold or restart the medicine on your own.
               </p>
             </article>
           </div>
@@ -712,6 +742,7 @@
               </p>
             </div>
           </div>
+          <div class="plain-intro"><b>Before you explore:</b> Think of five different clocks timing different parts of a recipe. Each lab test looks at a different step, so the same medicine does not affect every clock equally. PT (prothrombin time) and aPTT (activated partial thromboplastin time) are general clotting clocks. dRVVT is a test that uses a purified venom ingredient to switch on factor X. Switch the medicine on or off and move the amount slider.</div>
           <div class="panel lab-panel">
             <div class="panel-heading">
               <div>
@@ -747,13 +778,12 @@
               </div>
               <div class="assay-row">
                 <b>PT</b><span class="assay-value" id="pt-value"></span>
-                <p>Mild or variable prolongation; insensitive.</p>
+                <p>Prothrombin time (PT) is a general clotting clock. It may change only a little or not at all, depending on the test.</p>
               </div>
               <div class="assay-row">
                 <b>aPTT</b><span class="assay-value" id="aptt-value"></span>
                 <p>
-                  Variable and insensitive; a normal result does not exclude
-                  drug.
+                  Activated partial thromboplastin time (aPTT) is another general clotting clock. It may change only a little or not at all; a normal result does not rule out the drug.
                 </p>
               </div>
               <div class="assay-row">
@@ -765,13 +795,12 @@
                 <b>Apixaban anti-Xa</b
                 ><span class="assay-value" id="anti-value"></span>
                 <p>
-                  Drug-calibrated anti-Xa assay estimates apixaban
-                  concentration.
+                  An anti-Xa test set up specifically for apixaban estimates how much drug is in the sample.
                 </p>
               </div>
               <div class="assay-row">
                 <b>dRVVT</b><span class="assay-value" id="drvvt-value"></span>
-                <p>May prolong and create a false-positive LA result.</p>
+                <p>This venom-based clotting test may look slow and falsely suggest lupus anticoagulant (LA).</p>
               </div>
             </div>
             <p class="lab-foot">
@@ -785,6 +814,7 @@
               drug assessment.
             </p>
           </div>
+          <div class="reading-key"><p><b>What you are looking at:</b> Each row is a different test; the peach number and bar are invented readouts. The switch adds or removes apixaban; the slider changes the imagined amount. PT and aPTT are general clotting clocks; thrombin time tests the last fibrin-making step; anti-Xa measures drug using a matching calibration; dRVVT is another clotting test.</p><p><b>So what:</b> A normal PT or aPTT does not rule out the medicine. Thrombin time usually stays normal, while a drug-calibrated anti-Xa test is used when a measurement is needed.</p></div>
         </div>
         <div
           id="panel-la"
@@ -801,9 +831,7 @@
               </div>
               <h2>Longer in the tube.<br /><em>Clots in the body.</em></h2>
               <p>
-                A name that seems to contradict itself. Lupus anticoagulant is
-                an antibody pattern that interferes with phospholipid-dependent
-                clotting assays, yet is associated with thrombosis in vivo.
+                Lupus anticoagulant is the name for an antibody pattern that can confuse a clotting test. Like a watch that runs slow, the test tube can take longer to clot even though a person with these antibodies can have a higher risk of clots inside the body. It does not necessarily mean the person has lupus.
               </p>
             </div>
             <div class="chapter-aside">
@@ -815,6 +843,17 @@
               </p>
             </div>
           </div>
+          <section class="story-block" aria-labelledby="surface-heading">
+            <div class="story-intro"><span class="micro">01 / THE PARADOX · A GUIDED STORY</span><h3 id="surface-heading">Why an antibody can slow the tube</h3><p>Imagine a workshop where helpers need an open workbench. Some antibodies attach to proteins on the fatty workbench and get in the way. Play to see why a lab tube can clot slowly even though clot risk in the body is higher.</p></div>
+            <div class="story-player panel" id="story-surface" data-story="surface"><noscript>Turn on JavaScript to play this guided story.</noscript></div>
+            <div class="reading-key"><p><b>What you are looking at:</b> The green line is the fatty surface, gold shapes are the proteins resting on it, pink Y shapes are antibodies, and the circle is a clotting helper. The drawing changes with each story step.</p><p><b>So what:</b> The slow tube is not the same thing as protection from clots inside a person. Real biology is more complicated than this cartoon.</p></div>
+          </section>
+          <section class="story-block" aria-labelledby="tests-heading">
+            <div class="story-intro"><span class="micro">02 / THE LAB STORY · A GUIDED STORY</span><h3 id="tests-heading">What happens in each test tube</h3><p>Think of a detective checking a stuck machine from several angles. The lab screens with two tests, mixes in normal plasma to ask whether that helps, then adds extra fatty surface to see whether the delay depends on it.</p></div>
+            <div class="story-player panel" id="story-tests" data-story="tests"><noscript>Turn on JavaScript to play this guided story.</noscript></div>
+            <div class="reading-key"><p><b>What you are looking at:</b> The tubes show a simplified sequence. A pink clock means a slow clotting test; the plus sign means an ingredient is added. Play moves through dRVVT, PTT-LA, mixing, confirmation, and a possible drug-removal step.</p><p><b>So what:</b> No single tube tells the whole story. Results depend on the full pattern and possible drug interference; laboratory protocols can do steps in a different order.</p></div>
+          </section>
+          <div class="plain-intro"><b>Before you explore:</b> Think of a workbench with a helper at each station. In the tube, antibodies can crowd the fatty workbench; in the body, they can also trigger cells involved in clotting. Choose each view to compare them.</div>
           <div class="paradox-grid">
             <div class="panel mechanism-panel">
               <div class="panel-heading compact">
@@ -922,9 +961,7 @@
                 >
                 <h4 id="mechanism-title">A competition for surface.</h4>
                 <p id="mechanism-text">
-                  Antibodies can bridge β₂-glycoprotein I on phospholipid
-                  surfaces, interfering with the phospholipid-dependent assembly
-                  of clotting factors and prolonging the test.
+                  Antibodies can link beta-2 glycoprotein I proteins on the fatty workbench. This crowds the work area and can make a test tube take longer to clot.
                 </p>
               </div>
             </div>
@@ -932,33 +969,26 @@
               <span class="micro">DECODING THE NAME</span>
               <h3>Not necessarily lupus.<br /><em>Not protective.</em></h3>
               <p>
-                LA is a functional pattern caused by antiphospholipid
-                antibodies, often directed against phospholipid-binding proteins
-                including <b>β₂-glycoprotein I and prothrombin</b>. It can occur
-                without systemic lupus.
+                Lupus anticoagulant (LA) is a lab pattern caused by antibodies that can attach to proteins on fatty surfaces, such as <b>beta-2 glycoprotein I (β₂GPI) and prothrombin</b>. A person can have this pattern without having the disease lupus.
               </p>
               <div class="thin-rule"></div>
               <span class="micro">THE APS CONNECTION</span>
               <p>
-                Antiphospholipid syndrome (APS) combines appropriate clinical
-                features with persistent laboratory evidence: LA,
-                anticardiolipin IgG or IgM, or anti-β₂GPI IgG or IgM. The 2006
-                Sydney classification criteria require persistence on repeat
-                testing at least <b>12 weeks apart</b>; classification criteria
-                are not a substitute for clinical diagnosis.
+                Antiphospholipid syndrome (APS) is a condition in which certain lasting antibodies are linked with problems such as blood clots or particular pregnancy complications. Lab evidence can be LA or antibodies called anticardiolipin or anti-β₂GPI (types IgG or IgM). The 2006 Sydney research classification requires repeat positive tests at least <b>12 weeks apart</b>, along with an appropriate clinical feature. Classification is not the same as diagnosis.
               </p>
             </div>
           </div>
+          <div class="reading-key"><p><b>What you are looking at:</b> The green line is the fatty surface, the pale branching shapes are antibodies, and the small labels mark the proteins they attach to. The two buttons change the story between a test tube and a body.</p><p><b>So what:</b> A slow tube result and a higher risk of a clot in the body can exist together; they describe different settings.</p></div>
           <div class="section-heading">
             <div>
               <span class="micro">04 / A LABORATORY INVESTIGATION</span>
               <h2>Follow the <em>testing trail.</em></h2>
               <p>
-                An ISTH-style conceptual workflow. Select each step to see what
-                it contributes; actual laboratory algorithms and cutoffs vary.
+                This is a simplified version of guidance from the International Society on Thrombosis and Haemostasis (ISTH). Select each step to see what it adds. The exact order and lab cutoffs can vary.
               </p>
             </div>
           </div>
+          <div class="plain-intro"><b>Before you explore:</b> This is a detective’s checklist: start with two different tests, ask whether adding normal plasma fixes the delay, add more fatty surface, then put the clues together. Click each numbered step.</div>
           <div class="panel workflow">
             <div
               class="workflow-steps"
@@ -983,10 +1013,7 @@
                 <span class="micro" id="step-kicker">STEP 01 / SCREEN</span>
                 <h3 id="step-title">Start with two principles.</h3>
                 <p id="step-text">
-                  Use dRVVT and an LA-sensitive aPTT (often silica-based, low
-                  phospholipid; PTT-LA). Russell's viper venom activates factor
-                  X directly; a low-phospholipid dRVVT screen is expressed as a
-                  ratio to normal plasma.
+                  Two tests start the relay in different ways. dRVVT uses a purified venom ingredient to turn on X directly. PTT-LA starts an earlier route. The lab compares their times with normal plasma.
                 </p>
               </div>
               <div class="workflow-visual" id="step-visual">
@@ -1003,6 +1030,8 @@
               mix does not exclude a weak LA; interpret the whole pattern.
             </div>
           </div>
+          <div class="reading-key"><p><b>What you are looking at:</b> Each numbered button selects one clue. The text and tube pictures change when you click; the arrows mean the lab is moving through its investigation, not that all steps must happen in this exact order.</p><p><b>So what:</b> A screening test raises a question; mixing and confirmation help investigate it. Medicines and other conditions can confuse the answer.</p></div>
+          <div class="plain-intro"><b>Before you explore:</b> A ratio is like comparing two race times instead of looking at one alone. Here the lab compares a sample with a normal reference for each test, then compares those two ratios. Drag the sliders to see the arithmetic change.</div>
           <div class="ratio-lab panel">
             <div class="panel-heading">
               <div>
@@ -1092,6 +1121,7 @@
               matter. A ratio alone does not diagnose LA or APS.
             </div>
           </div>
+          <div class="reading-key"><p><b>What you are looking at:</b> The four sliders change invented clotting times: sample and normal reference for the first test, then sample and normal reference for the extra-surface test. The large number divides the first comparison by the second.</p><p><b>So what:</b> The calculation is a clue, not a diagnosis. Each laboratory uses its own test-specific limits and considers medicines and other results.</p></div>
           <div class="section-heading">
             <div>
               <span class="micro">05 / INTERFERENCE LAB</span>
@@ -1104,6 +1134,7 @@
               </p>
             </div>
           </div>
+          <div class="plain-intro"><b>Before you explore:</b> A medicine in the sample can be like a smudge on a camera lens: it can make the picture misleading. An adsorbent is like a tiny charcoal filter that captures some drug from the tube, not from the person. Move the sliders, then try the filter.</div>
           <div class="interference-grid">
             <div class="panel interference-controls">
               <div class="panel-heading compact">
@@ -1214,6 +1245,7 @@
               </p>
             </div>
           </div>
+          <div class="reading-key"><p><b>What you are looking at:</b> Sliders represent imagined amounts of three medicines. Dots in the left tube are drug; after the charcoal button, fewer dots appear in the right tube. The arrow means before to after; the numbers are invented examples.</p><p><b>So what:</b> Drug can create a false alarm or mask a result. Charcoal removal may be incomplete and needs a validated lab method; it does not make stopping medicine safe.</p></div>
           <div class="pitfalls">
             <span class="micro">THE DETAILS MATTER</span>
             <h3>Pre-analytics & other pitfalls</h3>
@@ -1244,11 +1276,11 @@
               <span class="micro">06 / CHECK YOUR THINKING</span>
               <h2>Put it into <em>practice.</em></h2>
               <p>
-                Seven fictional vignettes. All numbers are invented for
-                teaching, not reference ranges or patient results.
+                Seven made-up mini-stories. All numbers are invented for teaching, not normal ranges or anyone’s actual test results.
               </p>
             </div>
           </div>
+          <div class="plain-intro"><b>Before you explore:</b> Treat these fictional puzzles like practice detective stories, not real patient results. Pick an answer, read the explanation, then move to the next case.</div>
           <div class="panel quiz">
             <div class="quiz-top">
               <span class="micro" id="quiz-count">CASE 01 / 07 · SYNTHETIC</span
@@ -1266,6 +1298,7 @@
               NEXT CASE <span>→</span>
             </button>
           </div>
+          <div class="reading-key"><p><b>What you are looking at:</b> Each case is made up. The buttons are possible answers; the colored response tells you whether your choice matches the teaching answer. Next case advances the story.</p><p><b>So what:</b> Practice helps you notice that a lab result is a clue, not a diagnosis by itself.</p></div>
         </div>
       </section>
       <section class="references wrap">
