@@ -32,73 +32,73 @@ selectTab("drug");
 const factorNotes = {
   tissue: [
     "Tissue factor + VIIa",
-    "Tissue factor exposed at an injury binds VIIa and initiates coagulation by activating IX and X.",
-    "Warfarin reduces synthesis of functional vitamin K–dependent factor VII.",
+    "At a cut, tissue factor meets factor VIIa. Together they start the relay by switching on factors IX and X.",
+    "Warfarin, another blood thinner, reduces the amount of working factor VII the body makes.",
   ],
   xii: [
     "Factor XII",
-    "Contact activation can initiate the intrinsic laboratory pathway through XIIa.",
-    "Severe XII deficiency can prolong the aPTT without the usual bleeding phenotype.",
+    "Factor XII can start one of the clotting routes used in laboratory tests.",
+    "Having very little factor XII may slow one lab test without usually causing bleeding.",
   ],
   xi: [
     "Factor XI",
-    "XIa activates factor IX in the intrinsic pathway; thrombin can also activate XI during amplification.",
-    "Factor XI deficiency may cause variable procedure-related bleeding.",
+    "Activated XI turns on factor IX. Thrombin can also turn on XI to help amplify the relay.",
+    "A shortage of factor XI can sometimes increase bleeding, especially during a procedure.",
   ],
   ix: [
     "Factor IX",
-    "IXa joins its cofactor VIIIa on phospholipid to activate factor X.",
-    "IX is vitamin K dependent; its deficiency is hemophilia B.",
+    "IXa teams up with VIIIa on the fatty workbench to switch on factor X.",
+    "Factor IX needs vitamin K to be made properly. A deficiency is called hemophilia B.",
   ],
   viii: [
     "Factor VIII",
-    "Activated VIII is a cofactor for IXa in the intrinsic tenase complex.",
-    "Factor VIII deficiency is hemophilia A; some acquired VIII inhibitors are time dependent.",
+    "Activated VIII is a helper that lets IXa work faster at switching on X.",
+    "A shortage of VIII is called hemophilia A. Some antibodies against VIII take time to show their effect in a lab test.",
   ],
   x: [
     "Factor X",
-    "Factor X is activated by both extrinsic and intrinsic tenase complexes to form Xa.",
-    "Factor X is vitamin K dependent and sits at the junction of the pathways.",
+    "Two different routes in the relay can switch on factor X, turning it into Xa.",
+    "X is a meeting point for the routes and needs vitamin K to be made properly.",
   ],
   xa: [
     "Factor Xa",
-    "Xa is the common-pathway enzyme targeted directly and reversibly by apixaban.",
-    "Apixaban inhibits free Xa, clot-bound Xa, and Xa in prothrombinase without antithrombin.",
+    "Xa is a working protein at the junction of the relay. Eliquis can attach to and temporarily block it.",
+    "Eliquis blocks Xa whether it is free, on a clot, or on its helper team. It does not need antithrombin, the body’s natural clotting brake.",
   ],
   va: [
     "Factor Va",
-    "Va is a cofactor that greatly accelerates Xa-mediated conversion of prothrombin to thrombin.",
-    "Va is assembled with Xa on a phospholipid surface in the presence of calcium.",
+    "Va is a helper that makes Xa much faster at turning prothrombin into thrombin.",
+    "Va and Xa work together on a fatty surface, with calcium helping them assemble.",
   ],
   complex: [
     "Prothrombinase",
-    "Xa and Va assemble with phospholipid and calcium to efficiently convert prothrombin to thrombin.",
-    "Apixaban can inhibit Xa within this complex, not just free Xa.",
+    "This team combines Xa, Va, a fatty surface and calcium. It changes prothrombin into thrombin, the signal that starts the fibrin net.",
+    "Eliquis can block Xa even when it is part of this team.",
   ],
   ii: [
     "Prothrombin · factor II",
-    "Prothrombin is the vitamin K–dependent precursor of thrombin.",
-    "Warfarin lowers production of functional prothrombin; the effect is delayed by factor turnover.",
+    "Prothrombin, also called factor II, is the starting material that is turned into thrombin.",
+    "Warfarin reduces how much working prothrombin the body makes. Its effect takes time.",
   ],
   thrombin: [
     "Thrombin · factor IIa",
-    "Thrombin drives fibrin formation, activates factor XIII, and amplifies coagulation through feedback.",
-    "Dabigatran directly inhibits thrombin; heparin enhances antithrombin-mediated inhibition.",
+    "Thrombin helps make fibrin threads, turns on XIII, and sends signals that strengthen the relay.",
+    "Dabigatran directly blocks thrombin. Heparin works by boosting antithrombin, a natural brake on clotting.",
   ],
   fibrinogen: [
     "Fibrinogen → fibrin",
-    "Thrombin cleaves soluble fibrinogen to form fibrin monomers, which polymerize into a soft clot.",
-    "A thrombin time probes the conversion of fibrinogen to fibrin, downstream of Xa.",
+    "Thrombin cuts fibrinogen, a protein dissolved in blood, into fibrin. Fibrin forms threads that join into a soft net.",
+    "A lab test called thrombin time checks this final fibrin-making step.",
   ],
   xiii: [
     "Factor XIII",
-    "Thrombin activates factor XIII, which covalently crosslinks fibrin strands.",
-    "Crosslinking strengthens and stabilizes the fibrin network.",
+    "Thrombin switches on factor XIII, which links the fibrin threads together.",
+    "The links strengthen the net, much like knots strengthen a mesh.",
   ],
   fibrin: [
     "Crosslinked fibrin",
-    "Factor XIIIa stabilizes the fibrin mesh by crosslinking adjacent fibrin molecules.",
-    "The mature network supports a durable hemostatic plug.",
+    "Factor XIIIa ties nearby fibrin threads together, making a stronger net.",
+    "The reinforced net helps the plug stay in place while the cut heals.",
   ],
 };
 function showFactor(factor) {
@@ -122,15 +122,15 @@ $$(".factor").forEach((factor) => {
 const drugNotes = {
   none: "No anticoagulant selected. Click any factor in the map to inspect its role.",
   apixaban:
-    "Apixaban directly and reversibly inhibits free, clot-bound and prothrombinase-bound Xa. No antithrombin is required.",
+    "Apixaban (Eliquis) temporarily blocks Xa, including Xa in its helper team or on a clot. It does not need the body’s natural brake, antithrombin.",
   rivaroxaban:
-    "Rivaroxaban is another direct Xa inhibitor. It acts at the Xa active site, not directly on thrombin.",
+    "Rivaroxaban is another blood thinner that directly blocks the working site on Xa, not thrombin.",
   heparin:
-    "Heparin accelerates antithrombin inhibition of Xa and IIa; LMWH acts predominantly on Xa. The targets shown depend on antithrombin.",
+    "Heparin boosts antithrombin, the body’s natural brake, to slow Xa and thrombin (IIa). LMWH is a shorter form of heparin that acts mainly on Xa.",
   dabigatran:
-    "Dabigatran directly inhibits thrombin (IIa), downstream of Xa. It does not require antithrombin.",
+    "Dabigatran directly blocks thrombin (IIa), a later runner in the relay. It does not need antithrombin.",
   warfarin:
-    "Warfarin reduces synthesis of functional vitamin K–dependent II, VII, IX and X, and proteins C and S. It does not directly block these enzymes; its effect develops over time.",
+    "Warfarin reduces the body’s production of working factors II, VII, IX and X, and proteins C and S, which depend on vitamin K. It does not block them directly; it takes time to work.",
 };
 function selectDrug(drug) {
   $$(".drug-choice").forEach((button) => {
@@ -247,13 +247,13 @@ const mechanisms = {
   tube: [
     "IN VITRO / ASSAY INTERFERENCE",
     "A competition for surface.",
-    "Antibodies can bridge β₂-glycoprotein I on phospholipid surfaces, interfering with the phospholipid-dependent assembly of clotting factors and prolonging the test.",
+    "Antibodies can link proteins called beta-2 glycoprotein I on the fatty workbench, making it harder for clotting helpers to assemble. The tube can take longer to clot.",
     "PHOSPHOLIPID SURFACE",
   ],
   body: [
     "IN VIVO / PROTHROMBOTIC SIGNALING",
     "A system switched on.",
-    "Antiphospholipid antibodies can promote endothelial, platelet and complement activation and disrupt the protective annexin A5 shield, contributing to thrombosis.",
+    "In the body, these antibodies can activate vessel-lining cells, platelets and an immune system called complement. They can also disrupt a protective layer called the annexin A5 shield, contributing to unwanted clots.",
     "ACTIVATED CELL SURFACE",
   ],
 };
@@ -277,25 +277,25 @@ const steps = {
   screen: [
     "STEP 01 / SCREEN",
     "Start with two principles.",
-    "Use dRVVT and an LA-sensitive aPTT (often silica-based, low phospholipid; PTT-LA). Russell’s viper venom activates factor X directly; a low-phospholipid dRVVT screen is expressed as a ratio to normal plasma.",
+    "Two tests start the clotting relay in different ways: dRVVT uses a purified venom ingredient to turn on X directly; PTT-LA starts an earlier route. Both use a small amount of fatty surface. The lab compares times with normal plasma.",
     "dRVVT + LA-SENSITIVE aPTT",
   ],
   mix: [
     "STEP 02 / MIX",
     "Is an inhibitor present?",
-    "Mix patient plasma 1:1 with normal pooled plasma. Correction suggests factor deficiency; failure to correct supports an inhibitor. Weak LA may be diluted out. Incubation matters for time-dependent inhibitors such as some factor VIII inhibitors.",
+    "Mix equal parts of the sample and normal plasma. If that fixes the slow result, a missing factor is possible; if not, a blocker called an inhibitor is possible. Weak antibodies can be diluted and missed. Waiting before retesting can reveal some slow-acting factor VIII blockers.",
     "PLASMA + NORMAL POOLED PLASMA",
   ],
   confirm: [
     "STEP 03 / CONFIRM",
     "Add more phospholipid.",
-    "Repeat with high phospholipid. A shortened clotting time relative to the low-phospholipid screen supports phospholipid dependence; laboratories use normalized screen/confirm ratios and validated cutoffs.",
+    "Repeat using more of the fatty workbench. A relatively shorter time supports interference related to that surface. The lab compares the two results using its own reference times and cutoffs.",
     "LOW PL → HIGH PL",
   ],
   interpret: [
     "STEP 04 / INTERPRET",
     "Read the whole pattern.",
-    "A positive result in one or both test systems can support LA when the screen, mixing and confirmation pattern is consistent and interference is excluded. Repeat at least 12 weeks later to establish persistence for APS classification.",
+    "A matching pattern in one or both test systems can support lupus anticoagulant after other causes are considered. A repeat at least 12 weeks later helps establish persistence for classification of antiphospholipid syndrome (APS).",
     "INTERPRET IN CONTEXT",
   ],
 };
@@ -372,7 +372,7 @@ function updateInterference() {
   if (d > 0 && !adsorbed) risks.push("DOAC");
   if (d > 0 && adsorbed) risks.push("possible residual DOAC");
   if (w > 0) risks.push("warfarin");
-  if (h > 50) risks.push("heparin above neutralizer capacity");
+  if (h > 50) risks.push("possible heparin interference (capacity varies by reagent)");
   else if (h > 0) risks.push("heparin (reagent dependent)");
   $("#interference-result").textContent = risks.length
     ? `Consider ${risks.join(" + ")} interference`
@@ -397,96 +397,54 @@ $("#adsorbent").addEventListener("click", (event) => {
 updateInterference();
 const cases = [
   {
-    q: "A prolonged screen corrects in a 1:1 mix. What does that suggest?",
-    context:
-      "Synthetic example: screen 60 seconds; 1:1 mix 34 seconds. Assume the mix falls within this fictional laboratory’s correction criteria.",
-    options: [
-      "A factor deficiency is possible",
-      "LA is definitely confirmed",
-      "The patient has thrombosis",
-    ],
+    q: "Adding normal plasma makes a slow clotting test faster. What might that mean?",
+    context: "Made-up example: the original test takes 60 seconds; the mixed sample takes 34 seconds, which this fictional lab considers corrected.",
+    options: ["The sample may lack a clotting factor", "Lupus anticoagulant is definitely confirmed", "The person definitely has a clot"],
     correct: 0,
-    explanation:
-      "Correction suggests a factor deficiency; it does not establish a diagnosis. Weak inhibitors can be diluted in a mix, so interpret the full workup.",
+    explanation: "Correction suggests a missing factor might be involved. It does not prove a diagnosis, and mixing can dilute a weak antibody so that it is missed."
   },
   {
-    q: "A sample is collected while apixaban is present. What is the best interpretation?",
-    context:
-      "Synthetic example: dRVVT screen ratio 1.6, with a positive screen/confirm pattern. A drug-calibrated anti-Xa assay detects apixaban.",
-    options: [
-      "Definite persistent LA",
-      "Possible drug interference; result is unreliable",
-      "Apixaban has no effect on dRVVT",
-    ],
+    q: "Eliquis is in the sample when a lupus anticoagulant test looks positive. What now?",
+    context: "Made-up example: the dRVVT ratio is 1.6, and a separate drug-specific test detects Eliquis.",
+    options: ["The antibody is definitely present", "The medicine may be confusing the result", "Eliquis cannot affect this test"],
     correct: 1,
-    explanation:
-      "Apixaban can cause false-positive LA patterns. Consider a safe, supervised testing strategy or validated DOAC removal with residual drug assessment.",
+    explanation: "Eliquis can create a false alarm in dRVVT. A lab may use a validated drug-removal step or arrange a safe testing plan with the treating team; never stop the medicine on your own."
   },
   {
-    q: "An LA pattern is found on two occasions 14 weeks apart. What does that establish?",
-    context:
-      "Synthetic example: both samples show a consistent LA pattern without identified drug interference.",
-    options: [
-      "Persistent laboratory positivity",
-      "APS is diagnosed without clinical criteria",
-      "The antibody is necessarily caused by lupus",
-    ],
+    q: "A similar antibody pattern appears on two tests 14 weeks apart. What does that show?",
+    context: "Made-up example: both samples have a matching pattern and no drug interference is found.",
+    options: ["The laboratory pattern persisted", "A diagnosis is certain without other information", "The person must have lupus"],
     correct: 0,
-    explanation:
-      "Persistence meets the timing component of the Sydney laboratory criteria. APS classification also requires an appropriate clinical criterion and full assessment.",
+    explanation: "Repeated positivity at least 12 weeks apart supports persistence. Classifying antiphospholipid syndrome also requires an appropriate clinical feature; a lab result alone is not a diagnosis."
   },
   {
-    q: "What does a shorter high-phospholipid confirm time suggest?",
-    context:
-      "Synthetic example: a low-phospholipid screen is 68 s and a high-phospholipid confirm is 39 s; normalized ratios meet this imaginary laboratory's criteria and drug interference has been excluded.",
-    options: [
-      "Phospholipid dependence is supported",
-      "Factor XII deficiency is proven",
-      "The result rules out LA",
-    ],
+    q: "A tube clots faster when extra fatty surface is added. What can this suggest?",
+    context: "Made-up example: the screen takes 68 seconds, and the extra-surface test takes 39 seconds. The fictional lab’s comparison meets its criteria and drug interference was excluded.",
+    options: ["The delay may depend on the fatty surface", "A missing factor is definitely proven", "The antibody is ruled out"],
     correct: 0,
-    explanation:
-      "A relatively shorter confirm can support phospholipid dependence. Interpret normalized ratios, the mixing study, other test system and local cutoffs together.",
+    explanation: "A relatively shorter time can support an effect that depends on the fatty surface. The whole pattern and the lab’s own cutoffs still matter."
   },
   {
-    q: "A negative mix follows a strongly prolonged screen. Is LA excluded?",
-    context:
-      "Synthetic example: screen ratio 1.5, but the 1:1 mix corrects according to the fictional lab's cutoff; the confirm is relatively shortened.",
-    options: [
-      "Yes, a corrected mix always rules LA out",
-      "No; mixing may dilute a weak inhibitor",
-      "Yes, because the confirm is shortened",
-    ],
+    q: "The mixed sample becomes normal. Does that always rule out an antibody?",
+    context: "Made-up example: the first test is slow, the mixed sample corrects, and the extra-surface test is relatively quicker.",
+    options: ["Yes, always", "No: mixing can dilute a weak antibody", "Yes, if the extra-surface test is quicker"],
     correct: 1,
-    explanation:
-      "Dilution by normal plasma can mask a weak LA. Review the undiluted screen and confirm, and use the laboratory's full interpretive algorithm.",
+    explanation: "Normal plasma can dilute a weak antibody so the mixed test misses it. The lab looks at the unmixed tests and all the other clues too."
   },
   {
-    q: "Which pre-analytical issue can compromise LA testing?",
-    context:
-      "Synthetic example: a citrate tube is only half full and residual platelets are present after a single spin.",
-    options: [
-      "Both the underfilled tube and residual platelets",
-      "Neither: sample preparation is irrelevant",
-      "Only the time on the clock",
-    ],
+    q: "Which collection problems can make a test unreliable?",
+    context: "Made-up example: a collection tube is only half full, and the sample still contains many platelets after one spin.",
+    options: ["Both the underfilled tube and remaining platelets", "Neither matters", "Only the time on the clock"],
     correct: 0,
-    explanation:
-      "Underfilling changes the citrate-to-blood ratio; residual platelets can contribute phospholipid. Follow correct filling and double-spun platelet-poor plasma procedures.",
+    explanation: "The tube needs the right amount of blood relative to its preservative. Remaining platelets can add fatty surface; labs use the proper fill and preparation steps."
   },
   {
-    q: "A prolonged aPTT becomes more prolonged after incubation of the mix. What deserves consideration?",
-    context:
-      "Synthetic example: the immediate mix is 35 s and the incubated mix is 65 s; assume no interfering anticoagulant is detected.",
-    options: [
-      "A time-dependent factor VIII inhibitor",
-      "Proof of a DOAC",
-      "The pattern establishes persistent APS",
-    ],
+    q: "A mixed sample gets slower after it sits. What might the lab investigate?",
+    context: "Made-up example: the mix takes 35 seconds immediately and 65 seconds after waiting; no blood thinner is detected.",
+    options: ["A blocker of factor VIII that takes time to work", "Proof of Eliquis", "A certain diagnosis of antiphospholipid syndrome"],
     correct: 0,
-    explanation:
-      "Some factor VIII inhibitors are time dependent. An incubated mixing study and specific factor testing can help; the pattern alone is not a diagnosis.",
-  },
+    explanation: "Some antibodies that block factor VIII work slowly. Waiting and running specific factor tests can help investigate; this pattern alone is not a diagnosis."
+  }
 ];
 let caseIndex = 0,
   answered = false;
