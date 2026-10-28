@@ -1,5 +1,21 @@
 [
   {
+    "id": "eliquis-lupus-guide",
+    "title": "Eliquis and Lupus Anticoagulant: a hematologist's guide",
+    "description": "An interactive hematology exhibit exploring apixaban, the coagulation cascade, laboratory interference, and lupus anticoagulant testing with synthetic simulations and cases.",
+    "path": "experiments/eliquis-lupus-guide/",
+    "category": "Education",
+    "tags": [
+      "Hematology",
+      "Apixaban",
+      "Lupus Anticoagulant",
+      "Coagulation",
+      "Laboratory Medicine",
+      "Interactive"
+    ],
+    "date": "2026-10-28"
+  },
+  {
     "id": "vla-staff-roadmap",
     "title": "VLA Staff Engineer — From Pixels to Reliable Robot Action",
     "description": "A 23,000-word, source-linked fieldbook built around the Nidus Staff ML Engineer, VLA Training role. Learn behavior cloning, multimodal and generative policies, robot data engineering, distributed training, evaluation, and on-robot debugging; then prove the skills through seven scoped portfolio builds with explicit simulation and hardware gates. Includes interactive memory, data-mixture, and evaluation-uncertainty labs.",
