@@ -1,5 +1,20 @@
 [
   {
+    "id": "bronco-chip-verification",
+    "title": "Bronco AI and Chip Verification: A Zero-Background Field Guide",
+    "description": "Learn chip verification from zero with waveform debugging, coverage closure and playbook-to-agent labs; a source-labeled Bronco AI company brief, role decoder and interview practice.",
+    "path": "experiments/bronco-chip-verification/",
+    "category": "Education",
+    "tags": [
+      "Semiconductors",
+      "Verification",
+      "AI Agents",
+      "Interview Prep",
+      "Interactive"
+    ],
+    "date": "2026-10-28"
+  },
+  {
     "id": "eliquis-lupus-guide",
     "title": "Eliquis and Lupus Anticoagulant: a hematologist's guide",
     "description": "An interactive hematology exhibit exploring apixaban, the coagulation cascade, laboratory interference, and lupus anticoagulant testing with synthetic simulations and cases.",
