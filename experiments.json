@@ -51,7 +51,7 @@
   },
   {
     "id": "ai-eng-interview-textbook",
-    "title": "AI Engineering Interviews — A Choice, Reason, Trade-off Textbook",
+    "title": "AI Engineering Interviews \u2014 A Choice, Reason, Trade-off Textbook",
     "description": "Interactive interview-prep textbook with 25 original four-part model answers across RAG, agents, and evaluation; includes a RAG pipeline diagram, self-tests, flashcard-style answer reveals, practice timer, and local progress tracking. Question list transcribed from screenshots of a Bashiri Smith post (not independently verified).",
     "path": "experiments/ai-eng-interview-textbook/",
     "category": "Education",
@@ -83,7 +83,7 @@
   },
   {
     "id": "agent-harness-textbook",
-    "title": "AI Agent Harnesses — A Systems Textbook",
+    "title": "AI Agent Harnesses \u2014 A Systems Textbook",
     "description": "An in-depth, source-linked textbook on AI agent harnesses: three perspectives (control allocation, feedback/observability, state/time) are tested and refined against current papers and major open/proprietary systems. Connects harness design to pretraining, SFT, preference optimization, RL/RLVR, evaluations, security, and systems. Includes interview drills, 48 annotated sources, an interactive reliability lab, and printable textbook.",
     "path": "experiments/agent-harness-textbook/",
     "category": "Education",
@@ -102,8 +102,8 @@
   },
   {
     "id": "vision-architecture-textbook",
-    "title": "Vision Models & ML Architecture — A Four-Lens Textbook",
-    "description": "A research-edition textbook on the current state of the art in vision models: why transformers, convolutional networks and state-space models are used, and when each is the wrong choice. Every claim is argued through four named perspectives — inductive bias, optimization, expressivity and systems. Covers the CNN/ViT data-scale crossover, soft and hybrid biases, reverse migration, rank collapse and registers, geometry and packing, self-supervised pre-training (DINOv3, SigLIP 2, Perception Encoder), the four-stage pipeline, RLVR and on-policy distillation, NaViT and variable resolution, FlashAttention and the roofline, mobile silicon, dense prediction (DETR to SAM 3), VLMs, video DiTs, and a four-lens reading of public research from Anthropic and Thinking Machines. Includes 100+ sourced references, a one-page mental model, forty interview questions, a printable TEXTBOOK.md, and an interactive roofline/attention/backbone lab.",
+    "title": "Vision Models & ML Architecture \u2014 A Four-Lens Textbook",
+    "description": "A research-edition textbook on the current state of the art in vision models: why transformers, convolutional networks and state-space models are used, and when each is the wrong choice. Every claim is argued through four named perspectives \u2014 inductive bias, optimization, expressivity and systems. Covers the CNN/ViT data-scale crossover, soft and hybrid biases, reverse migration, rank collapse and registers, geometry and packing, self-supervised pre-training (DINOv3, SigLIP 2, Perception Encoder), the four-stage pipeline, RLVR and on-policy distillation, NaViT and variable resolution, FlashAttention and the roofline, mobile silicon, dense prediction (DETR to SAM 3), VLMs, video DiTs, and a four-lens reading of public research from Anthropic and Thinking Machines. Includes 100+ sourced references, a one-page mental model, forty interview questions, a printable TEXTBOOK.md, and an interactive roofline/attention/backbone lab.",
     "path": "experiments/vision-architecture-textbook/",
     "category": "Education",
     "tags": [
@@ -124,7 +124,7 @@
   },
   {
     "id": "ai-systems-textbook",
-    "title": "Applied AI Systems — A Design and Operations Textbook",
+    "title": "Applied AI Systems \u2014 A Design and Operations Textbook",
     "description": "A deeply worked, source-linked AI engineering textbook expanding a 2026 agentic-engineering roadmap: models and inference, workflows, contracts and durable state, retrieval, tools, security, evaluation, operations, voice, eight hypothetical reference architectures, design drills, and an interactive tradeoff and capacity lab. Includes a printable TEXTBOOK.md.",
     "path": "experiments/ai-systems-textbook/",
     "category": "Education",
@@ -143,8 +143,8 @@
   },
   {
     "id": "private-markets-opto",
-    "title": "Private Markets & Opto — An Operator's Field Guide",
-    "description": "How private markets actually run: the major players first (pensions, sovereign funds, endowments, insurers, family offices, hedge funds, mega alternative managers, gatekeepers and infrastructure), then asset classes, fund mechanics and metrics with simulators — and a full Opto Investments brief covering its Build/Fundraise/Manage platform, verified-vs-unverified claims, engineering blog (bitemporal data, backfilling, internal Fund Admin tooling), operating leverage, recent developments, and the leadership team. Includes printable TEXTBOOK.md and a one-page brief.",
+    "title": "Private Markets & Opto \u2014 An Operator's Field Guide",
+    "description": "How private markets actually run: the major players first (pensions, sovereign funds, endowments, insurers, family offices, hedge funds, mega alternative managers, gatekeepers and infrastructure), then asset classes, fund mechanics and metrics with simulators \u2014 and a full Opto Investments brief covering its Build/Fundraise/Manage platform, verified-vs-unverified claims, engineering blog (bitemporal data, backfilling, internal Fund Admin tooling), operating leverage, recent developments, and the leadership team. Includes printable TEXTBOOK.md and a one-page brief.",
     "path": "experiments/private-markets-opto/",
     "category": "Education",
     "tags": [
@@ -163,7 +163,7 @@
   },
   {
     "id": "legal-ai-systems",
-    "title": "Inside Legal AI — Systems Design Field Guide",
+    "title": "Inside Legal AI \u2014 Systems Design Field Guide",
     "description": "An interactive, evidence-labeled systems-design field guide to Docusign IAM, EveOS, Harvey, CoCounsel Legal, and Legora aOS. Compare feature matrices, trace request flows, inspect rough architectures and data pipelines, and practice interview-ready redesigns with public claims separated from engineering reconstructions.",
     "path": "experiments/legal-ai-systems/",
     "category": "Education",
@@ -200,7 +200,7 @@
   },
   {
     "id": "fogline-books",
-    "title": "Run the Books: Fogline AI — Accounting Flight Simulator",
+    "title": "Run the Books: Fogline AI \u2014 Accounting Flight Simulator",
     "description": "Operate a fictional AI startup's books across 16 interactive demos: double-entry, ingestion & dedupe, reconciliation, deferred revenue, invoicing, consolidation, month-end close, safe agent execution, idempotent retries, automation policy, and reading business metrics critically.",
     "path": "experiments/fogline-books/",
     "category": "Education",
@@ -219,7 +219,7 @@
   {
     "id": "coagulation-lab",
     "title": "Inside the Coagulation Lab",
-    "description": "Interactive 11-bench tour of the listed panel: Vitamin D 25-Hydroxy (LC-MS/MS), Lupus Anticoagulant Reflex (PTT-LA/dRVVT), APS panel (aPTT/PT/INR/TT/hexagonal/aCL+\u03b22GP1), Protein S antigen (total & free), Factor V Leiden PCR, Protein S functional, Antithrombin activity, Protein C antigen, Factor II activity, Protein C functional — plus the synthesis Interpretation Report. Generic educational content only, no personal data.",
+    "description": "Interactive 11-bench tour of the listed panel: Vitamin D 25-Hydroxy (LC-MS/MS), Lupus Anticoagulant Reflex (PTT-LA/dRVVT), APS panel (aPTT/PT/INR/TT/hexagonal/aCL+\u03b22GP1), Protein S antigen (total & free), Factor V Leiden PCR, Protein S functional, Antithrombin activity, Protein C antigen, Factor II activity, Protein C functional \u2014 plus the synthesis Interpretation Report. Generic educational content only, no personal data.",
     "path": "experiments/coagulation-lab/",
     "category": "Education",
     "tags": [
@@ -237,7 +237,7 @@
   {
     "id": "ald-pvd-lab",
     "title": "Thin Film Lab: ALD vs PVD",
-    "description": "Start from zero: why anyone deposits nanometer-thin films (chips, lenses, implants, crisp packets), then three interactive labs on ALD vs PVD — self-limiting reactions, trench conformality, and real growth curves.",
+    "description": "Start from zero: why anyone deposits nanometer-thin films (chips, lenses, implants, crisp packets), then three interactive labs on ALD vs PVD \u2014 self-limiting reactions, trench conformality, and real growth curves.",
     "path": "experiments/ald-pvd-lab/",
     "category": "Education",
     "tags": [
