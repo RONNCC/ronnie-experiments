@@ -1,0 +1,1353 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="An interactive educational exhibit about apixaban and lupus anticoagulant testing."
+    />
+    <title>Eliquis & Lupus Anticoagulant — The Hematology Atlas</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="../../"
+        ><span class="brand-mark">✳</span
+        ><span>THE HEMATOLOGY <b>ATLAS</b></span></a
+      >
+      <div class="top-meta">
+        <span class="status-dot"></span> AN INTERACTIVE FIELD GUIDE
+        <span class="top-divider"></span> VOL. 01 / COAGULATION
+      </div>
+    </header>
+    <main>
+      <section class="hero wrap">
+        <div class="hero-copy">
+          <div class="eyebrow">
+            <span class="eyebrow-line"></span> A HEMATOLOGIST'S GUIDE
+            <span class="edition">EDITION 01 — 2026</span>
+          </div>
+          <h1>Two stories.<br /><em>One clotting system.</em></h1>
+          <p>
+            Explore how apixaban quiets coagulation—and why lupus anticoagulant
+            makes the laboratory tell a more complicated story.
+          </p>
+          <div class="hero-bottom">
+            <a href="#exhibit" class="primary-link"
+              >Enter the exhibit <span>↗</span></a
+            ><span class="hero-note"
+              >~ 12 MIN READ <i>✳</i> INTERACTIVE LEARNING</span
+            >
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="orbit orbit-one"></div>
+          <div class="orbit orbit-two"></div>
+          <div class="orbit orbit-three"></div>
+          <div class="hero-core"><span>Xa</span><small>FACTOR</small></div>
+          <div class="particle p1"></div>
+          <div class="particle p2"></div>
+          <div class="particle p3"></div>
+          <div class="particle p4"></div>
+          <span class="art-label label-a">INHIBITION <b>01</b></span
+          ><span class="art-label label-b">INTERFERENCE <b>02</b></span
+          ><span class="art-cross">✳</span>
+        </div>
+      </section>
+      <div class="safety-strip">
+        <div class="wrap">
+          <span>✳</span>
+          <p>
+            <b>A note before we begin.</b> This is generic teaching content, not
+            medical advice. All interactive values and cases are synthetic,
+            illustrative, and not for clinical interpretation. Never change
+            anticoagulation without the treating team.
+          </p>
+        </div>
+      </div>
+      <section class="exhibit wrap" id="exhibit">
+        <div class="section-intro">
+          <div>
+            <div class="eyebrow">
+              <span class="eyebrow-line"></span> THE EXHIBIT
+            </div>
+            <h2>Follow the <em>evidence.</em></h2>
+          </div>
+          <p>
+            Two connected perspectives on the same system. Choose a chapter to
+            begin.
+          </p>
+        </div>
+        <div class="tabs" role="tablist" aria-label="Exhibit chapters">
+          <button
+            class="tab active"
+            id="tab-drug"
+            role="tab"
+            aria-selected="true"
+            aria-controls="panel-drug"
+            data-tab="drug"
+          >
+            <span class="tab-num">01</span
+            ><span><small>THE MOLECULE</small><b>How Eliquis works</b></span
+            ><span class="tab-arrow">↗</span></button
+          ><button
+            class="tab"
+            id="tab-la"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-la"
+            data-tab="la"
+          >
+            <span class="tab-num">02</span
+            ><span><small>THE PARADOX</small><b>Lupus anticoagulant</b></span
+            ><span class="tab-arrow">↗</span>
+          </button>
+        </div>
+        <div
+          id="panel-drug"
+          role="tabpanel"
+          aria-labelledby="tab-drug"
+          class="chapter"
+        >
+          <div class="chapter-heading">
+            <div>
+              <div class="eyebrow">
+                <span class="index-number">01 / THE MOLECULE</span> MECHANISM OF
+                ACTION
+              </div>
+              <h2>A small molecule.<br /><em>A pivotal target.</em></h2>
+              <p>
+                Apixaban (Eliquis) interrupts the cascade at factor Xa, upstream
+                of the thrombin burst. Select a node to follow the pathway.
+              </p>
+            </div>
+            <div class="chapter-aside">
+              <span>THE CENTRAL IDEA</span>
+              <p>
+                Less factor Xa activity.<br /><strong
+                  >Less thrombin generation.</strong
+                >
+              </p>
+            </div>
+          </div>
+          <div class="cascade-card panel">
+            <div class="panel-heading">
+              <div>
+                <span class="micro">FIG. 01 / INTERACTIVE MAP</span>
+                <h3>The coagulation cascade</h3>
+                <p>A simplified view of the converging pathways</p>
+              </div>
+              <button
+                class="switch-control"
+                id="drug-toggle"
+                aria-pressed="false"
+              >
+                <span class="switch"><i></i></span
+                ><span>Apixaban <b id="drug-state">OFF</b></span>
+              </button>
+            </div>
+            <div
+              class="drug-selector"
+              role="group"
+              aria-label="Compare anticoagulant mechanisms"
+            >
+              <div class="drug-selector-heading">
+                <div>
+                  <span class="micro">TARGET COMPARISON</span>
+                  <p>Choose a drug to illuminate its site of action.</p>
+                </div>
+                <span class="selector-hint">SELECT ONE ↓</span>
+              </div>
+              <div class="drug-options">
+                <button
+                  class="drug-choice selected"
+                  data-drug="none"
+                  aria-pressed="true"
+                >
+                  No drug
+                </button>
+                <button
+                  class="drug-choice"
+                  data-drug="apixaban"
+                  aria-pressed="false"
+                >
+                  Apixaban
+                </button>
+                <button
+                  class="drug-choice"
+                  data-drug="rivaroxaban"
+                  aria-pressed="false"
+                >
+                  Rivaroxaban
+                </button>
+                <button
+                  class="drug-choice"
+                  data-drug="heparin"
+                  aria-pressed="false"
+                >
+                  Heparin / LMWH
+                </button>
+                <button
+                  class="drug-choice"
+                  data-drug="dabigatran"
+                  aria-pressed="false"
+                >
+                  Dabigatran
+                </button>
+                <button
+                  class="drug-choice"
+                  data-drug="warfarin"
+                  aria-pressed="false"
+                >
+                  Warfarin
+                </button>
+              </div>
+              <p
+                class="drug-explanation"
+                id="drug-explanation"
+                aria-live="polite"
+              >
+                No anticoagulant selected. Click any factor in the map to
+                inspect its role.
+              </p>
+            </div>
+            <div class="cascade-layout svg-layout">
+              <div class="cascade-graphic">
+                <div class="cascade-legend">
+                  <span><i class="legend-flow"></i> ACTIVATION</span
+                  ><span><i class="legend-target"></i> DRUG TARGET</span
+                  ><span><i class="legend-node"></i> CLICK A FACTOR</span>
+                </div>
+                <p class="swipe-hint">← SWIPE TO EXPLORE THE WHOLE CASCADE →</p>
+                <div
+                  class="canvas-scroll"
+                  tabindex="0"
+                  aria-label="Coagulation diagram, scroll horizontally on narrow screens"
+                >
+                  <svg
+                    class="cascade-svg"
+                    id="cascade-svg"
+                    viewBox="0 0 720 755"
+                    role="group"
+                    aria-label="Interactive coagulation cascade. Select a factor for its role."
+                  >
+                    <defs>
+                      <marker
+                        id="arrowhead"
+                        markerWidth="8"
+                        markerHeight="8"
+                        refX="7"
+                        refY="4"
+                        orient="auto"
+                      >
+                        <path d="M0 0 L8 4 L0 8 Z" fill="#789987" />
+                      </marker>
+                      <radialGradient id="burstGlow">
+                        <stop
+                          offset="0"
+                          stop-color="#f0ae89"
+                          stop-opacity=".55"
+                        />
+                        <stop
+                          offset="1"
+                          stop-color="#f0ae89"
+                          stop-opacity="0"
+                        />
+                      </radialGradient>
+                    </defs>
+                    <text class="svg-path-label" x="45" y="35">
+                      EXTRINSIC / INITIATION
+                    </text>
+                    <text class="svg-path-label" x="420" y="35">
+                      INTRINSIC / AMPLIFICATION
+                    </text>
+                    <g
+                      class="flow-lines"
+                      fill="none"
+                      marker-end="url(#arrowhead)"
+                    >
+                      <path d="M155 102 V142" />
+                      <path d="M155 194 V238 H315" />
+                      <path d="M480 102 V122" />
+                      <path d="M480 170 V190" />
+                      <path d="M480 238 V250 H400" />
+                      <path d="M360 296 V323" />
+                      <path d="M360 377 V410" />
+                      <path d="M360 463 V490" />
+                      <path d="M360 545 V574" />
+                      <path d="M360 628 V660" />
+                    </g>
+                    <g class="flow-particles" aria-hidden="true">
+                      <circle r="3">
+                        <animateMotion
+                          dur="2.4s"
+                          repeatCount="indefinite"
+                          path="M155 102 V142"
+                        />
+                      </circle>
+                      <circle r="3">
+                        <animateMotion
+                          dur="3.1s"
+                          repeatCount="indefinite"
+                          path="M480 102 V122"
+                        />
+                      </circle>
+                      <circle r="3">
+                        <animateMotion
+                          dur="2.5s"
+                          repeatCount="indefinite"
+                          path="M360 296 V323"
+                        />
+                      </circle>
+                      <circle r="3">
+                        <animateMotion
+                          dur="2.8s"
+                          repeatCount="indefinite"
+                          path="M360 377 V410"
+                        />
+                      </circle>
+                      <circle r="3">
+                        <animateMotion
+                          dur="2.6s"
+                          repeatCount="indefinite"
+                          path="M360 545 V574"
+                        />
+                      </circle>
+                    </g>
+                    <g
+                      class="factor"
+                      data-factor="tissue"
+                      data-target="warfarin"
+                      role="button"
+                      tabindex="0"
+                      aria-label="Tissue factor and factor VIIa"
+                    >
+                      <rect x="54" y="55" width="205" height="48" rx="10" />
+                      <text x="156" y="85">Tissue factor + VIIa</text>
+                    </g>
+                    <g
+                      class="factor"
+                      data-factor="x"
+                      data-target="warfarin"
+                      role="button"
+                      tabindex="0"
+                      aria-label="Factor X"
+                    >
+                      <rect x="87" y="143" width="138" height="50" rx="10" />
+                      <text x="156" y="174">Factor X</text>
+                    </g>
+                    <g
+                      class="factor"
+                      data-factor="xii"
+                      role="button"
+                      tabindex="0"
+                      aria-label="Factor XII"
+                    >
+                      <rect x="418" y="55" width="125" height="48" rx="10" />
+                      <text x="480" y="85">XII → XIIa</text>
+                    </g>
+                    <g
+                      class="factor"
+                      data-factor="xi"
+                      role="button"
+                      tabindex="0"
+                      aria-label="Factor XI"
+                    >
+                      <rect x="418" y="123" width="125" height="48" rx="10" />
+                      <text x="480" y="153">XI → XIa</text>
+                    </g>
+                    <g
+                      class="factor"
+                      data-factor="ix"
+                      data-target="warfarin"
+                      role="button"
+                      tabindex="0"
+                      aria-label="Factor IX"
+                    >
+                      <rect x="400" y="191" width="130" height="48" rx="10" />
+                      <text x="465" y="221">IX → IXa</text>
+                    </g>
+                    <g
+                      class="factor"
+                      data-factor="viii"
+                      role="button"
+                      tabindex="0"
+                      aria-label="Factor VIII"
+                    >
+                      <rect x="550" y="191" width="112" height="48" rx="10" />
+                      <text x="606" y="221">+ VIIIa</text>
+                    </g>
+                    <text class="svg-path-label" x="45" y="276">
+                      COMMON PATHWAY
+                    </text>
+                    <g
+                      class="factor factor-xa"
+                      data-factor="xa"
+                      data-target="apixaban rivaroxaban heparin"
+                      role="button"
+                      tabindex="0"
+                      aria-label="Factor Xa"
+                    >
+                      <rect x="280" y="251" width="160" height="46" rx="10" />
+                      <text x="360" y="280">Factor Xa</text>
+                      <text class="block-symbol" x="423" y="269">⊘</text>
+                    </g>
+                    <g
+                      class="factor"
+                      data-factor="va"
+                      role="button"
+                      tabindex="0"
+                      aria-label="Factor Va"
+                    >
+                      <rect x="502" y="326" width="112" height="50" rx="10" />
+                      <text x="558" y="357">Factor Va</text>
+                    </g>
+                    <path
+                      class="cofactor-line"
+                      d="M502 351 H464"
+                      marker-end="url(#arrowhead)"
+                    />
+                    <g
+                      class="factor complex-factor"
+                      data-factor="complex"
+                      data-target="apixaban rivaroxaban"
+                      role="button"
+                      tabindex="0"
+                      aria-label="Prothrombinase complex"
+                    >
+                      <rect x="252" y="324" width="216" height="53" rx="10" />
+                      <text x="360" y="347">Prothrombinase</text>
+                      <text class="svg-sublabel" x="360" y="364">
+                        Xa · Va · phospholipid · Ca²⁺
+                      </text>
+                    </g>
+                    <g
+                      class="factor"
+                      data-factor="ii"
+                      data-target="warfarin"
+                      role="button"
+                      tabindex="0"
+                      aria-label="Prothrombin factor II"
+                    >
+                      <rect x="268" y="411" width="184" height="52" rx="10" />
+                      <text x="360" y="442">Prothrombin · II</text>
+                    </g>
+                    <g class="burst-visual" aria-hidden="true">
+                      <circle cx="360" cy="517" r="86" fill="url(#burstGlow)" />
+                      <circle class="burst-ring" cx="360" cy="517" r="49" />
+                    </g>
+                    <g
+                      class="factor thrombin-factor"
+                      data-factor="thrombin"
+                      data-target="dabigatran heparin"
+                      role="button"
+                      tabindex="0"
+                      aria-label="Thrombin factor IIa"
+                    >
+                      <rect x="268" y="491" width="184" height="54" rx="10" />
+                      <text x="360" y="515">Thrombin · IIa</text>
+                      <text class="svg-sublabel" x="360" y="533">
+                        THE THROMBIN BURST
+                      </text>
+                    </g>
+                    <g
+                      class="factor"
+                      data-factor="fibrinogen"
+                      role="button"
+                      tabindex="0"
+                      aria-label="Fibrinogen"
+                    >
+                      <rect x="268" y="575" width="184" height="53" rx="10" />
+                      <text x="360" y="607">Fibrinogen → fibrin</text>
+                    </g>
+                    <g
+                      class="factor"
+                      data-factor="xiii"
+                      role="button"
+                      tabindex="0"
+                      aria-label="Factor XIII"
+                    >
+                      <rect x="502" y="661" width="112" height="50" rx="10" />
+                      <text x="558" y="692">XIII → XIIIa</text>
+                    </g>
+                    <path
+                      class="cofactor-line"
+                      d="M502 686 H464"
+                      marker-end="url(#arrowhead)"
+                    />
+                    <g
+                      class="factor"
+                      data-factor="fibrin"
+                      role="button"
+                      tabindex="0"
+                      aria-label="Crosslinked fibrin"
+                    >
+                      <rect x="252" y="661" width="216" height="50" rx="10" />
+                      <text x="360" y="692">Crosslinked fibrin</text>
+                    </g>
+                  </svg>
+                </div>
+                <p class="cascade-footnote">
+                  A teaching map, not a complete kinetic model. On small
+                  screens, scroll the diagram sideways. Select factors by click,
+                  touch, or keyboard.
+                </p>
+              </div>
+              <aside class="node-detail" aria-live="polite">
+                <div class="detail-icon">✳</div>
+                <span class="micro">FACTOR FIELD NOTES</span>
+                <h4 id="node-title">Factor Xa</h4>
+                <p id="node-description">
+                  The intersection of the pathways. Xa assembles with Va,
+                  phospholipid and calcium to make prothrombinase.
+                </p>
+                <div class="detail-divider"></div>
+                <span class="micro">LOOK FOR</span>
+                <p id="node-insight" class="node-insight">
+                  A direct target of apixaban and rivaroxaban.
+                </p>
+                <div class="detail-foot">SELECT ANY FACTOR <span>↖</span></div>
+              </aside>
+            </div>
+            <div class="map-caption">
+              <span>✳</span>
+              <p>
+                <b>Direct by design.</b> Apixaban reversibly occupies the active
+                site of free, clot-bound, and prothrombinase-bound Xa. It does
+                <b>not</b> require antithrombin.
+                <strong id="cascade-outcome"
+                  >Switch apixaban on to see its effect.</strong
+                >
+              </p>
+            </div>
+          </div>
+          <div class="compare-grid">
+            <div class="compare-intro">
+              <span class="micro">THE ANTICOAGULANT LANDSCAPE</span>
+              <h3>Different routes.<br /><em>Same destination.</em></h3>
+              <p>Compare the target, not just the name.</p>
+            </div>
+            <div class="compare-list">
+              <div>
+                <span>01</span><b>Heparin / LMWH</b>
+                <p>Potentiate antithrombin; LMWH acts predominantly on Xa.</p>
+              </div>
+              <div>
+                <span>02</span><b>Warfarin</b>
+                <p>
+                  Reduces vitamin K–dependent II, VII, IX, X and proteins C and
+                  S.
+                </p>
+              </div>
+              <div>
+                <span>03</span><b>Dabigatran</b>
+                <p>Direct thrombin (IIa) inhibitor.</p>
+              </div>
+              <div>
+                <span>04</span><b>Rivaroxaban</b>
+                <p>Another direct factor Xa inhibitor.</p>
+              </div>
+            </div>
+          </div>
+          <div class="section-heading">
+            <div>
+              <span class="micro">02 / PHARMACOLOGY</span>
+              <h2>Time changes <em>the picture.</em></h2>
+              <p>
+                Drag through an illustrative twice-daily dosing interval. The
+                curve is conceptual, not a prediction of an individual's
+                concentration.
+              </p>
+            </div>
+          </div>
+          <div class="pharm-grid">
+            <div class="panel curve-panel">
+              <div class="panel-heading compact">
+                <div>
+                  <span class="micro">FIG. 02 / CONCENTRATION OVER TIME</span>
+                  <h3>Peaks & troughs</h3>
+                </div>
+                <span class="badge">ILLUSTRATIVE MODEL</span>
+              </div>
+              <div class="curve-wrap">
+                <svg
+                  viewBox="0 0 640 240"
+                  preserveAspectRatio="none"
+                  aria-label="Illustrative two-dose concentration curve"
+                >
+                  <defs>
+                    <linearGradient id="curveFill" x1="0" x2="0" y1="0" y2="1">
+                      <stop
+                        offset="0"
+                        stop-color="#cba18a"
+                        stop-opacity=".35"
+                      />
+                      <stop offset="1" stop-color="#cba18a" stop-opacity="0" />
+                    </linearGradient>
+                  </defs>
+                  <path
+                    d="M 0 210 L 0 200 C 20 155 45 62 90 65 C 145 70 200 145 320 170 C 345 130 365 35 410 38 C 470 45 550 130 640 160 L 640 210 Z"
+                    fill="url(#curveFill)"
+                  />
+                  <path
+                    d="M 0 200 C 20 155 45 62 90 65 C 145 70 200 145 320 170 C 345 130 365 35 410 38 C 470 45 550 130 640 160"
+                    fill="none"
+                    stroke="#e1ab91"
+                    stroke-width="3"
+                  />
+                  <line
+                    id="curve-line"
+                    x1="90"
+                    x2="90"
+                    y1="18"
+                    y2="210"
+                    stroke="#e5c4ad"
+                    stroke-dasharray="4 5"
+                  />
+                  <circle
+                    id="curve-dot"
+                    cx="90"
+                    cy="65"
+                    r="7"
+                    fill="#f1c2a7"
+                    stroke="#342821"
+                    stroke-width="4"
+                  />
+                </svg>
+                <div class="axis-labels">
+                  <span>DOSE 01 · 0H</span><span>DOSE 02 · 12H</span
+                  ><span>24H</span>
+                </div>
+              </div>
+              <label class="range-label" for="time-slider"
+                ><span>DRAG TO EXPLORE</span
+                ><strong id="time-output">3.4 HOURS · NEAR PEAK</strong></label
+              ><input
+                id="time-slider"
+                type="range"
+                min="0"
+                max="24"
+                step="0.1"
+                value="3.4"
+              />
+              <div class="range-ends">
+                <span>0 HOURS</span><span>24 HOURS</span>
+              </div>
+            </div>
+            <div class="pharm-facts">
+              <div>
+                <span>01</span><strong>~50%</strong>
+                <p>oral bioavailability</p>
+              </div>
+              <div>
+                <span>02</span><strong>3–4 h</strong>
+                <p>time to peak concentration</p>
+              </div>
+              <div>
+                <span>03</span><strong>~12 h</strong>
+                <p>apparent half-life</p>
+              </div>
+              <div>
+                <span>04</span><strong>~27%</strong>
+                <p>renal contribution to total clearance</p>
+              </div>
+              <p class="fact-note">
+                A substrate of <b>CYP3A4 and P-gp</b>: strong dual inhibitors or
+                inducers can change exposure. Check the label and interactions.
+              </p>
+            </div>
+          </div>
+          <div class="clinical-grid">
+            <article>
+              <span class="micro">01 / USE</span>
+              <h3>Where it fits</h3>
+              <p>
+                Stroke and systemic embolism prevention in nonvalvular atrial
+                fibrillation; DVT and PE treatment and prevention of recurrence;
+                and postoperative DVT prophylaxis after hip or knee replacement.
+              </p>
+              <p>
+                For acute VTE treatment, the usual adult lead-in is
+                <b>10 mg twice daily for 7 days</b>, then 5 mg twice daily.
+                Extended prevention has a separate regimen.
+              </p>
+            </article>
+            <article>
+              <span class="micro">02 / DOSE</span>
+              <h3>When less is more</h3>
+              <p>
+                For nonvalvular AF, reduce from 5 mg to 2.5 mg twice daily when
+                <b>at least two</b> are present: age ≥80 years, weight ≤60 kg,
+                or serum creatinine ≥1.5 mg/dL. This rule is not the VTE
+                treatment dosing rule.
+              </p>
+            </article>
+            <article>
+              <span class="micro">03 / SAFETY</span>
+              <h3>Bleeding & procedures</h3>
+              <p>
+                Bleeding is the principal risk. For life-threatening or
+                uncontrolled bleeding, andexanet alfa is a specific reversal
+                agent; 4-factor PCC may be considered according to local
+                protocols.
+              </p>
+              <p>
+                Label guidance: hold at least <b>24 h</b> for low-risk
+                procedures, and <b>48 h</b> for moderate/high bleeding risk.
+                Individualize for renal function, procedure and thrombosis risk
+                with the treating team.
+              </p>
+            </article>
+          </div>
+          <div class="section-heading lab-heading">
+            <div>
+              <span class="micro">03 / THE LABORATORY</span>
+              <h2>Why Eliquis distorts <em>clotting labs.</em></h2>
+              <p>
+                The same sample can tell different stories depending on the
+                assay. Explore a synthetic, reagent-dependent illustration—not a
+                diagnostic calculator.
+              </p>
+            </div>
+          </div>
+          <div class="panel lab-panel">
+            <div class="panel-heading">
+              <div>
+                <span class="micro">FIG. 03 / ASSAY SIMULATOR</span>
+                <h3>One drug, five readouts</h3>
+              </div>
+              <button
+                class="switch-control"
+                id="lab-toggle"
+                aria-pressed="true"
+              >
+                <span class="switch"><i></i></span
+                ><span>Apixaban <b id="lab-state">ON</b></span>
+              </button>
+            </div>
+            <div class="lab-controls">
+              <label for="concentration"
+                >SIMULATED DRUG CONCENTRATION
+                <b id="concentration-output">Moderate</b></label
+              ><input
+                type="range"
+                id="concentration"
+                min="0"
+                max="100"
+                value="50"
+              />
+              <div class="range-ends"><span>LOW</span><span>HIGH</span></div>
+            </div>
+            <div class="assay-table">
+              <div class="assay-head">
+                <span>ASSAY</span><span>ILLUSTRATIVE READOUT</span
+                ><span>WHAT TO KNOW</span>
+              </div>
+              <div class="assay-row">
+                <b>PT</b><span class="assay-value" id="pt-value"></span>
+                <p>Mild or variable prolongation; insensitive.</p>
+              </div>
+              <div class="assay-row">
+                <b>aPTT</b><span class="assay-value" id="aptt-value"></span>
+                <p>
+                  Variable and insensitive; a normal result does not exclude
+                  drug.
+                </p>
+              </div>
+              <div class="assay-row">
+                <b>Thrombin time</b
+                ><span class="assay-value" id="tt-value"></span>
+                <p>Usually normal: Xa, not thrombin, is inhibited.</p>
+              </div>
+              <div class="assay-row">
+                <b>Apixaban anti-Xa</b
+                ><span class="assay-value" id="anti-value"></span>
+                <p>
+                  Drug-calibrated anti-Xa assay estimates apixaban
+                  concentration.
+                </p>
+              </div>
+              <div class="assay-row">
+                <b>dRVVT</b><span class="assay-value" id="drvvt-value"></span>
+                <p>May prolong and create a false-positive LA result.</p>
+              </div>
+            </div>
+            <p class="lab-foot">
+              Xa inhibitors can falsely increase <b>clot-based</b> protein C,
+              protein S, and antithrombin activity results (assay dependent). If
+              safe and clinically appropriate, sample at trough or after
+              supervised washout; consider drug-insensitive chromogenic, antigen
+              or genetic methods. Trough alone does not eliminate interference.
+              Activated-charcoal adsorbents such as <b>DOAC-Stop</b> and
+              <b>DOAC-Remove</b> may help, with local validation and residual
+              drug assessment.
+            </p>
+          </div>
+        </div>
+        <div
+          id="panel-la"
+          role="tabpanel"
+          aria-labelledby="tab-la"
+          class="chapter"
+          hidden
+        >
+          <div class="chapter-heading">
+            <div>
+              <div class="eyebrow">
+                <span class="index-number">02 / THE PARADOX</span> LUPUS
+                ANTICOAGULANT
+              </div>
+              <h2>Longer in the tube.<br /><em>Clots in the body.</em></h2>
+              <p>
+                A name that seems to contradict itself. Lupus anticoagulant is
+                an antibody pattern that interferes with phospholipid-dependent
+                clotting assays, yet is associated with thrombosis in vivo.
+              </p>
+            </div>
+            <div class="chapter-aside">
+              <span>THE CENTRAL IDEA</span>
+              <p>
+                In vitro: prolonged clotting.<br /><strong
+                  >In vivo: thrombotic risk.</strong
+                >
+              </p>
+            </div>
+          </div>
+          <div class="paradox-grid">
+            <div class="panel mechanism-panel">
+              <div class="panel-heading compact">
+                <div>
+                  <span class="micro">FIG. 04 / THE MECHANISM</span>
+                  <h3>One antibody, two environments</h3>
+                </div>
+                <span class="badge">SELECT A VIEW</span>
+              </div>
+              <div class="segmented" role="group" aria-label="Mechanism view">
+                <button class="selected" data-mechanism="tube">
+                  IN THE TUBE</button
+                ><button data-mechanism="body">IN THE BODY</button>
+              </div>
+              <div class="mechanism-art" id="mechanism-art">
+                <svg
+                  class="mechanism-svg"
+                  viewBox="0 0 560 240"
+                  role="img"
+                  aria-label="Antibodies bridge beta-2 glycoprotein I on a phospholipid surface"
+                >
+                  <defs>
+                    <linearGradient
+                      id="membraneGlow"
+                      x1="0"
+                      x2="0"
+                      y1="0"
+                      y2="1"
+                    >
+                      <stop stop-color="#a6b99f" stop-opacity=".35" />
+                      <stop offset="1" stop-color="#a6b99f" stop-opacity="0" />
+                    </linearGradient>
+                  </defs>
+                  <rect
+                    x="0"
+                    y="175"
+                    width="560"
+                    height="65"
+                    fill="url(#membraneGlow)"
+                  />
+                  <path class="membrane-line" d="M0 175 H560" />
+                  <g class="membrane-dots">
+                    <circle cx="20" cy="175" r="5" />
+                    <circle cx="48" cy="175" r="5" />
+                    <circle cx="76" cy="175" r="5" />
+                    <circle cx="104" cy="175" r="5" />
+                    <circle cx="132" cy="175" r="5" />
+                    <circle cx="160" cy="175" r="5" />
+                    <circle cx="188" cy="175" r="5" />
+                    <circle cx="216" cy="175" r="5" />
+                    <circle cx="244" cy="175" r="5" />
+                    <circle cx="272" cy="175" r="5" />
+                    <circle cx="300" cy="175" r="5" />
+                    <circle cx="328" cy="175" r="5" />
+                    <circle cx="356" cy="175" r="5" />
+                    <circle cx="384" cy="175" r="5" />
+                    <circle cx="412" cy="175" r="5" />
+                    <circle cx="440" cy="175" r="5" />
+                    <circle cx="468" cy="175" r="5" />
+                    <circle cx="496" cy="175" r="5" />
+                    <circle cx="524" cy="175" r="5" />
+                    <circle cx="552" cy="175" r="5" />
+                  </g>
+                  <g class="gpi-protein">
+                    <path d="M172 174 C175 151 185 127 207 115" />
+                    <path d="M297 174 C293 151 283 127 261 115" />
+                    <circle cx="207" cy="115" r="9" />
+                    <circle cx="261" cy="115" r="9" />
+                  </g>
+                  <g class="bridge-antibody">
+                    <path d="M234 46 V83 M234 83 L207 115 M234 83 L261 115" />
+                    <circle cx="234" cy="46" r="5" />
+                  </g>
+                  <g class="gpi-protein second-protein">
+                    <path d="M374 174 C375 150 383 132 398 120" />
+                    <path d="M473 174 C471 153 461 132 446 120" />
+                    <circle cx="398" cy="120" r="8" />
+                    <circle cx="446" cy="120" r="8" />
+                  </g>
+                  <g class="bridge-antibody second-antibody">
+                    <path d="M422 58 V90 M422 90 L398 120 M422 90 L446 120" />
+                    <circle cx="422" cy="58" r="5" />
+                  </g>
+                  <g class="factor-cloud">
+                    <circle cx="80" cy="95" r="22" />
+                    <text x="80" y="100">Xa</text>
+                    <path d="M96 117 L130 151" />
+                    <path d="M120 141 L139 160 M139 141 L120 160" />
+                  </g>
+                  <text class="svg-mechanism-label" x="260" y="30">
+                    ANTIBODY BRIDGE
+                  </text>
+                  <text class="svg-mechanism-label" x="58" y="56">
+                    CLOTTING FACTOR
+                  </text>
+                  <text class="svg-mechanism-label" x="323" y="153">β₂GPI</text>
+                </svg>
+                <div class="mechanism-label" id="mechanism-label">
+                  PHOSPHOLIPID SURFACE
+                </div>
+              </div>
+              <div class="mechanism-copy">
+                <span class="micro" id="mechanism-kicker"
+                  >IN VITRO / ASSAY INTERFERENCE</span
+                >
+                <h4 id="mechanism-title">A competition for surface.</h4>
+                <p id="mechanism-text">
+                  Antibodies can bridge β₂-glycoprotein I on phospholipid
+                  surfaces, interfering with the phospholipid-dependent assembly
+                  of clotting factors and prolonging the test.
+                </p>
+              </div>
+            </div>
+            <div class="paradox-copy">
+              <span class="micro">DECODING THE NAME</span>
+              <h3>Not necessarily lupus.<br /><em>Not protective.</em></h3>
+              <p>
+                LA is a functional pattern caused by antiphospholipid
+                antibodies, often directed against phospholipid-binding proteins
+                including <b>β₂-glycoprotein I and prothrombin</b>. It can occur
+                without systemic lupus.
+              </p>
+              <div class="thin-rule"></div>
+              <span class="micro">THE APS CONNECTION</span>
+              <p>
+                Antiphospholipid syndrome (APS) combines appropriate clinical
+                features with persistent laboratory evidence: LA,
+                anticardiolipin IgG or IgM, or anti-β₂GPI IgG or IgM. The 2006
+                Sydney classification criteria require persistence on repeat
+                testing at least <b>12 weeks apart</b>; classification criteria
+                are not a substitute for clinical diagnosis.
+              </p>
+            </div>
+          </div>
+          <div class="section-heading">
+            <div>
+              <span class="micro">04 / A LABORATORY INVESTIGATION</span>
+              <h2>Follow the <em>testing trail.</em></h2>
+              <p>
+                An ISTH-style conceptual workflow. Select each step to see what
+                it contributes; actual laboratory algorithms and cutoffs vary.
+              </p>
+            </div>
+          </div>
+          <div class="panel workflow">
+            <div
+              class="workflow-steps"
+              role="group"
+              aria-label="Testing workflow steps"
+            >
+              <button class="selected" data-step="screen">
+                <span>01</span><b>Screen</b
+                ><small>Two principles</small></button
+              ><button data-step="mix">
+                <span>02</span><b>Mix</b
+                ><small>1:1 pooled plasma</small></button
+              ><button data-step="confirm">
+                <span>03</span><b>Confirm</b
+                ><small>More phospholipid</small></button
+              ><button data-step="interpret">
+                <span>04</span><b>Interpret</b><small>Put it together</small>
+              </button>
+            </div>
+            <div class="workflow-content" aria-live="polite">
+              <div>
+                <span class="micro" id="step-kicker">STEP 01 / SCREEN</span>
+                <h3 id="step-title">Start with two principles.</h3>
+                <p id="step-text">
+                  Use dRVVT and an LA-sensitive aPTT (often silica-based, low
+                  phospholipid; PTT-LA). Russell's viper venom activates factor
+                  X directly; a low-phospholipid dRVVT screen is expressed as a
+                  ratio to normal plasma.
+                </p>
+              </div>
+              <div class="workflow-visual" id="step-visual">
+                <div class="tube"><span></span></div>
+                <div class="tube second"><span></span></div>
+                <div class="workflow-visual-label" id="step-visual-label">
+                  dRVVT <i>+</i> LA-SENSITIVE aPTT
+                </div>
+              </div>
+            </div>
+            <div class="workflow-note">
+              ↳ &nbsp; ISTH 2020 advises mixing and confirmation in parallel
+              after a prolonged screen; local protocols may differ. A negative
+              mix does not exclude a weak LA; interpret the whole pattern.
+            </div>
+          </div>
+          <div class="ratio-lab panel">
+            <div class="panel-heading">
+              <div>
+                <span class="micro">FIG. 04B / RATIO WORKBENCH</span>
+                <h3>From clot times to a normalized ratio</h3>
+                <p>Move the four sliders to see how the calculation behaves.</p>
+              </div>
+              <span class="badge">SYNTHETIC TIMES</span>
+            </div>
+            <div class="ratio-layout">
+              <div class="ratio-inputs">
+                <div class="ratio-column">
+                  <span class="ratio-column-title"
+                    >01 / LOW PHOSPHOLIPID SCREEN</span
+                  >
+                  <label for="screen-patient"
+                    >Sample screen
+                    <output id="screen-patient-out">60 s</output></label
+                  >
+                  <input
+                    type="range"
+                    id="screen-patient"
+                    min="20"
+                    max="100"
+                    value="60"
+                    step="1"
+                  />
+                  <label for="screen-normal"
+                    >Normal pooled plasma screen
+                    <output id="screen-normal-out">40 s</output></label
+                  >
+                  <input
+                    type="range"
+                    id="screen-normal"
+                    min="20"
+                    max="100"
+                    value="40"
+                    step="1"
+                  />
+                </div>
+                <div class="ratio-column">
+                  <span class="ratio-column-title"
+                    >02 / HIGH PHOSPHOLIPID CONFIRM</span
+                  >
+                  <label for="confirm-patient"
+                    >Sample confirm
+                    <output id="confirm-patient-out">40 s</output></label
+                  >
+                  <input
+                    type="range"
+                    id="confirm-patient"
+                    min="20"
+                    max="100"
+                    value="40"
+                    step="1"
+                  />
+                  <label for="confirm-normal"
+                    >Normal pooled plasma confirm
+                    <output id="confirm-normal-out">38 s</output></label
+                  >
+                  <input
+                    type="range"
+                    id="confirm-normal"
+                    min="20"
+                    max="100"
+                    value="38"
+                    step="1"
+                  />
+                </div>
+              </div>
+              <div class="ratio-result" aria-live="polite">
+                <span class="micro">NORMALIZED SCREEN / CONFIRM</span>
+                <strong id="ratio-result">1.43</strong>
+                <div class="ratio-equation" id="ratio-equation">
+                  (60 / 40) ÷ (40 / 38)
+                </div>
+                <p id="ratio-explainer">
+                  The screen is longer relative to its normal than the confirm
+                  is to its normal.
+                </p>
+              </div>
+            </div>
+            <div class="ratio-caveat">
+              <b>Interpretation is not automatic.</b> This arithmetic
+              illustrates one common normalization method; reagents, local
+              validated cutoffs, mixing studies, and anticoagulant interference
+              matter. A ratio alone does not diagnose LA or APS.
+            </div>
+          </div>
+          <div class="section-heading">
+            <div>
+              <span class="micro">05 / INTERFERENCE LAB</span>
+              <h2>Before you call it <em>positive.</em></h2>
+              <p>
+                Anticoagulants can mimic an inhibitor. Adjust the sliders to
+                explore potential interference, then try an adsorbent. Slider
+                levels and ratio changes are invented, not drug concentrations
+                or neutralizer capacities.
+              </p>
+            </div>
+          </div>
+          <div class="interference-grid">
+            <div class="panel interference-controls">
+              <div class="panel-heading compact">
+                <div>
+                  <span class="micro">FIG. 05 / INTERFERENCE SIMULATOR</span>
+                  <h3>What is in the sample?</h3>
+                </div>
+                <span class="badge">SYNTHETIC</span>
+              </div>
+              <div class="drug-range">
+                <label for="heparin"
+                  >Heparin <output id="heparin-out">0</output></label
+                ><input
+                  id="heparin"
+                  class="interference-slider"
+                  type="range"
+                  min="0"
+                  max="100"
+                  value="0"
+                />
+                <p>
+                  Reagent neutralizers can quench heparin only up to their
+                  stated capacity; aPTT reagents vary.
+                </p>
+              </div>
+              <div class="drug-range">
+                <label for="warfarin"
+                  >Warfarin <output id="warfarin-out">0</output></label
+                ><input
+                  id="warfarin"
+                  class="interference-slider"
+                  type="range"
+                  min="0"
+                  max="100"
+                  value="0"
+                />
+                <p>
+                  Vitamin K factor depletion complicates screening and mixing;
+                  dilution is not a reliable correction.
+                </p>
+              </div>
+              <div class="drug-range">
+                <label for="doac"
+                  >DOAC / apixaban <output id="doac-out">60</output></label
+                ><input
+                  id="doac"
+                  class="interference-slider"
+                  type="range"
+                  min="0"
+                  max="100"
+                  value="60"
+                />
+                <p>
+                  Xa inhibitors can distort screen and confirm differently,
+                  producing false positives or negatives even at trough.
+                </p>
+              </div>
+              <button id="adsorbent" class="action-button" aria-pressed="false">
+                <span>✳</span> ADD CHARCOAL ADSORBENT <b>↗</b>
+              </button>
+            </div>
+            <div class="panel sample-panel">
+              <span class="micro">BEFORE / AFTER</span>
+              <h3>A cleaner sample?</h3>
+              <div class="sample-art" id="sample-art">
+                <div class="sample-vial">
+                  <div class="liquid"><i></i><i></i><i></i><i></i><i></i></div>
+                </div>
+                <div class="charcoal">
+                  ● ● ●<small>ACTIVATED<br />CHARCOAL</small>
+                </div>
+                <span class="sample-arrow">→</span>
+                <div class="sample-vial after">
+                  <div class="liquid"><i></i><i></i><i></i><i></i><i></i></div>
+                </div>
+              </div>
+              <div
+                class="before-after-readout"
+                aria-label="Illustrative drug interference before and after adsorbent"
+              >
+                <div>
+                  <span>BEFORE</span><strong id="before-ratio">1.36</strong
+                  ><small>simulated dRVVT ratio</small>
+                </div>
+                <span class="readout-arrow">→</span>
+                <div>
+                  <span>AFTER</span><strong id="after-ratio">—</strong
+                  ><small>retest after processing</small>
+                </div>
+              </div>
+              <div class="sample-status">
+                <span id="sample-status">NO ADSORBENT ADDED</span
+                ><strong id="interference-result"
+                  >Potential DOAC interference</strong
+                >
+                <p id="interference-explanation">
+                  DOAC particles remain in the sample; the LA result may be
+                  unreliable.
+                </p>
+              </div>
+              <p class="small-note">
+                The before/after ratios illustrate only an invented DOAC effect,
+                not the effects of other drugs or a real assay cutoff.
+                Adsorbents may remove DOAC from plasma, not from the patient.
+                Retest after processing, check residual drug when possible, and
+                follow validated lab procedures; removal may be incomplete and
+                other interferences remain.
+              </p>
+            </div>
+          </div>
+          <div class="pitfalls">
+            <span class="micro">THE DETAILS MATTER</span>
+            <h3>Pre-analytics & other pitfalls</h3>
+            <div>
+              <p>
+                <b>01 / Acute phase</b> CRP may interfere with some aPTT
+                reagents; acute illness can complicate interpretation.
+              </p>
+              <p>
+                <b>02 / Factor deficiency</b> Low factors can prolong screening
+                tests and may correct on mixing. A mix is not definitive by
+                itself.
+              </p>
+              <p>
+                <b>03 / Sample quality</b> Correctly fill the citrate tube to
+                maintain the blood-to-anticoagulant ratio and prepare
+                double-spun platelet-poor plasma per lab protocol.
+              </p>
+            </div>
+            <p class="pitfall-end">
+              Testing is best performed off interfering anticoagulation when
+              clinically safe, or using validated DOAC removal. Never interrupt
+              therapy solely for testing without the treating clinician's plan.
+            </p>
+          </div>
+          <div class="section-heading">
+            <div>
+              <span class="micro">06 / CHECK YOUR THINKING</span>
+              <h2>Put it into <em>practice.</em></h2>
+              <p>
+                Seven fictional vignettes. All numbers are invented for
+                teaching, not reference ranges or patient results.
+              </p>
+            </div>
+          </div>
+          <div class="panel quiz">
+            <div class="quiz-top">
+              <span class="micro" id="quiz-count">CASE 01 / 07 · SYNTHETIC</span
+              ><span class="badge">KNOWLEDGE CHECK</span>
+            </div>
+            <h3 id="quiz-question"></h3>
+            <p id="quiz-context"></p>
+            <div id="quiz-options" class="quiz-options"></div>
+            <div
+              id="quiz-feedback"
+              class="quiz-feedback"
+              aria-live="polite"
+            ></div>
+            <button id="quiz-next" class="text-button">
+              NEXT CASE <span>→</span>
+            </button>
+          </div>
+        </div>
+      </section>
+      <section class="references wrap">
+        <div class="references-title">
+          <span class="micro">CONTINUE LEARNING</span>
+          <h2>Go to the <em>source.</em></h2>
+          <p>
+            Selected public primary guidance and laboratory references. Consult
+            the current label and local protocols for practice.
+          </p>
+        </div>
+        <div class="reference-list">
+          <a
+            href="https://pubmed.ncbi.nlm.nih.gov/33462974/"
+            target="_blank"
+            rel="noopener"
+            ><span>01</span>
+            <div>
+              <b>ISTH SSC guidance for lupus anticoagulant detection</b
+              ><small>UPDATE OF THE GUIDELINES · 2020</small>
+            </div>
+            <i>↗</i></a
+          ><a
+            href="https://clsi.org/shop/standards/h60/"
+            target="_blank"
+            rel="noopener"
+            ><span>02</span>
+            <div>
+              <b>Laboratory Testing for the Lupus Anticoagulant</b
+              ><small>CLSI · H60</small>
+            </div>
+            <i>↗</i></a
+          ><a
+            href="https://pubmed.ncbi.nlm.nih.gov/16420554/"
+            target="_blank"
+            rel="noopener"
+            ><span>03</span>
+            <div>
+              <b>International consensus classification criteria for APS</b
+              ><small>SYDNEY CRITERIA · 2006</small>
+            </div>
+            <i>↗</i></a
+          ><a
+            href="https://packageinserts.bms.com/pi/pi_eliquis.pdf"
+            target="_blank"
+            rel="noopener"
+            ><span>04</span>
+            <div>
+              <b>Eliquis prescribing information</b
+              ><small>BRISTOL MYERS SQUIBB / PFIZER · US LABEL</small>
+            </div>
+            <i>↗</i></a
+          ><a
+            href="https://www.mayocliniclabs.com/test-catalog/overview/65848"
+            target="_blank"
+            rel="noopener"
+            ><span>05</span>
+            <div>
+              <b>Apixaban, anti-Xa, plasma</b
+              ><small>MAYO CLINIC LABORATORIES · TEST CATALOG</small>
+            </div>
+            <i>↗</i></a
+          ><a
+            href="https://www.islh.org/web/downloads/2020_Guidance%20_LA_detection_in_anticoagulated_patients_jth_14846.pdf"
+            target="_blank"
+            rel="noopener"
+            ><span>06</span>
+            <div>
+              <b>Impact of anticoagulants on lupus anticoagulant testing</b
+              ><small>ISTH SSC GUIDANCE · 2020</small>
+            </div>
+            <i>↗</i></a
+          >
+        </div>
+      </section>
+    </main>
+    <footer class="footer wrap">
+      <a class="brand" href="../../"
+        ><span class="brand-mark">✳</span
+        ><span>THE HEMATOLOGY <b>ATLAS</b></span></a
+      ><span>MADE FOR CURIOUS MINDS &nbsp; / &nbsp; EDUCATION ONLY</span
+      ><a href="#top" id="back-top">BACK TO TOP ↑</a>
+    </footer>
+  </body>
+</html>
