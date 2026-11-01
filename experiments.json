@@ -1,5 +1,20 @@
 [
   {
+    "id": "coretsu-interview",
+    "title": "Coretsu — Company & Interview Field Guide",
+    "description": "A research-backed, evidence-labeled overview of Coretsu, its government AI product and public-sector context, with interview drills, questions, sources and a locally saved prep plan.",
+    "path": "experiments/coretsu-interview/",
+    "category": "Education",
+    "tags": [
+      "Coretsu",
+      "Government AI",
+      "Interview Prep",
+      "Research",
+      "Interactive"
+    ],
+    "date": "2026-11-01"
+  },
+  {
     "id": "bronco-chip-verification",
     "title": "Bronco AI and Chip Verification: A Zero-Background Field Guide",
     "description": "Learn chip verification from zero with waveform debugging, coverage closure and playbook-to-agent labs; a source-labeled Bronco AI company brief, role decoder and interview practice.",
