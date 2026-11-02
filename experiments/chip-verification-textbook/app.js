@@ -18,12 +18,51 @@ function search() {
   $('empty-search').hidden = count !== 0;
 }
 $('search').addEventListener('input', search);
-// Deep links always reveal their target, including when a previous search hid it.
+// Fragment shortcuts remain usable even with active filters or a closed mobile TOC.
+function revealTarget(target, moveFocus = true) {
+  if (!target) return;
+  const chapter = target.closest('.chapter');
+  if ((chapter && chapter.hidden) || target.id === 'contents') {
+    $('search').value = ''; search();
+  }
+  if (target.id === 'contents') target.open = true;
+  requestAnimationFrame(() => {
+    if (moveFocus) {
+      const focusTarget = target.id === 'contents' ? target.querySelector('summary') : target;
+      focusTarget.focus({preventScroll:true});
+    }
+    target.scrollIntoView({block:'start'});
+  });
+}
 function revealHash() {
-  const target = document.getElementById(location.hash.slice(1));
-  if (target && target.hidden) { $('search').value = ''; search(); target.scrollIntoView(); }
+  let id;
+  try { id = decodeURIComponent(location.hash.slice(1)); } catch { return; }
+  if (id) revealTarget(document.getElementById(id));
 }
 window.addEventListener('hashchange', revealHash);
+document.querySelectorAll('a[href^="#"]').forEach(link => link.addEventListener('click', () => {
+  const target = document.getElementById(link.getAttribute('href').slice(1));
+  // Also handles a repeated click on the current hash, which emits no hashchange.
+  revealTarget(target);
+}));
+$('clear-search').addEventListener('click', () => {
+  $('search').value = ''; search(); $('search').focus();
+});
+const glossaryEntries = [...document.querySelectorAll('.glossary-entry')];
+function filterGlossary() {
+  const query = $('glossary-search').value.trim().toLocaleLowerCase();
+  let count = 0;
+  glossaryEntries.forEach(entry => {
+    entry.hidden = Boolean(query) && !entry.textContent.toLocaleLowerCase().includes(query);
+    if (!entry.hidden) count++;
+  });
+  $('glossary-status').textContent = count ? `${count} of ${glossaryEntries.length} definitions shown` : 'No terms match. Try another word or choose Show all terms.';
+}
+$('glossary-search').addEventListener('input', filterGlossary);
+$('clear-glossary').addEventListener('click', () => {
+  $('glossary-search').value = ''; filterGlossary(); $('glossary-search').focus();
+});
+filterGlossary();
 const routes = {
   quick: {text: '45 minutes: chapters 1 → 3 → 4 + FIFO lab → 12 → 16; drills 1–5.', ids: [1,3,4,12,16,17]},
   study: {text: '3 hours: 1–8 (60m), 9–12 (25m), 19 code (30m), 20 CDC + lab (30m), 13–16 (15m), drills 6–15 (20m).', ids: [...Array.from({length:17}, (_,i)=>i+1),19,20]},

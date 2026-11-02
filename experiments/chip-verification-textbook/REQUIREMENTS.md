@@ -32,3 +32,15 @@ Expanded edition: 2 November 2026. The original 18 chapters are preserved, with 
 ## Source limitation
 
 Direct extraction of the requested historical UVM/coverage PDFs and university Cummings PDF was unavailable. Their exact verified public URLs remain linked, with source-access disclosures. No login or registration was attempted. This is a source-linked educational synthesis, not a claim of a fresh line-by-line PDF audit, executed HDL package, analog simulator, or commercial benchmark.
+
+## Beginner-readability attachment · follow-up
+
+| Priority | Implementation | Verification |
+|---|---|---|
+| Publish beginner increment first | `#start-here`, main landing action, independent ~1,650-word lesson, 5 immediate answers, generic conversation prompt, clear next steps | PR #42 merged and Pages/live content verified before the second pass |
+| Plain definitions, analogy limits | Manufactured circuit, expensive physical change, checking vs design, before/after manufacturing, clocks/state/simultaneous updates, ordering escape, independent checker, coverage, CDC/one-bit memories | Bounded-content checks; original technical warnings retained |
+| Complete approachable glossary | 172 definition entries at stable `#glossary`, examples, expanded hardware/software acronyms, verification-agent vs AI-agent distinction | Required-term content test; local filter/empty/reset and print checks |
+| Always reachable help | Sticky safe-area-aware 44px Start here / Glossary / Chapters shortcuts | 320/390/1440px geometry checks, keyboard activation, same-hash/filter recovery, screenshots |
+| All chapters readable | Tailored opening, In everyday words, Concrete example, What to remember; early chapters rewritten; deeper sections labeled | All 22 chapters checked; original code/lab files and corrected source/provenance paragraphs preserved |
+| No loss of technical correctness | Sampled SVA reset, formal assumptions, CDC physical/digital distinction, synthetic lab boundaries preserved | 16 model groups + warning/source content tests + all-lab browser tests |
+| Canonical static publication | Markdown regenerates HTML faithfully; README/catalog description updated; sources and unrelated work preserved | Deterministic regeneration, source-link/anchor checks, clean diff, Pages publication verification |
