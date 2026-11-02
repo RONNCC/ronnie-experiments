@@ -26,3 +26,25 @@ pre code{background:transparent;color:inherit;padding:0;font-size:13px;white-spa
 .start-action{display:flex;align-items:center;min-height:52px;padding:14px 20px;background:var(--accent);color:var(--ink);border:1px solid #759544;border-radius:5px;text-decoration:none;font-size:16px;font-weight:700;margin:28px 0;max-width:650px}.start-action:hover{background:#c5ec78;color:var(--ink)}
 #start-here{max-width:800px}#start-here>p{font-size:17px;line-height:1.85}#start-here li{margin:16px 0}#start-here h3{font:500 26px/1.3 Georgia,serif;margin-top:38px}
 @media print{.start-action{display:none}}
+
+/* Always-available reader shortcuts. Top safe area is included in both offsets. */
+body{padding-bottom:env(safe-area-inset-bottom,0px)}
+.top{height:calc(72px + env(safe-area-inset-top,0px));padding-top:env(safe-area-inset-top,0px)}
+.reader-bar{position:sticky;top:calc(72px + env(safe-area-inset-top,0px));z-index:4;display:flex;justify-content:center;align-items:center;gap:8px;height:52px;padding:4px max(12px,env(safe-area-inset-right,0px)) 4px max(12px,env(safe-area-inset-left,0px));border-bottom:1px solid var(--line);background:#e9eddf}
+.reader-bar a{display:flex;align-items:center;justify-content:center;min-width:90px;min-height:44px;padding:8px 15px;font-size:14px;font-weight:700;text-decoration:none;border-radius:4px}
+.reader-bar a:hover{background:#dbe5c7}
+html{scroll-padding-top:calc(140px + env(safe-area-inset-top,0px))}
+aside{top:calc(124px + env(safe-area-inset-top,0px));height:calc(100dvh - 124px - env(safe-area-inset-top,0px))}
+#clear-search{margin-top:10px;min-height:44px;padding:8px 12px;background:transparent;color:var(--ink)}
+.glossary-tools{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;border:1px solid var(--line);padding:20px;margin:24px 0;background:#edf1e4}
+.glossary-tools label,.glossary-tools p{grid-column:1/-1;font-size:14px;margin:0}
+.glossary-tools input{min-width:0;font-size:16px}
+.glossary-entry{border-top:1px solid var(--line);padding:15px 0}
+.glossary-entry p{font-size:16px;margin:0;line-height:1.8}
+#glossary h3{margin-top:38px;font:500 29px/1.3 Georgia,serif}
+.chapter>h3:first-of-type{margin-top:34px}
+.chapter:focus{outline:none}.chapter:focus-visible{outline:2px solid var(--orange);outline-offset:5px}
+@media(max-width:720px){.top{height:calc(60px + env(safe-area-inset-top,0px))}.reader-bar{top:calc(60px + env(safe-area-inset-top,0px));gap:3px;justify-content:space-around}.reader-bar a{padding:8px 10px;min-width:80px;font-size:13px}html{scroll-padding-top:calc(128px + env(safe-area-inset-top,0px))}aside{height:auto;position:static}.glossary-tools{grid-template-columns:minmax(0,1fr);padding:16px}.glossary-tools label,.glossary-tools p{grid-column:1}.glossary-tools button{width:100%}.glossary-entry p{font-size:16px}.chapter>p{line-height:1.85}}
+@media print{.reader-bar,.glossary-tools,#clear-search{display:none!important}.glossary-entry[hidden]{display:block!important}.glossary-entry{break-inside:avoid}.top{display:none}.chapter{outline:none}.glossary-entry p{font-size:10pt}}
+/* A long textbook should jump predictably; overlapping long smooth scrolls can hide headings. */
+html{scroll-behavior:auto}
