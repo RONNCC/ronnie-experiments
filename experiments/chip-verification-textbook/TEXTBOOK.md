@@ -2,7 +2,7 @@
 
 A systems textbook for software and AI engineers. Public-source research edition · expanded 2 November 2026. Original company-page review: 1 November 2026.
 
-This is a new, deeper companion to the [Bronco zero-background field guide](../bronco-chip-verification/), not a replacement. You need basic programming, queues, and tests; you do not need prior electrical engineering. All architectures, FIFO examples, experiments, and interview answers here are original teaching constructions. They are not Bronco internals or actual interview questions. Only public company, job, and technical documentation informed this edition. No private notes, personal profiles, correspondence, or other connectors were used.
+This is a new, deeper companion to the [Bronco zero-background field guide](../bronco-chip-verification/), not a replacement. No hardware background is expected. Begin with the standalone 15-minute Start here route; the later chapters build toward programming, testing, and engineering details. All architectures, FIFO examples, experiments, and interview answers here are original teaching constructions. They are not Bronco internals or actual interview questions. Only public company, job, and technical documentation informed this edition. No private notes, personal profiles, correspondence, or other connectors were used.
 
 The central question is not whether AI can generate plausible hardware-related text. It is whether a system can turn an engineering requirement into trustworthy evidence, at acceptable cost, without hiding uncertainty. The running example is deliberately small enough to audit: a single-clock ready/valid FIFO. If a tool cannot explain whether two transfers occur on the same clock edge, it should not independently approve a full-chip change. This expanded edition preserves the original eighteen chapters and adds four technical chapters and the remaining required labs.
 
@@ -99,63 +99,165 @@ Next, read [chapter 1](#chapter-1) for circuits and remembered values, then [cha
 
 ## 1. Hardware is a concurrent state machine, not a slow program
 
-Register-transfer level, or RTL, describes how stored values move through combinational logic between clock events. A software function usually gives you a convenient sequential narrative: execute statement one, then statement two. Hardware descriptions instead elaborate into multiple structures that exist together. Two adders do not take turns merely because their descriptions appear on adjacent lines. They can evaluate concurrently, subject to propagation delays and physical implementation. Thinking in terms of state and next-state functions is more useful than imagining a processor interpreting every RTL line.
+A chip is a physical circuit that can calculate and remember. Start with the mailroom: a label can be selected from today's inputs, but remembering yesterday's waiting parcels needs storage. These are different jobs inside a circuit too.
 
-Combinational logic has outputs determined by current inputs, without intentional remembered state. An AND gate, multiplexer, and integer addition network are examples. Sequential logic remembers values, commonly in flip-flops updated on a clock edge. A register does not continuously follow its input: it samples according to its clocking rules. A clock is a timing reference, not a magical guarantee that every signal is valid. Physical setup and hold requirements, clock skew, and metastability all matter. Our early examples abstract these effects so we can reason about functional behavior first.
+**In everyday words.** A shared tick tells selected memories when to update. Decisions at one tick can use the same old information; they need not happen one after another like ordinary program statements.
 
-Consider two registers whose next values are `a_next = b` and `b_next = a`. At a rising edge they exchange their old values. They do not both become old `b`, as a careless sequential Python translation might suggest. Nonblocking assignments in clocked SystemVerilog are designed to express this old-state/next-state distinction. Conversely, a combinational process must assign outputs on every path when it is intended to describe purely combinational logic; otherwise unintended retained values can imply latches. Tool warnings are evidence to investigate, not decorations to suppress until a build turns green.
+**Concrete example.** If two storage locations hold 10 and 20 and exchange their old values at one tick, the result is 20 and 10—not two copies of 20.
 
-A chip lifecycle begins with requirements and architecture, then moves through microarchitecture, RTL implementation, verification, synthesis, physical implementation, timing and physical checks, manufacturing preparation, fabrication, packaging, and post-silicon bring-up. These activities overlap and feed back into one another. Verification is not one final test stage after RTL is “done.” An architectural decision can make a later property difficult to observe or prove. A reset policy established early may determine whether firmware can recover from an error without a power cycle.
+**What to remember.** Separate current inputs, remembered values, and the next update. A design file is not the manufactured chip.
 
-A system-on-chip, or SoC, integrates processors, memories, accelerators, interconnects, peripherals, and control logic. A block is a smaller unit such as a FIFO, arbiter, or DMA engine. Correct blocks can compose into a broken SoC if their assumptions disagree: one block expects reset to flush outstanding requests while another expects all requests to complete. Integration verification therefore checks contracts between components, not merely the sum of block test results. This is familiar to distributed-systems engineers, except hardware contracts also contain cycle-level timing and finite-width arithmetic.
+### Deeper: from files to a physical circuit
 
-**Worked decision.** A team asks whether a 32-bit counter “overflows safely.” First specify unsigned versus signed interpretation, whether arithmetic wraps or saturates, and what software sees at the boundary. Then test the transition from the largest representable value. Python's arbitrary-precision integer is not a correct oracle unless you explicitly mask or range-check it. A beautifully written test can certify the wrong arithmetic if it models a different machine.
+Register-transfer level (RTL) is a way to describe how remembered values and connecting logic behave. It is not a processor reading a file one line at a time. The described structures can exist and act together.
 
-**Review.** Explain why a queue with correct contents can still be wrong if it raises `ready` one cycle late. The missing idea is that the contract includes timing and throughput, not only eventual values. Technical starting point: [Verilator overview](https://verilator.org/guide/latest/overview.html), which describes translating HDL into executable C++ or SystemC models rather than treating HDL as ordinary software.
+Combinational logic calculates from present inputs. An AND gate produces one only when both inputs are one. A multiplexer chooses between inputs. Neither description intentionally remembers yesterday's input. Physical propagation still takes time; a simplified functional model can hide that delay.
+
+Sequential logic remembers values. A flip-flop is a common one-bit memory element; a register can hold several bits. A clock is its timing reference, not a guarantee that incoming data is safe to sample. Setup and hold are required input-stability windows around a sampling event. Clock skew means related clocks arrive at different times. Metastability is uncertain analog settling after an awkwardly timed change.
+
+Imagine registers `a` and `b`. Their next values are `a_next = b` and `b_next = a`. Both use the old values, so they exchange contents at the edge. A sequential software translation that overwrites `a` before computing the new `b` can give the wrong result. SystemVerilog is a hardware description language (HDL) that can describe circuits and tests. Its nonblocking assignments express scheduled updates using old right-hand-side values.
+
+A combinational description also needs care. If an intended output is not assigned on every path, the tool may infer a latch: storage that retains an earlier value. That is not the intended purely combinational behavior. Investigate warnings rather than suppressing them just to obtain a green build.
+
+### Deeper: lifecycle and integration
+
+A chip project starts with requirements and an architecture: the promised behavior and broad organization. Microarchitecture chooses the internal arrangement. Engineers write RTL, check it, synthesize a supported description into lower-level logic, place and connect components, and check timing and physical rules.
+
+The design then proceeds through manufacturing preparation, fabrication, packaging, and bring-up of actual devices. These activities overlap and feed back into each other. Checking is not one final stage after all design decisions are finished. An early reset or observation policy can make later verification easier or harder.
+
+A system-on-chip (SoC) combines processors, memories, communication paths, and other blocks. A block is one component, such as a queue or a direct-memory-access (DMA) engine that moves data without the processor copying each word. Correct blocks can still form a broken system when their assumptions disagree.
+
+For example, one block may discard all pending work on reset while another still expects responses. Local tests can pass and integration still fail. Software engineers will recognize the idea of mismatched service contracts, with cycle-level timing and fixed-width arithmetic added.
+
+### Worked technical example: finite-width arithmetic
+
+A 32-bit counter cannot represent every integer. Before asking whether overflow is safe, specify whether values are signed or unsigned and whether the result wraps or saturates. Test the boundary explicitly.
+
+Python integers can grow beyond the hardware width. A Python oracle must deliberately apply the intended range or masking rule. A neat test using the wrong arithmetic model can approve the wrong circuit.
+
+**Review.** A queue can preserve data order yet raise ready one cycle too late. It may still violate its timing or throughput promise. Correctness includes when actions happen, not only eventual values.
+
+Technical starting point: [Verilator overview](https://verilator.org/guide/latest/overview.html), describing translation of hardware descriptions into executable C++ or SystemC models.
 
 **Chapter 1 source pointers.** [Verilator overview](https://verilator.org/guide/latest/overview.html). The worked examples and recommended architectures are original educational synthesis; these links do not establish company internals. See the final evidence ledger and the expanded technical chapters for version/access limitations.
 
 ## 2. What each verification platform can and cannot establish
 
-Pre-silicon verification studies models before manufactured silicon exists. Post-silicon validation studies real devices after fabrication. Neither replaces the other. Simulation executes a model under chosen inputs and observes behavior. It is excellent for detailed debug and checking explicit traces, but the number of possible histories grows rapidly. Passing a million seeds does not mean all histories were explored, especially when constraints keep selecting nearly identical scenarios. A seed is a reproducibility aid, not a unit of proof.
+Before building a real mailroom, you might rehearse its rules on paper. After building it, you still inspect the doors and machinery. Chip teams likewise use models before manufacturing and test devices afterward.
 
-RTL simulation commonly models discrete events and logical values. Gate-level simulation uses a lower-level netlist and can include timing annotations when configured, but it is typically more expensive and still depends on the model and setup. An untimed software reference model may specify functional outputs without describing every implementation cycle. That abstraction is valuable: a reference model copied line-for-line from RTL can reproduce the same mistake. The price of abstraction is an explicit adapter explaining when outputs are compared and which internal scheduling choices are intentionally ignored.
+**In everyday words.** A simulation tries chosen stories. Formal verification reasons mathematically about stated rules under assumptions. Physical tests examine real devices. None automatically answers every question the others can ask.
 
-Hardware emulation maps a design into specialized hardware to execute long workloads faster than many software simulations. FPGA prototyping maps a design into programmable devices, often useful for firmware or system development. These approaches have different compilation costs, visibility limits, interface adaptations, and resource constraints. A bug that is easy to inspect in a short block simulation may be hard to localize after a long emulation run. An FPGA clocking or memory substitution may also differ from the intended ASIC implementation. Record these differences rather than describing a prototype as identical silicon.
+**Concrete example.** A computer model can show that parcels remain ordered. It cannot by itself show how a real memory element settles electrically after an awkwardly timed signal.
 
-Formal verification asks mathematical questions about a model. Bounded model checking can find a counterexample within a specified depth; absence of a counterexample to that depth is not automatically an unbounded proof. Induction and other engines can establish broader results under their assumptions. A proven property that never mentions data ordering cannot establish FIFO ordering. A proof with impossible environmental assumptions may be vacuous: it succeeds because no meaningful behavior is allowed. The [SymbiYosys FIFO tutorial](https://symbiyosys.readthedocs.io/en/latest/quickstart.html) illustrates properties, bounded checks, covers, and counterexample traces.
+**What to remember.** Ask what each method models, what it observes, and what claim its result actually supports.
 
-Static techniques inspect structure or constraints without running ordinary input sequences. Lint catches many suspicious coding patterns. Clock-domain crossing analysis, reset-domain crossing analysis, static timing analysis, and equivalence checking answer different questions. A two-flop synchronizer may address a single-bit crossing but cannot by itself guarantee coherent transfer of a multi-bit counter. Timing closure does not prove a protocol is correct. Logical equivalence between two versions can preserve a pre-existing functional bug. Read every report as a scoped statement with explicit assumptions.
+### Deeper: choose a method for a particular question
 
-Post-silicon work adds real electrical behavior, process variation, temperature, power delivery, manufacturing defects, and actual system interactions. Observability is scarce compared with simulation; trace buffers, performance counters, scan-related facilities, and firmware instrumentation become important. You cannot assume every internal signal is freely inspectable. Nor does a clean device run prove that all corner conditions are safe. A model limitation discovered in silicon should feed back into future pre-silicon plans, not remain an isolated lab anecdote.
+Pre-silicon work happens before manufactured chips exist. Post-silicon work examines real devices afterward. Verification usually asks whether a design meets stated requirements; validation emphasizes suitability for intended use. Terminology varies across teams, so ask what is being checked rather than relying on the label alone.
 
-**Worked decision.** A rare ordering failure appears after hours of software boot. Use emulation or prototyping to reach the workload, capture a compact transaction trace, and reduce it into a focused simulation when possible. Use formal properties on the suspected queue or arbiter for generality. Do not demand that one platform be best at workload length, internal visibility, physical realism, and exhaustive state exploration simultaneously. **Review:** name the strongest claim a 50-cycle bounded check supports, and explicitly state what it does not establish.
+Simulation executes a model under selected inputs. It gives detailed observations of those histories, not automatic exploration of every possible history. Many random seeds can generate similar scenarios if the constraints are too narrow. A seed helps repeat generated activity; it is not a unit of mathematical proof.
+
+RTL simulation uses a register-level behavior description. Gate-level simulation uses a lower-level connected implementation and can include timing annotations when configured. It usually costs more to run and still depends on its model and setup.
+
+A software reference model may deliberately leave out implementation cycles while predicting functional results. That can make it simpler and more independent than copying the design. An adapter must then explain when outputs are compared and which scheduling differences are allowed.
+
+### Deeper: long workloads and physical devices
+
+Emulation maps a design into specialized hardware so long workloads can run faster than in many software simulations. FPGA prototyping maps a design into configurable hardware. Both can help software development before an intended ASIC—a manufactured application-specific chip—exists.
+
+These methods have compilation costs, visibility limits, and interface adaptations. An FPGA's memory or clock arrangement may differ from the ASIC. Record those differences. Do not call the prototype physically identical to the final device.
+
+After fabrication, real-device testing adds electrical behavior, temperature, power delivery, manufacturing variation, and system interactions. Engineers cannot freely inspect every internal value as they can in a convenient model. Trace buffers, counters, and firmware observations help, but each has limits.
+
+A clean device run does not prove every corner condition safe. A model limitation discovered in hardware should improve future pre-silicon checking rather than remain a disconnected laboratory story.
+
+### Deeper: mathematical and static checks
+
+Formal verification mathematically analyzes stated properties over a model. A bounded model check can find a violating trace within a depth; no violation to that depth does not automatically prove all future cycles. Induction and other methods can establish wider results under assumptions.
+
+A property that never mentions ordering cannot prove FIFO ordering. Impossible environmental assumptions can make a result vacuous: successful without meaningful operation. Review assumptions and ask for reachable examples, called cover witnesses. The [SBY FIFO tutorial](https://symbiyosys.readthedocs.io/en/latest/quickstart.html) illustrates properties, bounded tasks, covers, and counterexamples.
+
+Static checks inspect structure or constraints without ordinary stimulus sequences. Lint finds suspicious coding patterns. Timing analysis checks path timing. Clock- and reset-domain analysis examine crossings. Equivalence compares two models under specified conditions. Each asks a different question.
+
+Two equivalent versions can share an old bug. Timing closure does not prove a protocol correct. A two-flop level synchronizer does not guarantee coherent transfer of an arbitrary changing bus. Read reports as scoped statements, not universal certificates.
+
+### Worked technical example: a late ordering failure
+
+Suppose a failure appears after hours of software boot. Emulation or a prototype can help reach that workload. Capture a compact transaction history and reduce it to focused simulation where possible. Then use precise properties to investigate the suspected queue or controller.
+
+No single platform must be best at workload length, visibility, physical realism, and exhaustive exploration. Choose a combination that answers the actual questions.
+
+**Review.** Explain what a 50-cycle bounded pass establishes under its assumptions, then state why it does not establish all future operation or analog reliability.
 
 **Chapter 2 source pointers.** [SBY FIFO quickstart](https://symbiyosys.readthedocs.io/en/latest/quickstart.html); [Verilator overview](https://verilator.org/guide/latest/overview.html). The worked examples and recommended architectures are original educational synthesis; these links do not establish company internals. See the final evidence ledger and the expanded technical chapters for version/access limitations.
 
 ## 3. The evidence pipeline: specification to signoff
 
-A specification is a collection of obligations, not merely a PDF. Extract each obligation into an identifiable requirement with legal inputs, expected behavior, timing, reset effects, and error handling. “Supports streaming” is too vague to test. “When valid and ready are high at a rising edge, exactly one word is accepted” is actionable. Ambiguities should become questions with owners and dates, not undocumented choices buried in a testbench. A requirement ID lets a reviewer trace a test failure back to the promise that made it a failure.
+Checking starts with a promise someone can judge. 'The mailroom works' is too vague. 'Deliver accepted parcel 10 before accepted parcel 20 when 10 arrived first' gives us something specific to test.
 
-A test plan maps those requirements into methods. Some obligations need directed tests, others constrained-random scenarios, assertions, formal proofs, static checks, or integration workloads. The plan should explain the checker, not just the input generator. Generating unusual traffic is not useful if no observer can recognize incorrect behavior. Include negative scenarios where the environment violates assumptions if the product promises detection or recovery. Do not silently expand the DUT's responsibility to include every imaginable illegal input.
+**In everyday words.** The test plan maps promises to checks. The testbench is the surrounding setup. A monitor records actual events; a scoreboard compares them with expected events. Coverage records what was tried, not whether every promise is true.
 
-Stimulus is what the test environment drives. A monitor observes what actually occurred. These are different: asking a driver to transmit ten words does not prove the DUT accepted ten words. Backpressure may prevent acceptance. Monitors should use the protocol's transfer event, not the driver's intention. A scoreboard predicts and compares results. For our FIFO, it maintains an independent queue of accepted input words and compares each accepted output with the oldest expected word. Its state must reset according to the same documented interface contract.
+**Concrete example.** Offer a parcel to a full line. If it is refused, do not add it to the checker's accepted-arrival list. A requested action is not the same as an observed action.
 
-Coverage measures which planned situations were observed. Functional coverage captures meaningful behaviors such as “pop and push at full occupancy.” Code coverage captures structural activity such as executed statements, branches, or toggles. Neither is an oracle of correctness. A test can hit every planned bin while its scoreboard is disabled. Conversely, a real bug can appear in a scenario the coverage plan forgot to represent. Coverage helps direct investigation; it does not replace assertions, scoreboards, review, or judgment about missing requirements.
+**What to remember.** Keep a chain from promise to scenario, observation, independent check, and reviewed result.
 
-Triage separates failures into actionable classes: RTL bug, testbench bug, reference-model bug, configuration error, infrastructure error, specification ambiguity, or expected negative-test result. Bucketing similar failures reduces repeated work, but a signature can merge distinct root causes. Keep representative artifacts and allow engineers to split buckets. A regression is a repeatable collection of builds and runs across configurations and seeds. It must distinguish test failures from missing results, killed jobs, expired licenses, disk exhaustion, and incompatible compiled artifacts.
+### Deeper: make the promise checkable
 
-Signoff is a risk decision backed by evidence. It includes reviewed requirement coverage, passing relevant regressions, understood exclusions, issue disposition, static and formal results, and known limitations. It should not be delegated to one percentage. Waiving an unreachable bin changes the interpretation of coverage; record the reason, reviewer, applicable configuration, and evidence. If the requirement changes, revisit the waiver. “It has always been waived” is not a technical argument.
+A specification is the set of promises and assumptions, not merely the file containing them. Give each requirement an identifier, such as F3. State legal inputs, expected results, timing, reset behavior, and any promised error handling.
 
-**Worked chain.** Requirement F4 says stalled output remains stable. A directed test fills the FIFO, holds the consumer unready, and keeps presenting producer data. A passive monitor records output valid, output data, ready, and reset at every edge. An assertion checks stability across each stalled interval. A functional bin records a stall lasting at least three cycles. The regression preserves the seed, RTL revision, and failure window. The reviewer can now inspect a complete chain rather than trust the sentence “backpressure tested.” **Review:** identify which artifact would expose a driver that claims success without seeing a handshake.
+“Supports streaming” is not precise enough. “When valid and ready are both high at a rising edge, one word is accepted” is testable. Ambiguities need an explicit question and resolution, not an undocumented choice hidden inside the testbench.
+
+A test plan maps each requirement to evidence. A directed test deliberately creates one scenario. Constrained-random testing generates varied legal activity. Assertions check executable rules, formal tools analyze properties, and static checks inspect structural obligations. The plan must name the checker, not only the input generator.
+
+If a product promises recovery from an illegal input, test that promise too. Otherwise do not quietly assume the design must handle every imaginable environment violation. Separate the environment's obligations from the design's obligations.
+
+### Deeper: observe first, compare second
+
+Stimulus is what the setup presents. The driver creates timed input activity. The monitor watches actual interface events. Asking the driver for ten words does not prove ten words were accepted; backpressure can block a transfer.
+
+The scoreboard tracks expected results and compares observations. For the FIFO, use an independent list of accepted words. Compare each accepted output against the old list head. Reset the expected history according to the same documented reset contract.
+
+Coverage records scenarios or structural activity. Functional coverage can record a full queue performing simultaneous removal and insertion. Code coverage can record a statement, branch, or bit toggle. Neither creates an oracle of correctness.
+
+A test can hit every planned category with its checker disabled. A real bug can occur in a case the plan forgot. Coverage directs investigation alongside checkers, properties, and review; it does not replace them.
+
+### Deeper: from failure reports to a release decision
+
+Triage classifies failures before expensive investigation. Possibilities include an RTL bug, testbench bug, reference-model bug, bad configuration, infrastructure error, unclear specification, or an expected negative-test result.
+
+Bucketing groups apparently similar failures. Keep original evidence and allow splits, because one error signature can hide multiple root causes. A regression is a repeatable set of tests across configurations and seeds. Missing or killed jobs, expired licenses, and full disks are not behavioral passes.
+
+Signoff is an accountable risk decision. Review requirement coverage, relevant regressions, issues, exclusions, static/formal results, and known limits. Do not hand that decision to one percentage.
+
+A waiver changes the meaning of a report. Record its reason, applicable configuration, supporting evidence, and review. Revisit it when the requirement changes; “always waived” is not a technical explanation.
+
+### Worked technical example: a stalled parcel
+
+Requirement F4 says the pending output stays stable while the receiver refuses it. Fill the FIFO, hold the consumer unready, and continue presenting legal producer data. The monitor records reset, valid, ready, and data at each agreed edge.
+
+An assertion checks stability across the stalled interval. A functional bin records that a multi-cycle stall occurred. The saved regression result identifies the design, testbench, seed, and observation window. Together those artifacts explain what was exercised and what was checked.
+
+**Review.** Which record would expose a driver that claims success without a handshake? The passive monitor's accepted-event history—not the driver's request list.
 
 **Chapter 3 source pointers.** [Accellera UVM standards](https://www.accellera.org/downloads/standards/uvm); [cocotb testbench guide](https://docs.cocotb.org/en/stable/writing_testbenches.html). The worked examples and recommended architectures are original educational synthesis; these links do not establish company internals. See the final evidence ledger and the expanded technical chapters for version/access limitations.
 
 ## 4. A precise ready/valid FIFO contract
 
-A FIFO is a first-in, first-out queue. Our teaching FIFO has depth four, one clock, eight-bit words, an active-high synchronous reset, and no empty bypass. It exposes `in_valid`, `in_ready`, `in_data`, `out_valid`, `out_ready`, and `out_data`. All transfers are determined from values immediately before a rising edge. State changes occur at that edge. The browser lab implements exactly this contract, not AXI as a whole and not a particular memory macro. Eight-bit data ranges from zero to 255; invalid values are rejected by the lab.
+This chapter makes the waiting-line rules precise enough for two engineers to agree about one tick. There are four spaces. Eight-bit numbers are labels from 0 to 255. A sender offers a label; a receiver says whether it can accept one.
 
-Let `n` be pre-edge occupancy and `D` be depth. Outside reset, `out_valid = (n > 0)`. Define `pop = out_valid && out_ready`. We choose a look-ahead ready rule: `in_ready = (n < D) || pop`. Then `push = in_valid && in_ready`. The next count is `n + push - pop`. If both occur, compare and remove the old head first, then append the new input word. This describes logical order, not a requirement that a physical implementation execute sequential operations in that order. It ensures a full FIFO can replace a departing word without an avoidable bubble.
+**In everyday words.** Valid means 'I have an item'; ready means 'I can accept it.' Both must agree at the chosen tick. Push means accepted insertion; pop means accepted removal. Reset clears this example's remembered queue.
+
+**Concrete example.** With 10, 20, 30, 40 waiting, accept removal and insertion of 50 together. Deliver old 10 and leave 20, 30, 40, 50. The count stays four.
+
+**What to remember.** At full, a departing item can make room on the same tick. At empty, this particular design has no immediate pass-through.
+
+### Deeper: the exact single-clock contract
+
+A FIFO is a first-in, first-out queue. Our teaching FIFO has depth four, one clock, eight-bit words, an active-high synchronous reset, and no empty bypass. It exposes `in_valid`, `in_ready`, `in_data`, `out_valid`, `out_ready`, and `out_data`. All transfers are determined from values immediately before a rising edge. State changes occur at that edge. The browser lab implements exactly this contract. It is not a complete implementation of Arm’s Advanced eXtensible Interface (AXI), a larger transfer protocol, or a particular supplied memory circuit (memory macro). Eight-bit data ranges from zero to 255; invalid values are rejected by the lab.
+
+Before the equations, notice that a transfer is decided using the old state. `&&` means both conditions must hold; `||` means either can hold. Let `n` be pre-edge occupancy (items stored) and `D` be depth (capacity). Outside reset, `out_valid = (n > 0)`. Define `pop = out_valid && out_ready`. We choose a look-ahead ready rule: `in_ready = (n < D) || pop`. Then `push = in_valid && in_ready`. The next count is `n + push - pop`.
+
+If both occur, compare and remove the old head first, then append the new input word. This describes logical order, not a requirement that a physical implementation execute sequential operations in that order. It ensures a full FIFO can replace a departing word without an avoidable bubble.
 
 At empty occupancy, `out_valid` is false even if an input word is offered and the consumer is ready. With no bypass, a push is accepted but no pop occurs on that same edge. The newly stored word becomes visible after the edge and can be consumed on a subsequent edge. A fall-through or bypass FIFO would have a different contract, different combinational paths, and different scoreboard rules. Do not import its behavior into this example because another queue library behaves that way.
 
@@ -175,7 +277,9 @@ Reset dominates transfers at the rising edge. In this teaching contract reset al
 | Full | 1 | 1 | 1 | 1 | D | Replacement, no reordering |
 | Any, reset | Any | Any | 0 | 0 | 0 | Flush, no credited transfer |
 
-**Worked trace.** Fill with 10, 20, 30, 40. Both pointers have wrapped to zero while count is four. Offer 50 with consumer ready. Pre-edge output is 10; both handshakes occur. Afterward the logical queue is 20, 30, 40, 50, both pointers are one, and count remains four. A checker that compares output against 50 has confused incoming data with the old head. A count update written as two competing assignments can incorrectly increment or decrement instead of holding. **Review:** write the entire nine-row matrix before writing stimulus. The interactive lab lets you inspect these pre/post distinctions directly.
+**Worked trace.** Fill with 10, 20, 30, 40. Both pointers have wrapped to zero while count is four. Offer 50 with consumer ready. Pre-edge output is 10; both handshakes occur. Afterward the logical queue is 20, 30, 40, 50, both pointers are one, and count remains four. A checker that compares output against 50 has confused incoming data with the old head.
+
+A count update written as two competing assignments can incorrectly increment or decrement instead of holding. **Review:** write the entire nine-row matrix before writing stimulus. The interactive lab lets you inspect these pre/post distinctions directly.
 
 **Chapter 4 source pointers.** [SBY FIFO quickstart](https://symbiyosys.readthedocs.io/en/latest/quickstart.html). The worked examples and recommended architectures are original educational synthesis; these links do not establish company internals. See the final evidence ledger and the expanded technical chapters for version/access limitations.
 
@@ -198,6 +302,16 @@ Sampling uses pre-edge occupancy and handshake pins. Coverage records scenarios,
 
 ## 5. Build an independent oracle and a test matrix
 
+A checker needs its own simple account of what should happen. Do not ask the mailroom's possibly wrong storage algorithm to certify itself. Keep a separate list of accepted parcel numbers.
+
+**In everyday words.** The design under test (DUT) is the queue being checked. An oracle is a source of expected behavior. Here a plain list is the oracle; the scoreboard uses it to compare deliveries. The monitor supplies actual accepted events, not the sender's intentions.
+
+**Concrete example.** Record accepted 10, then 20. If the first accepted delivery is 20, report a mismatch even when the queue's count looks sensible.
+
+**What to remember.** Check ordering, control signals, and progress—not just how many items remain.
+
+### Deeper: mechanism, evidence, and limits
+
 A reference model should be simpler than the implementation. For a circular FIFO, use a high-level list or deque rather than duplicating pointer arithmetic. On each sampled edge, determine transfers from observed interface values, check the outgoing word against the old queue head, remove it if a pop occurred, and append the incoming word if a push occurred. Compare expected and observed interface behavior as well as data. Otherwise a DUT that never asserts ready could avoid all data comparisons and appear correct. Progress obligations need their own checks.
 
 The oracle needs a documented relationship to the specification. It should predict ready from expected occupancy and the chosen look-ahead rule, not simply trust DUT ready as inherently correct. The monitor's observed handshake tells you what the interface did; the oracle's predicted handshake tells you what it should have done. Keep both concepts available. If they disagree, report the control mismatch before modifying expected queue state in a way that might obscure the original divergence. One clean approach stops at the first mismatch and saves the surrounding trace.
@@ -210,21 +324,33 @@ Use distinct data patterns. All-zero words can hide duplication, loss, and order
 
 A constrained-random test should intentionally vary burst length, producer gaps, consumer stalls, reset timing, and occupancy targets. Constraints that accidentally prevent full occupancy undermine full-boundary coverage. Record the seed, configuration, generated sequence, tool version, and model revision. A fixed seed alone is insufficient if a changed generator consumes random numbers differently. Save the reduced failing sequence when feasible. Reproducibility is an artifact contract, not a superstition about seed values.
 
-**Worked experiment.** Inject a bug that updates count with `if push ... else if pop ...`. Interior simultaneous transfers now increment occupancy instead of holding. A directed simultaneous test fails immediately, while a random test with producer and consumer rarely overlapping may run for a long time. A second mutant increments pointers without wrapping; only a sufficiently long trace exposes it. A third swaps the last two outputs; count-only checks miss it. These distinct mutants tell you whether your test plan has independent control, state, and ordering checks. **Review:** explain why a queue-length assertion alone cannot verify FIFO behavior.
+**Worked experiment.** Inject a bug that updates count with `if push ... else if pop ...`. Interior simultaneous transfers now increment occupancy instead of holding. A directed simultaneous test fails immediately, while a random test with producer and consumer rarely overlapping may run for a long time. A second mutant increments pointers without wrapping; only a sufficiently long trace exposes it. A third swaps the last two outputs; count-only checks miss it.
+
+These distinct mutants tell you whether your test plan has independent control, state, and ordering checks. **Review:** explain why a queue-length assertion alone cannot verify FIFO behavior.
 
 **Chapter 5 source pointers.** [cocotb testbench guide](https://docs.cocotb.org/en/stable/writing_testbenches.html). The worked examples and recommended architectures are original educational synthesis; these links do not establish company internals. See the final evidence ledger and the expanded technical chapters for version/access limitations.
 
 ## 6. Simulation scheduling, Python, C++, and observability
 
+A correct observation taken at the wrong instant can tell the wrong story. A photograph just before a parcel leaves differs from one just after. Test software must know which view it is reading.
+
+**In everyday words.** A simulator orders events within a timestamp. A sampling phase is the agreed point where the test reads values. Python and C++ are useful programming tools, but neither chooses correct timing for you.
+
+**Concrete example.** A test reads the new count but the old valid signal and invents a state that never actually existed. Fix the observation timing before changing the circuit.
+
+**What to remember.** Name pre-update versus post-update observations. Preserve unknown values and missing evidence rather than pretending they are zero.
+
+### Deeper: mechanism, evidence, and limits
+
 A simulator has a scheduling model. Driving and sampling a signal at the same nominal timestamp does not automatically mean you observed the intended settled value. Hardware simulation can contain multiple event regions or delta cycles before time advances. A testbench that races the design may fail nondeterministically or consistently read stale values. The right response is not to add arbitrary long delays until the test passes. Define when drivers change inputs, when transfers are sampled, and when post-edge state is inspected.
 
 For a simple synchronous test, drive producer and consumer controls safely before the active edge. Capture the pre-edge handshake values that define acceptance. Then advance through the clock event and allow the simulator's sequential and combinational updates to settle before inspecting next-state outputs. A Python list model can run without a simulator, but connecting that list to HDL requires careful sampling discipline. Avoid mixing pre-edge count with post-edge valid in the same assertion. Such a mixed observation corresponds to no real state of the contract.
 
-[cocotb's testbench documentation](https://docs.cocotb.org/en/stable/writing_testbenches.html) explains coroutine-based concurrency, value access, and test outcomes. Logging an error is not equivalent to failing a test. An assertion or explicit failure mechanism must make incorrect behavior affect the result. Similarly, creating a coroutine does not necessarily schedule it concurrently; know the framework's task API. These details matter because a never-started monitor can turn a sophisticated-looking environment into an unchecked stimulus generator.
+[cocotb's testbench documentation](https://docs.cocotb.org/en/stable/writing_testbenches.html) explains coroutine-based concurrency, value access, and test outcomes. Logging an error is not equivalent to failing a test. An assertion or explicit failure mechanism must make incorrect behavior affect the result. Similarly, creating a coroutine does not necessarily schedule it concurrently; know the framework's task application programming interface (API): its defined way to start and coordinate work. These details matter because a never-started monitor can turn a sophisticated-looking environment into an unchecked stimulus generator.
 
 Python is useful for orchestration, reference models, artifact parsing, and experiments because iteration is quick and the ecosystem is broad. C++ is useful where measured hot paths, integration APIs, memory layout, or simulation runtimes warrant it. The [Verilator overview](https://verilator.org/guide/latest/overview.html) describes its C++ or SystemC model flow and optional trace/coverage generation. Neither language is automatically faster at the whole workflow: a C++ parser that repeatedly scans an enormous file may lose to a Python interface backed by a good native index. Measure before translating everything.
 
-Separate semantic events from raw signals. A monitor can turn many signal samples into records such as “input transaction accepted at cycle 73.” Store enough raw evidence to audit that conversion. Version the schema: signal names, bit widths, timescale, clock identity, reset interpretation, and data encoding belong with the records. A JSON number can lose precision in some consumers for large integers, so encode wide values deliberately. Treat unknown HDL values explicitly rather than silently converting them to zero and creating false certainty.
+Separate semantic events from raw signals. A monitor can turn many signal samples into records such as “input transaction accepted at cycle 73.” Store enough raw evidence to audit that conversion. Version the schema: signal names, bit widths, timescale, clock identity, reset interpretation, and data encoding belong with the records. A number in JavaScript Object Notation (JSON), a structured text format, can lose precision in some consumers for large integers, so encode wide values deliberately. Treat unknown HDL values explicitly rather than silently converting them to zero and creating false certainty.
 
 Observability also has cost. Dumping every signal on every test can dominate storage and I/O. A reasonable policy keeps compact logs and coverage by default, retains bounded waveform windows for failures, and supports reproducible reruns with more tracing. Some failures disappear when instrumentation changes timing or resource pressure; retain the original execution context. Distinguish an absent waveform from evidence that no transition occurred. A disabled trace channel cannot support a negative claim about hidden activity.
 
@@ -233,6 +359,16 @@ Observability also has cost. Dumping every signal on every test can dominate sto
 **Chapter 6 source pointers.** [cocotb testbench guide](https://docs.cocotb.org/en/stable/writing_testbenches.html); [Verilator overview](https://verilator.org/guide/latest/overview.html). The worked examples and recommended architectures are original educational synthesis; these links do not establish company internals. See the final evidence ledger and the expanded technical chapters for version/access limitations.
 
 ## 7. UVM as architecture, not a vocabulary exam
+
+A large checking setup is easier to trust when each part has a clear job. One component presents parcels, another watches the doorway, and another compares deliveries with the promise.
+
+**In everyday words.** UVM means Universal Verification Methodology: a standard way to organize reusable SystemVerilog test software. Its driver acts, its monitor observes pins, and its scoreboard checks. A UVM agent is a group of these components, not an AI decision-maker.
+
+**Concrete example.** A sequence requests ten deliveries. The monitor sees only nine accepted transfers. Looking only at the sequence request would hide the missing action.
+
+**What to remember.** Learn the responsibilities before the class names. Reuse does not excuse hidden reset, timing, or configuration assumptions.
+
+### Deeper: mechanism, evidence, and limits
 
 The Universal Verification Methodology, or UVM, provides a SystemVerilog-based verification methodology and library. [Accellera's public standards page](https://www.accellera.org/downloads/standards/uvm) describes interoperability and reuse as central goals and links reference implementations and guides. A software engineer can first understand UVM by the responsibilities it separates: transaction intent, driving, passive observation, checking, configuration, and reporting. Knowing class names without understanding those boundaries is not enough to debug a testbench.
 
@@ -252,6 +388,16 @@ Generated UVM code should be reviewed for functional independence, not just comp
 
 ## 8. Assertions, formal reasoning, and the danger of vacuity
 
+Some questions ask whether any legal story could break a rule, not just whether today's examples passed. Mathematical tools help answer such questions, but only about the model and promises they are given.
+
+**In everyday words.** A property is a statement about behavior. An assertion requires it; an assumption limits the environment; a cover asks for an example that can occur. Safety forbids a bad event; liveness requires eventual progress.
+
+**Concrete example.** You cannot promise eventual delivery if the receiver is allowed to refuse parcels forever. State the needed progress assumption instead of hiding it in the proof setup.
+
+**What to remember.** A bounded result has a horizon. A proof with impossible assumptions may succeed without checking useful operation.
+
+### Deeper: mechanism, evidence, and limits
+
 An assertion expresses an obligation. For a stalled ready/valid output, a useful property says that if output valid is high and output ready is low, then on the next relevant cycle output valid remains high and output data remains stable, unless reset cancels the obligation according to the contract. That last phrase matters. A property that ignores reset may flag allowed flushing as a bug. A property disabled too broadly may never check the very transition where the real bug occurs. Assertions are executable specifications, so review them as carefully as the implementation.
 
 Safety properties say that something bad never happens: occupancy never exceeds depth, an output never appears from an empty queue, or a stalled word never changes. Liveness properties say that something good eventually happens: an accepted request eventually completes. A FIFO cannot guarantee a consumer will eventually accept data if the consumer may keep ready low forever. To prove progress, state the fairness or bounded-service assumption. Do not smuggle an unrealistic environment into a proof and then advertise unconditional completion.
@@ -269,6 +415,16 @@ Finite widths are part of formal modeling too. An unsigned count stored in too f
 **Chapter 8 source pointers.** [SBY FIFO quickstart](https://symbiyosys.readthedocs.io/en/latest/quickstart.html). The worked examples and recommended architectures are original educational synthesis; these links do not establish company internals. See the final evidence ledger and the expanded technical chapters for version/access limitations.
 
 ## 9. Coverage closure without percentage theater
+
+A checklist can show which situations have been tried. It cannot turn an unchecked delivery into a correct one. That is the useful distinction between coverage and correctness.
+
+**In everyday words.** A bin is one coverage category. A cross combines categories, such as full line plus simultaneous arrival and departure. The denominator is the set of categories counted in the percentage.
+
+**Concrete example.** Observe all nine reachable combinations in a twelve-cell plan. The report is 75% before justified exclusions and 100% after them. The same observations support both numbers.
+
+**What to remember.** Inspect the plan, sampling, exclusions, and checker. More impressive percentages do not necessarily mean fewer bugs.
+
+### Deeper: mechanism, evidence, and limits
 
 Coverage is a model of what matters. Start with requirement-driven bins, then add crosses that expose interactions. For the FIFO, useful dimensions include pre-edge occupancy class, accepted push/pop combination, stall duration, pointer wrap, reset context, and data-order checks. Crosses are not free: multiplying many dimensions can produce a huge denominator filled with redundant or impossible combinations. Design a coverage plan whose missing bins can be explained, not just one whose report looks sophisticated.
 
@@ -288,6 +444,16 @@ For fair evaluations, freeze the coverage plan, simulator setup, resource budget
 
 ## 10. Debugging from a failure to a defensible root cause
 
+When a parcel comes out wrong, begin with what happened, not a confident explanation. Find the first point where expected and actual behavior differ, then work backward.
+
+**In everyday words.** A reproducer is a repeatable failing example. Triage sorts the failure type. Root cause is the supported underlying reason; a hypothesis is still only a candidate explanation.
+
+**Concrete example.** A long run reports many wrong words. A shorter example reveals that the count first changed incorrectly on one simultaneous transfer. Later failures may all follow from that one mistake.
+
+**What to remember.** Preserve the original evidence, separate fact from hypothesis, and validate a fix with independent related checks.
+
+### Deeper: mechanism, evidence, and limits
+
 A failure is an observation, not yet a diagnosis. Preserve the first divergence, the expected behavior, actual behavior, configuration, and relevant requirement. A later cascade of mismatches may be consequences rather than independent bugs. For the FIFO, the first incorrect count update can eventually produce many ordering failures. Starting with the last error in a huge log can send an investigator toward a symptom. Build a timeline anchored in accepted events and state transitions.
 
 Reproduction comes before explanation. Save the exact design revision, testbench revision, tool version, command arguments, environment settings, seed, and input artifacts. Determine whether reruns fail consistently. If not, investigate races, uninitialized state, scheduling, nondeterministic infrastructure, or external dependencies. A flaky failure should not be dismissed merely because it is inconvenient. Nor should the team assume every flaky symptom is a silicon defect when a race in a monitor could explain it.
@@ -306,6 +472,16 @@ A fix needs validation beyond disappearance of the symptom. Add a focused regres
 
 ## 11. Data systems for logs, waveforms, and inference
 
+An investigation tool needs a filing system as much as a language model. It must find the right run, the right design version, and the right moment without pretending to inspect everything.
+
+**In everyday words.** A waveform is a time-stamped signal history. Provenance records where evidence came from. A bounded query returns only a selected interval and must say when results were cut off.
+
+**Concrete example.** Ask for ready, valid, and data around the first wrong parcel rather than converting an entire huge trace into prose. If the needed interval is missing, say so.
+
+**What to remember.** Scale comes from precise, versioned evidence access. A polished summary without traceable observations is weak evidence.
+
+### Deeper: mechanism, evidence, and limits
+
 A verification assistant is partly a data platform. Inputs include specifications, RTL trees, build metadata, test logs, waveform databases, coverage results, and issue histories. These artifacts differ in structure, scale, trust, and update frequency. Loading all of them into one prompt loses both efficiency and provenance. Start with typed identifiers and retrieval interfaces. A design revision, elaborated hierarchy, simulation run, signal path, and time window should be explicit fields, not guesses extracted from filenames.
 
 Waveforms can be far larger than a model context. Index signal definitions separately from value transitions. Support bounded queries by signal set and time window, with maximum returned events and explicit truncation metadata. An answer based on the first thousand transitions must not imply that the remaining million were inspected. Align timescales and clocks before comparing records. A timestamp of 100 means nothing without units and event semantics. Wide buses, unknown states, and escaped hierarchy names need tested encodings.
@@ -318,11 +494,23 @@ Inference performance is a pipeline property. Total latency includes queueing, r
 
 The full-stack interface should expose execution state: queued, running, waiting for a license, waiting for evidence, needs review, or failed. Streaming prose alone can hide a stalled tool. Show artifact links, exact query bounds, truncation warnings, and a timeline of actions. Let engineers compare original and proposed changes, inspect coverage denominator changes, and reject a recommendation with a reason. The product's job is not to make uncertainty disappear visually; it is to make uncertainty actionable.
 
-**Worked capacity estimate.** Suppose 100 failed runs each have a 20 GB waveform, for 2 TB total. A first-pass triage should not reread all 2 TB into text. Extract compact error metadata, cluster cautiously, select representative runs, and query small relevant windows. This arithmetic is illustrative, not a claim about Bronco customers or workloads. The success metric is reduced time to an evidence-backed decision, including human verification, not the number of files an agent claims to have read. **Review:** design a response schema that distinguishes “no transition found” from “query truncated before the requested interval ended.”
+**Worked capacity estimate.** Suppose 100 failed runs each have a 20 GB waveform, for 2 TB total. A first-pass triage should not reread all 2 TB into text. Extract compact error metadata, cluster cautiously, select representative runs, and query small relevant windows. This arithmetic is illustrative, not a claim about Bronco customers or workloads.
+
+The success metric is reduced time to an evidence-backed decision, including human verification, not the number of files an agent claims to have read. **Review:** design a response schema that distinguishes “no transition found” from “query truncated before the requested interval ended.”
 
 **Chapter 11 source pointers.** [Verilator overview](https://verilator.org/guide/latest/overview.html); [public software-engineer posting](https://ats.rippling.com/bronco-ai/jobs/2ecd3528-c752-46bf-9660-74ede63f501c). The worked examples and recommended architectures are original educational synthesis; these links do not establish company internals. See the final evidence ledger and the expanded technical chapters for version/access limitations.
 
 ## 12. Agents as bounded engineering workflows
+
+A useful assistant chooses safe next questions and knows when it cannot answer. It should not be allowed to rewrite the mailroom rules merely to make a red test turn green.
+
+**In everyday words.** A large language model (LLM) generates text. An artificial-intelligence (AI) agent can choose successive tool actions around such a model. A tool contract states inputs, outputs, limits, and permissions. Approval is separate authority, not something the generated explanation grants itself.
+
+**Concrete example.** The assistant finds a wrong delivery but cannot see the relevant source. It may suggest a hypothesis and request a source range; it must not invent a confirmed cause.
+
+**What to remember.** Give bounded tools, keep an evidence ledger, and require review for consequential RTL or checker changes.
+
+### Deeper: mechanism, evidence, and limits
 
 An LLM agent selects actions through tools and uses their results to update a plan. That can help when diagnosis requires multiple dependent queries. It also creates failure modes: repeated expensive runs, unsupported causal claims, unsafe edits, prompt injection from artifacts, and premature declarations of success. The useful abstraction is a bounded workflow with explicit authority, evidence, and stopping conditions. The model should not inherit unrestricted shell access just because a human engineer sometimes uses a shell.
 
@@ -336,11 +524,23 @@ An evidence ledger should distinguish observed facts, derived facts, hypotheses,
 
 A playbook is a repeatable investigation procedure. A model can choose among playbooks or suggest new ones, but successful reuse requires preconditions and applicability limits. A full-replacement FIFO playbook should not be applied unchanged to an empty-bypass asynchronous queue. Parameterize protocols and reset semantics explicitly. Review generated playbooks on held-out examples, including cases where they should abstain. A reusable wrong explanation can amplify harm faster than a one-off mistake because it looks like institutional knowledge.
 
-**Worked workflow.** Given a failing FIFO run, the agent retrieves F3, reads the run configuration, queries the first mismatch window, inspects the count-update source range, and proposes a focused reproducer. It does not edit RTL until the evidence supports a hypothesis and the action is authorized. After a patch, a separate validation step runs the fixed test and broader boundaries. The browser evidence lab illustrates missing-evidence gates; it is a toy workflow, not an LLM or a Bronco product simulation. **Review:** specify what the agent must do if its waveform query is truncated before the first bad transfer.
+**Worked workflow.** Given a failing FIFO run, the agent retrieves F3, reads the run configuration, queries the first mismatch window, inspects the count-update source range, and proposes a focused reproducer. It does not edit RTL until the evidence supports a hypothesis and the action is authorized. After a patch, a separate validation step runs the fixed test and broader boundaries.
+
+The browser evidence lab illustrates missing-evidence gates; it is a toy workflow, not an LLM or a Bronco product simulation. **Review:** specify what the agent must do if its waveform query is truncated before the first bad transfer.
 
 **Chapter 12 source pointers.** [Bronco homepage](https://bronco.ai/); [public software-engineer posting](https://ats.rippling.com/bronco-ai/jobs/2ecd3528-c752-46bf-9660-74ede63f501c). The worked examples and recommended architectures are original educational synthesis; these links do not establish company internals. See the final evidence ledger and the expanded technical chapters for version/access limitations.
 
 ## 13. Evaluate agents on engineering outcomes
+
+One good demonstration shows a tool can sometimes help. A fair evaluation asks how often, under what conditions, with what mistakes and total effort.
+
+**In everyday words.** A benchmark is a defined task set. A baseline is a comparison method. Holdout cases are withheld from tuning. False positives are reported bugs that are not real; abstention is declining an unsupported conclusion.
+
+**Concrete example.** An assistant that calls every failure a circuit bug may look good on a set containing only circuit bugs. Add clean cases, testbench mistakes, and infrastructure failures.
+
+**What to remember.** Count correct supported outcomes and engineer review cost. Keep related bugs out of both tuning and testing.
+
+### Deeper: mechanism, evidence, and limits
 
 A demo can show that a system sometimes succeeds. An evaluation asks how reliably it succeeds on a defined distribution under controlled conditions. For verification tasks, examples might include known RTL bugs, testbench defects, infrastructure failures, specification ambiguities, and clean runs. A dataset containing only obvious RTL bugs rewards a system that always blames RTL. Include hard negatives and cases requiring abstention. Define what counts as a correct diagnosis before running the system, not after reading persuasive prose.
 
@@ -360,6 +560,16 @@ Evaluate harm and calibration. Can engineers tell when the system is uncertain? 
 
 ## 14. Deployment, safety, and the customer boundary
 
+Installing a tool in a customer's environment means deciding exactly what it can read, run, and change. Being physically inside the building is not the same as having safe permissions.
+
+**In everyday words.** On-premises means in the customer's environment. Least privilege means granting only necessary access. Durable job state survives a browser disconnect; rollback restores a known-good version.
+
+**Concrete example.** A user retries a request after losing the connection. The system should reconnect to the existing simulation, not quietly launch another costly copy.
+
+**What to remember.** Draw data boundaries, preserve job identities, and agree on approval and support responsibilities before expanding authority.
+
+### Deeper: mechanism, evidence, and limits
+
 A customer deployment begins with understanding the environment. Inventory operating systems, schedulers, simulator versions, licenses, artifact locations, network rules, identity systems, retention policies, and support expectations. Semiconductor design data can be highly sensitive intellectual property. An engineer should know exactly which artifacts an assistant reads, where derived embeddings or summaries live, and whether any model endpoint receives source or waveform content. Do not assume that “enterprise” or “on-prem” is a complete data-flow specification.
 
 Use least privilege and project isolation. A service that can read one block's logs should not automatically read every program on the filesystem. Separate read, run, propose, and approve permissions. Sandbox generated code and subprocesses. Enforce timeouts, disk limits, process limits, and command allowlists appropriate to the workflow. A model's promise not to run an unsafe command is not an access-control mechanism. Audit logs should record meaningful actions without unnecessarily duplicating sensitive source text.
@@ -377,6 +587,16 @@ Support must have boundaries. Clarify who handles deployment failures, urgent cu
 **Chapter 14 source pointers.** [public software-engineer posting](https://ats.rippling.com/bronco-ai/jobs/2ecd3528-c752-46bf-9660-74ede63f501c). The worked examples and recommended architectures are original educational synthesis; these links do not establish company internals. See the final evidence ledger and the expanded technical chapters for version/access limitations.
 
 ## 15. A portfolio that demonstrates judgment
+
+A small project with inspectable evidence can demonstrate more judgment than a large imitation of a commercial product. Build one trustworthy mailroom investigation from start to finish.
+
+**In everyday words.** A portfolio is a public example of your work. A mutation test deliberately introduces a defect to see whether your checks catch it. A limitation is something your project does not establish, not a detail to hide.
+
+**Concrete example.** Show a known wrong ordering rule, a failing independent test, the supported diagnosis, and a rerun after the fix. Also show a case where missing evidence correctly stops the assistant.
+
+**What to remember.** Separate implemented results from proposals. Use only public or synthetic designs and report negative results honestly.
+
+### Deeper: mechanism, evidence, and limits
 
 Build a small public project rather than imitate a proprietary platform. Start with a precisely documented FIFO contract, a compact RTL implementation, an independent Python oracle, and directed boundary tests. State which simulator and versions are required. Include expected-failing mutants so reviewers can see that your tests detect actual defects. A repository with only green test screenshots demonstrates less than one with clear before-and-after reproductions and an explanation of the checker. Never use confidential customer designs as portfolio material.
 
@@ -396,13 +616,23 @@ Milestone five is an evaluation and deployment story. Create held-out bug famili
 
 ## 16. Bronco's public positioning and the software role
 
+A company describing its product is evidence of what it says, not automatically evidence of universal performance. Read public claims with the same care as a test report.
+
+**In everyday words.** The public Founding Software Engineer posting spans Python/C++, web software, AI systems, data processing, and customer deployment. That differs from solely owning a chip's verification plan and signoff.
+
+**Concrete example.** Treat '10x' as an attributed company claim about a stated task. Ask what was compared and how much review was needed rather than applying the number to every engineer's day.
+
+**What to remember.** Bring software systems skills and learn enough circuit timing to collaborate. Do not pretend a short course replaces specialist experience.
+
+### Deeper: mechanism, evidence, and limits
+
 Bronco's [public homepage](https://bronco.ai/), read on 1 November 2026, describes agents spanning specification review and test planning, RTL and assertions, testbench bring-up, regression triage, simulation debug, and coverage closure. It says deployments are on-premises with startups and large chip companies. These are company descriptions of product scope and deployment, not independently audited customer results. The site illustrates multiple agents working on a design; this is not enough evidence to reconstruct the actual orchestration architecture.
 
 The homepage advertises “15 min” to root-cause a failure that previously took an engineer days, “10x” faster working UVM stimulus/checkers/scoreboards, and “96%” functional coverage from a roughly 80% plateau. Attribute each number to Bronco. The public page does not provide enough experimental detail to establish a universal speedup: workload selection, baseline expertise, coverage denominator, review effort, repeated trials, and total cost are not fully specified there. Treat these numbers as hypotheses for a pilot, not as facts about every chip project or all verification tasks.
 
 The [Founding Software Engineer posting](https://ats.rippling.com/bronco-ai/jobs/2ecd3528-c752-46bf-9660-74ede63f501c), read the same day, describes ownership from intelligent reasoning systems through onsite customer deployment. It explicitly lists core AI engineering components, frontend/backend coverage tooling, scaled data processing and model inference, collaboration with domain experts, and deploying/supporting/improving the product alongside customers. This is a broad software/AI product role embedded in a verification domain. It is not described as only writing RTL tests or only building a chatbot.
 
-The posting asks for Python and/or C++, full-stack development, LLM applications and agentic systems, architecture intuition, and interest in product/customer work. Electrical or computer engineering background, industry verification familiarity, HPC optimization, cloud, and distributed systems are preferences. A software engineer new to hardware should therefore build sufficient protocol and clock literacy to reason with experts, while also demonstrating strong software systems skills. Knowing a thousand SystemVerilog keywords is not a substitute for reliable data pipelines, bounded tools, and a usable review interface.
+The posting asks for Python and/or C++, full-stack development, LLM applications and agentic systems, architecture intuition, and interest in product/customer work. Electrical or computer engineering background, industry verification familiarity, high-performance computing (HPC) optimization, cloud, and distributed systems are preferences. A software engineer new to hardware should therefore build sufficient protocol and clock literacy to reason with experts, while also demonstrating strong software systems skills. Knowing a thousand SystemVerilog keywords is not a substitute for reliable data pipelines, bounded tools, and a usable review interface.
 
 A pure design-verification role typically centers on verification planning, testbench construction, stimulus, assertions, coverage closure, debug, and signoff evidence for a design. The software role described here builds tools that support those workflows across engineers and projects. There is overlap: to build a useful coverage product, you must understand what bins and exclusions mean. But role boundaries vary by company and team. Do not assume the software engineer owns chip signoff or that DV experts are merely users who can be removed from the loop.
 
@@ -413,6 +643,16 @@ Translate the posting into concrete interview evidence. Python/C++ maps to parse
 **Chapter 16 source pointers.** [Bronco homepage](https://bronco.ai/); [public software-engineer posting](https://ats.rippling.com/bronco-ai/jobs/2ecd3528-c752-46bf-9660-74ede63f501c). The worked examples and recommended architectures are original educational synthesis; these links do not establish company internals. See the final evidence ledger and the expanded technical chapters for version/access limitations.
 
 ## 17. Twenty-five interview drills with worked answers
+
+Practice explaining a choice so a listener can follow the reason, evidence, and limit. These are original exercises, not a leaked or reported interview list.
+
+**In everyday words.** A trade-off is a benefit gained at some cost. A bounded answer explains what you would do, what observation supports it, and when you would ask a specialist for help.
+
+**Concrete example.** For simultaneous queue traffic, describe the old parcel leaving and the new parcel joining before quoting an equation. Then state that this is the chosen contract, not every queue's rule.
+
+**What to remember.** Try each question aloud before opening its answer. Explain the mechanism rather than memorize the wording.
+
+### Deeper: mechanism, evidence, and limits
 
 These are original practice questions, not reported Bronco interview questions. Use the structure **choice → mechanism → evidence → trade-off**. Answers are intentionally bounded; extend them with your own project examples rather than memorize them as scripts.
 
@@ -494,7 +734,7 @@ It shows requirement links, reached and unreached bins, denominator definitions,
 
 ### Drill 20 — What happens when an agent job is retried?
 
-An idempotent orchestration layer should reconnect to existing work or create a clearly new attempt, not accidentally launch duplicate simulations. Store immutable inputs, job IDs, scheduler state, and cancellation outcomes. Reconcile orchestration state with actual processes because a disconnected client does not imply a stopped run. The trade-off is durable state and operational complexity, but customer licenses and compute are too costly to treat retries as harmless repeated HTTP requests.
+An idempotent orchestration layer should reconnect to existing work or create a clearly new attempt, not accidentally launch duplicate simulations. Store immutable inputs, job IDs, scheduler state, and cancellation outcomes. Reconcile orchestration state with actual processes because a disconnected client does not imply a stopped run. The trade-off is durable state and operational complexity, but customer licenses and compute are too costly to treat retries as harmless repeated Hypertext Transfer Protocol (HTTP) web requests.
 
 ### Drill 21 — How would you interpret Bronco's 10x claim?
 
@@ -519,6 +759,16 @@ A small end-to-end system with a precise contract, independent checker, killed m
 **Chapter 17 source pointers.** [public software-engineer posting](https://ats.rippling.com/bronco-ai/jobs/2ecd3528-c752-46bf-9660-74ede63f501c); [Accellera UVM standards](https://www.accellera.org/downloads/standards/uvm). The worked examples and recommended architectures are original educational synthesis; these links do not establish company internals. See the final evidence ledger and the expanded technical chapters for version/access limitations.
 
 ## 18. Glossary and a final review checklist
+
+You do not need to memorize every abbreviation. Keep a place to translate unfamiliar words, and a short set of questions to check your own understanding.
+
+**In everyday words.** The complete beginner glossary is at [Glossary](#glossary), always reachable above the page. The compact definitions below are a refresher; each term's longer entry adds an example.
+
+**Concrete example.** If 'scoreboard' sounds like a display, translate it to 'the expected-versus-actual checker.' Then ask what it treats as accepted input and what reset does to its list.
+
+**What to remember.** Knowing a term means being able to use it in a concrete example and name what it does not prove.
+
+### Deeper: mechanism, evidence, and limits
 
 **Assertion:** an executable obligation about behavior. It can fail on a trace or be analyzed formally; its scope depends on its semantics and environment.
 
@@ -600,7 +850,19 @@ A small end-to-end system with a precise contract, independent checker, killed m
 
 ## 19. SystemVerilog and UVM: read the actual contract in code
 
-The first eighteen chapters remain the conceptual route. This chapter supplies concrete language examples, chapter 20 supplies the CDC/RDC deep dive, chapter 21 expands regression operations, and chapter 22 ties evaluation to resource budgets. Read these alongside chapters 6–9 and 12–14 rather than interpreting them as a replacement. All code below is original instructional SystemVerilog, not Bronco source. The browser displays it but **does not execute SystemVerilog, SVA, UVM, or a synthesis tool**. The JavaScript labs test their stated toy models only. Snippets are deliberately scoped; omitted interfaces, monitors, and build harnesses are identified rather than advertised as a complete simulator project.
+Now look at the notation engineers actually use. The symbols below express remembered values, accepted actions, and checks across ticks; they are not instructions this browser executes.
+
+**In everyday words.** SystemVerilog describes hardware and tests. SVA means SystemVerilog Assertions, rules about sampled behavior. UVM organizes test components. Synthesizable code can become a circuit in a supported flow; a testbench class is usually testing software.
+
+**Concrete example.** For count, there are four event combinations: nothing, insertion only, removal only, or both. Notice the explicit both case before reading the assignment syntax.
+
+**What to remember.** Read the promise before the code. Pay special attention to the sampling event and how reset cancels an outstanding obligation.
+
+### Deeper: mechanism, evidence, and limits
+
+The first eighteen chapters remain the conceptual route. This chapter supplies concrete language examples, chapter 20 supplies the CDC/RDC deep dive, chapter 21 expands regression operations, and chapter 22 ties evaluation to resource budgets. Read these alongside chapters 6–9 and 12–14 rather than interpreting them as a replacement. All code below is original instructional SystemVerilog, not Bronco source. The browser displays it but **does not execute SystemVerilog, SVA, UVM, or a synthesis tool**.
+
+The JavaScript labs test their stated toy models only. Snippets are deliberately scoped; omitted interfaces, monitors, and build harnesses are identified rather than advertised as a complete simulator project.
 
 ### 19.1 Synthesizable structures versus testbench machinery
 
@@ -633,7 +895,9 @@ module fifo_count4 (
 endmodule
 ```
 
-`always_comb` assigns all four intermediate/output signals on every path, avoiding intended-storage ambiguity. `always_ff` expresses clocked state. The nonblocking assignment `<=` schedules the register update; all right-hand sides use the relevant old values. Count needs three bits to represent zero through four. A two-bit count would wrap at four and could hide a full condition. The `case` makes simultaneous transfer explicit: two valid events do not mean two conflicting assignments to count. Reset is synchronous for count but combinationally masks the handshake outputs, matching chapter 4. Even before the first reset edge, a testbench must not interpret an uninitialized count as a valid state.
+`always_comb` assigns all four intermediate/output signals on every path, avoiding intended-storage ambiguity. `always_ff` expresses clocked state. The nonblocking assignment `<=` schedules the register update; all right-hand sides use the relevant old values. Count needs three bits to represent zero through four. A two-bit count would wrap at four and could hide a full condition. The `case` makes simultaneous transfer explicit: two valid events do not mean two conflicting assignments to count.
+
+Reset is synchronous for count but combinationally masks the handshake outputs, matching chapter 4. Even before the first reset edge, a testbench must not interpret an uninitialized count as a valid state.
 
 A respin is a new manufacturing iteration after a design change. It can consume engineering time, validation effort, fabrication/packaging lead time, and market opportunity. No fixed dollar estimate is justified here. This is why a small count-width mistake can matter beyond a unit test: the software can often be redeployed quickly, while a manufactured hardware correction may require a much slower and more expensive loop.
 
@@ -726,7 +990,7 @@ A common alternative is `disable iff (rst)`. Its usual asynchronous disabling se
 
 ### 19.6 Covergroups, structural coverage, and the missing oracle
 
-Statement coverage asks which executable statements ran. Branch coverage asks which decisions/outcomes occurred. Toggle coverage asks which relevant bit transitions were observed. FSM coverage asks which recognized states and transitions were visited. Definitions and exclusions are tool-dependent. Assertion coverage may report attempts, successes, failures, and vacuous passes; inspect the exact report rather than counting a never-triggered implication as useful success. A `cover property` can provide a witness for a specific temporal sequence, not a general correctness certificate.
+Statement coverage asks which executable statements ran. Branch coverage asks which decisions/outcomes occurred. Toggle coverage asks which relevant bit transitions were observed. Finite-state-machine (FSM) coverage asks which recognized states and transitions were visited. Definitions and exclusions are tool-dependent. Assertion coverage may report attempts, successes, failures, and vacuous passes; inspect the exact report rather than counting a never-triggered implication as useful success. A `cover property` can provide a witness for a specific temporal sequence, not a general correctness certificate.
 
 Functional coverage starts with the specification. This covergroup accepts a monitor's **pre-edge occupancy class** encoded 0=empty, 1=interior, 2=full and event encoded 0=idle, 1=push, 2=pop, 3=both. Its owner constructs the group once and calls `sample` once per non-reset observed edge. It does not infer occupancy from a driver's intended burst length.
 
@@ -749,11 +1013,23 @@ endgroup
 
 These exclusions follow this FIFO's no-bypass, full-replacement contract. They are not reusable truths about every FIFO. Place separate assertions on illegal behavior; ignoring a coverage bin is not a mechanism that makes illegal behavior fail. Do not use these exclusions to hide an observed DUT handshake violation. Revisit them after any protocol change. A wrong sampling phase can label an empty push as an interior push, so test the collector against hand-audited traces.
 
-**All-lines-executed escape.** The coverage lab's tiny JS reducer runs `write` and `read` statements in both correct and deliberately faulty versions. The faulty read removes the newest item rather than the oldest. The smoke suite writes and immediately reads one item at a time, reaching every labeled reducer statement without distinguishing FIFO from LIFO. The ordering suite writes two distinct items before reading. It exposes the wrong output with the same 100% labeled-statement result. These are explicit JavaScript instrumentation labels, not a real HDL coverage report. Keep the ordering checker enabled, then disable it to see why a full scenario bin and a passing run still cannot establish correctness without an oracle.
+**All-lines-executed escape.** The coverage lab's tiny JS reducer runs `write` and `read` statements in both correct and deliberately faulty versions. The faulty read removes the newest item rather than the oldest. The smoke suite writes and immediately reads one item at a time, reaching every labeled reducer statement without distinguishing FIFO from LIFO. The ordering suite writes two distinct items before reading. It exposes the wrong output with the same 100% labeled-statement result.
+
+These are explicit JavaScript instrumentation labels, not a real HDL coverage report. Keep the ordering checker enabled, then disable it to see why a full scenario bin and a passing run still cannot establish correctness without an oracle.
 
 **Sources for chapter 19.** [Accellera UVM standards](https://www.accellera.org/downloads/standards/uvm) links both current implementations and historical guides. [UVM 1.2 user guide](https://www.accellera.org/images/downloads/standards/uvm/uvm_users_guide_1.2.pdf) is the requested historical methodology reference, not the current IEEE 1800.2 release. The PDF could not be retrieved in this session; its exact link is retained and listed by the standards page. [Accellera functional-coverage document](https://www.accellera.org/images/eda/sv-ec/att-1377/01-functional-coverage.pdf) is a historical language-committee document, not a claim about current tool support; public search indexing confirms its coverage definitions and constructs [1](https://www.accellera.org/images/eda/sv-ec/att-1377/01-functional-coverage.pdf). Snippets above are original explanations, not quotations or a compatibility-tested UVM package. Consult your pinned tool's language manual. [SBY FIFO quickstart](https://symbiyosys.readthedocs.io/en/latest/quickstart.html) illustrates property/check/cover distinctions; [Siemens formal suite](https://www.siemens.com/en-us/products/ic/questa-one/formal-verification/) supplies primary vendor context, not independent performance evidence.
 
 ## 20. CDC and RDC: where logical certainty meets physical probability
+
+Two workers following different ticks can miss a brief announcement. That simple problem is separate from a real memory element taking uncertain time to settle electrically.
+
+**In everyday words.** CDC means clock-domain crossing; RDC means reset-domain crossing. A flip-flop remembers one bit. A synchronizer reduces a physical sampling risk; a handshake coordinates acceptance. Neither word alone promises every event or bus is transferred correctly.
+
+**Concrete example.** A source's short high pulse happens entirely between receiver edges. Two perfect digital sampling stages still see zero. The pulse-loss lab shows this logical failure, not analog metastability.
+
+**What to remember.** Choose the crossing protocol for the information. Keep digital checks, reset coordination, physical skew constraints, and probabilistic reliability analysis distinct.
+
+### Deeper: mechanism, evidence, and limits
 
 A clock-domain crossing, CDC, occurs when information moves between domains whose sampling relationship requires explicit treatment. Different nominal frequencies are not the whole definition: two clocks at the same frequency can be unrelated, while generated clocks with properly constrained relationships can be timed synchronously. First classify the clocks, then classify the **meaning of the information** crossing. A persistent status bit, a one-cycle event, a multi-bit command, and a stream of words need different transfer contracts. “Add two flops” is not a universal design method.
 
@@ -761,7 +1037,9 @@ A clock-domain crossing, CDC, occurs when information moves between domains whos
 
 A destination flip-flop has setup and hold requirements. An asynchronous transition can arrive in that aperture, and the storage element can take an indeterminate time to settle to a valid logical output. This analog behavior is metastability. An ordinary RTL simulation with zero/one values cannot reproduce its physical resolution distribution. An `X` can represent an unknown digital value, but it is not a calibrated voltage trajectory. A perfectly clean simulation therefore does not prove that asynchronous sampling is physically safe.
 
-A synchronizer gives a potentially metastable first stage more time to settle before its output is used by downstream functional logic. Additional stages, favorable placement, device characteristics, destination frequency, and source transition rate influence reliability. A typical qualitative relationship is that MTBF improves exponentially with available settling time and degrades as clock frequency and asynchronous transition rate rise, with technology-dependent constants. Do not calculate a numerical MTBF without characterized constants, actual timing, and appropriate assumptions. MTBF means **mean time between failures**, a probabilistic reliability estimate, not a guarantee that a specific device survives that many years.
+A synchronizer gives a potentially metastable first stage more time to settle before its output is used by downstream functional logic. Additional stages, favorable placement, device characteristics, destination frequency, and source transition rate influence reliability. A typical qualitative relationship is that MTBF improves exponentially with available settling time and degrades as clock frequency and asynchronous transition rate rise, with technology-dependent constants. Do not calculate a numerical MTBF without characterized constants, actual timing, and appropriate assumptions.
+
+MTBF means **mean time between failures**, a probabilistic reliability estimate, not a guarantee that a specific device survives that many years.
 
 At system scale, many crossing chains contribute failure opportunities. Under a suitable independent rare-event approximation, failure rates add; a design with many chains can have a lower aggregate MTBF than each individual chain. Correlations and operating conditions can invalidate simplistic assumptions. Synchronization reduces the probability that unresolved metastability propagates; it does not eliminate metastability from physics. Use the target vendor's implementation and analysis guidance rather than inventing a universal two-stage reliability promise.
 
@@ -795,7 +1073,9 @@ Pulse stretching holds a source level high long enough to overlap destination sa
 
 A toggle scheme flips a source bit for each event. The destination synchronizes that bit and detects a change against its previous synchronized value, producing a local event. A narrow source pulse is converted into a persistent state change, so it need not overlap a destination edge. But two source events can toggle the bit twice before the destination observes either, returning it to its old value. Without an event-rate bound or acknowledgment, toggle encoding still loses information. It is not an unlimited-throughput event counter.
 
-A handshake adds feedback. The source changes a request toggle only when the previous request has been acknowledged. The destination synchronizes the request and acknowledges the observed state; the acknowledgment is synchronized back. The source must either backpressure the producer, queue new events, or explicitly reject offers while busy. A design that silently accepts events while refusing to update the request loses them. In the lab's handshake mode, busy offers are **not accepted**; they are counted separately rather than dishonestly labeled delivered. It models no input queue and no producer retry. All accepted events drain in the finite example, but fewer offers may be accepted at a high source rate.
+A handshake adds feedback. The source changes a request toggle only when the previous request has been acknowledged. The destination synchronizes the request and acknowledges the observed state; the acknowledgment is synchronized back. The source must either backpressure the producer, queue new events, or explicitly reject offers while busy. A design that silently accepts events while refusing to update the request loses them.
+
+In the lab's handshake mode, busy offers are **not accepted**; they are counted separately rather than dishonestly labeled delivered. It models no input queue and no producer retry. All accepted events drain in the finite example, but fewer offers may be accepted at a high source rate.
 
 For a multi-bit bundled-data handshake, the source holds the data stable while the control crosses and until the acknowledgment permits reuse. The destination captures the word at a defined point after the stable-data guarantee applies. The control synchronizer is not synchronizing each data bit; coherency comes from the protocol and physical timing of the held bus. Check data-before-control and hold requirements, and constrain implementation accordingly. A protocol diagram and property set should state when the source may change data, not merely show a request arrow and an ack arrow.
 
@@ -807,7 +1087,9 @@ In a common registered-flag construction, the read side compares its candidate n
 
 Synchronization makes the remote pointer stale. A writer may continue to see full briefly after a reader frees space, or a reader may continue to see empty briefly after a write. Conservatism is usually preferable to overrun/underrun. The same-clock full replacement policy in chapter 4 cannot simply be carried across two unrelated clocks using a combinational ready path. The asynchronous design needs its own documented latency and flow-control contract.
 
-Gray coding alone does not constrain wires. Physical skew or excessive propagation between Gray-bit paths can make transitions from successive source increments overlap at the receiving pins, undermining the intended one-transition-at-a-time reasoning. Use target-appropriate maximum-delay and/or bus-skew constraints, verify implementation reports, and follow the vendor IP's constraints rather than inventing one universal constraint command. Broad asynchronous-clock exceptions can accidentally remove checks that the Gray bus still needs. A receiving clock can legitimately skip several source pointer states; adjacent **destination samples** can differ in multiple Gray bits. Therefore a one-hot-change assertion on every synchronized sample can be wrong even when the crossing is valid. Apply the single-increment property to the appropriate local registered pointer with its enable assumptions.
+Gray coding alone does not constrain wires. Physical skew or excessive propagation between Gray-bit paths can make transitions from successive source increments overlap at the receiving pins, undermining the intended one-transition-at-a-time reasoning. Use target-appropriate maximum-delay and/or bus-skew constraints, verify implementation reports, and follow the vendor IP's constraints rather than inventing one universal constraint command. Broad asynchronous-clock exceptions can accidentally remove checks that the Gray bus still needs.
+
+A receiving clock can legitimately skip several source pointer states; adjacent **destination samples** can differ in multiple Gray bits. Therefore a one-hot-change assertion on every synchronized sample can be wrong even when the crossing is valid. Apply the single-increment property to the appropriate local registered pointer with its enable assumptions.
 
 The data memory must also support the intended dual-clock access pattern and read-during-write behavior. Pointer logic does not create a safe memory primitive by itself. The proof obligations include no read of unwritten data, no overwrite of unread data, ordered delivery, reset handling, and local flag correctness with delayed remote knowledge. Use a high-level queue or abstract transaction history as an independent reference where possible, and understand how the formal harness models independent clocks.
 
@@ -834,13 +1116,25 @@ For an asynchronous FIFO, resetting only one side can make the two pointer histo
 
 Static CDC/RDC analysis identifies clock/reset domains, recognizes synchronizers, finds unsynchronized crossings and reconvergence, and reports structural risks. It depends on complete constraints, recognized structures, and reviewed waivers. Simulation exercises protocol sequences, clock ratios/phases, reset orders, and data integrity. Formal analysis can explore legal handshake histories and prove scoped digital properties under assumptions about clocks, synchronization delay, and reset. None of those digital models computes analog metastability resolution automatically. Specialized metastability-injection abstractions can explore uncertain latency, but their validity depends on the abstraction and cannot replace physical reliability analysis.
 
-**Lab prediction.** Use source period 4, destination period 10, phase 3, one-source-cycle pulse width, and event spacing five source cycles. Source pulses begin at 4, 24, 44, and so on and last four ticks. Destination edges at 3, 13, 23, 33, and so on miss every high interval in the ideal model. The source pulse train is real in its own clock domain but never reaches the first capture stage. Toggle mode preserves these well-spaced events because the changed level persists. Increase the source event rate and the toggle can lose events too. Handshake mode instead refuses some offers while busy; accepted-versus-offered counts reveal the throughput cost.
+**Lab prediction.** Use source period 4, destination period 10, phase 3, one-source-cycle pulse width, and event spacing five source cycles. Source pulses begin at 4, 24, 44, and so on and last four ticks. Destination edges at 3, 13, 23, 33, and so on miss every high interval in the ideal model. The source pulse train is real in its own clock domain but never reaches the first capture stage.
+
+Toggle mode preserves these well-spaced events because the changed level persists. Increase the source event rate and the toggle can lose events too. Handshake mode instead refuses some offers while busy; accepted-versus-offered counts reveal the throughput cost.
 
 **Model answer.** The correct remedy is not “more flops fixes everything.” Choose a level synchronizer for a persistent bit, a rate-bounded toggle or acknowledged event protocol for pulses, a stable bundled-data handshake for occasional words, and a properly implemented asynchronous FIFO for a stream. Specify event spacing, buffering, reset epoch, and physical constraints. Validate structure, digital protocol, and physical timing/reliability with complementary evidence.
 
 **Sources for chapter 20.** Cummings, *Clock Domain Crossing (CDC) Design & Verification Techniques Using SystemVerilog*, SNUG Boston 2008: [university-hosted PDF](http://staff.ustc.edu.cn/~wyu0725/FPGA/snug_collection/1Sunburst%20Design/Clock%20Domain%20Crossing%20%28CDC%29%20Design%20&%20Verification%20Techniques%20Using%20SystemVerilog.pdf). This public copy was retrieved for an independent review of the synchronizer, pulse-transfer and multi-bit-transfer discussion. It is historical mechanism guidance, not a current implementation signoff manual. [AMD UG949: Constraints on Individual CDC Paths](https://docs.amd.com/r/en-US/ug949-vivado-design-methodology/Constraints-on-Individual-CDC-Paths) was also retrieved directly and supports the discussion of maximum-delay and bus-skew constraints for Gray-coded crossings. Target-specific vendor constraints and physical analysis still govern a real implementation. The explanations and snippets here are original instructional synthesis, not copied paper examples.
 
 ## 21. Compile, schedule, reproduce: the regression as a distributed system
+
+A failed test is only useful if another engineer can reconstruct what ran. Think of the regression system as a parcel service that must label every job and keep its receipt.
+
+**In everyday words.** Compilation prepares an executable model; a run executes it. A manifest records inputs and settings. A central processing unit (CPU) is a processor that executes instructions. Slurm and LSF are cluster job schedulers. A license-hour measures occupied tool-token time, not simply elapsed browser time.
+
+**Concrete example.** Twelve twenty-minute jobs with three available one-token licenses need at least four waves of work. Extra processor cores alone cannot remove that license limit.
+
+**What to remember.** Preserve build identity, seed, settings, artifacts, and real job state. Keep infrastructure errors distinct from behavioral violations.
+
+### Deeper: mechanism, evidence, and limits
 
 A useful regression result has two identities: the compiled model and the run that exercised it. Compilation depends on source revision, file order, include paths, macro definitions, parameters, library versions, simulator version, optimization, tracing, and coverage instrumentation. A run additionally depends on the executable build ID, seed, test name, plusargs, runtime configuration, input data, timeouts, and environment. Caching a build under a short RTL commit hash while ignoring changed macros or UVM libraries can attach a perfectly reproducible run to the wrong machine.
 
@@ -860,17 +1154,37 @@ Failure clustering starts as a prioritization aid. Normalize volatile paths and 
 
 ## 22. Agent budgets, ablations, and questions worth asking a CEO
 
-The agent-budget lab is an accounting experiment, not an assertion that spending more money makes an LLM more accurate. It operates on a fixed synthetic set of eight cases: four seeded design faults, two infrastructure failures, one clean run, and one ambiguous specification. Each case has a disclosed recipe: a required number of debug rounds, a list of required tool-evidence types, a fixed license cost per round, and synthetic engineer-review minutes. These are author-chosen numbers. The cases are not a performance dataset from Bronco or any customer. The lab assigns no real model capability or statistical confidence from these eight examples.
+Buying more investigation steps does not create missing evidence. This chapter asks what useful work a bounded assistant delivers for its total cost.
 
-The controls set a **per-case** round limit, a **global** occupied-license-hour budget, worker count, and whether versioned retrieval and an independent checker are available. Cases are scheduled in fixed listed order. Each round is charged before it runs; if it would exceed the global license budget, the case stops and later cases encounter the remaining budget. Inference latency and review time are synthetic accounting constants. Worker count only changes a simplified ideal scheduling estimate; it never changes diagnosis quality or total license-hours. It assumes enough licenses for the chosen workers, no scheduler overhead, no dependencies between cases, and one worker per case. Real concurrency must also satisfy chapter 21's token constraints.
+**In everyday words.** An ablation removes one capability to test its contribution. A baseline is an alternative method. Synthetic recipes are chosen teaching assumptions, not measurements of an actual AI model or company.
 
-A case becomes an **evidence-supported outcome** only after enough rounds **and** all its recipe's required evidence are present. Some outcomes are validated design faults, some are infrastructure classifications, and the clean/ambiguous examples require a supported non-bug decision. Disabling retrieval prevents cases that need the specification from being supported. Disabling the independent checker prevents cases that need a reproduced behavioral check from being supported. More rounds do not fill those missing evidence categories. The model deliberately abstains rather than produce false certainty. It does not claim that real agents have zero false positives; its synthetic policy forbids unsupported positive outcomes by construction.
+**Concrete example.** Disable the independent checker in the budget lab. Extra rounds can spend money without qualifying more bug diagnoses. More workers can shorten ideal time without changing correctness.
+
+**What to remember.** Disclose assumptions, preserve independent checks, and measure review effort and false positives—not just a coverage percentage.
+
+### Deeper: mechanism, evidence, and limits
+
+The agent-budget lab is an accounting experiment, not an assertion that spending more money makes an LLM more accurate. It operates on a fixed synthetic set of eight cases: four seeded design faults, two infrastructure failures, one clean run, and one ambiguous specification. Each case has a disclosed recipe: a required number of debug rounds, a list of required tool-evidence types, a fixed license cost per round, and synthetic engineer-review minutes. These are author-chosen numbers.
+
+The cases are not a performance dataset from Bronco or any customer. The lab assigns no real model capability or statistical confidence from these eight examples.
+
+The controls set a **per-case** round limit, a **global** occupied-license-hour budget, worker count, and whether versioned retrieval and an independent checker are available. Cases are scheduled in fixed listed order. Each round is charged before it runs; if it would exceed the global license budget, the case stops and later cases encounter the remaining budget. Inference latency and review time are synthetic accounting constants.
+
+Worker count only changes a simplified ideal scheduling estimate; it never changes diagnosis quality or total license-hours. It assumes enough licenses for the chosen workers, no scheduler overhead, no dependencies between cases, and one worker per case. Real concurrency must also satisfy chapter 21's token constraints.
+
+A case becomes an **evidence-supported outcome** only after enough rounds **and** all its recipe's required evidence are present. Some outcomes are validated design faults, some are infrastructure classifications, and the clean/ambiguous examples require a supported non-bug decision. Disabling retrieval prevents cases that need the specification from being supported. Disabling the independent checker prevents cases that need a reproduced behavioral check from being supported. More rounds do not fill those missing evidence categories.
+
+The model deliberately abstains rather than produce false certainty. It does not claim that real agents have zero false positives; its synthetic policy forbids unsupported positive outcomes by construction.
 
 The display reports validated seeded bugs out of four, all supported case outcomes out of eight, abstentions, charged license-hours, model-call cost, idealized makespan, reproducer count, and review minutes. There is no “functional coverage percent” masquerading as utility. Adding workers can lower the ideal makespan without changing validated bug count. Adding budget after a required ablation can increase cost without increasing supported outcomes. A high budget with a weak oracle is not a trustworthy system. The model answers explain those patterns rather than declare the most expensive settings the winner.
 
-For a real evaluation, blind the system and reviewers to planted bug labels, preserve an immutable clean baseline, and seed only realistic faults whose expected manifestations are independently reviewed. Do not tell the agent which file contains the mutation. Keep related designs and bug families out of held-out sets, not merely different random seeds. Include naturally occurring bugs and clean cases where available, since planted faults may overrepresent easy local edits. Record actual false positives: an unsupported claim of an RTL defect on a clean or infrastructure case wastes expert time even when no patch is accepted.
+For a real evaluation, blind the system and reviewers to planted bug labels, preserve an immutable clean baseline, and seed only realistic faults whose expected manifestations are independently reviewed. Do not tell the agent which file contains the mutation. Keep related designs and bug families out of held-out sets, not merely different random seeds. Include naturally occurring bugs and clean cases where available, since planted faults may overrepresent easy local edits.
 
-Run ablations with retrieval removed, waveform access removed, the independent checker removed, and the playbook library frozen or absent. Hold budgets fixed. This separates contribution of the model from artifact preparation and domain knowledge. Compare with a deterministic rules tool and an engineer using the same artifacts. Record whether a proposed patch compiles, whether a minimal reproducer fails before and passes after, and whether independent checks remain intact. Correlated error is a real danger: the same model can generate a wrong testbench and a patch that satisfies it. A separate checker derived from the requirement and reviewed independently is more valuable than asking the same prompt twice.
+Record actual false positives: an unsupported claim of an RTL defect on a clean or infrastructure case wastes expert time even when no patch is accepted.
+
+Run ablations with retrieval removed, waveform access removed, the independent checker removed, and the playbook library frozen or absent. Hold budgets fixed. This separates contribution of the model from artifact preparation and domain knowledge. Compare with a deterministic rules tool and an engineer using the same artifacts. Record whether a proposed patch compiles, whether a minimal reproducer fails before and passes after, and whether independent checks remain intact.
+
+Correlated error is a real danger: the same model can generate a wrong testbench and a patch that satisfies it. A separate checker derived from the requirement and reviewed independently is more valuable than asking the same prompt twice.
 
 Model deployment choices change these evaluations. An on-prem model can keep inference inside a customer boundary but imposes capacity, quality, maintenance, and hardware constraints. A private approved external endpoint may offer different capability or operational simplicity but requires explicit data-flow authorization, contractual controls, and retention review. A hybrid classifier/retrieval/reasoner stack must record which component saw what. None is established as Bronco's internal design. Evaluate tool quality, review latency, and data isolation together rather than assume one location or brand makes the workflow secure.
 
@@ -885,6 +1199,369 @@ Model deployment choices change these evaluations. An on-prem model can keep inf
 These questions are original discussion prompts, not reports of a company's interview process or CEO statements. They let a software engineer demonstrate architecture judgment without pretending to own chip signoff. The public role remains the source for required responsibilities, not a warrant to infer internal staffing, proprietary data practices, or guaranteed outcomes.
 
 **Sources for chapter 22.** [Bronco public homepage](https://bronco.ai/) and [Founding Software Engineer posting](https://ats.rippling.com/bronco-ai/jobs/2ecd3528-c752-46bf-9660-74ede63f501c) supply product positioning and responsibilities. All performance numbers from the homepage remain attributed company marketing claims as explained in chapter 16. The evaluation recipes, costs, ablations, architecture options, and questions in this chapter are explicitly original recommendations or synthetic assumptions, not additional company facts.
+
+## Glossary — plain words, examples, and limits
+
+You can return here at any time using the small Glossary link above the page. These are working explanations, not replacements for a protocol specification or a tool manual. Each entry includes an example. The mailroom comparisons explain ideas, not electrical physics.
+
+### Circuits and timing
+
+**Chip / integrated circuit.** A manufactured network of tiny electrical devices and connections. Example: a phone's processor chip performs calculations and remembers control information.
+
+**Bit and byte.** A bit is one zero-or-one value; a byte is eight bits. Example: an unsigned eight-bit parcel number can represent 0 through 255.
+
+**Circuit.** Connected electrical parts arranged to perform a function. Example: a storage circuit remembers whether a waiting slot is occupied.
+
+**Combinational logic.** Circuit logic that calculates from current inputs without intentionally remembering previous inputs. Example: choose one of two offered parcel numbers. Signals still need physical travel time.
+
+**Sequential logic / stored state.** Circuit logic with remembered values that influence later behavior. Example: remembering that parcels 10 and 20 are waiting.
+
+**Register and flip-flop.** A register stores bits; a flip-flop is a common one-bit memory element controlled by a clock event. Example: one flip-flop stores an occupied/not-occupied flag.
+
+**Clock.** A repeating electrical timing signal used as a shared reference for some circuit actions. Analogy: the mailroom's tick. Example: record accepted transfers at each rising edge.
+
+**Clock domain.** A group of circuit elements whose timing is governed by a particular clock relationship. Example: the sender uses one clock while the receiver follows an unrelated clock.
+
+**Cycle / clock period.** One complete repetition of the clock signal, or the time that repetition takes. Example: a period of ten model ticks gives one rising edge every ten ticks.
+
+**Edge.** A signal transition, often the clock changing low to high (rising) or high to low (falling). Example: our FIFO commits transfers at rising edges.
+
+**Phase.** A clock's timing offset relative to a chosen reference. Example: destination edges occur at ticks 3, 13, and 23 instead of 0, 10, and 20.
+
+**Pre-edge and post-edge.** Before and after a particular clock update. Example: the old head is 10 before a simultaneous transfer; the new head is 20 afterward.
+
+**Propagation delay.** Time for a change to travel through a circuit or wire. Example: a ready signal does not physically reach a sender instantaneously.
+
+**Setup and hold.** Required input-stability windows before and after a sampling edge. Analogy: keep a label still while it is photographed. Example: an asynchronous input can change inside that window.
+
+**Metastability.** An analog condition in which a memory element takes uncertain time to settle after an awkwardly timed change. Example: the first sampling stage may not resolve quickly enough. It is not simply an RTL `X` value.
+
+**Synchronizer.** A circuit arrangement that reduces the chance of unsettled asynchronous sampling affecting functional logic. Example: a two-stage chain transfers a held one-bit status. It does not automatically capture every short pulse or coherent multi-bit word.
+
+**MTBF — mean time between failures.** A probabilistic estimate of average spacing between failures under stated assumptions. Example: adding settling time can improve estimated synchronizer MTBF; no particular device gets a guaranteed lifetime.
+
+**Settling time.** Time available for a sampled value to become usable before later logic relies on it. Example: placement between synchronizer stages affects that available time.
+
+**CDC — clock-domain crossing.** Moving information between clock domains that need explicit transfer treatment. Example: a short pulse can occur between all receiver listening edges and be missed.
+
+**RDC — reset-domain crossing.** A crossing affected by different reset relationships, potentially even with one shared clock. Example: resetting the sender asynchronously changes a live receiver's input unexpectedly.
+
+**Pulse.** A temporary change of a signal, often used to announce an event. Example: a source raises a bit for one source cycle; a slower receiver may miss it.
+
+**Toggle.** A change from zero to one or one to zero. Example: flip a stored event bit for each event; two unseen flips can cancel before the receiver samples.
+
+**Handshake / acknowledgment.** A protocol that communicates acceptance or completion. Analogy: a receipt for a parcel. Example: the source waits for an acknowledgment before sending another event.
+
+**Coherency.** Seeing related information as one consistent whole. Example: a receiver must not combine some old command bits with some new command bits.
+
+**Reconvergence.** Separately traveled signals meeting again in logic. Example: separately synchronized copies of one control may arrive in different cycles and disagree at a consumer.
+
+**Bus / multi-bit word.** A group of bits interpreted together. Example: an eight-bit number needs coherent transfer; eight independent level synchronizers alone do not guarantee that.
+
+**Gray code / Gray pointer.** An encoding whose consecutive local counter steps change one bit. Example: an asynchronous FIFO crosses a registered Gray pointer, with synchronization and physical skew constraints still required.
+
+**Skew.** Difference in arrival times of related signals or clock paths. Example: excessive Gray-bus bit skew can undermine the intended crossing behavior.
+
+**Reset.** A control that brings selected remembered values to a defined starting state. Example: this book's FIFO reset discards waiting parcels and sets count to zero.
+
+**Synchronous reset.** A reset applied to stored state at the specified clock event. Example: our count clears when reset is sampled high at a rising edge.
+
+**Asynchronous reset.** A reset that can affect storage without waiting for a clock edge. Example: a release chain asserts immediately but releases locally with the clock.
+
+**Recovery and removal.** Timing requirements around releasing an asynchronous reset near a clock edge. Example: a reset tree and release synchronizer need physical analysis, not just simulation.
+
+**Reset epoch.** A period of operation sharing one agreed initialization history. Example: resetting only one side of an event handshake can leave the other side in an old epoch.
+
+### Design names and descriptions
+
+**RTL — register-transfer level.** A description of remembered values and the logic connecting updates. Example: specify how a queue's count changes on the next tick.
+
+**HDL — hardware description language.** A language for describing circuit structure and behavior. Example: SystemVerilog can describe clocked registers and also test code.
+
+**SystemVerilog / SV.** A hardware-description and verification language. Example: `always_ff` describes clocked updates; classes can organize testbench software. Not every legal construct synthesizes into hardware.
+
+**Synthesizable.** Supported by a particular flow for translation into a circuit implementation. Example: a fixed-width register update may synthesize; a testbench's dynamic queue is generally not that FIFO's datapath.
+
+**Synthesis.** Translating a supported design description into a lower-level implementation of logic. Example: convert an RTL controller into gates and registers.
+
+**Elaboration.** Resolving hierarchy, parameters, and other setup into the concrete design being examined. Example: choose depth four rather than depth eight before simulation.
+
+**Netlist / gate-level.** A lower-level description of connected implementation components. Example: a gate-level simulation checks a synthesized design model, with timing only when suitably configured.
+
+**Microarchitecture.** The internal organization chosen to implement an architectural promise. Example: use a circular buffer with separate read and write pointers.
+
+**ASIC — application-specific integrated circuit.** A chip manufactured for a chosen design rather than reconfigured as a general programmable fabric. Example: a dedicated accelerator's logic is fixed by manufacturing.
+
+**FPGA — field-programmable gate array.** A device with configurable hardware resources. Example: map a prototype into an FPGA before an ASIC exists; the memories and clocks may differ from the final chip.
+
+**SoC — system-on-chip.** One chip combining multiple functional components. Example: processors, memory controllers, and peripherals share an internal connection network.
+
+**IP — intellectual property / reusable design component.** Depending on context, proprietary engineering information or a reusable hardware block. Example: licensed FIFO IP is a component; a customer's unpublished RTL is sensitive design IP.
+
+**CPU — central processing unit.** A processor that executes program instructions. Example: firmware running on a CPU configures an accelerator block.
+
+**DMA — direct memory access.** A mechanism that moves data between memory and devices without the CPU individually copying every item. Example: a DMA engine streams words into a hardware queue.
+
+**AXI — Advanced eXtensible Interface.** An Arm interface protocol family with defined channels and transfer rules. Example: an AXI channel uses ready/valid; our tiny FIFO is not a full AXI implementation.
+
+**APB — Advanced Peripheral Bus.** An Arm bus protocol often used for simpler peripheral control access. Example: software reads a configuration register over an APB-connected peripheral.
+
+**PPA — power, performance, and area.** Three implementation costs designers balance. Example: a functional fix may use more storage or create a slower timing path.
+
+**EDA — electronic design automation.** Tools used to design and analyze electronic hardware. Example: synthesis, simulation, and timing-analysis tools are EDA software.
+
+**FSM — finite-state machine.** A controller organized around a finite set of named states and transition rules. Example: a controller moves from idle to busy after accepting a request.
+
+**Pointer / circular buffer / wrap.** An index naming a storage position, in an arrangement that reuses positions cyclically. Example: after slot three, a four-slot pointer returns to zero.
+
+**Occupancy / depth.** How many items are stored now, versus how many can fit. Example: occupancy three in a depth-four line means one slot is free.
+
+**Overflow / underflow.** Attempting to exceed storage capacity or remove unavailable data. Example: a full queue must not accept an extra word unless its contract makes space safely.
+
+**Signed / unsigned / finite width.** Rules for interpreting a fixed number of bits as numbers. Example: unsigned eight-bit values span 0–255; Python's unrestricted integers need explicit width handling in an oracle.
+
+**Nonblocking assignment / NBA.** An HDL assignment style that schedules an update instead of immediately replacing the value for subsequent statements. Example: two registers exchange their old values on one edge using `<=`.
+
+**Latch.** Storage that can follow an input during an enabled interval, unlike edge-only flip-flop behavior. Example: missing assignments in intended combinational logic can accidentally imply a latch.
+
+**Interface / modport / virtual interface.** A signal bundle, a defined view of that bundle, and a testbench handle accessing it. Example: a passive monitor uses an observer view of the FIFO pins.
+
+**Clocking block / delta cycle / event region.** Simulator mechanisms for defining sampled views and ordering updates within a timestamp. Example: `input #1step` samples immediately before the event, not one full clock cycle earlier.
+
+### Queue and transfer behavior
+
+**FIFO — first in, first out.** A waiting line that removes accepted items oldest first. Example: accepted parcels 10 then 20 must leave as 10 then 20, absent a specified flush.
+
+**LIFO — last in, first out.** A stack that removes the newest item first. Example: 10 then 20 leaves as 20 then 10; that is wrong when the promise was FIFO ordering.
+
+**Ready/valid.** Signals saying the receiver can accept and the sender has an item available. Example: both high at the agreed edge commit one transfer when reset is inactive.
+
+**Push / pop.** Accepted insertion and removal events, not mere attempted requests. Example: valid high with ready low is an offer, not a push.
+
+**Backpressure / stall.** A receiver delaying acceptance. Analogy: a mailroom temporarily refusing another parcel. Example: the producer holds its pending word until the agreed acceptance event.
+
+**Latency.** Delay from an event to its relevant result. Example: count cycles from a word's acceptance to its delivery.
+
+**Throughput.** The rate of completed work. Example: a queue may eventually deliver one word per cycle even though each word waits several cycles.
+
+**Bypass / fall-through.** A design choice allowing incoming data to be visible without first waiting as a stored entry. Example: this book's empty FIFO explicitly has no same-edge bypass.
+
+**Asynchronous FIFO / async FIFO.** A queue with separate read and write clock domains and a suitable crossing protocol. Example: synchronized remote pointers help produce safe local empty/full decisions; stale remote knowledge can delay those decisions.
+
+**Bundled-data transfer.** Holding related data stable while a separate control handshake crosses domains. Example: hold an eight-bit command until the receiver acknowledges its capture.
+
+**Memory macro / read-during-write.** A supplied memory implementation and its behavior when reads and writes interact. Example: replacing a full entry needs the intended old-word read semantics, not an assumption about every memory primitive.
+
+### Testing and evidence
+
+**DV — design verification.** Checking that the described design meets its promises. Example: use an independent queue checker to find incorrect output order before manufacturing.
+
+**Verification / validation.** Here, checking a design against stated requirements, versus checking a device/system works for its intended use. Industry usage varies. Example: verify ordering in a model; validate a manufactured system in its operating environment.
+
+**DUT — design under test.** The particular circuit or model being checked. Example: the four-slot FIFO, not the whole test environment around it.
+
+**Specification / requirement / contract.** Written promises and assumptions precise enough to judge behavior. Example: “reset discards all waiting items” defines what the checker must expect.
+
+**Test plan.** A map from promises to scenarios, observers, and checks. Example: map oldest-first delivery to a test that queues two distinct words before reading.
+
+**Testbench / TB.** The surrounding setup that drives, observes, and checks the DUT. Example: producer, consumer controls, monitor, and scoreboard around a FIFO model.
+
+**Stimulus.** Inputs applied during a test. Example: offer parcels 10 and 20, then hold the consumer unready for three cycles.
+
+**Driver.** The test component that turns requested actions into timed interface activity. Example: keep a producer word unchanged while the DUT refuses it.
+
+**Monitor.** A passive observer of what actually happened at the interface. Example: record only transfers accepted at the correct edge, not the driver's intended sends.
+
+**Checker.** A rule or component that detects violations of expected behavior. Example: report if output data changes while stalled.
+
+**Oracle / reference model.** An independent source of expected behavior. Example: a simple list predicts the queue's outputs without copying its circular-pointer implementation.
+
+**Scoreboard.** A checker that tracks expected results and compares them with observations. Example: expected 10, observed 20 produces an ordering failure.
+
+**Directed test.** A deliberately constructed scenario. Example: fill the queue and then request simultaneous removal and insertion.
+
+**Constrained-random test.** Randomly generated activity restricted by stated rules. Example: vary legal gaps and stalls while preserving a producer's pending word.
+
+**Mutation test / seeded bug.** Deliberately change behavior to see whether the checks detect it. Example: replace oldest-first removal with newest-first removal. A planted fault is not automatically representative of all real bugs.
+
+**Simulation.** Executing a model under chosen inputs. Example: run a queue description through a generated sequence; passing those inputs does not explore every possible history.
+
+**Emulation.** Executing a mapped design on specialized hardware for longer/faster workloads. Example: reach a software boot sequence, with different visibility and compilation trade-offs from ordinary simulation.
+
+**Pre-silicon / post-silicon.** Before or after manufactured devices exist. Example: model-based tests are pre-silicon work; checking a packaged chip on a board is post-silicon work.
+
+**Tapeout.** Releasing the finalized design data for the manufacturing flow. Example: a signoff review precedes handing off a chip's manufacturing description.
+
+**Respin.** A revised manufacturing iteration after a design change. Example: a hardware fault may require new devices rather than just a software update; costs vary by project.
+
+**Signoff.** An accountable decision that reviewed evidence supports proceeding with known residual risks. Example: accept documented exceptions after reviewing tests, properties, and implementation checks—not one coverage number.
+
+**Waveform.** A time-indexed record of signal values. Analogy: a time-stamped mailroom log. Example: inspect reset, ready, valid, and data around the first bad delivery.
+
+**Trace / transaction / snapshot.** An observed history, a meaningful protocol action, and a recorded state at an instant. Example: a trace contains accepted-word transactions reconstructed from signal snapshots.
+
+**Truncation / unknown value.** Omitted results due to a limit, versus a value not known as zero or one. Example: an event limit can truncate a waveform query; an `X` must not silently become zero.
+
+**Regression.** A repeatable collection of tests checking multiple behaviors and configurations. Example: rerun ordering, reset, and wrap tests after fixing simultaneous count updates.
+
+**Seed.** A starting value for a pseudorandom generator. Example: record seed 7 along with generator version and configuration to reproduce the same generated test.
+
+**Reproducibility / manifest.** Being able to reconstruct a result, and the record of required inputs/settings. Example: store design hash, build options, tool versions, test name, seed, and command arguments.
+
+**Compile / run / build.** Prepare an executable model, execute it, and identify the prepared artifact plus recipe. Example: changed compile macros may require rebuilding even if the run seed stays unchanged.
+
+**Triage.** Sorting failures into useful categories before deeper investigation. Example: distinguish missing simulator licenses from a genuine data-order violation.
+
+**Failure signature / cluster / bucket.** A grouping key and the set of failures grouped by it. Example: similar error text suggests investigation together, but not necessarily one root cause.
+
+**Root cause / first divergence / reduction.** The underlying reason, earliest meaningful mismatch, and a smaller still-failing example. Example: reduce a long random run to two writes and a read exposing the wrong removal rule.
+
+**Static analysis / lint / timing analysis.** Checks of structure or constraints without ordinary test stimulus. Example: lint spots suspicious code; timing analysis checks path requirements. Neither alone proves data ordering.
+
+**Equivalence checking.** Comparing two models under specified conditions. Example: prove an optimized block matches its predecessor; both can still share an original requirements bug.
+
+### Coverage and formal reasoning
+
+**Coverage.** A record of which stated objectives or structural activities were observed. Example: a full-replacement bin was hit. A 96% report is not a 96% probability of correctness or 96% of bugs removed; the denominator and checker quality matter.
+
+**Code coverage: statement, branch, toggle, FSM.** Records of executed statements, decision outcomes, bit transitions, or recognized controller states/transitions. Example: every labeled read/write action runs while an ordering bug survives.
+
+**Functional coverage.** Recorded specification-derived scenarios rather than just implementation activity. Example: observe a read while at least two words are queued.
+
+**Assertion coverage.** Reports about assertion attempts, outcomes, and sometimes vacuity, depending on the tool. Example: a stall property can pass without ever encountering a stall; inspect attempts and witnesses.
+
+**Bin / cross / sampling.** A coverage category, a combination of categories, and the event when observations are recorded. Example: sample pre-edge full occupancy crossed with accepted simultaneous push/pop.
+
+**Coverage hole.** A planned category not yet observed. Example: no test hit full simultaneous replacement. It may need stimulus, an instrumentation fix, or reachability analysis.
+
+**Waiver / exclusion.** A reviewed exception or removal from a report's applicable targets. Example: empty simultaneous pop/push is excluded only for this no-bypass contract; never waive a bin simply because it is difficult.
+
+**Overconstraint.** Restricting the environment so strongly that important legal behavior is excluded. Example: constraints prevent ever reaching a full FIFO, making boundary checks misleadingly easy.
+
+**Formal verification.** Mathematical analysis of stated properties over a model and assumptions. Example: prove bounded occupancy under legal transfers; that alone does not prove ordering or physical reliability.
+
+**Property / assertion.** A statement about behavior, and an executable obligation checking that statement. Example: if output is stalled, the pending word must remain stable unless reset cancels it as specified.
+
+**Assume / assert / cover.** Constrain the environment, require design behavior, or ask for a reachable witness. Example: assume legal producer behavior, assert stable output, cover a full queue.
+
+**Safety / liveness.** “Bad things do not happen” versus “good things eventually happen.” Example: never overflow versus eventually deliver an accepted word.
+
+**Fairness.** An environment-progress condition needed for some eventual guarantees. Example: the consumer must sometimes be ready if delivery is promised eventually.
+
+**Bounded check / bounded proof.** A result limited to a stated time depth or scope. Example: no violation through 50 modeled edges is not an unbounded proof about all future operation.
+
+**Unbounded proof / induction.** A result not restricted to one finite trace depth, and a proof technique relating base cases to preserved properties. Example: prove an invariant holds for all reachable modeled cycles under assumptions.
+
+**Counterexample / witness.** A concrete violating trace or a concrete reachable trace. Example: one count-overflow sequence disproves an assertion; a cover witness demonstrates full occupancy is reachable.
+
+**Vacuity.** A property succeeding without exercising the intended obligation. Example: reset is assumed permanently active, so the stalled-output obligation never starts.
+
+**SVA — SystemVerilog Assertions.** Language constructs describing checks across samples/time. Example: `|=>` creates a next-sample obligation; its reset and clock semantics must match the contract.
+
+**Sampled reset / disable iff.** Reset interpreted at a sampling event, versus an assertion-disable construct commonly having asynchronous abort behavior. Example: chapter 19 deliberately checks sampled synchronous-reset cancellation rather than copying an incompatible abort rule.
+
+**SBY — SymbiYosys.** A tool for organizing formal tasks using supported engines. Example: its public FIFO quickstart distinguishes bounded checks, covers, and failure traces; tool support and setup limit claims.
+
+### Verification software and AI systems
+
+**UVM — Universal Verification Methodology.** A standardized way to organize reusable SystemVerilog verification environments. Example: separate producer driving from passive pin observation and scoreboarding.
+
+**Item / sequence / sequencer.** A requested transaction, a procedure generating transactions, and the coordinator arbitrating those requests. Example: a sequence asks for ten words; the driver must still complete actual transfers.
+
+**Verification agent / environment.** A group of interface-specific test components, and a composition of those groups and checking logic. Example: a passive UVM agent observes pins without driving. It is not an AI decision-maker.
+
+**AI — artificial intelligence / AI agent.** Software that performs tasks such as classification or generation; an AI agent can select successive tool actions. Example: retrieve a requirement, query a waveform, then suggest a test. This is distinct from a UVM verification agent.
+
+**LLM — large language model.** A trained model producing language-like outputs. Example: draft a failure explanation; fluent output does not establish that a waveform was inspected or a diagnosis is correct.
+
+**TLM — transaction-level modeling.** Interfaces for passing meaningful transaction objects between verification components. Example: a monitor broadcasts accepted transfers to a scoreboard and coverage collector.
+
+**Analysis port / export.** UVM connection points for publishing and receiving observations. Example: link a monitor's port to a scoreboard receiver; avoid reusing mutable snapshots incorrectly.
+
+**Phase / objection.** A UVM stage of execution and a mechanism holding a stage open. Example: a run-phase objection prevents premature completion, but does not prove the scoreboard drained correctly.
+
+**Factory / override / config_db.** UVM mechanisms for selecting substitute components and passing scoped configuration. Example: a type override changes the driver; `config_db` supplies the matching virtual interface.
+
+**Class / randomization / constraint.** A software object type, selection of generated values, and rules limiting those values. Example: randomize legal producer gaps and check the operation succeeded.
+
+**Agent harness / tool contract.** The surrounding control system and explicit rules for tool inputs, outputs, and permissions. Example: a waveform query must return artifact identity, interval, and truncation state.
+
+**Retrieval / provenance.** Finding relevant stored evidence and recording where it came from. Example: retrieve the correct revision of the FIFO reset requirement and link its exact source section.
+
+**Inference / context.** Running a trained model to get outputs, and the information made available to it. Example: provide a bounded signal window rather than an entire huge waveform.
+
+**Playbook.** A repeatable investigation procedure with applicability conditions. Example: check pre-edge count and simultaneous transfers before diagnosing the full-replacement bug.
+
+**Abstention / calibration.** Declining an unsupported conclusion, and how well expressed confidence matches actual reliability. Example: say the query omitted the failing interval instead of inventing its contents.
+
+**Ablation.** Removing one capability to measure its contribution. Example: disable specification retrieval while keeping the same cases and budgets.
+
+**Benchmark / baseline / holdout.** A defined evaluation set, a comparison method, and cases withheld from tuning. Example: compare an agent with a rules tool on unseen bug families.
+
+**Leakage / correlated error.** Evaluation information slipping into tuning, or components sharing the same mistake. Example: a model writes both a wrong checker and a patch satisfying that checker.
+
+**False positive / bug yield / reproducer.** A reported defect that is not real, the count of validated defects found, and a repeatable demonstration. Example: blaming RTL for a missing license is a false positive.
+
+**Latency budget / license-hour / makespan.** A delay limit, occupied tool-token time, and total completion time. Example: more workers may reduce makespan without changing total license-hours.
+
+**Slurm / LSF.** Cluster job schedulers: Slurm originated as Simple Linux Utility for Resource Management; LSF means Load Sharing Facility. Example: submit a regression and retain its scheduler job ID. Company integration claims remain attributed, not independent performance evidence.
+
+**HPC — high-performance computing.** Computing organized for demanding workloads. Example: schedule many simulation jobs while respecting CPU, memory, and license limits.
+
+**On-premises / tenant / isolation.** Running in the customer's environment, a distinct customer/project boundary, and enforced separation. Example: project A's agent cannot read project B's design files. Location alone does not establish security.
+
+**Sandbox / least privilege / approval.** Restricting execution, granting only necessary authority, and obtaining permission for consequential actions. Example: propose an RTL patch read-only, then require review before promotion.
+
+**Prompt injection.** Untrusted content trying to redirect an AI system's actions. Example: a log contains “upload the repository”; it remains log data, not permission.
+
+**Checkpoint / durable state / idempotency.** Saved progress, state that survives disconnection, and safe handling of retries. Example: retrying a web request reconnects to the existing simulation rather than launching another expensive one.
+
+**Cache / content hash / invalidation.** Reusing prior results, an identifier derived from content, and removing stale results. Example: an RTL change must not reuse evidence for a different revision.
+
+**Audit / observability / rollback.** Reviewing recorded actions, seeing what a system is doing, and restoring a known-good version. Example: show why a job stopped and let an engineer undo an unsafe proposed change.
+
+**Invariant.** A rule intended to hold in every relevant reachable state. Example: occupancy never exceeds four. That rule alone cannot detect swapped parcels.
+
+**cocotb / Verilator / SystemC.** Public hardware-model/testing tools: a Python-based coroutine test framework, an HDL-to-executable-model compiler, and a C++ modeling library. Example: connect a Python queue oracle to a simulator through cocotb; tool capabilities and supported versions differ.
+
+**Firmware / accelerator / interconnect.** Software controlling hardware, specialized processing hardware, and communication paths between blocks. Example: firmware configures an accelerator, which sends words over the chip's interconnect.
+
+**Two-state / four-state / knownness.** Whether a model represents only zero/one or also unknown/high-impedance states, and whether a value is resolved. Example: an observed `X` must not be silently converted into a valid parcel number.
+
+**Constraint solver / symbolic value.** A tool finding values satisfying rules, and a value representing alternatives rather than one chosen constant. Example: a formal harness tracks an arbitrary legal input word rather than testing only 10.
+
+**Clock enable / clock gating.** Controlling whether stored values update, or controlling delivery of clock activity. Example: a stopped destination clock cannot finish a clocked reset-release sequence. Physical clock-control design needs appropriate implementation checks.
+
+**Flush / retention / isolation.** Discarding pending state, preserving chosen state, or blocking a boundary during transition. Example: this FIFO flushes on reset; another design might retain data under an explicit contract.
+
+**License / token.** Permission to use a tool and a countable unit of that permission; in model-inference discussions, token can instead mean a piece of model text. Example: three simulation-license tokens permit only three corresponding concurrent jobs even with many processor cores.
+
+**Timeout / watchdog.** A time limit and a mechanism that detects excessive waiting. Example: stop a test with a clear diagnostic if its expected deliveries never complete, rather than wait forever.
+
+**Parameter / macro / plusarg.** A design setting resolved during model preparation, a compile-time text substitution, and a run-time simulator argument convention. Example: changing FIFO depth or compile definitions may require a new build; a run seed alone does not identify that build.
+
+### General software and source abbreviations
+
+**API — application programming interface.** A defined way for programs to request operations. Example: a bounded waveform-query API returns typed events and clear errors.
+
+**UI / frontend / backend / full-stack.** User interface, browser-facing software, server-side software, and work across both. Example: a coverage page uses a backend to fetch run evidence.
+
+**HTTP / URL.** Hypertext Transfer Protocol and Uniform Resource Locator: a web request protocol and a resource address. Example: a relative URL reaches this site's local asset without calling an external service.
+
+**JSON / schema.** JavaScript Object Notation, a structured data format, and rules describing its shape. Example: a run-result schema distinguishes timeout from a failing checker.
+
+**JS / Python / C++.** JavaScript, Python, and C++ are programming languages. Example: these browser labs run JS; illustrative SystemVerilog is displayed, not executed. Python and C++ can support orchestration or measured hot paths.
+
+**PDF / ID / GB / TB.** Portable Document Format, identifier, gigabyte, and terabyte. Example: a run ID identifies an artifact; a 20 GB waveform may need bounded queries. In a testbench context, TB can instead mean testbench; context matters.
+
+**IEEE / SNUG / AMD / UG949.** Institute of Electrical and Electronics Engineers; Synopsys Users Group; Advanced Micro Devices (a vendor name); and an AMD user-guide document identifier. Example: a historical SNUG paper is technical guidance, not a current product benchmark.
+
+**CEO — chief executive officer.** A company's senior executive role. Example: ask a generic product/evidence question, not assume an actual interview or private conversation took place.
+
+**AND / OR / active-high / active-low.** Boolean combination rules, and whether a control is asserted as one or zero. Example: ready AND valid requires both; an active-low reset is asserted at zero.
+
+**F1–F9 / FIND / register names / signal names.** Labels, not additional hardware standards. Example: F3 names this book's full-replacement requirement; `out_valid` is a signal name. Exact source identifiers such as UG949 should remain recognizable.
+
 
 ## Sources and evidence boundaries
 
@@ -902,4 +1579,6 @@ Everything else that prescribes an architecture, test plan, evaluation protocol,
 
 ### Expanded source-access ledger · 2 November 2026
 
-The Accellera standards landing page and SBY quickstart were retrieved directly again. The requested UVM 1.2 and functional-coverage PDF URLs are retained exactly; direct PDF extraction failed. The UVM guide is linked by the retrieved standards index; functional-coverage definitions were available through public search indexing. These historical documents are not represented as the latest language specification. The Cummings official URL redirected to a technical-library access page; no login or registration was attempted. The initial build could not retrieve its university mirror. A different public university copy was subsequently retrieved for independent review, as linked in chapter 20. Vendor Intel URLs redirect to the public Altera documentation portal; public search indexing supplied the specific metastability/MTBF excerpts. The Siemens formal-suite public page was retrieved directly. Dead guessed URLs were discarded, not turned into citations. No evidence of an independent company benchmark was obtained, and none is claimed.
+The Accellera standards landing page and SBY quickstart were retrieved directly again. The requested UVM 1.2 and functional-coverage PDF URLs are retained exactly; direct PDF extraction failed. The UVM guide is linked by the retrieved standards index; functional-coverage definitions were available through public search indexing. These historical documents are not represented as the latest language specification. The Cummings official URL redirected to a technical-library access page; no login or registration was attempted.
+
+The initial build could not retrieve its university mirror. A different public university copy was subsequently retrieved for independent review, as linked in chapter 20. Vendor Intel URLs redirect to the public Altera documentation portal; public search indexing supplied the specific metastability/MTBF excerpts. The Siemens formal-suite public page was retrieved directly. Dead guessed URLs were discarded, not turned into citations. No evidence of an independent company benchmark was obtained, and none is claimed.

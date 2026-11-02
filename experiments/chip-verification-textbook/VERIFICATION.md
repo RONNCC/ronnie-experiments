@@ -61,3 +61,23 @@ The CDC model samples the old source level at coincident source/destination edge
 The budget model consumes a fixed author-chosen recipe per case. It does not infer real model accuracy; unsupported outcomes abstain by construction. Concurrency changes only a disclosed ideal list-schedule estimate with adequate tokens assumed. Real false-positive rates and confidence intervals cannot be derived from it.
 
 SV/SVA/UVM snippets are illustrative and annotated, not a shipped executable HDL verification environment. The occupancy controller is explicitly incomplete without storage and pointers. The stability property uses sampled synchronous-reset semantics, distinguished from asynchronous `disable iff`. Two-flop level synchronization is not advertised as safe for arbitrary buses or pulses, and synchronized Gray-pointer samples are not incorrectly constrained to single-bit change after skipped source increments. No chip signoff or commercial performance claim follows from these tests.
+
+## Zero-background readability edition · 2 November 2026
+
+Published in two increments on the assigned session branch:
+
+1. PR #42 added the self-contained **15-minute Start here** lesson first. Its approximately 1,650 words stay within the requested 1,200–1,800-word bound. It uses a consistent mailroom analogy, defines concepts before names, gives five immediate-answer checks and a generic conversation prompt, and explicitly limits the analogy and digital/analog claims. Pages deployment completed and the live published lesson was fetched before continuing.
+2. The follow-up adds a **172-entry glossary at `#glossary`**, a safe-area-aware sticky Start here / Glossary / Chapters bar, local glossary filtering and reset, full early-chapter rewrites, and tailored plain-language openings/examples/recall summaries in all 22 chapters. Advanced sections remain explicitly labeled Deeper. No term-link automation touches code or external citations.
+
+### Readability and preservation checks
+
+- `python3 experiments/chip-verification-textbook/tests/content_test.py`: **6 test groups** validate beginner length/content, all chapter scaffolds, required glossary coverage, technical warnings, corrected sources/provenance, anchors and local assets.
+- All **16 existing model-test groups** remain passing. The pure model and all four original lab implementation/template files remain byte-identical to `c5c42de`.
+- Every original fenced SV/SVA/UVM code block is retained byte-for-byte. The corrected Cummings university URL/physical-constraint source paragraph and the public Slurm/LSF attribution are preserved. Source-access disclosures remain present.
+- Builder regeneration is byte-identical to checked-in HTML. Unrelated catalog entries and experiments are unchanged.
+
+### Browser, mobile, and print
+
+Chromium smoke tests cover the main beginner action and five checks; global search empty/reset; glossary search empty/reset; same-hash shortcut clicks that reveal filtered content; keyboard shortcuts; opening the mobile TOC; all original labs; unique anchors/IDs; and corrected long CDC reference rendering. BODY overflow and 44px controls/checkbox labels remain checked at **320, 390, and 1440px**. Sticky anchors are checked against the bar's actual bottom edge to ensure headings are not covered. Predictable jumps replace competing long smooth-scroll animations.
+
+Actual 320/390px Start here, glossary, code, CDC and budget screenshots, plus desktop screenshots, were captured in ignored scratch storage and visually reviewed. Print tests expose all 26 sections, 25 interview answers, and 172 glossary definitions even with both searches in a no-results state, then restore disclosure state. A fresh PDF is generated as a QA artifact only. Browser instrumentation records zero page exceptions and zero external runtime requests. No tracking, persistence, user data edits, private sources, or new runtime dependencies were introduced.

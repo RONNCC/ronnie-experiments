@@ -2,7 +2,7 @@
   {
     "id": "chip-verification-textbook",
     "title": "Chip Verification — From Software to Silicon",
-    "description": "A 20,000+ word, 22-chapter systems textbook for software and AI engineers: annotated SV/SVA/UVM, deep CDC/RDC, formal, coverage, debug, regression operations, safe agents, customer deployments, and the public Bronco software role. Four local labs explore FIFO boundaries, a hidden ordering bug, CDC pulse loss, and agent budgets. Includes 25 answered interview drills, routes, glossary, search, and printable TEXTBOOK.md.",
+    "description": "A beginner-first 29,000+ word, 22-chapter textbook with a standalone 15-minute start route, searchable 172-entry glossary, sticky shortcuts, and plain-English guides before deeper sections: annotated SV/SVA/UVM, deep CDC/RDC, formal, coverage, debug, regression operations, safe agents, customer deployments, and the public Bronco software role. Four local labs explore FIFO boundaries, a hidden ordering bug, CDC pulse loss, and agent budgets. Includes 25 answered interview drills, routes, glossary, search, and printable TEXTBOOK.md.",
     "path": "experiments/chip-verification-textbook/",
     "category": "Education",
     "tags": [
