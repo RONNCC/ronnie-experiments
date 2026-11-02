@@ -49,6 +49,14 @@ class VolumeTwoContent(unittest.TestCase):
         self.assertEqual(HTML.count('class="today"'), 15)
         self.assertIn('fifteen teaching chapters and fifteen boxes', BOOK)
         self.assertNotIn('sixteen', BOOK.lower())
+        self.assertEqual(HTML.count('15 teaching sections'), 2, 'hero and sidebar agree')
+        self.assertNotIn('13 chapters', HTML)
+
+    def test_eda_tools_page_links_the_live_textbook(self):
+        page = (ROOT.parent / 'eda-tools-explorer' / 'index.html').read_text()
+        self.assertIn('../chip-design-textbook/', page)
+        self.assertNotIn('not yet available', page)
+        self.assertNotIn('is not yet in this checkout', page)
 
     def test_seventeen_sections_and_fifteen_today_boxes(self):
         self.assertEqual(len(re.findall(r'^## ', BOOK, re.M)), 17)
