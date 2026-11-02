@@ -36,7 +36,10 @@ fs.mkdirSync(shots, {recursive: true});
     await page.locator('#stage-buttons button[data-stage="synthesis"]').focus();
     await page.keyboard.press('Enter');
     assert.match(await page.locator('#stage-detail').textContent(), /10x/);
-    // Demo A: RTL playground — counter stepping, bug injection, traffic FSM.
+    // Demo A: RTL playground — compact empty state, counter stepping, bug injection, traffic FSM.
+    const emptyWave = await page.locator('#wave-svg').boundingBox();
+    assert.ok(emptyWave.height < 80, `compact empty waveform (got ${emptyWave.height}px)`);
+    assert.match(await page.locator('#wave-svg').textContent(), /No edges yet/);
     await page.locator('#rtl-step').click();
     assert.match(await page.locator('#rtl-result').textContent(), /Edge 1: rst_n=0, en=1, count=0/);
     await page.locator('#rtl-run').click();
@@ -99,7 +102,9 @@ fs.mkdirSync(shots, {recursive: true});
     const broken = await page.evaluate(() => [...document.querySelectorAll('a[href^="#"]')].map(a => a.getAttribute('href').slice(1)).filter(id => !document.getElementById(id)));
     assert.deepEqual(broken, []);
     assert.equal(await page.locator('footer a[href="../chip-verification-textbook/"]').count(), 1);
+    assert.equal(await page.locator('footer a[href="../eda-tools-explorer/"]').count(), 1);
     assert.equal(await page.locator('footer a[href="../../"]').count(), 1);
+    assert.ok((await page.locator('main').textContent()).includes('The Chip Design Software Landscape'));
     // Widths: desktop + the required 375px, plus 320px margin of safety.
     for (const width of [1440, 375, 320]) {
       await page.setViewportSize({width, height: 900});
@@ -109,6 +114,9 @@ fs.mkdirSync(shots, {recursive: true});
         await page.locator(selector).scrollIntoViewIfNeeded();
         assert.equal(await page.evaluate(() => document.body.scrollWidth > innerWidth), false, `${selector} body overflow at ${width}`);
       }
+      // The empty waveform stays a compact one-line strip at every width (review fix).
+      const waveBox = await page.locator('#wave-svg').boundingBox();
+      assert.ok(waveBox.height < 80, `compact empty waveform at ${width} (got ${waveBox.height}px)`);
       const tooSmall = await page.locator('button,select,input[type=number],input[type=search],input[type=range]').evaluateAll(els => els.filter(el => el.getBoundingClientRect().height > 0 && el.getBoundingClientRect().height < 44).map(el => el.id));
       assert.deepEqual(tooSmall, [], `44px controls at ${width}`);
       await page.locator('.reader-bar a[href="#start-here"]').click();

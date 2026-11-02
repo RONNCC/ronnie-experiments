@@ -143,15 +143,21 @@ function paintWave() {
   svg.replaceChildren();
   const isCounter = $('rtl-example').value === 'counter';
   const shown = rtlRows.slice(-12);
+  const add = (name, attrs, text) => svg.append(svgNode(name, attrs, text));
+  if (!shown.length) {
+    // Compact empty state: a tall label column with nothing in it wastes half a phone screen.
+    svg.setAttribute('viewBox', '0 0 640 44');
+    add('text', {x: 320, y: 27, 'text-anchor': 'middle', 'font-size': 14, fill: '#536761'}, 'No edges yet — advance one rising edge to draw the waveform.');
+    return;
+  }
   const cw = 62, x0 = 135;
-  svg.setAttribute('viewBox', `0 0 ${x0 + cw * Math.max(1, shown.length) + 10} 260`);
+  svg.setAttribute('viewBox', `0 0 ${x0 + cw * shown.length + 10} 260`);
   const rows = isCounter
     ? [['clk', 30], ['rst_n', 75], ['en', 120], ['count', 175]]
     : [['clk', 30], ['rst_n', 75], ['state', 120], ['timer', 175]];
-  const add = (name, attrs, text) => svg.append(svgNode(name, attrs, text));
   rows.forEach(([label, y]) => {
     add('text', {x: 5, y: y + 4, fill: '#183c37', 'font-size': 12}, label);
-    add('line', {x1: x0, y1: y, x2: x0 + cw * Math.max(1, shown.length), y2: y, stroke: '#c3cbbc'});
+    add('line', {x1: x0, y1: y, x2: x0 + cw * shown.length, y2: y, stroke: '#c3cbbc'});
   });
   shown.forEach((row, i) => {
     const x = x0 + i * cw;

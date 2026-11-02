@@ -47,8 +47,9 @@ test('traffic: timers reset at each state change', () => {
 test('rtlCode: generated verilog tracks parameters and the bug toggle', () => {
   const good = rtlCode({example: 'counter', params: {width: 6, resetValue: 3}});
   assert.match(good, /parameter WIDTH = 6/);
-  assert.match(good, /WIDTH'd3/);
-  assert.ok(!good.includes('BUG'));
+  assert.match(good, /localparam \[WIDTH-1:0\] RESET_VALUE = 3;/);
+  assert.ok(!good.includes('BUG'), 'no bug marker in clean variant');
+  assert.ok(!/WIDTH'd\d/.test(good), 'no parameterized-size literal like WIDTH\'d3 (illegal)');
   const bad = rtlCode({example: 'counter', params: {breakIt: true}});
   assert.match(bad, /BUG: the reset branch is gone/);
   const traffic = rtlCode({example: 'traffic', params: {green: 3, breakIt: true}});

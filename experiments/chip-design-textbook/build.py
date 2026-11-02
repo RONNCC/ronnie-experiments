@@ -55,7 +55,7 @@ page = '''<!doctype html>
 <p class="boundary">Public-source edition. Independent educational synthesis; not affiliated with any EDA vendor or foundry. Cost figures are labeled public estimates or rules of thumb, never quotes. No tracking, forms, or external assets.</p>
 <div class="route-buttons" aria-label="Choose a reading route"><a href="#routes" data-route="software">Software engineer ↗</a><a href="#routes" data-route="newgrad">New grad ↗</a><a href="#routes" data-route="product">Product-minded ↗</a></div><p id="route-status" role="status"></p>
 </section><div class="intro">INTRO</div>SECTIONS<p id="empty-search" hidden>No matching chapters. Try another term or clear search.</p>
-<footer>Built to make claims inspectable. Read the <a href="#sources">source boundaries</a> before quoting any figure. Volume 2 of the chip series — Volume 1: <a href="../chip-verification-textbook/">Chip Verification — From Software to Silicon</a> · <a href="../../">All experiments</a> · <a href="#content">Back to top ↑</a></footer></main></div></body></html>'''
+<footer>Built to make claims inspectable. Read the <a href="#sources">source boundaries</a> before quoting any figure. Volume 2 of the chip series — Volume 1: <a href="../chip-verification-textbook/">Chip Verification — From Software to Silicon</a> · Tools: <a href="../eda-tools-explorer/">The Chip Design Software Landscape</a> · <a href="../../">All experiments</a> · <a href="#content">Back to top ↑</a></footer></main></div></body></html>'''
 intro = markdown.markdown(parts[0].split('\n', 1)[1])
 page = page.replace('NAV', '\n'.join(nav)).replace('WORDS', f'{words:,}').replace('INTRO', intro).replace('SECTIONS', '\n'.join(sections))
 (ROOT / 'index.html').write_text(page)

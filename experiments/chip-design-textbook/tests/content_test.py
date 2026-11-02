@@ -40,6 +40,16 @@ class VolumeTwoContent(unittest.TestCase):
         self.assertGreaterEqual(HTML.count('../chip-verification-textbook/'), 2, 'intro and footer both link Volume 1')
         self.assertIn('href="../../"', HTML, 'footer/sitemap links the experiments index')
 
+    def test_eda_tools_cross_links(self):
+        self.assertGreaterEqual(HTML.count('../eda-tools-explorer/'), 2, 'intro and footer both link eda-tools-explorer')
+        self.assertIn('The Chip Design Software Landscape', BOOK)
+        self.assertIn('The Chip Design Software Landscape', HTML)
+
+    def test_box_count_claim_matches_reality(self):
+        self.assertEqual(HTML.count('class="today"'), 15)
+        self.assertIn('fifteen teaching chapters and fifteen boxes', BOOK)
+        self.assertNotIn('sixteen', BOOK.lower())
+
     def test_seventeen_sections_and_fifteen_today_boxes(self):
         self.assertEqual(len(re.findall(r'^## ', BOOK, re.M)), 17)
         for number in range(3, 16):
@@ -63,9 +73,10 @@ class VolumeTwoContent(unittest.TestCase):
     def test_required_facts_and_attributions(self):
         checks = ['5% of surveyed IC/ASIC projects', '14.4%', 'Wilson Research Group',
                   'logic and functional errors remain the primary cause', '72.5%', 'UCIe',
-                  'HLS-Eval', 'ForgeHLS', '19% to 69%', 'AgentEngineer', 'Autopilot',
+                  'HLS-Eval', 'ForgeHLS', '459,850', '846 kernels', '19% to 69%', 'AgentEngineer', 'Autopilot',
                   'ChipStack', 'Fuse EDA', 'rule of thumb', 'foundries do not publish prices',
-                  'MPW', 'Efabless', 'GDSII', 'PDK', 'reticle limit', 'Poison'.replace('Poison', 'Poisson')]
+                  'MPW', 'Efabless', 'GDSII', 'PDK', 'reticle limit', 'Poisson',
+                  'binary decision diagrams', '1986', 'no state at all']
         for phrase in checks:
             self.assertIn(phrase, BOOK, phrase)
 
@@ -97,7 +108,8 @@ class VolumeTwoContent(unittest.TestCase):
         for label in ('[press]', '[research]', '[primary]', '[estimate]', '[rule of thumb]', '[open]', '[standard]'):
             self.assertIn(label, sources, label)
         self.assertIn('https://arxiv.org/abs/2504.12268', sources)
-        self.assertIn('https://arxiv.org/abs/2507.03255', sources)
+        self.assertIn('https://arxiv.org/html/2507.03255v3', sources)
+        self.assertNotIn('arxiv.org/abs/2507.03255)', sources, 'ForgeHLS cited at v3, not the abstract stub')
         self.assertIn('semiengineering.com', sources)
 
 

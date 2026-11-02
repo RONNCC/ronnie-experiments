@@ -49,17 +49,19 @@
   function rtlCode({example = 'counter', params = {}} = {}) {
     if (example === 'counter') {
       const width = params.width ?? 4, resetValue = params.resetValue ?? 0, breakIt = Boolean(params.breakIt);
-      return `// 4-bit-style counter with enable · width ${width} · synthesizable teaching example
+      return `// counter with enable \u00b7 width ${width} \u00b7 synthesizable teaching example
+// (SystemVerilog; the inline size cast WIDTH'(<value>) is the other legal spelling)
 module counter_en #(parameter WIDTH = ${width}) (
   input  wire             clk,
   input  wire             rst_n,      // active-low synchronous reset
   input  wire             en,
   output reg  [WIDTH-1:0] count
 );
+  localparam [WIDTH-1:0] RESET_VALUE = ${resetValue}; // sized by the port width, not a WIDTH'd literal
   always @(posedge clk) begin
 ${breakIt
   ? '    // BUG: the reset branch is gone. The register powers up\n    // undefined (X in simulation) and X + 1 stays X.\n    if (en)\n      count <= count + 1\'b1;'
-  : `    if (!rst_n)\n      count <= WIDTH\'d${resetValue};     // deterministic start\n    else if (en)\n      count <= count + 1\'b1;         // holds when en is low`}
+  : `    if (!rst_n)\n      count <= RESET_VALUE;          // deterministic start\n    else if (en)\n      count <= count + 1'b1;         // holds when en is low`}
   end
 endmodule`;
     }
