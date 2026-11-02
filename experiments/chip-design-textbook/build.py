@@ -45,12 +45,12 @@ page = '''<!doctype html>
 <body><a class="skip" href="#start-here">Skip to textbook</a>
 <header class="top"><a href="../../">RONNIE'S EXPERIMENTS</a><span>FIELDNOTES / 02 NOV 2026</span><button id="print" type="button">Print book</button></header>
 <nav class="reader-bar" aria-label="Reading shortcuts"><a href="#start-here">Start here</a><a href="#glossary">Glossary</a><a href="#contents">Chapters</a></nav>
-<div class="layout"><aside><div class="sidebar-title">THE LEARNING ATLAS <span>Volume 2 · 13 chapters + sources</span></div>
+<div class="layout"><aside><div class="sidebar-title">THE LEARNING ATLAS <span>Volume 2 · 15 teaching sections + sources</span></div>
 <label for="search">Find a concept</label><input id="search" type="search" placeholder="Try: netlist, yield, HLS…" autocomplete="off"><button id="clear-search" type="button">Clear search</button><p id="search-status" role="status">All chapters shown</p>
 <details id="contents" open><summary>Table of contents</summary><nav aria-label="Table of contents">NAV</nav></details><a class="download" href="TEXTBOOK.md" download>↓ Download TEXTBOOK.md</a><a class="download" href="../chip-verification-textbook/">↗ Volume 1: Chip Verification</a></aside>
 <main id="content"><section class="hero"><p class="eyebrow">HARDWARE × SOFTWARE × DELIVERY</p><h1>From RTL<br>to <em>tapeout.</em></h1><p class="deck">Learn how chips are actually designed — specs, RTL, synthesis, physical design, foundries, packaging, and the money — written for software and AI engineers. Volume 2 of the chip series.</p>
 <a class="start-action" href="#start-here">Start here · 20 minutes · the whole pipeline →</a>
-<div class="hero-meta"><span>WORDS words</span><span>4 interactive demos</span><span>13 chapters + glossary</span></div>
+<div class="hero-meta"><span>WORDS words</span><span>4 interactive demos</span><span>15 teaching sections + glossary</span></div>
 <div class="circuit" aria-hidden="true"><span>SPEC</span><b>→</b><span>RTL</span><b>→</b><span>NETLIST</span><b>→</b><span>SILICON</span></div>
 <p class="boundary">Public-source edition. Independent educational synthesis; not affiliated with any EDA vendor or foundry. Cost figures are labeled public estimates or rules of thumb, never quotes. No tracking, forms, or external assets.</p>
 <div class="route-buttons" aria-label="Choose a reading route"><a href="#routes" data-route="software">Software engineer ↗</a><a href="#routes" data-route="newgrad">New grad ↗</a><a href="#routes" data-route="product">Product-minded ↗</a></div><p id="route-status" role="status"></p>
