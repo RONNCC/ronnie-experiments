@@ -1,5 +1,20 @@
 [
   {
+    "id": "sf-voter-guide-2026",
+    "title": "SF 94102 Voter Guide — November 3, 2026",
+    "description": "A neutral, mobile-first, source-labeled guide to the contests and measures listed for San Francisco ZIP 94102: voting logistics, district caveats, statewide races and propositions, federal/state/local offices, judicial retentions, RTM, SF measures A–J, endorsement matrices, and a vested-interest money map.",
+    "path": "experiments/sf-voter-guide-2026/",
+    "category": "Education",
+    "tags": [
+      "San Francisco",
+      "Election 2026",
+      "Voter Guide",
+      "Civic Education",
+      "Interactive"
+    ],
+    "date": "2026-11-02"
+  },
+  {
     "id": "chip-verification-textbook",
     "title": "Chip Verification — From Software to Silicon",
     "description": "A 20,000+ word, 22-chapter systems textbook for software and AI engineers: annotated SV/SVA/UVM, deep CDC/RDC, formal, coverage, debug, regression operations, safe agents, customer deployments, and the public Bronco software role. Four local labs explore FIFO boundaries, a hidden ordering bug, CDC pulse loss, and agent budgets. Includes 25 answered interview drills, routes, glossary, search, and printable TEXTBOOK.md.",

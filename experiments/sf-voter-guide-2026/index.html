@@ -1,0 +1,829 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#133b31">
+  <meta name="description" content="A neutral, source-labeled, mobile-first guide to the November 3, 2026 San Francisco election for ZIP 94102, with district caveats and every contest listed in the supplied pack.">
+  <title>SF 94102 Voter Guide · November 3, 2026</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #172a25;
+      --muted: #586760;
+      --paper: #f4f2e9;
+      --card: #fffefa;
+      --line: #d8ddd3;
+      --green: #164c3e;
+      --green-dark: #10372e;
+      --green-pale: #e5f2e9;
+      --orange: #df7847;
+      --orange-pale: #fff0e5;
+      --blue-pale: #eaf2f7;
+      --red: #a34238;
+      --red-pale: #fae9e5;
+      --gold: #e7bf69;
+      --shadow: 0 12px 32px rgba(21, 42, 34, .07);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 6rem; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height: 1.55; }
+    a { color: #145d4c; text-decoration-thickness: .08em; text-underline-offset: .16em; overflow-wrap: anywhere; }
+    a:hover { color: #0c332a; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    .skip-link { position: absolute; left: -9999px; top: .5rem; z-index: 100; background: white; padding: .7rem 1rem; border-radius: 8px; }
+    .skip-link:focus { left: .5rem; }
+    .wrap { width: min(1120px, calc(100% - 2rem)); margin-inline: auto; }
+    .hero { padding: clamp(2rem, 6vw, 5rem) 0 2.3rem; color: #fbf8ee; background: var(--green-dark); position: relative; overflow: hidden; }
+    .hero::after { content: ""; position: absolute; width: 19rem; height: 19rem; right: -5rem; top: -9rem; border: 1px solid rgba(255,255,255,.17); border-radius: 50%; box-shadow: 0 0 0 2.1rem rgba(255,255,255,.025), 0 0 0 4.2rem rgba(255,255,255,.025); pointer-events: none; }
+    .hero-inner { position: relative; z-index: 1; }
+    .eyebrow, .section-kicker { font-size: .75rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+    .eyebrow { color: #bce0bf; }
+    h1 { max-width: 850px; margin: .45rem 0 .8rem; font-size: clamp(2.35rem, 7vw, 5.5rem); line-height: .98; letter-spacing: -.055em; }
+    h1 span { color: var(--gold); white-space: nowrap; }
+    .hero-deck { max-width: 700px; margin: 0; color: #d8e4dc; font-size: clamp(1rem, 2.2vw, 1.22rem); }
+    .hero-pills { display: flex; flex-wrap: wrap; gap: .55rem; padding: 0; margin: 1.45rem 0 0; list-style: none; }
+    .hero-pills li { padding: .43rem .75rem; border: 1px solid rgba(255,255,255,.25); border-radius: 99px; color: #f5f2e8; font-size: .84rem; }
+    .hero-note { max-width: 800px; margin: 1.45rem 0 0; padding: .85rem 1rem; border-left: 3px solid var(--gold); background: rgba(255,255,255,.08); color: #f2efe5; border-radius: 0 10px 10px 0; font-size: .9rem; }
+    .top-nav { position: sticky; top: 0; z-index: 50; background: rgba(255,254,250,.96); border-bottom: 1px solid var(--line); box-shadow: 0 3px 15px rgba(19,42,34,.05); backdrop-filter: blur(12px); }
+    .nav-inner { display: flex; gap: .3rem; overflow-x: auto; scrollbar-width: thin; padding: .62rem 0; }
+    .top-nav a { flex: 0 0 auto; padding: .48rem .66rem; border-radius: 9px; color: #344b42; text-decoration: none; font-weight: 750; font-size: .84rem; white-space: nowrap; }
+    .top-nav a:hover, .top-nav a:focus-visible { background: var(--green-pale); outline-color: var(--green); }
+    main { padding: 1.5rem 0 4rem; }
+    .section { padding: 1.7rem 0 2.3rem; scroll-margin-top: 5rem; }
+    .section + .section { border-top: 1px solid #d9ded5; }
+    .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+    .section-kicker { color: #b45d35; }
+    h2 { margin: .2rem 0 .25rem; font-size: clamp(1.7rem, 4vw, 2.65rem); line-height: 1.08; letter-spacing: -.035em; }
+    .section-intro { max-width: 740px; margin: .2rem 0 0; color: var(--muted); }
+    .logistics { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+    .logistics-card, .map-card, .money-card, .source-panel { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+    .logistics-card { padding: 1.2rem; border-top: 4px solid var(--orange); }
+    .logistics-card h3, .map-card h3, .money-card h3 { margin: 0 0 .65rem; font-size: 1.18rem; }
+    .logistics-card p { margin: .45rem 0; }
+    .logistics-card ul, .map-card ul { margin: .5rem 0 0; padding-left: 1.2rem; }
+    .logistics-card li, .map-card li { margin: .42rem 0; }
+    .callout { margin: 1rem 0; padding: 1rem 1.1rem; border: 1px solid #d6b96c; border-radius: 14px; background: #fff8df; }
+    .callout strong { display: block; margin-bottom: .24rem; }
+    .callout p { margin: .2rem 0; }
+    .map-card { padding: 1.2rem; margin-top: 1rem; }
+    .map-columns { display: grid; grid-template-columns: 1fr; gap: .75rem; margin-top: .8rem; }
+    .map-column { padding: .9rem; border: 1px solid #e1e5dc; border-radius: 13px; background: #fbfcf8; }
+    .map-column h4 { margin: 0 0 .35rem; color: var(--green); font-size: .98rem; }
+    .map-column p { margin: .35rem 0; }
+    .small-note { color: var(--muted); font-size: .9rem; }
+    .evidence-key { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0 0; }
+    .tag { display: inline-flex; align-items: center; gap: .25rem; padding: .25rem .5rem; border-radius: 99px; font-size: .68rem; letter-spacing: .07em; font-weight: 850; text-transform: uppercase; white-space: nowrap; }
+    .tag.official { background: #e3f0e7; color: #1b6047; }
+    .tag.claim { background: #fff0e0; color: #8e4a16; }
+    .tag.endorsement { background: #e8eef8; color: #35557c; }
+    .tag.interpretation { background: #f3e9fb; color: #704391; }
+    .tag.pack { background: #edf0ec; color: #536158; }
+    .guide-controls { display: grid; grid-template-columns: 1fr; gap: .65rem; padding: 1rem; margin: 1.15rem 0; border: 1px solid var(--line); border-radius: 16px; background: #fffefa; }
+    .search-wrap { position: relative; }
+    .search-wrap label { display: block; margin-bottom: .28rem; color: #40564c; font-size: .83rem; font-weight: 800; }
+    .search-wrap input { width: 100%; min-height: 48px; padding: .7rem .85rem .7rem 2.55rem; border: 1px solid #aab9af; border-radius: 11px; background: white; color: var(--ink); }
+    .search-wrap input:focus { outline: 3px solid rgba(22,76,62,.2); border-color: var(--green); }
+    .search-icon { position: absolute; left: .85rem; bottom: .72rem; color: #597166; pointer-events: none; }
+    .control-actions { display: flex; align-items: end; flex-wrap: wrap; gap: .5rem; }
+    .action-button { min-height: 42px; padding: .55rem .78rem; border: 1px solid #b7c5ba; border-radius: 10px; background: white; color: #29463b; font-size: .84rem; font-weight: 750; }
+    .action-button:hover { background: var(--green-pale); }
+    .match-count { align-self: center; margin-left: auto; color: var(--muted); font-size: .82rem; }
+    .section-card-list { display: grid; grid-template-columns: 1fr; gap: .85rem; }
+    .contest-card { border: 1px solid #d5dcd2; border-radius: 16px; background: var(--card); box-shadow: 0 5px 18px rgba(22,42,34,.045); overflow: clip; }
+    .contest-card[hidden] { display: none; }
+    .contest-card > summary { display: grid; grid-template-columns: 1fr auto; gap: .4rem .7rem; align-items: center; min-height: 116px; padding: 1rem 1rem 1.05rem; cursor: pointer; list-style: none; }
+    .contest-card > summary::-webkit-details-marker { display: none; }
+    .contest-card > summary:hover { background: #fbfcf8; }
+    .summary-main { min-width: 0; }
+    .summary-kicker { display: block; margin-bottom: .25rem; color: #a4522e; font-size: .67rem; letter-spacing: .1em; font-weight: 900; text-transform: uppercase; }
+    .summary-title-line { display: flex; align-items: center; flex-wrap: wrap; gap: .45rem; }
+    .summary-title-line h3 { margin: 0; font-size: clamp(1.08rem, 2.5vw, 1.34rem); line-height: 1.2; letter-spacing: -.018em; }
+    .type-pill { display: inline-block; padding: .2rem .45rem; border-radius: 99px; background: #edf2ec; color: #496057; font-size: .69rem; font-weight: 750; }
+    .summary-text { margin: .43rem 0 0; color: #465a50; font-size: .9rem; line-height: 1.42; }
+    .toggle-icon { display: grid; place-items: center; width: 32px; height: 32px; border: 1px solid #d3ddd4; border-radius: 50%; color: var(--green); font-weight: 900; transition: transform .15s ease; }
+    details[open] .toggle-icon { transform: rotate(180deg); }
+    .card-body { padding: 0 1rem 1.1rem; border-top: 1px solid #ebeee7; }
+    .card-body > * { margin-top: 1rem; }
+    .plain-box { padding: .85rem .9rem; border-radius: 12px; background: #f2f7f2; border-left: 3px solid #599374; }
+    .plain-box h4, .section-label { display: flex; align-items: center; flex-wrap: wrap; gap: .45rem; margin: 0 0 .35rem; font-size: .98rem; }
+    .plain-box p, .funding-box p { margin: .32rem 0; }
+    .sides-grid, .vote-grid { display: grid; grid-template-columns: 1fr; gap: .65rem; }
+    .side-box, .vote-box { padding: .85rem; border: 1px solid #e0e5dd; border-radius: 12px; background: #fff; }
+    .side-box h5, .vote-box h5 { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; margin: 0 0 .4rem; font-size: .94rem; }
+    .side-box p, .vote-box p { margin: .32rem 0; color: #42554b; font-size: .91rem; }
+    .vote-box.yes-box { border-top: 3px solid #48936a; }
+    .vote-box.no-box { border-top: 3px solid #bf6a5e; }
+    .chip { display: inline-flex; align-items: center; justify-content: center; min-width: 2.6rem; padding: .16rem .48rem; border-radius: 99px; font-size: .72rem; letter-spacing: .05em; font-weight: 900; }
+    .chip.yes { color: #165738; background: #dff1e4; }
+    .chip.no { color: #8c3027; background: #f9e1dc; }
+    .chip.choice { min-width: auto; }
+    .funding-box { padding: .85rem .9rem; border: 1px dashed #c6cbbd; border-radius: 12px; background: #fcfbf6; }
+    .funding-box ul { margin: .35rem 0 0; padding-left: 1.2rem; }
+    .funding-box li { margin: .36rem 0; }
+    .matrix-wrap { max-width: 100%; overflow-x: auto; border: 1px solid #d8ded5; border-radius: 11px; background: white; }
+    table { width: 100%; border-collapse: collapse; }
+    .endorsement-table { min-width: 730px; font-size: .82rem; }
+    .endorsement-table caption { padding: .55rem .65rem; text-align: left; color: var(--muted); font-size: .78rem; }
+    .endorsement-table th, .endorsement-table td { padding: .55rem .6rem; border-top: 1px solid #e5e9e2; text-align: left; vertical-align: top; }
+    .endorsement-table thead th { position: sticky; top: 0; background: #edf3ed; color: #29453a; font-size: .74rem; }
+    .endorsement-table tbody th { min-width: 155px; color: #263b32; font-weight: 800; }
+    .endorsement-table td { color: #516159; }
+    .matrix-disclaimer { margin: .45rem 0 0; color: var(--muted); font-size: .78rem; }
+    .source-list { margin: .4rem 0 0; padding-left: 1.15rem; }
+    .source-list li { margin: .34rem 0; font-size: .82rem; }
+    .source-url { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .77rem; }
+    .empty-section { display: none; padding: 1rem; color: var(--muted); border: 1px dashed #ccd4cb; border-radius: 12px; background: rgba(255,255,255,.45); }
+    .guide-section.no-matches .empty-section { display: block; }
+    .global-empty { display: none; padding: 1rem; border-radius: 12px; background: #fff4e8; color: #6f4627; }
+    .global-empty.show { display: block; }
+    .money-intro { max-width: 850px; padding: 1rem 1.1rem; border-left: 4px solid #ae82ca; border-radius: 0 13px 13px 0; background: #f7effb; }
+    .money-grid { display: grid; grid-template-columns: 1fr; gap: .8rem; margin-top: 1rem; }
+    .money-card { padding: 1rem; border-top: 3px solid #aa7bc3; }
+    .money-card .money-label { display: inline-block; margin-bottom: .35rem; color: #734390; font-size: .68rem; letter-spacing: .1em; font-weight: 900; text-transform: uppercase; }
+    .money-card p { margin: .4rem 0; }
+    .money-card .money-link { margin-top: .65rem; color: var(--muted); font-size: .78rem; }
+    .source-panel { padding: 1rem; }
+    .source-panel ol { margin: .4rem 0 0; padding-left: 1.3rem; }
+    .source-panel li { margin: .48rem 0; }
+    footer { padding: 1.5rem 0 2.5rem; border-top: 1px solid #d5dbd1; color: #47584f; font-size: .88rem; }
+    footer p { margin: .35rem 0; }
+    .footer-stamp { color: #263f34; font-weight: 800; }
+    @media (min-width: 720px) {
+      .wrap { width: min(1120px, calc(100% - 3rem)); }
+      .logistics { grid-template-columns: 1.1fr .9fr; }
+      .map-columns { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .guide-controls { grid-template-columns: minmax(0, 1fr) auto; align-items: end; }
+      .section-card-list { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+      .contest-card { min-width: 0; }
+      .contest-card > summary { min-height: 145px; }
+      .sides-grid, .vote-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .money-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (min-width: 1020px) {
+      .section-card-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .money-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    @media (max-width: 430px) {
+      .wrap { width: min(100% - 1.1rem, 1120px); }
+      .hero { padding-top: 2rem; }
+      .contest-card > summary { padding: .85rem; }
+      .card-body { padding-inline: .8rem; }
+      .match-count { width: 100%; margin: 0; }
+      .control-actions { align-items: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to guide</a>
+  <header class="hero">
+    <div class="wrap hero-inner">
+      <div class="eyebrow">A neutral, source-labeled election guide</div>
+      <h1>San Francisco <span>94102</span><br>Voter Guide</h1>
+      <p class="hero-deck">Tuesday, November 3, 2026 · California Consolidated General Election. A plain-English map of every contest and measure listed for the ZIP 94102 area in the supplied content pack.</p>
+      <ul class="hero-pills" aria-label="Guide contents">
+        <li>9 state races</li><li>14 state propositions</li><li>Federal, state &amp; local contests</li><li>RTM + 10 SF measures</li>
+      </ul>
+      <p class="hero-note"><strong>Neutrality note:</strong> This guide does not recommend how to vote. Effects, candidate statements, endorsements, and interpretation are labeled separately. The factual source is the supplied voter-guide pack; check the official voter portal for your exact ballot.</p>
+    </div>
+  </header>
+  <nav class="top-nav" aria-label="Guide sections">
+    <div class="wrap nav-inner">
+      <a href="#how-to-vote">How to Vote</a><a href="#state">State</a><a href="#state-props">State Props</a><a href="#congress">Congress</a><a href="#local">Local</a><a href="#sf-props">SF Props</a><a href="#money-map">Money Map</a><a href="#sources">Sources</a>
+    </div>
+  </nav>
+  <main class="wrap" id="main">
+    <section class="section" id="how-to-vote" aria-labelledby="how-title">
+      <div class="section-heading">
+        <div><div class="section-kicker">Start here</div><h2 id="how-title">How to vote</h2><p class="section-intro">Election-day logistics and a district-aware ballot map for the 94102 area.</p></div>
+      </div>
+      <div class="logistics">
+        <article class="logistics-card">
+          <h3>Voting logistics</h3>
+          <p><strong>Election Day:</strong> Tuesday, November 3, 2026.</p>
+          <ul>
+            <li>Polls at all 501 San Francisco polling places and the City Hall Voting Center are open <strong>7:00 a.m.–8:00 p.m.</strong></li>
+            <li>Vote-by-mail ballots must be postmarked on or before Nov. 3, or hand-delivered to any polling place, drop box, or City Hall by <strong>8:00 p.m. Nov. 3</strong>. The pack lists 37 official 24/7 drop boxes citywide.</li>
+            <li>Same-day registration is available at City Hall Voting Center or any polling place through <strong>8:00 p.m. on Election Day</strong>.</li>
+            <li>Track a ballot at <a href="https://wheresmyballot.sos.ca.gov" target="_blank" rel="noopener noreferrer">https://WheresMyBallot.sos.ca.gov</a>; find a polling place at <a href="https://sfelections.gov/myvotinglocation" target="_blank" rel="noopener noreferrer">https://sfelections.gov/myvotinglocation</a>; check registration and districts at <a href="https://sfelections.gov/voterportal" target="_blank" rel="noopener noreferrer">https://sfelections.gov/voterportal</a>.</li>
+          </ul>
+        </article>
+        <article class="logistics-card">
+          <h3>Evidence labels &amp; endorsement key</h3>
+          <p><span class="tag official">Official digest</span> Summarized from the SF Voter Information Pamphlet or the California Legislative Analyst's Office, as identified in the pack.</p>
+          <p><span class="tag claim">Campaign claim</span> A candidate or campaign statement reported in the pack; not treated as independently verified.</p>
+          <p><span class="tag endorsement">Endorsement</span> An opinion or slate choice by the named organization, not a neutral fact about a candidate.</p>
+          <p><span class="tag interpretation">Interpretation</span> A clearly marked explanation or inference, not a campaign quote.</p>
+          <p class="small-note">Matrix labels: GrowSF is described in the pack as a moderate, pro-housing SF advocacy group with a research-heavy voter guide and backing largely from tech-industry donors. SF Democratic Party (DCCC) is the local party's official slate and adopts California Democratic Party endorsements for federal/state races. SF Chronicle reflects an editorial board process described as interviews plus fact-checking. SF Bay Guardian is described as a progressive alt-weekly; its positions and Bay Area News Group (BANG)—East Bay Times/Mercury News editorial-board—positions are via the UC Berkeley IGS tracker. Endorsements are opinions that can reveal each group's interests; the matrix is for triangulation. “Not stated in pack” is not opposition.</p>
+        </article>
+      </div>
+      <div class="callout" role="note">
+        <strong>Your exact ballot — check before relying on district examples.</strong>
+        <p>Most of 94102 (Tenderloin/Civic Center) is Supervisorial District 5, which has <strong>no supervisor race in 2026</strong> (D5 next elects in November 2028), Congressional District 11, Assembly District 17, and BART District 8. Southern slivers of 94102 may instead be in D6, CA-15, or AD-19. BART D8 appears only in some precincts. Check <a href="https://sfelections.gov/voterportal" target="_blank" rel="noopener noreferrer">https://sfelections.gov/voterportal</a> for your own precinct and contest list.</p>
+        <p class="small-note">No street address is requested. This page's search runs in your browser and does not save or send search terms.</p>
+      </div>
+      <article class="map-card" aria-labelledby="ballot-map-title">
+        <span class="tag official">Ballot map · pack summary</span>
+        <h3 id="ballot-map-title">What can appear on a 94102-area ballot?</h3>
+        <p>The supplied pack calls this a <strong>four-card ballot</strong>, but it does not map contests to individual physical cards. This is a content map by contest type, not a card-by-card layout.</p>
+        <div class="map-columns">
+          <div class="map-column"><h4>Voter-nominated (partisan)</h4><p>Governor, Lieutenant Governor, Secretary of State, Controller, Treasurer, Attorney General, Insurance Commissioner, Board of Equalization District 2, U.S. Representative (CA-11 or CA-15), State Assembly (AD-17 or AD-19).</p></div>
+          <div class="map-column"><h4>Nonpartisan offices &amp; retentions</h4><p>State Superintendent of Public Instruction; Board of Education (vote for up to 3); Community College Board full term (up to 3) and partial term (1); BART Director District 8 (some precincts); judicial retention questions (YES/NO).</p></div>
+          <div class="map-column"><h4>Local ranked-choice offices</h4><p>Assessor-Recorder; Public Defender; Supervisor only in even-numbered districts voting this year, including D6 for a possible 94102 sliver. D5 is not on the ballot this year.</p></div>
+          <div class="map-column"><h4>Measures</h4><p>14 California propositions (1, 2, 3, 4, 5, 37–45 as listed in this guide), regional transit measure RTM, and 10 San Francisco measures A–J.</p></div>
+        </div>
+        <p class="small-note"><strong>Also noted in the pack:</strong> State Senate SD-11 is not on this 2026 ballot; it next elects in 2028. Southern 94102 district boundaries are not inferred here—use the voter portal.</p>
+        <h4 class="section-label"><span class="tag official">Sources</span></h4>
+        <ul class="source-list">
+          <li><a class="source-url" href="https://media.api.sf.gov/documents/N26_EN_VIP.pdf" target="_blank" rel="noopener noreferrer">https://media.api.sf.gov/documents/N26_EN_VIP.pdf</a></li>
+          <li><a class="source-url" href="https://sfelections.gov/voterportal" target="_blank" rel="noopener noreferrer">https://sfelections.gov/voterportal</a></li>
+          <li><a class="source-url" href="https://voterguide.sos.ca.gov" target="_blank" rel="noopener noreferrer">https://voterguide.sos.ca.gov</a></li>
+        </ul>
+      </article>
+    </section>
+
+    <div class="guide-controls" aria-label="Search and card controls">
+      <div class="search-wrap">
+        <label for="guide-search">Search every contest and measure</label>
+        <span class="search-icon" aria-hidden="true">⌕</span>
+        <input id="guide-search" type="search" placeholder="Try “Wiener”, “Prop 42”, “retention”, “Muni”…" autocomplete="off">
+      </div>
+      <div class="control-actions">
+        <button class="action-button" type="button" id="open-all">Open matching cards</button>
+        <button class="action-button" type="button" id="close-all">Close all cards</button>
+        <span class="match-count" id="match-count" aria-live="polite">Loading cards…</span>
+      </div>
+    </div>
+    <p class="global-empty" id="global-empty" role="status">No contest cards match that search. Clear the search to see the full guide.</p>
+
+    <section class="section guide-section" id="state" aria-labelledby="state-title">
+      <div class="section-heading"><div><div class="section-kicker">California</div><h2 id="state-title">Statewide races</h2><p class="section-intro">Nine state-level races: eight voter-nominated contests plus the nonpartisan Superintendent of Public Instruction race.</p></div></div>
+      <div class="section-card-list" id="cards-state"></div><p class="empty-section">No matching cards in Statewide races.</p>
+    </section>
+
+    <section class="section guide-section" id="state-props" aria-labelledby="props-title">
+      <div class="section-heading"><div><div class="section-kicker">California · LAO digest</div><h2 id="props-title">14 state propositions</h2><p class="section-intro">Plain-English YES/NO effects from the pack's Legislative Analyst's Office summaries. “Case for” panels are marked interpretation when they go beyond the stated legal effect.</p></div></div>
+      <div class="section-card-list" id="cards-state-props"></div><p class="empty-section">No matching cards in State propositions.</p>
+    </section>
+
+    <section class="section guide-section" id="congress" aria-labelledby="congress-title">
+      <div class="section-heading"><div><div class="section-kicker">Federal &amp; district-dependent</div><h2 id="congress-title">Congress &amp; Assembly</h2><p class="section-intro">CA-11 covers nearly all 94102; southern slivers may be CA-15 or AD-19. AD-17 covers most of the ZIP area.</p></div></div>
+      <div class="section-card-list" id="cards-congress"></div><p class="empty-section">No matching cards in Congress &amp; Assembly.</p>
+    </section>
+
+    <section class="section guide-section" id="local" aria-labelledby="local-title">
+      <div class="section-heading"><div><div class="section-kicker">San Francisco &amp; regional</div><h2 id="local-title">Local offices, retentions &amp; RTM</h2><p class="section-intro">Local offices, the 94102-possible D6 contest, BART D8 where applicable, the listed judicial retention questions, and the five-county transit measure.</p></div></div>
+      <div class="callout" role="note"><strong>Judicial-list count check</strong><p>The supplied pack says “12 judicial retentions” but lists <strong>13 names</strong> (2 Supreme Court and 11 Court of Appeal). All named justices are shown below rather than silently dropping one. The pack does not identify which name, if any, is extra; compare against your official sample ballot. It also says GrowSF recommends YES on “all 12,” so the individual mapping is not assumed here.</p></div>
+      <div class="section-card-list" id="cards-local"></div><p class="empty-section">No matching cards in Local offices &amp; measures.</p>
+    </section>
+
+    <section class="section guide-section" id="sf-props" aria-labelledby="sf-props-title">
+      <div class="section-heading"><div><div class="section-kicker">City &amp; County of San Francisco</div><h2 id="sf-props-title">San Francisco measures A–J</h2><p class="section-intro">Digest summaries, costs where supplied, paid-argument contributors where named, and the endorsement matrix. Interpretive “case” panels are not campaign quotes unless explicitly identified.</p></div></div>
+      <div class="section-card-list" id="cards-sf-props"></div><p class="empty-section">No matching cards in San Francisco measures.</p>
+    </section>
+
+    <section class="section" id="money-map" aria-labelledby="money-title">
+      <div class="section-heading"><div><div class="section-kicker">Follow the disclosed interests</div><h2 id="money-title">Vested-interest money map</h2><p class="section-intro">An interpretation built only from the contributor disclosures and relationships named in the supplied pack—not an allegation of improper conduct.</p></div></div>
+      <div class="money-intro"><span class="tag interpretation">Interpretation</span> Track who funds, endorses, or organizes around measures and candidates. These relationships can reveal aligned interests; they do not by themselves establish motive or policy outcomes.</div>
+      <div class="money-grid" id="money-grid">
+        <article class="money-card"><span class="money-label">Moderate / pro-housing tech network</span><h3>Governance measures &amp; the slate</h3><p>The pack connects the GrowSF/TogetherSF ecosystem with funding from Michael Moritz (Sequoia), John Pritzker, and Chris Larsen (Ripple), and says the network bankrolls YES on D/E/F and GrowSF's slate, including Wiener, Dorsey, Haney, Sherrill, and Wong. GrowUSA backs Wiener federally.</p><p class="money-link">Interpretation of the relationships described in the pack.</p></article>
+        <article class="money-card"><span class="money-label">AI companies in local politics</span><h3>Prop H and CA-11</h3><p>The pack names OpenAI, Anthropic, and Ripple Labs among top funders of YES on H, San Francisco's Muni parcel-tax measure. It also says Anthropic-backed Public First Action put $3M into pro-Wiener Abundant Future PAC.</p><p class="money-link">The pack reports the connections; this guide does not infer a donor's intent.</p></article>
+        <article class="money-card"><span class="money-label">Organized labor</span><h3>Different alignments in CA-11</h3><p>The pack links NUHW to YES on B and Wiener; it lists SF Labor Council, Building Trades, National Nurses United, United Educators of SF, Fire Fighters Local 798, and hotel workers among Chan's support; Families for an Affordable San Francisco is described as mostly union-funded and pro-Wiener; SF for All as labor-backed and pro-Chan.</p></article>
+        <article class="money-card"><span class="money-label">Pelosi network</span><h3>Endorsement &amp; fundraising</h3><p>The pack says Nancy Pelosi endorsed Chan and hosted fundraisers for her. It lists Pelosi among Chan's claimed endorsers. This is shown as a relationship, not as a policy position.</p></article>
+        <article class="money-card"><span class="money-label">Progressive housing left</span><h3>Props B and I</h3><p>The pack describes YES on I as connected to a social-housing faction, naming Christin Evans, Dylan Hirsch-Shell, Charles F. Good Trust, and Dean Preston among YES-side contributors. It describes YES on B as a public-bank faction, with the San Francisco Foundation, Christin Evans, and NUHW among paid-argument funders.</p></article>
+        <article class="money-card"><span class="money-label">Opposition funders</span><h3>Prop I's NO side</h3><p>The pack names Quentin L. Kopp, Peter Fatooh, and Gina Tse-Louie as NO-side funders for Prop I. The label “old-guard fiscal conservatives” is the pack's interpretation, not a formal group name.</p></article>
+        <article class="money-card"><span class="money-label">Real-estate interests</span><h3>Transfer taxes &amp; parcel tax</h3><p>The pack notes that Props I and J rewrite transfer-tax rules and says landlords and commercial real estate may watch H, I, and J closely. This is framed neutrally; no specific landlord or commercial-real-estate contributor is named in that note.</p></article>
+        <article class="money-card"><span class="money-label">CA-11 money comparison</span><h3>Outside spending</h3><p>Mission Local figures reproduced in the pack report $3.3M in outside PAC spending supporting Wiener and $1.7M attacking Chan, versus $940k supporting Chan and $260k against Wiener. The pack characterizes the outside-spending advantage as roughly 5:1; this is its interpretation of the reported figures.</p></article>
+      </div>
+      <h3 class="section-label" style="margin-top:1.2rem"><span class="tag official">Sources named in pack</span></h3>
+      <ul class="source-list">
+        <li><a class="source-url" href="https://missionlocal.org/2026/10/san-francisco-congress-connie-chan-scott-wiener-campaign-finance-fundraising-money-pacs/" target="_blank" rel="noopener noreferrer">https://missionlocal.org/2026/10/san-francisco-congress-connie-chan-scott-wiener-campaign-finance-fundraising-money-pacs/</a></li>
+        <li><a class="source-url" href="https://media.api.sf.gov/documents/N26_EN_VIP.pdf" target="_blank" rel="noopener noreferrer">https://media.api.sf.gov/documents/N26_EN_VIP.pdf</a></li>
+        <li><a class="source-url" href="https://growsf.org/voter-guide" target="_blank" rel="noopener noreferrer">https://growsf.org/voter-guide</a></li>
+        <li><a class="source-url" href="https://sfdems.org/endorsements/nov-3-2026-general-election" target="_blank" rel="noopener noreferrer">https://sfdems.org/endorsements/nov-3-2026-general-election</a></li>
+        <li><a class="source-url" href="https://igs.berkeley.edu" target="_blank" rel="noopener noreferrer">https://igs.berkeley.edu</a></li>
+      </ul>
+    </section>
+
+    <section class="section" id="sources" aria-labelledby="sources-title">
+      <div class="section-heading"><div><div class="section-kicker">Trace every claim</div><h2 id="sources-title">Sources</h2><p class="section-intro">Full URLs reproduced from the supplied voter-guide pack. Where it gave only a domain, the domain root is shown rather than guessing a deep link. Individual cards end with their own source list.</p></div></div>
+      <div class="source-panel"><ol id="source-list"></ol></div>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      <p class="footer-stamp">Built with AI assistance (Arena Code Arena); all facts verified against official sources listed.</p>
+      <p>Last updated: November 2, 2026. ZIP-level framing only; no personal data requested or stored. This guide uses the attached voter-guide pack as its factual source and is not a voting recommendation.</p>
+    </div>
+  </footer>
+
+  <script>
+    "use strict";
+    const U = {
+      vip: "https://media.api.sf.gov/documents/N26_EN_VIP.pdf",
+      sos: "https://voterguide.sos.ca.gov",
+      whereBallot: "https://wheresmyballot.sos.ca.gov",
+      location: "https://sfelections.gov/myvotinglocation",
+      portal: "https://sfelections.gov/voterportal",
+      growsf: "https://growsf.org/voter-guide",
+      demEndorsements: "https://sfdems.org/endorsements/nov-3-2026-general-election",
+      dems: "https://sfdems.org",
+      chronEndorsements: "https://sfchronicle.com/projects/2026/california-sf-election-endorsements/",
+      chronicle: "https://sfchronicle.com",
+      igs: "https://igs.berkeley.edu",
+      bang: "https://igs.berkeley.edu",
+      lao: "https://lao.ca.gov/BallotAnalysis/Propositions?date=11/3/2026",
+      quickProps: "https://quickguidetoprops.sos.ca.gov",
+      calmatters: "https://calmatters.org/california-voter-guide-2026",
+      mission: "https://missionlocal.org/2026/10/san-francisco-congress-connie-chan-scott-wiener-campaign-finance-fundraising-money-pacs/",
+      ballotpedia: "https://ballotpedia.org",
+      govWiki: "https://en.wikipedia.org/wiki/2026_California_gubernatorial_election",
+      ltWiki: "https://en.wikipedia.org/wiki/2026_California_lieutenant_gubernatorial_election",
+      sosWiki: "https://en.wikipedia.org/wiki/2026_California_Secretary_of_State_election",
+      controllerWiki: "https://en.wikipedia.org/wiki/2026_California_State_Controller_election",
+      treasurerWiki: "https://en.wikipedia.org/wiki/2026_California_State_Treasurer_election",
+      agWiki: "https://en.wikipedia.org/wiki/2026_California_Attorney_General_election",
+      insuranceWiki: "https://en.wikipedia.org/wiki/2026_California_Insurance_Commissioner_election",
+      spiWiki: "https://en.wikipedia.org/wiki/2026_California_Superintendent_of_Public_Instruction_election"
+    };
+    const NO_POSITION = "Not stated in pack";
+    const cards = [];
+    const row = (subject, values = {}) => ({
+      subject,
+      growsf: values.growsf || NO_POSITION,
+      dccc: values.dccc || NO_POSITION,
+      chronicle: values.chronicle || NO_POSITION,
+      guardian: values.guardian || NO_POSITION,
+      bang: values.bang || NO_POSITION
+    });
+    const race = data => cards.push({ kind: "race", ...data });
+    const measure = data => cards.push({ kind: "measure", ...data });
+    const candidateRows = (names, valuesByName = {}) => names.map(name => row(name, valuesByName[name] || {}));
+
+    const statewideCommon = [U.growsf, U.demEndorsements, U.chronEndorsements];
+    race({
+      section: "state", id: "governor", title: "Governor", type: "Voter-nominated · top two",
+      summary: "Open seat: Democrat Xavier Becerra faces Republican Steve Hilton after 61 candidates ran in June. The pack lists endorsements but not detailed policy platforms.",
+      plainLabel: "Pack summary", plain: "Gavin Newsom is termed out. The candidates listed for November are Xavier Becerra (D), former U.S. HHS Secretary and former California Attorney General, and Steve Hilton (R), a political commentator and businessman. The pack says 61 candidates ran in June and Becerra and Hilton advanced.",
+      sidesTitle: "Candidate information · campaign arguments not supplied",
+      sides: [
+        { label: "Xavier Becerra (D)", badge: "Pack summary", badgeType: "pack", paragraphs: ["Former U.S. HHS Secretary and former California Attorney General. The pack reports endorsement by the California Democratic Party and GrowSF; the SF Democratic Party (DCCC) is listed for Becerra. Chronicle was described as leaning Becerra, pending at the pack's last check."] },
+        { label: "Steve Hilton (R)", badge: "Pack summary", badgeType: "pack", paragraphs: ["Political commentator and businessman. The pack says Hilton was endorsed by Donald Trump and the California Republican Party."] }
+      ],
+      funding: ["No campaign-finance totals or top contributors are named in the supplied pack for this race."],
+      endorsements: candidateRows(["Xavier Becerra (D)", "Steve Hilton (R)"], {
+        "Xavier Becerra (D)": { growsf: "Endorsed", dccc: "Endorsed", chronicle: "Lean Becerra; pending at last check" }
+      }),
+      sources: [U.govWiki, U.calmatters, U.growsf, U.demEndorsements, U.chronEndorsements]
+    });
+    race({
+      section: "state", id: "lieutenant-governor", title: "Lieutenant Governor", type: "Voter-nominated · top two",
+      summary: "Fiona Ma (D), the current State Treasurer, faces Gloria Romero (R), a former Democratic state senator who became a Republican.",
+      plainLabel: "Pack summary", plain: "The pack lists Fiona Ma and Gloria Romero as the two candidates and supplies their roles and endorsements; it does not summarize their policy platforms.",
+      sidesTitle: "Candidate information · campaign arguments not supplied",
+      sides: [
+        { label: "Fiona Ma (D)", badge: "Pack summary", badgeType: "pack", paragraphs: ["Current California State Treasurer. Endorsed by the California Democratic Party, GrowSF, the SF Democratic Party (DCCC), and the SF Chronicle, according to the pack."] },
+        { label: "Gloria Romero (R)", badge: "Pack summary", badgeType: "pack", paragraphs: ["Former Democratic state senator, now Republican. The pack says the California Republican Party endorses Romero."] }
+      ],
+      funding: ["No campaign-finance totals or top contributors are named in the supplied pack for this race."],
+      endorsements: candidateRows(["Fiona Ma (D)", "Gloria Romero (R)"], { "Fiona Ma (D)": { growsf: "Endorsed", dccc: "Endorsed", chronicle: "Endorsed" } }),
+      sources: [U.ltWiki, U.growsf, U.demEndorsements, U.chronEndorsements]
+    });
+    race({
+      section: "state", id: "secretary-of-state", title: "Secretary of State", type: "Voter-nominated · top two",
+      summary: "Incumbent Democrat Shirley Weber faces Republican Don Wagner, an Orange County supervisor. The pack lists all three local guide endorsements for Weber.",
+      plainLabel: "Pack summary", plain: "This is the Secretary of State contest. The supplied pack identifies Shirley Weber as the incumbent and Don Wagner as an Orange County supervisor; it gives no detailed platform comparison.",
+      sidesTitle: "Candidate information · campaign arguments not supplied",
+      sides: [
+        { label: "Shirley Weber (D, incumbent)", badge: "Pack summary", badgeType: "pack", paragraphs: ["Incumbent. GrowSF, SF Democratic Party (DCCC), and SF Chronicle endorse Weber, according to the pack."] },
+        { label: "Don Wagner (R)", badge: "Pack summary", badgeType: "pack", paragraphs: ["Orange County supervisor. The pack says the California Republican Party endorses Wagner."] }
+      ],
+      funding: ["No campaign-finance totals or top contributors are named in the supplied pack for this race."],
+      endorsements: candidateRows(["Shirley Weber (D)", "Don Wagner (R)"], { "Shirley Weber (D)": { growsf: "Endorsed", dccc: "Endorsed", chronicle: "Endorsed" } }),
+      sources: [U.sosWiki, U.growsf, U.demEndorsements, U.chronEndorsements]
+    });
+    race({
+      section: "state", id: "controller", title: "Controller", type: "Voter-nominated · top two",
+      summary: "Incumbent Democrat Malia Cohen faces Republican Herb Morgan. GrowSF, DCCC, and the Chronicle endorse Cohen in the supplied pack.",
+      plainLabel: "Pack summary", plain: "The Controller race lists Malia Cohen as the incumbent and Herb Morgan as her opponent. The pack supplies endorsements but no policy comparison or campaign-finance details.",
+      sidesTitle: "Candidate information · campaign arguments not supplied",
+      sides: [
+        { label: "Malia Cohen (D, incumbent)", badge: "Pack summary", badgeType: "pack", paragraphs: ["Incumbent. The pack lists endorsements from GrowSF, SF Democratic Party (DCCC), and SF Chronicle."] },
+        { label: "Herb Morgan (R)", badge: "Pack summary", badgeType: "pack", paragraphs: ["The pack identifies Morgan as the Republican candidate but gives no additional biography or policy positions."] }
+      ],
+      funding: ["No campaign-finance totals or top contributors are named in the supplied pack for this race."],
+      endorsements: candidateRows(["Malia Cohen (D)", "Herb Morgan (R)"], { "Malia Cohen (D)": { growsf: "Endorsed", dccc: "Endorsed", chronicle: "Endorsed" } }),
+      sources: [U.controllerWiki, U.growsf, U.demEndorsements, U.chronEndorsements]
+    });
+    race({
+      section: "state", id: "treasurer", title: "Treasurer", type: "Voter-nominated · top two",
+      summary: "Eleni Kounalakis (D), the current Lieutenant Governor, faces Jennifer Hawks (R). The pack lists GrowSF, DCCC, and Chronicle endorsements for Kounalakis.",
+      plainLabel: "Pack summary", plain: "The Treasurer contest features Eleni Kounalakis, currently California's Lieutenant Governor, and Jennifer Hawks. The pack does not include their policy platforms or campaign-finance details.",
+      sidesTitle: "Candidate information · campaign arguments not supplied",
+      sides: [
+        { label: "Eleni Kounalakis (D)", badge: "Pack summary", badgeType: "pack", paragraphs: ["Current Lieutenant Governor. GrowSF, SF Democratic Party (DCCC), and SF Chronicle endorse Kounalakis, according to the pack."] },
+        { label: "Jennifer Hawks (R)", badge: "Pack summary", badgeType: "pack", paragraphs: ["The supplied pack identifies Hawks as the Republican candidate but provides no further policy or biography details."] }
+      ],
+      funding: ["No campaign-finance totals or top contributors are named in the supplied pack for this race."],
+      endorsements: candidateRows(["Eleni Kounalakis (D)", "Jennifer Hawks (R)"], { "Eleni Kounalakis (D)": { growsf: "Endorsed", dccc: "Endorsed", chronicle: "Endorsed" } }),
+      sources: [U.treasurerWiki, U.growsf, U.demEndorsements, U.chronEndorsements]
+    });
+    race({
+      section: "state", id: "attorney-general", title: "Attorney General", type: "Voter-nominated · top two",
+      summary: "Incumbent Rob Bonta (D) faces Michael Gates (R), a former Huntington Beach city attorney. The pack reports endorsements for both candidates from different groups.",
+      plainLabel: "Pack summary", plain: "The candidates are incumbent Attorney General Rob Bonta and Michael Gates, whom the pack describes as a former Huntington Beach city attorney. It supplies endorsements, but no detailed position-by-position comparison.",
+      sidesTitle: "Candidate information · campaign arguments not supplied",
+      sides: [
+        { label: "Rob Bonta (D, incumbent)", badge: "Pack summary", badgeType: "pack", paragraphs: ["Incumbent. The pack lists GrowSF, SF Democratic Party (DCCC), SF Chronicle, and SEIU California as endorsers."] },
+        { label: "Michael Gates (R)", badge: "Pack summary", badgeType: "pack", paragraphs: ["Former Huntington Beach city attorney. The pack says the California Republican Party endorses Gates."] }
+      ],
+      funding: ["No campaign-finance totals or top contributors are named in the supplied pack for this race."],
+      endorsements: candidateRows(["Rob Bonta (D)", "Michael Gates (R)"], { "Rob Bonta (D)": { growsf: "Endorsed", dccc: "Endorsed", chronicle: "Endorsed" } }),
+      sources: [U.agWiki, U.growsf, U.demEndorsements, U.chronEndorsements]
+    });
+    race({
+      section: "state", id: "insurance-commissioner", title: "Insurance Commissioner", type: "Voter-nominated · top two",
+      summary: "Two Democrats: state senator Ben Allen and former SF supervisor Jane Kim. The pack calls Kim the progressive-labor option; GrowSF, DCCC, and Chronicle endorse Allen.",
+      plainLabel: "Pack summary", plain: "The race is between Ben Allen, a state senator, and Jane Kim, a former San Francisco supervisor. The supplied pack characterizes Kim as the progressive-labor option and Bernie-aligned; it gives no detailed platform comparison.",
+      sidesTitle: "Candidate information · campaign arguments not supplied",
+      sides: [
+        { label: "Ben Allen (D)", badge: "Pack summary", badgeType: "pack", paragraphs: ["State senator. GrowSF, SF Democratic Party (DCCC), and SF Chronicle endorse Allen, according to the pack."] },
+        { label: "Jane Kim (D)", badge: "Pack summary", badgeType: "pack", paragraphs: ["Former SF supervisor; described in the pack as the progressive-labor option and Bernie-aligned."] }
+      ],
+      funding: ["No campaign-finance totals or top contributors are named in the supplied pack for this race."],
+      endorsements: candidateRows(["Ben Allen (D)", "Jane Kim (D)"], { "Ben Allen (D)": { growsf: "Endorsed", dccc: "Endorsed", chronicle: "Endorsed" } }),
+      sources: [U.insuranceWiki, U.growsf, U.demEndorsements, U.chronEndorsements]
+    });
+    race({
+      section: "state", id: "boe-d2", title: "Board of Equalization · District 2", type: "Voter-nominated · top two",
+      summary: "Sally Lieber (D), a former assemblymember, faces John Pimentel (D), a San Mateo trustee. DCCC endorses Lieber; GrowSF endorses Pimentel.",
+      plainLabel: "Pack summary", plain: "This is the District 2 seat on the Board of Equalization. The pack identifies Sally Lieber as a former assemblymember and John Pimentel as a San Mateo trustee; it does not provide policy arguments.",
+      sidesTitle: "Candidate information · campaign arguments not supplied",
+      sides: [
+        { label: "Sally Lieber (D)", badge: "Pack summary", badgeType: "pack", paragraphs: ["Former assemblymember. The pack lists the SF Democratic Party (DCCC) as her endorser."] },
+        { label: "John Pimentel (D)", badge: "Pack summary", badgeType: "pack", paragraphs: ["San Mateo trustee. GrowSF endorses Pimentel, according to the pack."] }
+      ],
+      funding: ["No campaign-finance totals or top contributors are named in the supplied pack for this race."],
+      endorsements: candidateRows(["Sally Lieber (D)", "John Pimentel (D)"], {
+        "Sally Lieber (D)": { dccc: "Endorsed" },
+        "John Pimentel (D)": { growsf: "Endorsed" }
+      }),
+      sources: [U.dems, U.growsf, U.calmatters, U.demEndorsements]
+    });
+    race({
+      section: "state", id: "superintendent-public-instruction", title: "Superintendent of Public Instruction", type: "Nonpartisan",
+      summary: "Richard Barrera, a San Diego school board member, faces Sonja Shaw, president of the Chino Valley school board. The pack reports major education-group endorsements for Barrera.",
+      plainLabel: "Pack summary", plain: "This nonpartisan race is between Richard Barrera, described as Dem-aligned, and Sonja Shaw, described as Republican-aligned. The pack lists their school-board roles and endorsements but no detailed campaign platform comparison.",
+      sidesTitle: "Candidate information · campaign arguments not supplied",
+      sides: [
+        { label: "Richard Barrera", badge: "Pack summary", badgeType: "pack", paragraphs: ["San Diego school board member; described as Dem-aligned. The pack lists GrowSF, SF Democratic Party (DCCC), SF Chronicle, and California Teachers Association endorsements."] },
+        { label: "Sonja Shaw", badge: "Pack summary", badgeType: "pack", paragraphs: ["Chino Valley school board president; described as Republican-aligned. No endorsement from the four matrix groups is listed in the pack."] }
+      ],
+      funding: ["No campaign-finance totals or top contributors are named in the supplied pack for this race."],
+      endorsements: candidateRows(["Richard Barrera", "Sonja Shaw"], { "Richard Barrera": { growsf: "Endorsed", dccc: "Endorsed", chronicle: "Endorsed" } }),
+      sources: [U.spiWiki, U.growsf, U.demEndorsements, U.chronEndorsements]
+    });
+
+    const statePropSources = [U.lao, U.quickProps, U.growsf, U.dems, U.igs, U.chronicle];
+    const statePropEndorsements = (growsf, dccc, chronicle, guardian, bang) => [row("Endorsement on this proposition", { growsf, dccc, chronicle, guardian, bang })];
+    const stateProps = [
+      { n: 1, title: "Authorizes Bonds for Housing Affordability Programs", measureType: "Legislative statute", summary: "YES authorizes $11.25 billion in state borrowing for veterans and affordable housing; NO means no borrowing. The four listed city-focused groups endorse YES; BANG endorses NO.", plain: "The measure authorizes state bonds for veterans' and affordable-housing programs.", yes: "The state may borrow $11.25 billion for veterans and affordable housing.", no: "No borrowing under this measure.", caseYes: "A voter may favor allowing the stated borrowing for veterans and affordable housing. This is a consequence-based interpretation, not a campaign quote supplied in the pack.", caseNo: "A voter may prefer not to authorize the stated borrowing. The pack does not supply a separate campaign argument for the NO side.", endorsements: statePropEndorsements("YES", "YES", "YES", "YES", "NO") },
+      { n: 2, title: "Increases State's Rainy Day Fund", measureType: "Legislative constitutional amendment", summary: "YES means larger required budget reserves and longer extra debt payments; NO leaves the rules unchanged. All five listed endorsement groups support YES.", plain: "Changes the state's budget-reserve and extra debt-payment rules.", yes: "Requires bigger budget reserves and longer extra debt payments.", no: "The current rules remain unchanged.", caseYes: "A voter may favor the larger required reserves and longer extra debt payments described in the digest; the pack does not include a separate campaign argument.", caseNo: "A voter may prefer the existing rules rather than changing reserve and debt-payment requirements. This is an effect-based interpretation.", endorsements: statePropEndorsements("YES", "YES", "YES", "YES", "YES") },
+      { n: 3, title: "Provides Permanent Funding for Schools and Health Care by Extending Existing Tax on High Incomes", measureType: "Initiative constitutional amendment", summary: "YES makes the high-income tax that has been in place since 2012 permanent; NO lets it expire in 2031. All five listed groups endorse YES.", plain: "The measure concerns the expiration date of an existing tax on high incomes and funding for schools and health care.", yes: "The high-income tax in place since 2012 becomes permanent instead of expiring in 2031.", no: "The tax expires in 2031.", caseYes: "A voter may favor continuing the existing high-income tax after 2031 for the stated school and health-care funding purpose. The pack provides no separate campaign argument.", caseNo: "A voter may prefer that the tax expire in 2031 as scheduled. This is an effect-based interpretation, not a quoted campaign position.", endorsements: statePropEndorsements("YES", "YES", "YES", "YES", "YES") },
+      { n: 4, title: "Repeals Prohibition Against Public Funding of Election Campaigns", measureType: "Legislative statute", summary: "YES lets state and local governments create public campaign-financing programs with limits; NO keeps the ban. DCCC and Bay Guardian endorse YES; GrowSF, Chronicle, and BANG endorse NO.", plain: "The measure would repeal the existing prohibition on public funding for election campaigns.", yes: "State and local governments could create public campaign-financing programs with limits.", no: "The prohibition remains in place.", caseYes: "A voter may favor allowing governments to create limited public campaign-financing programs. This is an effect-based interpretation; no campaign arguments are supplied.", caseNo: "A voter may prefer keeping the existing ban on public campaign financing. This is an effect-based interpretation, not a campaign quote.", endorsements: statePropEndorsements("NO", "YES", "NO", "YES", "NO") },
+      { n: 5, title: "Changes Recall Election Process for Statewide Officers", measureType: "Legislative constitutional amendment", summary: "YES removes the replacement question from a recall ballot; a vacancy would be filled by special election or appointment. NO keeps the replacement question. GrowSF, DCCC, and Bay Guardian endorse YES; Chronicle and BANG NO.", plain: "The measure changes how a vacancy is handled after a successful recall of a statewide officer.", yes: "The recall ballot no longer selects a replacement; the vacancy is filled by special election or appointment.", no: "The replacement question stays on the recall ballot.", caseYes: "A voter may favor separating the recall decision from the replacement decision. The pack does not supply campaign arguments beyond the digest effect.", caseNo: "A voter may prefer voters continue to choose a replacement on the recall ballot. This is an effect-based interpretation.", endorsements: statePropEndorsements("YES", "YES", "NO", "YES", "NO") },
+      { n: 37, title: "Creates Loan Program for Middle-Income Buyers of Qualified New Homes", measureType: "Initiative statute", summary: "YES authorizes up to $25 billion in revenue bonds for homebuyer-assistance loans repaid by homeowners; NO means no program. GrowSF, DCCC, Chronicle, and Bay Guardian endorse YES; BANG NO.", plain: "Creates a loan program for buyers of qualified new homes, funded through revenue bonds.", yes: "Authorizes up to $25 billion in revenue bonds for homebuyer-assistance loans, repaid by homeowners.", no: "No program under this measure.", caseYes: "A voter may favor creating the stated homebuyer-assistance loan program. The pack does not give a separate campaign argument.", caseNo: "A voter may prefer not to create the program or authorize its revenue bonds. This is an effect-based interpretation.", endorsements: statePropEndorsements("YES", "YES", "YES", "YES", "NO") },
+      { n: 38, title: "Authorizes Bonds for Immunology Medical Research", measureType: "Initiative statute", summary: "YES authorizes $8.4 billion in borrowing for immunology/immunotherapy research at California institutes and universities; NO means no borrowing. Only DCCC endorses YES among the listed groups.", plain: "The measure authorizes state bonds for immunology and immunotherapy research.", yes: "The state borrows $8.4 billion for research at California institutes and universities.", no: "No borrowing under this measure.", caseYes: "A voter may favor the stated research investment. This is a consequence-based interpretation; no campaign argument is provided in the pack.", caseNo: "A voter may prefer not to authorize the stated borrowing. This is an effect-based interpretation, not a quoted campaign argument.", endorsements: statePropEndorsements("NO", "YES", "NO", "NO", "NO") },
+      { n: 39, title: "Prohibits Citizens From Voting Unless They Present Government-Issued Identification", measureType: "Initiative constitutional amendment · “voter ID”", summary: "YES requires voters to present additional identifying information each time they vote; NO keeps signature verification. GrowSF, DCCC, Bay Guardian, and BANG endorse NO; the pack lists no Chronicle position.", plain: "The initiative would change the identification and verification required when voting.", yes: "Voters must present additional identifying information each time they vote.", no: "Signature verification continues.", caseYes: "A voter may favor the additional identifying-information requirement. The pack does not state a campaign argument for YES.", caseNo: "A voter may prefer signature verification to remain the process described in the digest. This is an effect-based interpretation.", endorsements: statePropEndorsements("NO", "NO", NO_POSITION, "NO", "NO") },
+      { n: 40, title: "Imposes One-Time Tax on Certain Taxpayers", measureType: "“Billionaire Tax Act” · initiative constitutional amendment + statute", summary: "YES imposes a one-time 5% tax on billionaires' wealth; NO means no tax. Bay Guardian endorses YES; GrowSF, DCCC, and BANG NO; the pack lists no Chronicle position.", plain: "The measure proposes a one-time tax on billionaires' wealth.", yes: "A one-time tax of 5% on billionaires' wealth.", no: "No tax under this measure.", caseYes: "A voter may favor the proposed one-time tax. The pack does not supply a separate YES-side campaign argument.", caseNo: "A voter may oppose imposing the proposed one-time wealth tax. This is an effect-based interpretation, not a quoted campaign claim.", endorsements: statePropEndorsements("NO", "NO", NO_POSITION, "YES", "NO") },
+      { n: 41, title: "Prohibits New State Taxes That Exclude Revenues From State Spending Limit; Requires Audits for New State Special Taxes", measureType: "Initiative constitutional amendment", summary: "YES adds State Auditor pre-review and regular audits for programs funded by initiative special taxes and restricts spending-limit exclusions; NO makes no change. GrowSF YES; the other four listed groups NO.", plain: "Changes audit requirements for certain special-tax-funded programs and how new state taxes are treated under the spending limit.", yes: "The State Auditor pre-reviews programs funded by initiative special taxes and reviews them regularly afterward; spending-limit exclusions are restricted.", no: "No change to the rules.", caseYes: "A voter may favor the stated audit and spending-limit requirements. The pack does not provide a campaign argument beyond the digest.", caseNo: "A voter may prefer the current rules without the new audit and spending-limit requirements. This is an effect-based interpretation.", endorsements: statePropEndorsements("YES", "NO", "NO", "NO", "NO") },
+      { n: 42, title: "Prohibits New State Personal Property Taxes and Certain Retroactive State Taxes", measureType: "Initiative constitutional amendment", summary: "YES bars new state taxes on ownership of financial assets/personal property and pre-empts future wealth taxes; NO leaves that option available. GrowSF YES; DCCC, Chronicle, Bay Guardian, and BANG NO.", plain: "The measure would limit the state's authority to create certain new taxes on personal property and financial assets.", yes: "The state could not create new taxes on ownership of financial assets or personal property; the pack says this pre-empts future wealth taxes.", no: "The option to create such taxes remains.", caseYes: "A voter may favor the proposed restriction on future state taxes of this kind. The pack does not state a campaign argument beyond the measure's effect.", caseNo: "A voter may prefer to leave the state option described in the digest available. This is an effect-based interpretation.", endorsements: statePropEndorsements("YES", "NO", "NO", "NO", "NO") },
+      { n: 43, title: "Limits Voters' Ability to Raise Revenues for Local Government Services", measureType: "Legislative constitutional amendment", summary: "YES requires two-thirds approval for certain local taxes; NO keeps majority approval. GrowSF and BANG endorse YES; DCCC and Bay Guardian NO; the pack lists no Chronicle position.", plain: "The measure changes the voter-approval threshold for certain local taxes.", yes: "Certain local taxes require two-thirds voter approval.", no: "Majority approval continues.", caseYes: "A voter may favor a higher approval threshold for the local taxes covered. The pack does not include campaign arguments beyond the digest.", caseNo: "A voter may prefer the majority-vote threshold to continue. This is an effect-based interpretation.", endorsements: statePropEndorsements("YES", "NO", NO_POSITION, "NO", "YES") },
+      { n: 44, title: "Requires Community Health Clinics Spend 90% of Revenue on Program Services", measureType: "Initiative statute", summary: "YES requires certain nonprofit clinics to spend at least 90% of revenue on health-care services; NO imposes no such requirement. All five listed groups endorse NO.", plain: "The initiative sets a minimum share of revenue that certain nonprofit clinics must spend on health-care services.", yes: "Certain nonprofit clinics must spend 90% or more of revenue on health-care services.", no: "No such requirement.", caseYes: "A voter may favor the proposed minimum share for health-care services. The pack supplies no separate campaign argument for YES.", caseNo: "A voter may oppose imposing this specific spending requirement. This is an effect-based interpretation, not a campaign quote.", endorsements: statePropEndorsements("NO", "NO", "NO", "NO", "NO") },
+      { n: 45, title: "Modifies Environmental Review for Certain Projects", measureType: "“Building an Affordable California Act” · initiative statute", summary: "YES tightens CEQA time limits and narrows court review for certain projects; NO keeps the current process. GrowSF and BANG endorse YES; DCCC and Bay Guardian NO; no Chronicle position is listed.", plain: "The initiative changes environmental-review timing and court review for certain projects.", yes: "Tighter CEQA time limits and narrower court review for certain projects.", no: "The current CEQA process stays.", caseYes: "A voter may favor the proposed time limits and narrower review for covered projects. The pack gives no separate campaign argument.", caseNo: "A voter may prefer the current CEQA process. This is a consequence-based interpretation, not a campaign quote.", endorsements: statePropEndorsements("YES", "NO", NO_POSITION, "NO", "YES") }
+    ];
+    stateProps.forEach(p => measure({
+      section: "state-props", id: `prop-${p.n}`, title: `Proposition ${p.n} · ${p.title}`, type: p.measureType,
+      summary: p.summary, plainLabel: "Official digest", plain: p.plain, yes: p.yes, no: p.no,
+      caseYes: p.caseYes, caseNo: p.caseNo, caseLabel: "Interpretation · effect-based, not a campaign quote",
+      funding: ["The supplied pack names no campaign-fundraising totals or top funders for this state proposition. Named-group endorsements are shown in the matrix below."],
+      endorsements: p.endorsements, sources: statePropSources
+    }));
+
+    race({
+      section: "congress", id: "ca-11", title: "U.S. Representative · CA-11", type: "Voter-nominated · top two · most of 94102",
+      summary: "Democrats Connie Chan and Scott Wiener advanced from June. The pack reports overlapping headline positions, distinct claimed coalitions, and substantial outside spending; Wiener is endorsed by GrowSF, DCCC, and Chronicle.",
+      plainLabel: "Pack summary", plain: "CA-11 covers nearly all of 94102 and is the seat Nancy Pelosi is leaving. The two candidates listed are Connie Chan, an SF supervisor, and Scott Wiener, a state senator; both are Democrats and both advanced from June's top-two primary.",
+      sidesTitle: "Candidate positions · campaign statements are claims, not independent findings",
+      sides: [
+        { label: "Connie Chan (D) · SF Supervisor", badge: "Campaign claim", badgeType: "claim", paragraphs: ["Her official candidate statement says she would reverse Trump health-care cuts; supports Medicare for All, affordable child care, and free City College nationwide; would abolish ICE and pursue immigration reform; expand federal housing programs; end U.S. involvement in wars; and tax billionaires and corporations.", "Chan's statement says she is “the only candidate who has never taken corporate money.” This is a campaign claim.", "Claimed endorsers in the statement: Nancy Pelosi; Senator Adam Schiff; California Federation of Labor Unions; SF Labor Council; Building Trades Council; National Nurses United; SF Fire Fighters Local 798; United Educators of SF; Working Families Party; Harvey Milk LGBTQ+ Democratic Club; former mayors Willie Brown and Art Agnos; Cleve Jones; Rose Pak Asian American Club; SF Women's Political Committee; and Representatives Jayapal, Khanna, Brownley, Chu, Meng, Strickland, Tokuda, and Huffman."] },
+        { label: "Scott Wiener (D) · State Senator", badge: "Campaign claim", badgeType: "claim", paragraphs: ["His official candidate statement says he supports national housing legislation, national paid family leave, Medicare for All, federal transit funding, unmasking ICE agents, banning congressional stock trading, and removing dark money from elections; he says he refuses corporate PAC money.", "Claimed endorsers in the statement: Dolores Huerta; Sierra Club; Attorney General Rob Bonta; California Democratic Party; National Union of Healthcare Workers; and North Coast States Carpenters."] }
+      ],
+      funding: [
+        "Mission Local figures reported October 16, 2026: Wiener raised $5.3M total; Chan raised $2.2M total. Outside PACs spent $3.3M supporting Wiener and $1.7M attacking Chan, versus $940k supporting Chan and $260k against Wiener.",
+        "Pro-Wiener: Abundant Future PAC ($2.2M; much from Public First Action, an AI-regulation PAC backed by Anthropic, which put in $3M this quarter); Families for an Affordable San Francisco ($1.6M, mostly union-funded); GrowUSA/GrowSF federal PAC ($1.6M); Equality California Votes ($167k).",
+        "Pro-Chan: labor unions including hotel workers and teachers; SF for All ($575k, labor-backed); SF Solidarity ($425k, Saikat Chakrabarti-funded); Rising Tide Collective ($100k, funding undisclosed). Pelosi hosted fundraisers for Chan.",
+        "Wiener donors named in the pack include crypto executive Chris Larsen, VC Jeremy Liew, and Twilio co-founder John Wolthuis. Wiener returned a $3,500 donation from a Palantir executive.",
+        "INTERPRETATION in the pack: the contest pits a labor/progressive establishment against a pro-housing/moderate-tech establishment. The pack says the candidates share similar headline positions and calls the outside-spending advantage roughly 5:1 for Wiener; that characterization is not a separate calculation here."
+      ],
+      endorsements: candidateRows(["Connie Chan (D)", "Scott Wiener (D)"], { "Scott Wiener (D)": { growsf: "Endorsed", dccc: "Endorsed", chronicle: "Endorsed" } }),
+      sources: [U.mission, U.vip, U.growsf, U.demEndorsements, U.chronEndorsements]
+    });
+    race({
+      section: "congress", id: "ca-15", title: "U.S. Representative · CA-15", type: "Voter-nominated · district-dependent",
+      summary: "The pack lists incumbent Democrat Kevin Mullin for CA-15, which may cover a southern sliver of 94102, and reports endorsements from GrowSF, DCCC, and Chronicle.",
+      plainLabel: "Pack summary", plain: "CA-15 is listed as a possible district for a southern sliver of 94102. The pack names Kevin Mullin (D, incumbent), but supplies no opponent or policy comparison; check the official voter portal for the exact contest.",
+      sidesTitle: "Candidate information · opponent details not supplied",
+      sides: [{ label: "Kevin Mullin (D, incumbent)", badge: "Pack summary", badgeType: "pack", paragraphs: ["Incumbent. GrowSF, SF Democratic Party (DCCC), and SF Chronicle endorse Mullin, according to the pack."] }],
+      funding: ["No campaign-finance totals or top contributors are named in the supplied pack for CA-15."],
+      endorsements: candidateRows(["Kevin Mullin (D)"], { "Kevin Mullin (D)": { growsf: "Endorsed", dccc: "Endorsed", chronicle: "Endorsed" } }),
+      sources: [U.vip, U.growsf, U.demEndorsements, U.chronEndorsements, U.portal]
+    });
+    race({
+      section: "congress", id: "ad-17", title: "California Assembly · AD-17", type: "Voter-nominated · most of 94102",
+      summary: "Incumbent Democrat Matt Haney is the only candidate listed in the official pamphlet for AD-17, which covers 94102; GrowSF and DCCC endorse him.",
+      plainLabel: "Pack summary", plain: "AD-17 covers the 94102 area in the supplied map. Matt Haney (D, incumbent) is the only candidate listed in the official pamphlet according to the pack.",
+      sidesTitle: "Candidate information · only listed candidate",
+      sides: [{ label: "Matt Haney (D, incumbent)", badge: "Pack summary", badgeType: "pack", paragraphs: ["The pack says Haney is the only candidate listed in the official pamphlet. GrowSF and SF Democratic Party (DCCC) endorse him."] }],
+      funding: ["No campaign-finance totals or top contributors are named in the supplied pack for AD-17."],
+      endorsements: candidateRows(["Matt Haney (D)"], { "Matt Haney (D)": { growsf: "Endorsed", dccc: "Endorsed" } }),
+      sources: [U.vip, U.growsf, U.demEndorsements, U.portal]
+    });
+    race({
+      section: "congress", id: "ad-19", title: "California Assembly · AD-19", type: "Voter-nominated · district-dependent",
+      summary: "Catherine Stefani (D, incumbent) is listed for AD-19, which may cover a southern sliver of 94102. GrowSF and DCCC endorse Stefani; the pack gives no opponent details.",
+      plainLabel: "Pack summary", plain: "AD-19 is listed as a possible district for a southern sliver of 94102. The pack names incumbent Catherine Stefani (D) and does not identify any opponent or policy comparison; verify your precinct in the voter portal.",
+      sidesTitle: "Candidate information · opponent details not supplied",
+      sides: [{ label: "Catherine Stefani (D, incumbent)", badge: "Pack summary", badgeType: "pack", paragraphs: ["GrowSF and SF Democratic Party (DCCC) endorse Stefani, according to the pack."] }],
+      funding: ["No campaign-finance totals or top contributors are named in the supplied pack for AD-19."],
+      endorsements: candidateRows(["Catherine Stefani (D)"], { "Catherine Stefani (D)": { growsf: "Endorsed", dccc: "Endorsed" } }),
+      sources: [U.vip, U.growsf, U.demEndorsements, U.portal]
+    });
+
+    const localCommon = [U.vip, U.growsf, U.demEndorsements];
+    const judges = [
+      ["Joshua Groban", "California Supreme Court Associate Justice"],
+      ["Kelli M. Evans", "California Supreme Court Associate Justice"],
+      ["Monique Langhorne Wilson", "Court of Appeal, First District · Division 1"],
+      ["Charles A. Smiley", "Court of Appeal, First District · Division 1"],
+      ["Kathleen M. Banke", "Court of Appeal, First District · Division 1"],
+      ["Presiding Justice Therese M. Stewart", "Court of Appeal, First District · Division 2"],
+      ["Tara M. Desautels", "Court of Appeal, First District · Division 2"],
+      ["Ioana Petrou", "Court of Appeal, First District · Division 3"],
+      ["Victor A. Rodriguez", "Court of Appeal, First District · Division 3"],
+      ["Presiding Justice Tracie L. Brown", "Court of Appeal, First District · Division 4"],
+      ["Danny Y. Chou", "Court of Appeal, First District · Division 5"],
+      ["Mark Simons", "Court of Appeal, First District · Division 5"],
+      ["Gordon Burns", "Court of Appeal, First District · Division 5"]
+    ];
+    judges.forEach(([name, court], i) => measure({
+      section: "local", id: `retention-${i + 1}`, title: `Judicial retention · ${name}`, type: court,
+      summary: `${name} is listed for a YES/NO retention question. The pack says no organized opposition campaigns were found; its “12 retentions” count conflicts with the 13 names it lists.`,
+      plainLabel: "Interpretation", plain: `The supplied pack lists ${name} for a judicial retention vote. It says there is no opposing candidate and voters mark YES or NO. The pack's count is inconsistent: it says 12 retentions but names 13 justices; check the official sample ballot for the exact list.`,
+      yes: "YES is the retention choice. The pack says GrowSF recommends YES on all 12, but does not map that statement to individual names despite listing 13.",
+      no: "NO is the alternative retention choice. The pack says no organized opposition campaigns were found and describes NO as a protest vote.",
+      caseYes: "The pack's interpretation prompt says California retention elections almost never remove judges; GrowSF recommends YES on “all 12,” with the count mismatch noted above.",
+      caseNo: "The pack describes a NO vote as a protest vote and says no organized opposition campaigns were found. This is the pack's interpretation, not a prediction about an individual judge.",
+      caseLabel: "Interpretation · pack prompt, not a campaign argument",
+      funding: ["No top funders are identified. The pack says no organized opposition campaigns were found; it does not name individual campaign committees or contributors."],
+      endorsements: [row("Individual recommendation", { growsf: "Pack says YES on all 12; individual mapping unclear (13 names listed)" })],
+      sources: [U.vip, U.growsf]
+    }));
+
+    race({
+      section: "local", id: "assessor-recorder", title: "Assessor-Recorder", type: "Local office · listed unopposed",
+      summary: "Incumbent Joaquin Torres is listed as running unopposed. The pack notes property-tax technology modernization and 7M+ recorded documents online free, described as first in California.",
+      plainLabel: "Pack summary", plain: "The local-office contest lists Joaquin Torres, the incumbent, running unopposed. The pack says the office modernized property-tax technology and put more than 7 million recorded documents online free, described as the first California county to do so.",
+      sidesTitle: "Candidate information · no opponent listed",
+      sides: [{ label: "Joaquin Torres (incumbent)", badge: "Pack summary", badgeType: "pack", paragraphs: ["Running unopposed according to the supplied pack. GrowSF and SF Democratic Party (DCCC) endorse Torres."] }],
+      funding: ["No campaign-finance totals or top contributors are named in the supplied pack."],
+      endorsements: candidateRows(["Joaquin Torres"], { "Joaquin Torres": { growsf: "Endorsed", dccc: "Endorsed" } }),
+      sources: localCommon
+    });
+    race({
+      section: "local", id: "public-defender", title: "Public Defender", type: "Local office · listed unopposed",
+      summary: "Incumbent Mano Raju is listed unopposed. The pack reports a GrowSF weak endorsement and its concerns about declined appointments; Raju says the office needs 35 more attorneys.",
+      plainLabel: "Pack summary", plain: "The pack says the Public Defender's office represents 20,000+ clients each year and lists Mano Raju, the incumbent, as unopposed. It reports the endorsement positions and the dispute described below.",
+      sidesTitle: "Positions reported in the pack",
+      sides: [
+        { label: "Mano Raju (incumbent)", badge: "Pack summary", badgeType: "pack", paragraphs: ["Listed as unopposed. The pack says Raju states the office needs 35 more attorneys. This is attributed to Raju, not presented as an independently verified staffing assessment."] },
+        { label: "GrowSF's stated concern", badge: "Endorsement", badgeType: "endorsement", paragraphs: ["GrowSF gives Raju a “weak endorsement,” citing its account that the office refused new cases one day per week since May 2025 and that a judge held Raju in contempt, with a $26,000 fine, over refused felony appointments. The pack names no opposing campaign."] }
+      ],
+      funding: ["No campaign-finance totals or top contributors are named in the supplied pack."],
+      endorsements: candidateRows(["Mano Raju"], { "Mano Raju": { growsf: "Weak endorsement", dccc: "Endorsed" } }),
+      sources: localCommon
+    });
+    race({
+      section: "local", id: "board-of-education", title: "Board of Education", type: "Nonpartisan · vote for up to 3",
+      summary: "Eight candidates are listed. GrowSF and DCCC endorse Autumn Brown Garibay, Phil Kim, and Tim Tung; GrowSF cites literacy/math tracking, restoring 8th-grade algebra, and budget oversight.",
+      plainLabel: "Pack summary", plain: "Voters may choose up to three of the eight candidates: Autumn Brown Garibay (PTA vice president), Virginia Cheung (nonprofit executive), Alida Fisher (incumbent school board member), Ryan Hazelton (children's nonprofit director), Phil Kim (incumbent board president), Laurance Lee (general contractor), Reina Tello (community organizer), and Tim Tung (research analyst/public finance). The pack does not provide full statements for every candidate.",
+      sidesTitle: "Candidate information & named slate rationale",
+      sides: [
+        { label: "GrowSF / DCCC endorsed slate", badge: "Endorsement", badgeType: "endorsement", paragraphs: ["Both groups endorse Garibay, Kim, and Tung. GrowSF's stated rationale: Kim was the deciding vote to restore 8th-grade algebra and has a fiscal focus; Garibay is a parent advocate on literacy/math goal-tracking; Tung has 20 years auditing budgets and chairs the city's bond oversight committee."] },
+        { label: "Other candidates listed", badge: "Pack summary", badgeType: "pack", paragraphs: ["Virginia Cheung (nonprofit executive); Alida Fisher (incumbent school board member); Ryan Hazelton (children's nonprofit director); Laurance Lee (general contractor); and Reina Tello (community organizer). The supplied pack does not summarize their campaign arguments."] }
+      ],
+      funding: ["No campaign-finance totals or top contributors are named in the supplied pack; endorsements are listed below."],
+      endorsements: candidateRows(["Autumn Brown Garibay", "Virginia Cheung", "Alida Fisher", "Ryan Hazelton", "Phil Kim", "Laurance Lee", "Reina Tello", "Tim Tung"], {
+        "Autumn Brown Garibay": { growsf: "Endorsed", dccc: "Endorsed" },
+        "Phil Kim": { growsf: "Endorsed", dccc: "Endorsed" },
+        "Tim Tung": { growsf: "Endorsed", dccc: "Endorsed" }
+      }),
+      sources: [U.vip, U.growsf, U.demEndorsements]
+    });
+    race({
+      section: "local", id: "community-college-full", title: "Community College Board · full term", type: "Nonpartisan · vote for up to 3",
+      summary: "Eight candidates are listed. GrowSF and DCCC endorse Elijah Ball, Monroe Lace, and Erwin Tam. GrowSF cites accreditation, a structural deficit, and enrollment decline as context.",
+      plainLabel: "Pack summary", plain: "Candidates listed for the full-term contest: Elijah Ball (college campus planner), Rome Moses Jones (nonprofit executive), Monroe Lace (public school teacher), Leah LaCroix (administrative analyst), Jeremy Lee (asset manager), Bunny McFadden (educator/journalist), Erwin Tam (municipal financial advisor), and Lisa Palagi Wynn II (equity researcher). Voters may select up to three.",
+      sidesTitle: "Candidate information & named slate rationale",
+      sides: [
+        { label: "GrowSF / DCCC endorsed slate", badge: "Endorsement", badgeType: "endorsement", paragraphs: ["Both groups endorse Ball, Lace, and Tam. GrowSF context: CCSF accreditation was reaffirmed in July 2025; a structural deficit of $9.2M is described as growing to $24.9M by 2030; enrollment is down about 25% in a decade."] },
+        { label: "Other candidates listed", badge: "Pack summary", badgeType: "pack", paragraphs: ["Rome Moses Jones, Leah LaCroix, Jeremy Lee, Bunny McFadden, and Lisa Palagi Wynn II are also listed. The supplied pack does not summarize their campaign arguments."] }
+      ],
+      funding: ["No campaign-finance totals or top contributors are named in the supplied pack; endorsements are listed below."],
+      endorsements: candidateRows(["Elijah Ball", "Rome Moses Jones", "Monroe Lace", "Leah LaCroix", "Jeremy Lee", "Bunny McFadden", "Erwin Tam", "Lisa Palagi Wynn II"], {
+        "Elijah Ball": { growsf: "Endorsed", dccc: "Endorsed" },
+        "Monroe Lace": { growsf: "Endorsed", dccc: "Endorsed" },
+        "Erwin Tam": { growsf: "Endorsed", dccc: "Endorsed" }
+      }),
+      sources: [U.vip, U.growsf, U.demEndorsements]
+    });
+    race({
+      section: "local", id: "community-college-partial", title: "Community College Board · partial term", type: "Nonpartisan · vote for 1",
+      summary: "Ruth Ferguson (incumbent) is the only candidate listed for the partial term. GrowSF and DCCC endorse Ferguson.",
+      plainLabel: "Pack summary", plain: "This is the Community College Board partial-term contest. Ruth Ferguson, the incumbent, is the only candidate listed in the supplied pack; voters may select one.",
+      sidesTitle: "Candidate information · only listed candidate",
+      sides: [{ label: "Ruth Ferguson (incumbent)", badge: "Pack summary", badgeType: "pack", paragraphs: ["GrowSF and SF Democratic Party (DCCC) endorse Ferguson, according to the pack."] }],
+      funding: ["No campaign-finance totals or top contributors are named in the supplied pack."],
+      endorsements: candidateRows(["Ruth Ferguson"], { "Ruth Ferguson": { growsf: "Endorsed", dccc: "Endorsed" } }),
+      sources: [U.vip, U.growsf, U.demEndorsements]
+    });
+    race({
+      section: "local", id: "bart-d8", title: "BART Director · District 8", type: "Nonpartisan · some precincts only",
+      summary: "Transportation planner/product manager Sara Barz is listed unopposed; GrowSF and DCCC endorse her. The pack cites a conditional BART service-cut projection if RTM fails.",
+      plainLabel: "Pack summary", plain: "Sara Barz, a transportation planner/product manager, is listed as unopposed for BART District 8. The contest appears only in some BART D8 precincts; check the voter portal.",
+      sidesTitle: "Candidate information & regional context",
+      sides: [{ label: "Sara Barz", badge: "Pack summary", badgeType: "pack", paragraphs: ["Listed unopposed; GrowSF and SF Democratic Party (DCCC) endorse Barz."] }, { label: "Conditional service context", badge: "Interpretation", badgeType: "interpretation", paragraphs: ["GrowSF cites BART board materials projecting, if the regional transit measure fails, a 63% cut in train hours, a 30% fare increase, a 9 p.m. shutdown, and 10 station closures from January 2027. This is a conditional projection as reported in the pack, not a guaranteed outcome."] }],
+      funding: ["No campaign-finance totals or top contributors are named in the supplied pack."],
+      endorsements: candidateRows(["Sara Barz"], { "Sara Barz": { growsf: "Endorsed", dccc: "Endorsed" } }),
+      sources: [U.vip, U.growsf, U.demEndorsements, U.portal]
+    });
+    race({
+      section: "local", id: "supervisor-d6", title: "Supervisor · District 6 only", type: "Local RCV · southern 94102 sliver only",
+      summary: "Only voters whose address is in D6 vote on this race; most 94102 is D5 and has no supervisor contest in 2026. GrowSF and DCCC endorse incumbent Matt Dorsey over Alex Behrend.",
+      plainLabel: "Pack summary", plain: "The Supervisor race appears only if a voter's precinct is in District 6; a D5 voter does not vote for supervisor this year. The pack lists incumbent Matt Dorsey and Alex Behrend. District boundaries should be checked in the voter portal.",
+      sidesTitle: "Candidate descriptions · platform detail limited in pack",
+      sides: [
+        { label: "Matt Dorsey (incumbent)", badge: "Pack summary", badgeType: "pack", paragraphs: ["Described in the pack as focused on public safety and recovery; authored the Recovery First Ordinance. GrowSF and SF Democratic Party (DCCC) endorse Dorsey."] },
+        { label: "Alex Behrend", badge: "Campaign description", badgeType: "claim", paragraphs: ["Campaign identity in the pack: “Neglected Voter Organizer”; described as running an anti-billionaire populist campaign. The pack provides no more detailed policy comparison."] }
+      ],
+      funding: ["No campaign-finance totals or top contributors are named in the supplied pack for this D6 contest."],
+      endorsements: candidateRows(["Matt Dorsey", "Alex Behrend"], { "Matt Dorsey": { growsf: "Endorsed", dccc: "Endorsed" } }),
+      sources: [U.vip, U.growsf, U.demEndorsements, U.portal]
+    });
+
+    measure({
+      section: "local", id: "regional-rtm", title: "Regional Transit Measure · RTM", type: "Regional · five counties",
+      summary: "A 14-year sales tax would raise an estimated $980M a year for Bay Area transit and related purposes; passes with 50%+1 across five counties. Supporters warn of service cuts; opponents call the sales tax regressive.",
+      plainLabel: "Official digest", plain: "RTM is a 14-year sales tax across San Francisco, Alameda, Contra Costa, San Mateo, and Santa Clara counties: 1% in San Francisco and 0.5% in the other four counties. The pack estimates about $980M per year for BART, Muni, Caltrain, AC Transit, VTA, ferries, road repaving outside SF, free/reduced transfers, and Clipper START expansion. The citizen initiative (“Connect Bay Area Transit Initiative”) is reported as having about 235,503 valid signatures under SB 63 (2025). It passes with 50%+1 across the full five-county district. An independent oversight committee is specified; MTC may withhold funds from operators that fail financial-efficiency reviews.",
+      yes: "Impose the described sales tax for 14 years.", no: "Do not impose the tax.",
+      caseYes: "Supporters identified in the pack—transit worker and rider groups—argue that without the measure BART, Muni, and Caltrain face severe service cuts, described as a “fiscal cliff.”",
+      caseNo: "Opponents identified in the pack argue that a sales tax is regressive on working families.", caseLabel: "Arguments reported in the pack",
+      funding: ["No specific campaign funders or contribution totals are named in the supplied pack. The pack identifies transit-worker and rider groups as supporters and opponents concerned about sales-tax regressivity."],
+      endorsements: [row("Endorsement on RTM", { growsf: "YES", dccc: "YES", chronicle: "YES" })],
+      sources: [U.vip, U.ballotpedia, U.growsf, U.demEndorsements, U.chronEndorsements]
+    });
+
+    const sfSources = [U.vip, U.ballotpedia, U.growsf, U.dems, U.chronicle];
+    const sfRow = (growsf, dccc, chronicle) => [row("Endorsement on this measure", { growsf, dccc, chronicle })];
+    const sfProps = [
+      { letter: "A", title: "Charter Changes Affecting Various City Departments and Commissions", type: "Charter amendment", summary: "A cleanup package aligns the Charter with current practice, changes settlement approval, and creates a decennial commission-streamlining task force; the Controller estimates $365k–$450k in annual savings. Board vote: 9–2.", plain: "The measure aligns the Charter with current department practice; lets legal settlements be approved by resolution; creates a once-a-decade commission streamlining task force; and eliminates or reorganizes some commissions, including Sanitation and Streets and Public Works commissions. The Controller estimates savings of $365,000–$450,000 per year. Board vote was 9–2 (Chan and Fielder voted no).", yes: "Adopt the Charter changes and commission/task-force provisions described above.", no: "Do not adopt these Charter changes.", caseYes: "Effect-based perspective: a voter may favor aligning the Charter with current practice and the stated annual savings. The pack does not quote a YES-side argument.", caseNo: "Effect-based perspective: a voter may be concerned about the settlement-approval change or commission eliminations/reorganization. The pack says there were some paid arguments against but does not name their reasons or contributors.", funding: ["Paid arguments: none in favor; some against. The pack does not identify top contributors for either side."], endorsements: sfRow("YES", "YES", "YES") },
+      { letter: "B", title: "Establishing a Municipal Finance Corporation and a Public Bank", type: "Charter amendment", summary: "Authorizes—but does not require—a city-owned finance corporation that could become a public bank after three years. If built, a 2023 estimate put costs at $310M–$460M over eight years, plus about $4M/year setup.", plain: "The measure authorizes a city-owned Municipal Finance Corporation (MFC) that could become a public bank after three years and could lend for affordable housing/homeownership, small business, and the environment. The Controller says there is no direct cost if it is never built; a 2023 RWG estimate is $310M–$460M over eight years if built, with about $4M/year setup.", yes: "Authorize the MFC; it could become a public bank after three years.", no: "Do not authorize the proposed MFC under this measure.", caseYes: "Effect-based perspective: a voter may favor authorizing a city-owned finance corporation with the described possible lending purposes. No YES-side campaign argument is supplied beyond the measure description.", caseNo: "Effect-based perspective: a voter may prefer not to authorize a proposal with the stated potential costs. The pack reports no paid arguments against.", funding: ["YES-side paid-argument funders named: The San Francisco Foundation, Christin Evans, and National Union of Healthcare Workers. The pack reports no paid arguments against."], endorsements: sfRow("NO", "YES", "NO") },
+      { letter: "C", title: "Contributions to the Housing Trust Fund", type: "Charter amendment", summary: "Grows the annual Housing Trust Fund contribution (last year $50.8M) toward $125M, extends it to 2058, and raises the down-payment-assistance income cap from 120% to 200% AMI; estimated added General Fund cost is $6M+/year from FY2028–29.", plain: "The measure increases the annual Housing Trust Fund contribution toward $125M/year, extends the fund to 2058, raises the down-payment-assistance income cap from 120% to 200% of area median income, and allows a pause if the deficit exceeds $250M. The Controller estimates $6M or more in additional General Fund cost annually starting FY2028–29. The Chronicle calls it the “only measure providing predictable public investment for housing.”", yes: "Adopt the larger Housing Trust Fund contribution, extension, and higher assistance income cap.", no: "Do not adopt these proposed Charter changes.", caseYes: "Effect-based perspective: a voter may favor the stated predictable public investment and broader down-payment-assistance income cap; the Chronicle's quoted support is an endorsement rationale, not a campaign argument.", caseNo: "Effect-based perspective: a voter may be concerned about the estimated additional General Fund cost or may prefer not to change the Charter. The pack gives no separate NO-side argument or top funders.", funding: ["No paid-argument funders or campaign-finance totals are named in the supplied pack for this measure."], endorsements: sfRow("YES", "YES", "YES") },
+      { letter: "D", title: "Changes to Ballot Measure Process", type: "Charter amendment", summary: "Raises initiative signature requirements from 2% to 8% of registered voters, sets a 10% threshold for special elections, permits withdrawal up to 102 days out, and removes unilateral measure-placement powers of the Mayor and a four-supervisor minority.", plain: "The measure raises the signature threshold for initiatives from 2% to 8% of registered voters (about 10,600 to about 42,500); sets a special-election threshold of 10% (about 53,100); lets proponents withdraw a measure up to 102 days before the election; and removes the Mayor's and a four-supervisor minority's power to place measures unilaterally. The Controller estimates minimal cost.", yes: "Adopt the higher thresholds, withdrawal window, and changes to who can place measures.", no: "Do not adopt these ballot-process changes.", caseYes: "Effect-based perspective: a voter may favor the higher signature threshold and the specified changes to measure placement. The pack supplies no separate campaign argument.", caseNo: "Effect-based perspective: a voter may prefer to keep the current process rather than raise thresholds or remove the described placement powers. This is not a quoted campaign argument.", funding: ["YES-side funders named in the pack: Michael Moritz, John Pritzker, and Chris Larsen. No NO-side funders are identified."], endorsements: sfRow("YES", "YES", "YES") },
+      { letter: "E", title: "City Administrator's Authority and Changes to City Contracting", type: "Charter amendment", summary: "Gives the City Administrator exclusive authority to propose contracting/purchasing ordinances; the Board and Mayor could approve or reject within 60 days but not amend. Raises Board-approval thresholds to $4.5M revenue / $25M cost contracts.", plain: "The City Administrator would have exclusive authority to propose contracting and purchasing ordinances. The Board and Mayor could approve or reject within 60 days but could not amend. The measure raises Board-approval thresholds to contracts with $4.5M in revenue or $25M in cost. The pack reports no paid arguments against.", yes: "Adopt the proposed City Administrator authority and contract-threshold changes.", no: "Do not adopt these contracting and authority changes.", caseYes: "Effect-based perspective: a voter may favor the proposed contracting process and higher approval thresholds. No YES-side argument is supplied beyond the measure effect.", caseNo: "Effect-based perspective: a voter may prefer to retain the current authority or approval process; the pack does not supply a NO-side argument.", funding: ["YES-side funders named in the pack: Michael Moritz, John Pritzker, and Chris Larsen. No paid arguments against are reported."], endorsements: sfRow("YES", "YES", "YES") },
+      { letter: "F", title: "Changes to Executive Branch Management", type: "Charter amendment", summary: "Allows the Mayor to transfer or combine most department functions (Board may object), hire deputy mayors over Charter departments, and exercise more control over department heads/commissioners; several carve-outs remain.", plain: "The measure gives the Mayor authority to transfer or combine most department functions, subject to Board objection; hire deputy mayors over Charter departments; and exercise more control over department heads and commissioners. The pack names carve-outs including Police Accountability, Elections, and Ethics.", yes: "Adopt the proposed executive-branch management powers and stated carve-outs.", no: "Do not adopt these management changes.", caseYes: "Effect-based perspective: a voter may favor the described changes to executive-branch management. The pack does not provide a separate campaign argument.", caseNo: "Effect-based perspective: a voter may prefer not to shift the powers described in the digest. The pack does not quote a NO-side argument.", funding: ["YES-side funders named in the pack: Michael Moritz, John Pritzker, and Chris Larsen. The pack does not name NO-side funders."], endorsements: sfRow("YES", "YES", "YES") },
+      { letter: "G", title: "Allowing Private Vehicles on the Upper Great Highway in Sunset Dunes Park", type: "Ordinance", summary: "Reopens the Upper Great Highway to cars weekdays from 4 a.m. Monday to 6 p.m. Friday, with the park remaining on weekends/holidays; Coastal Act permits are required. Estimated cost: $9.8M one-time plus $0.5M–$1.9M/year.", plain: "The ordinance reopens the Upper Great Highway to private vehicles on weekdays (4 a.m. Monday through 6 p.m. Friday); it remains a park on weekends and holidays and requires Coastal Act permits. It undoes part of 2024's Prop K, which passed with 54.7% YES. The Controller estimates $9.8M one-time plus $0.5M–$1.9M annually. The Chronicle notes the park drew 1.7M visits since April 2025.", yes: "Allow private vehicles during the described weekday hours, subject to required Coastal Act permits.", no: "Do not reopen the highway to weekday private-vehicle use under this measure.", caseYes: "Effect-based perspective: a voter may favor reopening the route to private vehicles during the specified weekday hours. The pack does not give a direct YES-side argument.", caseNo: "The pack reports that the Chronicle endorses NO and cites 1.7M park visits since April 2025. The pack does not provide a fuller NO-side campaign argument.", funding: ["YES-side funders named in the pack: Lisa Arjes, Selena Chu, and William O'Keefe. No NO-side funders are named."], endorsements: sfRow("NO", "NO", "NO") },
+      { letter: "H", title: "Parcel Tax to Fund Muni Operations", type: "Initiative ordinance · 15 years",
+        summary: "A parcel tax would run July 2027–June 2042, with different base rates and square-footage tiers by property type. The pack cites a roughly $307M/year Muni shortfall and OpenAI, Anthropic, and Ripple Labs as YES-side funders.",
+        plain: "The 15-year tax would run July 2027 through June 2042 and be inflation-adjusted. Examples in the pack: $129 base for a single-family property plus square-footage tiers; $249 base for multifamily (cap $50,000); $799 base for non-residential property (cap $400,000). The pack says Muni faces about a $307M/year shortfall and has weighed cutting up to 19 lines (Chronicle).",
+        yes: "Impose the described parcel tax to fund Muni operations for 15 years.", no: "Do not impose the parcel tax.",
+        caseYes: "Effect-based perspective: a voter may favor the stated dedicated tax for Muni operations in the context of the reported shortfall. This is not a quoted campaign argument.",
+        caseNo: "Effect-based perspective: a voter may prefer not to add the described parcel tax. The pack does not supply a NO-side argument or contributors.",
+        funding: ["YES-side funders named in the pack: OpenAI, Anthropic, and Ripple Labs. No NO-side funders are identified."], endorsements: sfRow("YES", "YES", "YES") },
+      { letter: "I", title: "Changes to Real Property Transfer Tax", type: "Initiative ordinance",
+        summary: "For properties of $10M+, halves existing 5.5%/6% rates and adds a dedicated half-size tax, leaving the net rate unchanged while earmarking the new half for housing and tenant uses. The pack lists funders on both sides.",
+        plain: "On properties over $10M, existing 5.5%/6% transfer-tax rates are cut in half and a new dedicated tax of the same half-size is added, so the net rate is unchanged. The new half is allocated: 60%+ to affordable-housing production (at least half social housing), 25%+ to acquisition/rehab, and 10%+ to tenant stabilization/eviction defense. The first sale of new multifamily within five years is exempt.",
+        yes: "Adopt the dedicated allocation of the new half-size transfer-tax component for the stated housing and tenant uses.", no: "Do not adopt the proposed dedicated tax and allocation changes.",
+        caseYes: "Effect-based perspective: a voter may favor dedicating the new tax component to affordable housing, social housing, acquisition/rehab, and tenant stabilization/eviction defense.",
+        caseNo: "Effect-based perspective: a voter may oppose the proposed tax and allocation structure even though the pack says the net rate is unchanged. The pack does not state the NO-side argument.",
+        funding: ["YES-side funders: Christin Evans, Jonah Horotake, Rachel Wood, Dylan Hirsch-Shell, Charles F. Good Trust, and Dean Preston. NO-side funders: Quentin L. Kopp, Peter Fatooh, and Gina Tse-Louie."], endorsements: sfRow("NO", "NO", NO_POSITION) },
+      { letter: "J", title: "Removal of Foreclosure Exemption for Real Property Transfer Tax", type: "Initiative ordinance",
+        summary: "Taxes commercial, industrial, and large-residential foreclosures on full market value beginning March 1, 2027; keeps exemptions for single-family, under-five-unit, and small mixed-use properties. Estimated average: +$100M–$150M/year for the first five years, front-loaded and unpredictable.",
+        plain: "The measure removes the foreclosure exemption for commercial, industrial, and large-residential properties, taxing full market value from March 1, 2027. It keeps exemptions for single-family properties, buildings with fewer than five units, and small mixed-use properties. The Controller estimates an average $100M–$150M/year over the first five years; revenue is described as front-loaded and unpredictable.",
+        yes: "Apply the real-property transfer tax to the specified foreclosure transfers beginning March 1, 2027.", no: "Do not remove the specified foreclosure exemption.",
+        caseYes: "Effect-based perspective: a voter may favor taxing the specified foreclosure transfers and the estimated revenue described by the Controller.",
+        caseNo: "Effect-based perspective: a voter may prefer to keep the exemption for the property types covered. The pack does not supply a separate NO-side argument.",
+        funding: ["No paid-argument funders or campaign-finance totals are named in the supplied pack for Prop J."], endorsements: sfRow("YES", "YES", "YES"), notes: "The pack lists a Chronicle YES endorsement but flags the citation as partial and says to verify the wording." }
+    ];
+    sfProps.forEach(p => measure({
+      section: "sf-props", id: `sf-prop-${p.letter.toLowerCase()}`, title: `San Francisco Proposition ${p.letter} · ${p.title}`, type: p.type,
+      summary: p.summary, plainLabel: "Official digest", plain: p.plain, yes: p.yes, no: p.no, caseYes: p.caseYes, caseNo: p.caseNo,
+      caseLabel: "Interpretation · effect-based unless otherwise noted", funding: p.funding, endorsements: p.endorsements, sources: sfSources
+    }));
+
+    const escapeHTML = value => String(value ?? "").replace(/[&<>"']/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[ch]));
+    const badgeClass = type => ({ official: "official", claim: "claim", endorsement: "endorsement", interpretation: "interpretation", pack: "pack" }[type] || "pack");
+    const labelMarkup = (text, type = "pack") => `<span class="tag ${badgeClass(type)}">${escapeHTML(text)}</span>`;
+    const renderSourceList = sources => `<h4 class="section-label">${labelMarkup("Sources", "official")}</h4><ul class="source-list">${(sources || []).map(url => `<li><a class="source-url" href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer">${escapeHTML(url)}</a></li>`).join("")}</ul>`;
+    const renderRows = list => `<ul>${(list || []).map(item => `<li>${escapeHTML(item)}</li>`).join("")}</ul>`;
+    const renderMatrix = c => {
+      const groups = [
+        ["GrowSF", "growsf"],
+        ["SF Democratic Party (DCCC)", "dccc"],
+        ["SF Chronicle", "chronicle"],
+        ["SF Bay Guardian", "guardian"],
+        ["Bay Area News Group (BANG)", "bang"]
+      ];
+      const entries = c.endorsements && c.endorsements.length ? c.endorsements : [row("No group positions supplied")];
+      const body = entries.map(entry => `<tr><th scope="row">${escapeHTML(entry.subject)}</th>${groups.map(([, key]) => {
+        const value = entry[key] || NO_POSITION;
+        if (value === "YES" || value === "NO") return `<td><span class="chip ${value.toLowerCase()}">${value}</span></td>`;
+        return `<td>${escapeHTML(value)}</td>`;
+      }).join("")}</tr>`).join("");
+      return `<div><h4 class="section-label">${labelMarkup("Endorsement", "endorsement")} Endorsement matrix</h4><div class="matrix-wrap" role="region" aria-label="Horizontally scrollable endorsement matrix" tabindex="0"><table class="endorsement-table"><caption>Group opinions only; “Not stated in pack” is not the same as an endorsement of the other side.</caption><thead><tr><th scope="col">Candidate / choice</th>${groups.map(([name]) => `<th scope="col">${escapeHTML(name)}</th>`).join("")}</tr></thead><tbody>${body}</tbody></table></div><p class="matrix-disclaimer">Endorsements are opinions of the named groups, not a voting instruction. The pack's BANG positions are shown where available.</p></div>`;
+    };
+    const renderCard = c => {
+      const measureDetails = c.kind === "measure" ? `
+        <div class="vote-grid" aria-label="Measure effects">
+          <div class="vote-box yes-box"><h5><span class="chip yes">YES</span> What a YES vote means</h5><p>${escapeHTML(c.yes)}</p></div>
+          <div class="vote-box no-box"><h5><span class="chip no">NO</span> What a NO vote means</h5><p>${escapeHTML(c.no)}</p></div>
+        </div>
+        <div><h4 class="section-label">Both sides · main arguments / effects</h4><p class="small-note">${labelMarkup(c.caseLabel || "Interpretation", c.caseLabel && c.caseLabel.includes("pack") ? "pack" : "interpretation")} These side-by-side views are not attributed campaign arguments unless the pack says so.</p>
+          <div class="sides-grid">
+            <article class="side-box"><h5><span class="chip yes">YES</span> Case / effect</h5><p>${escapeHTML(c.caseYes)}</p></article>
+            <article class="side-box"><h5><span class="chip no">NO</span> Case / effect</h5><p>${escapeHTML(c.caseNo)}</p></article>
+          </div>
+        </div>` : `
+        <div><h4 class="section-label">${escapeHTML(c.sidesTitle || "Candidate information")}</h4>
+          <div class="sides-grid">${(c.sides || []).map(s => `<article class="side-box"><h5>${escapeHTML(s.label)} ${labelMarkup(s.badge, s.badgeType)}</h5>${(s.paragraphs || []).map(p => `<p>${escapeHTML(p)}</p>`).join("")}</article>`).join("")}</div>
+          <p class="small-note">The supplied pack is not a complete platform or campaign-finance filing for every race. Missing policy arguments or funding are identified rather than filled with outside material.</p>
+        </div>`;
+      const fund = Array.isArray(c.funding) ? renderRows(c.funding) : `<p>${escapeHTML(c.funding || "No top funders are identified in the supplied pack.")}</p>`;
+      const cardNote = c.notes ? `<p class="small-note">${labelMarkup("Pack caveat", "pack")} ${escapeHTML(c.notes)}</p>` : "";
+      return `<details class="contest-card" id="card-${escapeHTML(c.id)}" data-card="${escapeHTML(c.id)}">
+        <summary><div class="summary-main"><span class="summary-kicker">60-second summary</span><div class="summary-title-line"><h3>${escapeHTML(c.title)}</h3><span class="type-pill">${escapeHTML(c.type || "Contest")}</span></div><p class="summary-text">${escapeHTML(c.summary)}</p></div><span class="toggle-icon" aria-hidden="true">⌄</span></summary>
+        <div class="card-body">
+          <div class="plain-box"><h4>${labelMarkup(c.plainLabel || "Pack summary", c.plainLabel === "Official digest" ? "official" : c.plainLabel === "Interpretation" ? "interpretation" : "pack")} Plain-English explanation</h4><p>${escapeHTML(c.plain)}</p></div>
+          ${measureDetails}
+          <div class="funding-box"><h4 class="section-label">${labelMarkup("Disclosures", "pack")} Top funders &amp; backers</h4>${fund}</div>
+          ${renderMatrix(c)}
+          ${cardNote}
+          ${renderSourceList(c.sources)}
+        </div>
+      </details>`;
+    };
+
+    const sectionIds = ["state", "state-props", "congress", "local", "sf-props"];
+    sectionIds.forEach(section => {
+      const holder = document.getElementById(`cards-${section}`);
+      holder.innerHTML = cards.filter(c => c.section === section).map(renderCard).join("");
+    });
+    const allCards = Array.from(document.querySelectorAll(".contest-card"));
+    const sections = sectionIds.map(id => document.getElementById(id));
+    const search = document.getElementById("guide-search");
+    const count = document.getElementById("match-count");
+    const globalEmpty = document.getElementById("global-empty");
+    function applyFilter() {
+      const query = search.value.trim().toLocaleLowerCase();
+      let visible = 0;
+      allCards.forEach(card => {
+        const matches = !query || card.textContent.toLocaleLowerCase().includes(query);
+        card.hidden = !matches;
+        if (matches) visible++;
+      });
+      sections.forEach(section => {
+        const visibleInSection = section.querySelectorAll(".contest-card:not([hidden])").length;
+        section.classList.toggle("no-matches", visibleInSection === 0);
+      });
+      count.textContent = `${visible} of ${allCards.length} contest / measure cards`;
+      globalEmpty.classList.toggle("show", visible === 0);
+    }
+    search.addEventListener("input", applyFilter);
+    document.getElementById("open-all").addEventListener("click", () => allCards.forEach(card => { if (!card.hidden) card.open = true; }));
+    document.getElementById("close-all").addEventListener("click", () => allCards.forEach(card => { card.open = false; }));
+    applyFilter();
+
+    const allSources = [
+      U.vip, U.sos, U.whereBallot, U.location, U.portal, U.growsf, U.demEndorsements, U.dems, U.chronEndorsements, U.chronicle, U.igs,
+      U.lao, U.quickProps, U.calmatters, U.mission, U.ballotpedia, U.govWiki, U.ltWiki, U.sosWiki, U.controllerWiki, U.treasurerWiki, U.agWiki, U.insuranceWiki, U.spiWiki,
+      ...cards.flatMap(card => card.sources || [])
+    ];
+    document.getElementById("source-list").innerHTML = [...new Set(allSources)].map(url => `<li><a class="source-url" href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer">${escapeHTML(url)}</a></li>`).join("");
+  </script>
+</body>
+</html>
