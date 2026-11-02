@@ -15,6 +15,25 @@
     "date": "2026-11-02"
   },
   {
+    "id": "chip-design-textbook",
+    "title": "Chip Design, Beyond Verification — From RTL to Tapeout",
+    "description": "Volume 2 of the chip series for software and AI engineers: how chips are actually designed — team pipelines and first-silicon reality, specs and microarchitecture, RTL, design for test, HLS, formal at scale, synthesis, physical design, tapeout and bring-up, foundries and nodes, chiplets and packaging, custom-silicon economics, and an honest read on agentic EDA. Four interactive demos (RTL playground with bug injection, pipeline cost explorer, HLS side-by-side, node economics), a 123-term glossary, reading routes, and a labeled public source ledger. Companion to Chip Verification (Volume 1).",
+    "path": "experiments/chip-design-textbook/",
+    "category": "Education",
+    "tags": [
+      "Semiconductors",
+      "Chip Design",
+      "RTL",
+      "HLS",
+      "Physical Design",
+      "Foundries",
+      "EDA",
+      "Silicon Economics",
+      "Interactive"
+    ],
+    "date": "2026-11-02"
+  },
+  {
     "id": "chip-verification-textbook",
     "title": "Chip Verification — From Software to Silicon",
     "description": "A beginner-first 29,000+ word, 22-chapter textbook with a standalone 15-minute start route, searchable 172-entry glossary, sticky shortcuts, and plain-English guides before deeper sections: annotated SV/SVA/UVM, deep CDC/RDC, formal, coverage, debug, regression operations, safe agents, customer deployments, and the public Bronco software role. Four local labs explore FIFO boundaries, a hidden ordering bug, CDC pulse loss, and agent budgets. Includes 25 answered interview drills, routes, glossary, search, and printable TEXTBOOK.md.",
