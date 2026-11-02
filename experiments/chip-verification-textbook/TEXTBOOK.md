@@ -6,6 +6,87 @@ This is a new, deeper companion to the [Bronco zero-background field guide](../b
 
 The central question is not whether AI can generate plausible hardware-related text. It is whether a system can turn an engineering requirement into trustworthy evidence, at acceptable cost, without hiding uncertainty. The running example is deliberately small enough to audit: a single-clock ready/valid FIFO. If a tool cannot explain whether two transfers occur on the same clock edge, it should not independently approve a full-chip change. This expanded edition preserves the original eighteen chapters and adds four technical chapters and the remaining required labs.
 
+## Start here: chips and checking in 15 minutes
+
+You do not need to know electronics to begin. Imagine a small mailroom that receives numbered parcels and sends them onward. Its promise is simple: deliver each accepted parcel once, in the order it arrived. We will use that one promise to understand chips, tests, and useful engineering tools.
+
+This is an independent lesson, not a company demonstration or an actual interview. Fifteen minutes is a suggested reading route, not a measured learning guarantee. Read the story, answer the five short questions, and stop there if you wish. The rest of the textbook can wait.
+
+### Minutes 0–3: what are we building?
+
+A chip is a manufactured electrical circuit. Tiny connected devices perform operations and remember information. Chips help computers, phones, and many other products work. The circuit is physical: it is not simply a file that a computer reads like an ordinary program.
+
+Before manufacturing, engineers describe the intended circuit in computer files. They can change those files, check the new design, and try again. After manufacturing, changing the actual circuit can require designing and making new chips. Software changes can sometimes work around a problem, but not every circuit mistake can be repaired that way.
+
+That is why finding mistakes early matters. A new manufacturing attempt can mean more engineering work, more waiting, and delayed products. There is no universal price or delay we can honestly assign to every mistake. The key idea is that changing a physical product is different from editing its description.
+
+**Designing** means deciding how the circuit should work and describing its parts. **Checking**, also called verification, means gathering evidence that the described circuit keeps its promises. The same team may discuss both, but a design looking sensible is not proof that it behaves correctly.
+
+Before manufacturing, many checks run on computer models of the proposed circuit. After manufacturing, engineers also test real devices. A computer model offers useful visibility, but it is not the physical device. A real chip adds electrical effects and operating conditions that the model may simplify or omit.
+
+### Minutes 3–6: a mailroom that remembers
+
+Our mailroom has a waiting line. Parcel 10 arrives first; parcel 20 arrives second. If the rule is oldest first, the next parcel out must be 10. Engineers call this kind of line a **FIFO**, short for **first in, first out**. The term describes the order, not every detail of how the line works.
+
+The mailroom must remember which parcels are waiting. In a circuit, **stored state** means remembered values: perhaps how many spaces are occupied and which number is next. An empty line and a line holding 10 are different states. Some circuit parts calculate answers from current inputs; other parts keep remembered values for later.
+
+Now imagine a shared bell that tells the mailroom when to record an action. A **clock** is a repeating timing signal: our shared tick. In this simplified lesson, the circuit updates its remembered values at each agreed tick. Real clocks are electrical signals with physical timing requirements, not literal bells.
+
+Two updates can happen at the same tick. If 10 is waiting, it can leave while a new parcel 20 joins. Both decisions refer to the agreed situation just before the tick. This is not necessarily like a program running one instruction and then another.
+
+For the queue taught later in this book, a full line can accept a replacement parcel when its oldest parcel leaves at that tick. An empty line does not send a newly arriving parcel straight through at the same tick. Those are explicit choices for this example. Another design may choose different rules, so we must write the promises before deciding what counts as wrong.
+
+### Minutes 6–9: a mistake a busy-looking test misses
+
+Suppose a faulty mailroom removes the newest parcel rather than the oldest. Send only parcel 10, then ask for a delivery. It returns 10. Send only parcel 20, then ask again. It returns 20. Those simple tests look fine because the line never holds two parcels together.
+
+Now send 10 and then 20 before asking for either delivery. The bad implementation delivers **20, then 10**. Both parcels arrived, and both left, but the order broke the promise. Counting deliveries alone would not catch this mistake.
+
+An **independent checker** keeps its own plain list of what should happen. It records the accepted arrivals as 10, then 20. When the first delivery is 20, it compares expected 10 with actual 20 and reports the mismatch. Its expectation comes from the promise, not from copying the faulty removal rule.
+
+Engineers may also record which lines of a design description ran during tests. Even if every line ran, the wrong removal rule could still have produced the wrong order. Running an instruction and checking that it did the right thing are different jobs.
+
+This is the lesson behind **coverage**: a record of what was exercised. Coverage can tell us that a situation was tried, or that a piece of described behavior was activated. A percentage does not mean the same percentage of all possible bugs has been removed. It does not guarantee that the checking rules are correct or complete.
+
+### Minutes 9–12: names for the surrounding test setup
+
+A **test plan** is a promises-to-tests map. “Oldest accepted parcel leaves first” points to the two-parcel ordering test. “A full line does not lose a parcel” points to a full-line test. This map helps us notice a promise with no convincing check.
+
+A **testbench** is the surrounding test setup. In our story it includes the person presenting parcels, the person choosing when deliveries can happen, the observer recording actual arrivals and departures, and the checker. In a computer model, those jobs are performed by testing code and tools.
+
+A **scoreboard** is an expected-versus-actual checker, not just a display of scores. For our line, it holds the expected list and compares each accepted delivery with the oldest expected parcel. A **monitor** is the observer: it records what actually happened, rather than assuming every attempted delivery succeeded.
+
+That distinction matters when the mailroom is full. Offering another parcel does not mean it was accepted. The testing setup must observe the acceptance decision. Otherwise its expected list could blame the mailroom for a parcel the sender never successfully handed over.
+
+What if two parts of a chip follow different ticks? Engineers call moving information between them **clock-domain crossing**, shortened to **CDC**. One part might make a brief announcement between the other part's listening times. The listener can miss it even if every digital value in a computer model looks perfectly ordinary.
+
+A **bit** is a value of zero or one. A **flip-flop** is a small circuit element that remembers one bit when triggered by its clock. A chain of two such memories can help a receiving part use a held one-bit value more reliably. It is not a general repair for every brief announcement or a whole bundle of changing bits.
+
+Real sampling also has an electrical risk called **metastability**: a memory element can take an uncertain time to settle after an awkwardly timed input change. Two-stage arrangements reduce the chance that unsettled behavior causes trouble downstream; they do not eliminate that physical risk. The later clock-crossing lab only shows missed digital announcements, not this analog electrical behavior.
+
+### Minutes 12–15: where a software engineer fits
+
+A chip-design engineer works on the circuit's structure and behavior. A chip-checking specialist develops and reviews evidence about its correctness. A software engineer can build tools that help them: finding relevant test results, showing a short history of signal values, organizing failures, or running bounded investigations.
+
+An artificial-intelligence (AI) system can help suggest the next investigation, but a confident explanation is not the same as evidence. A useful tool should show which promise was broken, what it observed, and what still needs checking. It should admit when the needed observation is missing. It should not make a failure disappear by quietly weakening the checker.
+
+Our mailroom is an analogy, **not an exact physical model**. Parcels do not explain electrical settling, wire delays, or every possible clocking rule. The analogy teaches remembered order, accepted actions, and independent checking. Keep those ideas; do not assume every detail transfers to every chip.
+
+### Five quick questions, with immediate answers
+
+1. **Can editing a design file physically change every chip already made?** No. The file describes the circuit; it is not the manufactured circuit itself. Some problems have software workarounds, but others require a new physical design.
+2. **The sender offered parcel 10. Must the checker record it as accepted?** No. It must observe acceptance. An offer can be blocked when the line has no room.
+3. **Send 10, then 20, before either leaves. What should come out?** 10, then 20, for our oldest-first promise. Receiving 20 first is a real ordering failure even if nothing was lost.
+4. **Does every line running prove the mailroom is correct?** No. Tests can execute a wrong rule, omit a revealing situation, or use a missing or mistaken checker.
+5. **Do two one-bit memories solve every crossing between different ticks?** No. They help a held one-bit level. Short announcements can be missed, and multiple changing bits need a coherent transfer method.
+
+### A conversation starter and a next step
+
+A plain-English question for a product or company leader is: **“Which checking task wastes the most engineer time today, and how do you show that your tool saves time without overlooking mistakes?”** This is an original discussion prompt, not a claim about anyone's actual interview.
+
+Next, read [chapter 1](#chapter-1) for circuits and remembered values, then [chapter 3](#chapter-3) for the promises-to-tests map. Try the [ordering-bug exercise](#coverage-lab) to see why busy tests need independent checks. Later, [chapter 20](#chapter-20) separates missed announcements from electrical timing risks. You can now return to the [longer reading routes](#routes) without needing to know every technical term in advance.
+
+
 ## Reading routes
 
 **45 minutes — orientation and one hard boundary.** Spend five minutes on chapter 1, ten on chapter 3, fifteen on chapter 4 and its FIFO lab, five on chapter 12, and ten on chapter 16 plus interview drills 1–5. Your exit artifact is a handwritten explanation of a full FIFO accepting a replacement word while its oldest word is removed. Say which values were sampled before the edge and which state exists afterward. Do not try to memorize UVM vocabulary first.

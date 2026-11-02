@@ -12,7 +12,7 @@ nav = []
 for i, part in enumerate(parts[1:]):
     title = part.splitlines()[0]
     match = re.match(r'(\d+)\.', title)
-    slug = f'chapter-{match[1]}' if match else 'routes' if title == 'Reading routes' else 'sources'
+    slug = f'chapter-{match[1]}' if match else 'start-here' if title.startswith('Start here:') else 'routes' if title == 'Reading routes' else 'sources'
     nav.append(f'<a href="#{slug}">{html.escape(title)}</a>')
     body = markdown.markdown('## ' + part, extensions=['tables', 'fenced_code'])
     # Long code/tables scroll in their own labeled regions, never at body level.
@@ -45,6 +45,7 @@ page = '''<!doctype html>
 <label for="search">Find a concept</label><input id="search" type="search" placeholder="Try: simultaneous, inference…" autocomplete="off"><p id="search-status" role="status">All chapters shown</p>
 <details id="contents" open><summary>Table of contents</summary><nav aria-label="Table of contents">NAV</nav></details><a class="download" href="TEXTBOOK.md" download>↓ Download TEXTBOOK.md</a><a class="download" href="../bronco-chip-verification/">↗ Start with the introductory guide</a></aside>
 <main id="content"><section class="hero"><p class="eyebrow">HARDWARE × SOFTWARE × TRUST</p><h1>From software<br>to <em>silicon.</em></h1><p class="deck">Chip verification, understood from the inside out. A systems textbook for engineers building the tools that help engineers build chips.</p>
+<a class="start-action" href="#start-here">Start here · 15 minutes · no hardware background →</a>
 <div class="hero-meta"><span>WORDS words</span><span>25 worked interview drills</span><span>4 labs + evidence exercise</span></div>
 <div class="circuit" aria-hidden="true"><span>SPEC</span><b>→</b><span>STIMULUS</span><b>→</b><span>EVIDENCE</span><b>→</b><span>TRUST</span></div>
 <p class="boundary">Public-source edition. Independent educational synthesis; not affiliated with Bronco. Company claims are attributed, not treated as benchmark results. No tracking, forms, or external assets.</p>
