@@ -2,7 +2,7 @@
   {
     "id": "chip-verification-textbook",
     "title": "Chip Verification — From Software to Silicon",
-    "description": "A 12,000+ word, 18-chapter systems textbook for software and AI engineers: RTL, ready/valid FIFO boundaries, UVM, formal, coverage, debug, data systems, safe agents, customer deployments, and the public Bronco software role. Includes three local interactive labs, 25 answered interview drills, reading routes, glossary, search, and printable TEXTBOOK.md.",
+    "description": "A 20,000+ word, 22-chapter systems textbook for software and AI engineers: annotated SV/SVA/UVM, deep CDC/RDC, formal, coverage, debug, regression operations, safe agents, customer deployments, and the public Bronco software role. Four local labs explore FIFO boundaries, a hidden ordering bug, CDC pulse loss, and agent budgets. Includes 25 answered interview drills, routes, glossary, search, and printable TEXTBOOK.md.",
     "path": "experiments/chip-verification-textbook/",
     "category": "Education",
     "tags": [
@@ -15,7 +15,7 @@
       "Interview Prep",
       "Interactive"
     ],
-    "date": "2026-11-01"
+    "date": "2026-11-02"
   },
   {
     "id": "coretsu-interview",
