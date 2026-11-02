@@ -1,5 +1,20 @@
 [
   {
+    "id": "eda-tools-explorer",
+    "title": "The Chip Design Software Landscape \u2014 What People Actually Use",
+    "description": "An interactive field guide to chip design software: filter tools by pipeline stage and license, follow three example workflows, and explore open silicon and emerging AI tools.",
+    "path": "experiments/eda-tools-explorer/",
+    "category": "Education",
+    "tags": [
+      "Semiconductors",
+      "EDA",
+      "Open Source",
+      "Verification",
+      "Interactive"
+    ],
+    "date": "2026-11-02"
+  },
+  {
     "id": "sf-voter-guide-2026",
     "title": "SF 94102 Voter Guide — November 3, 2026",
     "description": "A neutral, mobile-first, source-labeled guide to the contests and measures listed for San Francisco ZIP 94102: voting logistics, district caveats, statewide races and propositions, federal/state/local offices, judicial retentions, RTM, SF measures A–J, endorsement matrices, and a vested-interest money map.",
