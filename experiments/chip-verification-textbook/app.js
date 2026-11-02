@@ -26,8 +26,8 @@ function revealHash() {
 window.addEventListener('hashchange', revealHash);
 const routes = {
   quick: {text: '45 minutes: chapters 1 → 3 → 4 + FIFO lab → 12 → 16; drills 1–5.', ids: [1,3,4,12,16,17]},
-  study: {text: '3 hours: chapters 1–8 (90m), 9–12 (30m), 13–16 (20m), drills 6–15 (20m).', ids: Array.from({length:17}, (_,i)=>i+1)},
-  deep: {text: 'Deep route: all chapters, all labs, 25 drills, and the five portfolio milestones in chapter 15.', ids: Array.from({length:18}, (_,i)=>i+1)}
+  study: {text: '3 hours: 1–8 (60m), 9–12 (25m), 19 code (30m), 20 CDC + lab (30m), 13–16 (15m), drills 6–15 (20m).', ids: [...Array.from({length:17}, (_,i)=>i+1),19,20]},
+  deep: {text: 'Deep route: all 22 chapters, all four labs + evidence exercise, 25 drills, and the five portfolio milestones in chapter 15.', ids: Array.from({length:22}, (_,i)=>i+1)}
 };
 document.querySelectorAll('[data-route]').forEach(link => link.addEventListener('click', () => {
   $('search').value = ''; search();
@@ -37,12 +37,16 @@ document.querySelectorAll('[data-route]').forEach(link => link.addEventListener(
   document.querySelectorAll('[data-route]').forEach(a => a.classList.toggle('selected', a === link));
 }));
 $('print').addEventListener('click', () => window.print());
-let closedBeforePrint = [];
+let closedBeforePrint = null;
 window.addEventListener('beforeprint', () => {
+  if (closedBeforePrint !== null) return;
   closedBeforePrint = [...document.querySelectorAll('details:not([open])')];
   closedBeforePrint.forEach(d => { d.open = true; });
 });
-window.addEventListener('afterprint', () => closedBeforePrint.forEach(d => { d.open = false; }));
+window.addEventListener('afterprint', () => {
+  if (closedBeforePrint !== null) closedBeforePrint.forEach(d => { d.open = false; });
+  closedBeforePrint = null;
+});
 function paintFIFO(result) {
   $('queue').replaceChildren();
   for (let i = 0; i < 4; i++) {
@@ -116,3 +120,86 @@ function paintEvidence() {
 }
 document.querySelectorAll('#evidence-lab input').forEach(input => input.addEventListener('change', paintEvidence));
 paintFIFO(); paintEvidence(); revealHash();
+
+// New deep-route technical labs: all computations remain in pure local models.
+if (window.matchMedia('(max-width: 720px)').matches) $('contents').open = false;
+function paintHidden() {
+  $('hidden-code').textContent = `const queue = [];                  // 1: init
+// For each command in the selected suite:
+if (command.kind === 'write') {
+  queue.push(command.word);         // 2: write
+} else {
+  const word = queue.${$('hidden-mutant').checked ? 'pop()' : 'shift()'}; ${$('hidden-mutant').checked ? '// 3: read — BUG: newest first' : '// 3: read — oldest first'}
+  outputs.push(word);               // 4: emit
+}`;
+  const r = M.hiddenOrdering({mutant:$('hidden-mutant').checked, suite:$('hidden-suite').value, checker:$('hidden-checker').checked});
+  $('hidden-result').textContent = `Labeled statements hit: ${r.labels.length}/4 = ${r.statementPercent}%. Multi-item ordering bin: ${r.orderingBin ? 'HIT' : 'not hit'}. Independent checker: ${r.verdict.toUpperCase()}.`;
+  $('hidden-trace').textContent = `Observed outputs [${r.outputs.join(', ')}]; specified outputs [${r.expected.join(', ')}]. ${r.verdict === 'unchecked' ? 'No correctness verdict without the checker.' : r.verdict === 'fail' ? 'Ordering bug detected, despite all statements running.' : 'This suite did not detect a mismatch; smoke alone cannot distinguish FIFO from LIFO.'}`;
+}
+['hidden-mutant','hidden-suite','hidden-checker'].forEach(id => $(id).addEventListener('change', paintHidden));
+function svgNode(name, attributes, text) {
+  const element = document.createElementNS('http://www.w3.org/2000/svg', name);
+  for (const [key,value] of Object.entries(attributes)) element.setAttribute(key, String(value));
+  if (text !== undefined) element.textContent = text;
+  return element;
+}
+function paintCDC() {
+  const input = Object.fromEntries(['src','dst','phase','width','spacing'].map(k=>[k, $(`cdc-${k}`).value.trim() ? Number($(`cdc-${k}`).value) : NaN]));
+  input.mode = $('cdc-mode').value;
+  let r;
+  try {r = M.cdcPulse(input);} catch(error) {
+    $('cdc-error').textContent = `${error.message}. Previous results cleared.`;
+    $('cdc-result').textContent = 'Invalid controls: no simulation result.';
+    $('cdc-diagram').replaceChildren(); $('cdc-samples').replaceChildren(); $('cdc-answer').textContent = ''; return;
+  }
+  $('cdc-error').textContent = '';
+  $('cdc-result').textContent = `${r.offers.length} offered; ${r.accepted.length} accepted; ${r.delivered.length} delivered; ${r.busy} refused while busy; ${r.missed} accepted events not delivered. Ideal digital model only.`;
+  $('cdc-answer').textContent = input.mode === 'pulse' ?
+    'Two flops only propagate a level the first stage samples. Short pulses can be missed; contiguous highs can merge. Adding stages cannot reconstruct absent events. Try toggle mode with well-spaced events.' : input.mode === 'toggle' ?
+    'Toggling makes a narrow event persistent, but rapid pairs can cancel before a sample. No acknowledgment enforces the rate bound. Compare fast-event mode with handshake.' :
+    'Acknowledgment prevents another accepted toggle until the prior one returns. Busy offers are refused, not queued or retried. Delivery of all accepted events is not delivery of all offered events.';
+  const svg = $('cdc-diagram'); svg.replaceChildren();
+  const displayEnd = r.offers[5]+input.width*input.src+3*input.dst;
+  const x = t => 135 + t/displayEnd*620;
+  const add = (name,attrs,text) => svg.append(svgNode(name,attrs,text));
+  [['Offered pulse',40],['Source edges',90],['Dst samples',140],['Delivered event',190]].forEach(([label,y])=> {
+    add('text',{x:5,y:y+4,fill:'#183c37','font-size':12},label);
+    add('line',{x1:135,y1:y,x2:760,y2:y,stroke:'#c3cbbc'});
+  });
+  r.offers.forEach(t=>add('rect',{x:x(t),y:25,width:Math.max(1,x(t+input.width*input.src)-x(t)),height:15,fill:'#abc966'}));
+  for(let t=0;t<=displayEnd;t+=input.src) add('line',{x1:x(t),x2:x(t),y1:82,y2:90,stroke:'#6e8866'});
+  r.samples.filter(s=>s.t<=displayEnd).forEach(s=>add('circle',{cx:x(s.t),cy:140,r:s.input?4:2.5,fill:s.input?'#386747':'#a4afa0'}));
+  r.delivered.filter(t=>t<=displayEnd).forEach(t=>add('line',{x1:x(t),x2:x(t),y1:174,y2:190,stroke:'#a64a2d','stroke-width':3}));
+  add('text',{x:135,y:225,'font-size':11,fill:'#536761'},'0 ticks');
+  add('text',{x:690,y:225,'font-size':11,fill:'#536761'},`${displayEnd} ticks`);
+  $('cdc-samples').replaceChildren();
+  r.samples.slice(0,32).forEach(sample => {
+    const row = document.createElement('tr');
+    [sample.t,sample.input,sample.q1,sample.q2,sample.event?'EVENT':'—'].forEach(value => {const cell=document.createElement('td');cell.textContent=value;row.append(cell);});
+    $('cdc-samples').append(row);
+  });
+}
+['src','dst','phase','width','spacing','mode'].forEach(k=>$(`cdc-${k}`).addEventListener('input',paintCDC));
+$('cdc-miss').addEventListener('click',()=>{
+  for(const [k,v] of Object.entries({src:4,dst:10,phase:3,width:1,spacing:5,mode:'pulse'})) $(`cdc-${k}`).value=v;
+  paintCDC();
+});
+$('cdc-fast').addEventListener('click',()=>{
+  for(const [k,v] of Object.entries({src:2,dst:12,phase:1,width:1,spacing:1,mode:'toggle'})) $(`cdc-${k}`).value=v;
+  paintCDC();
+});
+function paintBudget() {
+  const r=M.agentBudget({rounds:Number($('budget-rounds').value),licenseBudget:Number($('budget-hours').value),workers:Number($('budget-workers').value),retrieval:$('budget-retrieval').checked,checker:$('budget-checker').checked});
+  for(const k of ['rounds','hours','workers']) $(`budget-${k}-value`).textContent=$(`budget-${k}`).value;
+  $('budget-result').textContent=`${r.bugs}/4 validated seeded bugs; ${r.supported}/8 supported outcomes; ${r.abstentions} abstentions. These outcomes follow the disclosed recipes, not measured AI accuracy.`;
+  $('budget-metrics').replaceChildren();
+  const metrics=[['License-hours charged',r.license.toFixed(2)],['Synthetic model cost',`$${r.cost.toFixed(2)}`],['Ideal makespan',`${r.makespan} min`],['Synthetic review',`${r.reviewMinutes} min`],['Reproducers',r.reproducers],['Model rounds',r.calls]];
+  metrics.forEach(([name,value])=>{const cell=document.createElement('div');const label=document.createElement('span');label.textContent=name;const strong=document.createElement('strong');strong.textContent=value;cell.append(label,strong);$('budget-metrics').append(cell);});
+  $('budget-cases').replaceChildren();
+  r.results.forEach(item=>{const row=document.createElement('tr');
+    [`${item.id} / ${item.kind}`,item.rounds,item.license.toFixed(2),[item.spec?'spec':'',item.check?'checker':''].filter(Boolean).join(' + ')||'run metadata',item.done,item.supported?`SUPPORTED ${item.kind}`:'ABSTAIN'].forEach(value=>{const cell=document.createElement('td');cell.textContent=value;row.append(cell);});
+    $('budget-cases').append(row);
+  });
+}
+['rounds','hours','workers','retrieval','checker'].forEach(k=>$(`budget-${k}`).addEventListener('input',paintBudget));
+paintHidden(); paintCDC(); paintBudget();

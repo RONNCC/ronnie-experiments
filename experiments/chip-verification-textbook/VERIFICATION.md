@@ -39,3 +39,25 @@ node experiments/chip-verification-textbook/tests/browser.cjs
 ## Limits
 
 The FIFO lab models a fixed-depth-four, eight-bit, single-clock contract. The pure model supports other positive depths for tests, but does not claim to simulate finite-width pointer RTL, memory-macro collision semantics, analog timing, CDC, or synthesized hardware. The coverage example is a small categorical cross, not a stochastic performance model. The evidence gate is a deterministic decision exercise, not an LLM. Browser checks are smoke tests, not a comprehensive accessibility audit or proof of correctness. Real HDL portfolio work needs pinned simulation/formal tools and independent verification.
+
+## Expanded edition QA · 2 November 2026
+
+The baseline counts above describe the original publication. This edition now has **22 numbered chapters and over 20,000 whitespace-separated words**, four required primary labs plus the retained evidence exercise. `REQUIREMENTS.md` maps the full public attachment to chapters, controls, and tests.
+
+Additional generated-HTML inputs: `cdc-lab.html` (chapter 20) and `budget-lab.html` (chapter 22). The builder derives chapter IDs from numbered headings, preserving existing links as the book grows. Code and table overflow is confined to labeled, keyboard-focusable scroll regions; mobile navigation collapses, and controls/checkbox-label targets are at least 44px high.
+
+### Results
+
+- **16 Node test groups pass**, including the original 28,000 FIFO edges, the injected ordering escape, exact coincident CDC clock semantics, pulse/toggle/handshake distinctions, **2,640 CDC parameter combinations**, invalid controls, merged pulses, and agent budget caps/evidence ablations/worker invariance.
+- Chromium tests pass every required lab, the retained evidence exercise, keyboard activation, range-keyboard control, search/routes, 25 answers, unique IDs, fragment targets, 44px controls and checkbox labels, and no BODY overflow at **320, 390, and 1440px** while inspecting code and every primary lab.
+- Screenshots of CDC, budget, and code at 320/390px and desktop overview were generated to ignored scratch storage and visually inspected. Long code/tables/diagrams scroll only inside their own region with visible cues; no body clipping or horizontal overflow workaround is used.
+- Print with an active no-results search still exposes every chapter and answer. A Chromium **56-page A4 PDF** was generated in scratch storage and text extraction confirmed the SVA example, CDC chapter, agent budget chapter, and final drill are present. The PDF is a QA artifact, not a separately maintained deliverable.
+- Browser network logging found zero external requests and zero page exceptions. No runtime packages or binary assets were added. Source-fetch limitations are disclosed in the textbook.
+
+### Correctness review boundaries
+
+The CDC model samples the old source level at coincident source/destination edges, propagates through two ideal destination stages, and counts output rising edges (pulse mode) or changes (toggle mode). Acknowledged mode adds a two-stage return path, refuses busy offers, and drains accepted events. It has no producer queue/retries, setup/hold aperture, jitter, analog metastability, or MTBF model. Physical CDC/RDC guidance explicitly separates digital protocol checks from reliability and implementation constraints.
+
+The budget model consumes a fixed author-chosen recipe per case. It does not infer real model accuracy; unsupported outcomes abstain by construction. Concurrency changes only a disclosed ideal list-schedule estimate with adequate tokens assumed. Real false-positive rates and confidence intervals cannot be derived from it.
+
+SV/SVA/UVM snippets are illustrative and annotated, not a shipped executable HDL verification environment. The occupancy controller is explicitly incomplete without storage and pointers. The stability property uses sampled synchronous-reset semantics, distinguished from asynchronous `disable iff`. Two-flop level synchronization is not advertised as safe for arbitrary buses or pulses, and synchronized Gray-pointer samples are not incorrectly constrained to single-bit change after skipped source increments. No chip signoff or commercial performance claim follows from these tests.

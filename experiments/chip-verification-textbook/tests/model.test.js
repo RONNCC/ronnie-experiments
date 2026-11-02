@@ -69,3 +69,65 @@ test('evidence gate abstains on missing or truncated evidence', () => {
   assert.equal(evidence({...all,source:false}).level,'hypothesis');
   assert.equal(evidence({...all,reproduced:false}).level,'hypothesis');
 });
+
+const {hiddenOrdering, cdcPulse, agentBudget} = require('../model.js');
+test('all labeled reducer statements can run while the ordering bug escapes smoke', () => {
+  const smoke=hiddenOrdering();
+  assert.equal(smoke.statementPercent,100);assert.equal(smoke.orderingBin,false);assert.equal(smoke.verdict,'pass');
+  const ordered=hiddenOrdering({suite:'ordering'});
+  assert.equal(ordered.statementPercent,100);assert.equal(ordered.orderingBin,true);assert.equal(ordered.verdict,'fail');
+  assert.deepEqual(ordered.outputs,[20,10]);assert.deepEqual(ordered.expected,[10,20]);
+  assert.equal(hiddenOrdering({suite:'ordering',checker:false}).verdict,'unchecked');
+  assert.equal(hiddenOrdering({suite:'ordering',mutant:false}).verdict,'pass');
+});
+test('CDC default pulse loss and well-spaced toggle recovery', () => {
+  assert.equal(cdcPulse().delivered.length,0);
+  assert.deepEqual(cdcPulse().offers,[4,24,44,64,84,104]);
+  assert.equal(cdcPulse({mode:'toggle'}).delivered.length,6);
+});
+test('CDC open-loop toggles alias; acknowledged protocol refuses busy offers', () => {
+  const opts={src:2,dst:12,phase:1,spacing:1};
+  assert.equal(cdcPulse({...opts,mode:'toggle'}).delivered.length,0);
+  const r=cdcPulse({...opts,mode:'handshake'});
+  assert.equal(r.accepted.length,1);assert.equal(r.delivered.length,1);assert.equal(r.busy,5);assert.equal(r.missed,0);
+});
+test('CDC exact coincident edges sample the old source level', () => {
+  const r=cdcPulse({src:4,dst:4,phase:0,width:1,spacing:3});
+  assert.equal(r.samples.find(s=>s.t===4).input,0); // source just launches
+  assert.equal(r.samples.find(s=>s.t===8).input,1); // source just deasserts
+  assert.equal(r.samples.find(s=>s.t===8).q2,0);
+  assert.equal(r.samples.find(s=>s.t===12).event,true);
+});
+test('CDC sweep conserves offered/accepted events; handshake drains accepted requests', () => {
+  let cases=0;
+  for(let src=2;src<=6;src++)for(let dst=2;dst<=9;dst++)for(let phase=0;phase<dst;phase++)for(let spacing=1;spacing<=4;spacing++)for(const mode of ['pulse','toggle','handshake']) {
+    const r=cdcPulse({src,dst,phase,spacing,mode});cases++;
+    assert.equal(r.offers.length,r.accepted.length+r.busy);
+    assert.ok(r.delivered.length<=r.accepted.length);
+    if(mode==='handshake') assert.equal(r.missed,0);
+  }
+  console.log(`CDC swept ${cases} clock/phase/spacing/scheme combinations`);
+});
+test('CDC rejects illegal controls and merged high pulses deliver one rising event', () => {
+  assert.throws(()=>cdcPulse({src:0}),RangeError);assert.throws(()=>cdcPulse({dst:10,phase:10}),RangeError);
+  assert.throws(()=>cdcPulse({width:3,spacing:2}),RangeError);assert.throws(()=>cdcPulse({phase:NaN}),RangeError);
+  assert.equal(cdcPulse({src:4,dst:2,phase:1,width:2,spacing:2}).delivered.length,1);
+});
+test('budget fully supported synthetic recipes and independent evidence ablations', () => {
+  const r=agentBudget({rounds:4,licenseBudget:4});
+  assert.equal(r.supported,8);assert.equal(r.bugs,4);assert.equal(r.reproducers,4);assert.equal(r.license,3.25);
+  assert.equal(r.calls,19);assert.equal(r.cost,.76);
+  const noCheck=agentBudget({rounds:6,licenseBudget:8,checker:false});
+  assert.equal(noCheck.bugs,0);assert.equal(noCheck.reproducers,0);
+  const noSpec=agentBudget({rounds:6,licenseBudget:8,retrieval:false});
+  assert.equal(noSpec.bugs,1); // wrap recipe deliberately does not require spec retrieval
+});
+test('budget cap, free-license infra cases, and parallel time without quality changes', () => {
+  const zero=agentBudget({rounds:4,licenseBudget:0});
+  assert.equal(zero.license,0);assert.equal(zero.bugs,0);assert.equal(zero.supported,3);
+  for(let cap=0;cap<=4;cap+=.25) assert.ok(agentBudget({rounds:4,licenseBudget:cap}).license<=cap);
+  const serial=agentBudget({rounds:4,licenseBudget:4,workers:1}), parallel=agentBudget({rounds:4,licenseBudget:4,workers:4});
+  assert.equal(serial.bugs,parallel.bugs);assert.equal(serial.calls,parallel.calls);assert.equal(serial.license,parallel.license);
+  assert.ok(parallel.makespan<serial.makespan);
+  assert.throws(()=>agentBudget({rounds:0}),RangeError);assert.throws(()=>agentBudget({licenseBudget:NaN}),RangeError);
+});
