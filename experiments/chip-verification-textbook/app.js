@@ -4,7 +4,7 @@ const $ = id => document.getElementById(id);
 const M = window.ChipModels;
 let fifo = new M.FIFO(4), hits = new Set(), history = [], hypothetical = false;
 const sections = [...document.querySelectorAll('.chapter')];
-const navLinks = [...document.querySelectorAll('nav a')];
+const navLinks = [...document.querySelectorAll('#contents nav a')];
 function search() {
   const query = $('search').value.trim().toLocaleLowerCase();
   let count = 0;
