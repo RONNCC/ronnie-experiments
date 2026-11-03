@@ -1,0 +1,2998 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10372e">
+  <meta name="description" content="Interactive, nonpartisan English-Spanish phrasebook, flashcards, and self-quiz for San Francisco election poll worker volunteers.">
+  <title>Simple Spanish for SF Election Volunteers · Poll Worker Study Aid</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #172a25;
+      --muted: #55665e;
+      --paper: #f4f2e9;
+      --card: #fffefa;
+      --card-subtle: #f8f7f0;
+      --line: #d6dcd2;
+      --line-strong: #b6c2b8;
+      --green: #164c3e;
+      --green-dark: #10372e;
+      --green-mid: #1d6351;
+      --green-pale: #e4f1e8;
+      --orange: #d96b38;
+      --orange-pale: #fff0e6;
+      --gold: #e7bf69;
+      --gold-pale: #fff8df;
+      --blue: #275678;
+      --blue-pale: #e9f2f8;
+      --red: #a33b32;
+      --red-pale: #fbeae8;
+      --shadow: 0 10px 28px rgba(19, 42, 34, 0.07);
+      --shadow-sm: 0 4px 14px rgba(19, 42, 34, 0.05);
+      --radius: 16px;
+      --max: 1120px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 7.5rem;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: var(--green);
+      text-decoration-thickness: 0.08em;
+      text-underline-offset: 0.16em;
+    }
+
+    a:hover {
+      color: var(--green-dark);
+    }
+
+    button, input, select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 0.5rem;
+      z-index: 200;
+      background: #fff;
+      color: var(--green-dark);
+      padding: 0.65rem 1rem;
+      border-radius: 8px;
+      font-weight: 700;
+      border: 2px solid var(--green);
+    }
+
+    .skip-link:focus {
+      left: 0.75rem;
+    }
+
+    .wrap {
+      width: min(var(--max), calc(100% - 2rem));
+      margin-inline: auto;
+    }
+
+    /* Top bar matching Ronnie's Experiments pattern */
+    .topbar {
+      background: #0c2922;
+      color: #e8f0ec;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      font-size: 0.85rem;
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.55rem 0;
+      flex-wrap: wrap;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: #d8e6df;
+      text-decoration: none;
+      padding: 0.3rem 0.68rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+      font-weight: 600;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .back-link:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.38);
+    }
+
+    .back-link svg {
+      width: 15px;
+      height: 15px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.2;
+    }
+
+    .brand {
+      color: #f4f7f5;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .brand:hover {
+      color: var(--gold);
+    }
+
+    .brand b {
+      font-weight: 800;
+      color: var(--gold);
+    }
+
+    .topbar-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.76rem;
+      color: #d7e6de;
+      padding: 0.26rem 0.65rem;
+      border-radius: 999px;
+      border: 1px solid rgba(231, 191, 105, 0.32);
+      background: rgba(231, 191, 105, 0.1);
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #7ee787;
+    }
+
+    /* Hero */
+    .hero {
+      padding: clamp(1.8rem, 4.5vw, 3.6rem) 0 2rem;
+      color: #fbf8ee;
+      background: linear-gradient(155deg, var(--green-dark) 0%, #154538 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 20rem;
+      height: 20rem;
+      right: -5.5rem;
+      top: -8.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 50%;
+      box-shadow: 0 0 0 2.2rem rgba(255, 255, 255, 0.025), 0 0 0 4.4rem rgba(255, 255, 255, 0.02);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow, .section-kicker {
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow {
+      color: #bce0bf;
+    }
+
+    h1 {
+      max-width: 820px;
+      margin: 0.45rem 0 0.75rem;
+      font-size: clamp(2.05rem, 5.4vw, 3.85rem);
+      line-height: 1.03;
+      letter-spacing: -0.04em;
+    }
+
+    h1 span {
+      color: var(--gold);
+    }
+
+    .hero-deck {
+      max-width: 720px;
+      margin: 0;
+      color: #dbe7e0;
+      font-size: clamp(0.98rem, 2vw, 1.14rem);
+    }
+
+    .hero-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 0;
+      margin: 1.25rem 0 0;
+      list-style: none;
+    }
+
+    .hero-pills li {
+      padding: 0.36rem 0.75rem;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 999px;
+      color: #f5f2e8;
+      font-size: 0.82rem;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .hero-note {
+      max-width: 860px;
+      margin: 1.25rem 0 0;
+      padding: 0.85rem 1rem;
+      border-left: 3px solid var(--gold);
+      background: rgba(255, 255, 255, 0.09);
+      color: #f4f1e6;
+      border-radius: 0 10px 10px 0;
+      font-size: 0.89rem;
+    }
+
+    .hero-note a {
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    .hero-note a:hover {
+      color: #fff;
+    }
+
+    /* Sticky Mode & Section Navigation */
+    .sticky-shell {
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      background: rgba(255, 254, 250, 0.96);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 3px 14px rgba(19, 42, 34, 0.05);
+      backdrop-filter: blur(10px);
+    }
+
+    .mode-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.6rem 0;
+      flex-wrap: wrap;
+    }
+
+    .mode-tabs {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .mode-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.42rem;
+      padding: 0.5rem 0.9rem;
+      border-radius: 10px;
+      border: 1px solid var(--line-strong);
+      background: #fff;
+      color: #2c433a;
+      font-weight: 750;
+      font-size: 0.86rem;
+      transition: all 0.14s ease;
+    }
+
+    .mode-tab:hover {
+      background: var(--green-pale);
+      border-color: var(--green);
+    }
+
+    .mode-tab.is-active {
+      background: var(--green);
+      color: #fff;
+      border-color: var(--green);
+      box-shadow: 0 3px 10px rgba(22, 76, 62, 0.22);
+    }
+
+    .mode-tab .tab-count {
+      font-size: 0.73rem;
+      padding: 0.08rem 0.42rem;
+      border-radius: 999px;
+      background: rgba(22, 76, 62, 0.1);
+      color: inherit;
+    }
+
+    .mode-tab.is-active .tab-count {
+      background: rgba(255, 255, 255, 0.22);
+      color: #fff;
+    }
+
+    .progress-summary {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.81rem;
+      color: var(--muted);
+      flex-wrap: wrap;
+    }
+
+    .stat-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.28rem 0.62rem;
+      border-radius: 999px;
+      background: var(--card-subtle);
+      border: 1px solid var(--line);
+      font-weight: 700;
+      color: #2b453b;
+    }
+
+    .section-rail {
+      border-top: 1px solid #e8ece4;
+      padding: 0.42rem 0;
+      display: flex;
+      gap: 0.32rem;
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+
+    .section-rail[hidden] {
+      display: none;
+    }
+
+    .rail-link {
+      flex: 0 0 auto;
+      padding: 0.36rem 0.68rem;
+      border-radius: 8px;
+      color: #364e44;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.8rem;
+      white-space: nowrap;
+    }
+
+    .rail-link:hover, .rail-link:focus-visible {
+      background: var(--green-pale);
+      color: var(--green-dark);
+    }
+
+    main {
+      padding: 1.4rem 0 3.5rem;
+    }
+
+    .view-panel[hidden] {
+      display: none;
+    }
+
+    /* Etiquette / Tip Banner */
+    .tip-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(235px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .tip-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-top: 3px solid var(--green);
+      border-radius: 13px;
+      padding: 0.85rem 1rem;
+      box-shadow: var(--shadow-sm);
+      font-size: 0.87rem;
+    }
+
+    .tip-card.accent-orange {
+      border-top-color: var(--orange);
+    }
+
+    .tip-card.accent-blue {
+      border-top-color: var(--blue);
+    }
+
+    .tip-card strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 0.2rem;
+      font-size: 0.91rem;
+    }
+
+    .tip-card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    /* Controls Toolbar for Phrasebook */
+    .study-controls {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1rem;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .controls-top {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.8rem;
+    }
+
+    @media (min-width: 820px) {
+      .controls-top {
+        grid-template-columns: minmax(240px, 1.15fr) auto;
+        align-items: end;
+      }
+    }
+
+    .field-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #3a5248;
+      margin-bottom: 0.3rem;
+    }
+
+    .search-box {
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      min-height: 44px;
+      padding: 0.58rem 0.85rem 0.58rem 2.35rem;
+      border: 1px solid var(--line-strong);
+      border-radius: 10px;
+      background: #fff;
+      color: var(--ink);
+      font-size: 0.92rem;
+    }
+
+    .search-box input:focus, select:focus {
+      outline: 3px solid rgba(22, 76, 62, 0.2);
+      border-color: var(--green);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 0.8rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+      font-size: 0.95rem;
+    }
+
+    .segmented {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      background: var(--card-subtle);
+      padding: 0.26rem;
+      border-radius: 11px;
+      border: 1px solid var(--line);
+    }
+
+    .seg-btn {
+      padding: 0.44rem 0.72rem;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: #3c5249;
+      font-size: 0.82rem;
+      font-weight: 750;
+      transition: all 0.12s ease;
+    }
+
+    .seg-btn:hover {
+      color: var(--green-dark);
+      background: rgba(22, 76, 62, 0.07);
+    }
+
+    .seg-btn.is-active {
+      background: var(--green);
+      color: #fff;
+    }
+
+    .controls-bottom {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem;
+      padding-top: 0.65rem;
+      border-top: 1px solid #ecefe8;
+    }
+
+    .station-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.38rem;
+      align-items: center;
+    }
+
+    .station-label {
+      font-size: 0.77rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-right: 0.2rem;
+    }
+
+    .filter-chip {
+      padding: 0.32rem 0.68rem;
+      border-radius: 999px;
+      border: 1px solid var(--line-strong);
+      background: #fff;
+      color: #395046;
+      font-size: 0.79rem;
+      font-weight: 700;
+    }
+
+    .filter-chip:hover {
+      border-color: var(--green);
+      background: var(--green-pale);
+    }
+
+    .filter-chip.is-active {
+      background: #23473c;
+      color: #fff;
+      border-color: #23473c;
+    }
+
+    .utility-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .btn-subtle {
+      padding: 0.36rem 0.7rem;
+      border-radius: 8px;
+      border: 1px solid var(--line-strong);
+      background: #fff;
+      color: #2c453b;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .btn-subtle:hover {
+      background: var(--green-pale);
+      border-color: var(--green);
+    }
+
+    .filter-status {
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    /* Phrase Sections */
+    .phrase-section {
+      padding: 1.4rem 0 1.8rem;
+      scroll-margin-top: 7.5rem;
+    }
+
+    .phrase-section + .phrase-section {
+      border-top: 1px solid var(--line);
+    }
+
+    .phrase-section[hidden] {
+      display: none;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    .section-kicker {
+      color: #b0562c;
+    }
+
+    h2 {
+      margin: 0.18rem 0 0.25rem;
+      font-size: clamp(1.45rem, 3.2vw, 2.05rem);
+      line-height: 1.12;
+      letter-spacing: -0.025em;
+    }
+
+    .section-desc {
+      margin: 0;
+      color: var(--muted);
+      max-width: 68ch;
+      font-size: 0.94rem;
+    }
+
+    .station-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.3rem 0.68rem;
+      border-radius: 999px;
+      background: var(--green-pale);
+      color: var(--green-dark);
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+    }
+
+    .phrase-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.85rem;
+    }
+
+    @media (min-width: 760px) {
+      .phrase-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .phrase-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 1rem 1.05rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 0.68rem;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .phrase-card:hover {
+      border-color: var(--line-strong);
+      box-shadow: var(--shadow);
+    }
+
+    .phrase-card.is-learned {
+      border-left: 4px solid #3c8d65;
+    }
+
+    .phrase-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .context-pill {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.2rem 0.52rem;
+      border-radius: 999px;
+      background: #eef2ec;
+      color: #465d53;
+    }
+
+    .card-tools {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.32rem;
+    }
+
+    .icon-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.26rem;
+      padding: 0.24rem 0.52rem;
+      border-radius: 7px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: #42584f;
+      font-size: 0.75rem;
+      font-weight: 700;
+      transition: all 0.12s ease;
+    }
+
+    .icon-btn:hover {
+      border-color: var(--green);
+      color: var(--green-dark);
+      background: var(--green-pale);
+    }
+
+    .icon-btn.is-starred {
+      background: var(--gold-pale);
+      border-color: #d8b24c;
+      color: #705008;
+    }
+
+    .icon-btn.is-learned {
+      background: var(--green-pale);
+      border-color: #6ab08c;
+      color: var(--green-dark);
+    }
+
+    .lang-block {
+      padding: 0.68rem 0.8rem;
+      border-radius: 11px;
+      border: 1px solid #e6ebe3;
+      background: #fbfcf9;
+    }
+
+    .lang-block.es-block {
+      background: #f2f8f4;
+      border-color: #cfe2d5;
+    }
+
+    .lang-label {
+      display: block;
+      font-size: 0.69rem;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .es-block .lang-label {
+      color: var(--green);
+    }
+
+    .en-text {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.38;
+    }
+
+    .es-text {
+      margin: 0;
+      font-size: 1.12rem;
+      font-weight: 800;
+      color: var(--green-dark);
+      line-height: 1.38;
+    }
+
+    .pronun-text {
+      margin: 0.32rem 0 0;
+      font-size: 0.81rem;
+      color: #466055;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    .reveal-cover {
+      width: 100%;
+      text-align: left;
+      padding: 0.78rem 0.85rem;
+      border-radius: 11px;
+      border: 1.5px dashed #8eb09d;
+      background: #f5faf6;
+      color: var(--green-dark);
+      font-weight: 750;
+      font-size: 0.88rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      transition: background 0.14s ease, border-color 0.14s ease;
+    }
+
+    .reveal-cover:hover, .reveal-cover:focus-visible {
+      background: var(--green-pale);
+      border-color: var(--green);
+    }
+
+    .reveal-hint {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .rehide-btn {
+      margin-top: 0.38rem;
+      padding: 0.18rem 0.48rem;
+      font-size: 0.73rem;
+      border-radius: 6px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .rehide-btn:hover {
+      color: var(--ink);
+      border-color: var(--line-strong);
+    }
+
+    .volunteer-note {
+      margin: 0;
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.44;
+    }
+
+    .empty-box {
+      padding: 2rem 1.2rem;
+      text-align: center;
+      background: var(--card);
+      border: 1px dashed var(--line-strong);
+      border-radius: var(--radius);
+      color: var(--muted);
+    }
+
+    /* Flashcards View */
+    .deck-shell {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .deck-toolbar {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1rem;
+      box-shadow: var(--shadow-sm);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 0.75rem;
+      align-items: end;
+      margin-bottom: 1rem;
+    }
+
+    select {
+      width: 100%;
+      min-height: 42px;
+      padding: 0.48rem 0.7rem;
+      border-radius: 10px;
+      border: 1px solid var(--line-strong);
+      background: #fff;
+      color: var(--ink);
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    .deck-progress {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.65rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .progress-track {
+      height: 8px;
+      background: #e1e6dd;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 1.1rem;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--green);
+      border-radius: 999px;
+      transition: width 0.2s ease;
+    }
+
+    .flashcard-stage {
+      background: var(--card);
+      border: 2px solid var(--line-strong);
+      border-radius: 20px;
+      min-height: 315px;
+      padding: clamp(1.3rem, 3.5vw, 2.2rem);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: border-color 0.15s ease, transform 0.12s ease;
+      user-select: none;
+    }
+
+    .flashcard-stage:hover, .flashcard-stage:focus-visible {
+      border-color: var(--green);
+      outline: none;
+    }
+
+    .flashcard-stage.is-flipped {
+      background: linear-gradient(180deg, #fffefa 0%, #f1f8f3 100%);
+      border-color: var(--green);
+    }
+
+    .fc-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .fc-side-tag {
+      font-size: 0.74rem;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--green);
+      background: var(--green-pale);
+      padding: 0.24rem 0.6rem;
+      border-radius: 999px;
+    }
+
+    .fc-body {
+      margin: 1.4rem 0;
+      text-align: center;
+    }
+
+    .fc-prompt-lang {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      font-weight: 800;
+      margin-bottom: 0.45rem;
+    }
+
+    .fc-main-phrase {
+      font-size: clamp(1.38rem, 3.3vw, 2rem);
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1.28;
+      margin: 0 auto;
+      max-width: 34ch;
+    }
+
+    .fc-answer-panel {
+      margin-top: 1.25rem;
+      padding-top: 1.15rem;
+      border-top: 1px solid #d5e3d9;
+    }
+
+    .fc-answer-phrase {
+      font-size: clamp(1.28rem, 3vw, 1.75rem);
+      font-weight: 800;
+      color: var(--green-dark);
+      margin: 0.2rem 0 0.45rem;
+      line-height: 1.3;
+    }
+
+    .fc-pronun {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.88rem;
+      color: #3d5a4e;
+      margin: 0.25rem 0 0.55rem;
+    }
+
+    .fc-note {
+      font-size: 0.88rem;
+      color: var(--muted);
+      max-width: 54ch;
+      margin: 0 auto;
+    }
+
+    .fc-footer-hint {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .fc-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.55rem;
+      margin-top: 1.1rem;
+    }
+
+    .btn {
+      min-height: 44px;
+      padding: 0.58rem 1rem;
+      border-radius: 11px;
+      border: 1px solid var(--line-strong);
+      background: #fff;
+      color: var(--ink);
+      font-weight: 750;
+      font-size: 0.88rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      transition: all 0.14s ease;
+    }
+
+    .btn:hover {
+      background: var(--card-subtle);
+      border-color: var(--green);
+    }
+
+    .btn-primary {
+      background: var(--green);
+      color: #fff;
+      border-color: var(--green);
+    }
+
+    .btn-primary:hover {
+      background: var(--green-dark);
+      border-color: var(--green-dark);
+      color: #fff;
+    }
+
+    .btn-good {
+      background: var(--green-pale);
+      color: var(--green-dark);
+      border-color: #6ab08c;
+    }
+
+    .btn-good:hover {
+      background: #d2eadb;
+    }
+
+    .btn-practice {
+      background: var(--orange-pale);
+      color: #8c3f19;
+      border-color: #e4a382;
+    }
+
+    .btn-practice:hover {
+      background: #ffe3d1;
+    }
+
+    .shortcut-note {
+      text-align: center;
+      margin-top: 0.85rem;
+      font-size: 0.79rem;
+      color: var(--muted);
+    }
+
+    kbd {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.74rem;
+      padding: 0.12rem 0.38rem;
+      border-radius: 5px;
+      border: 1px solid var(--line-strong);
+      background: #fff;
+      color: var(--ink);
+    }
+
+    /* Self-Quiz View */
+    .quiz-shell {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .quiz-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: clamp(1.2rem, 3vw, 1.9rem);
+      box-shadow: var(--shadow);
+    }
+
+    .quiz-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid #e7ece3;
+    }
+
+    .quiz-prompt-label {
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: #9e4d25;
+      margin: 0 0 0.35rem;
+    }
+
+    .quiz-question {
+      font-size: clamp(1.2rem, 2.7vw, 1.55rem);
+      font-weight: 800;
+      color: var(--ink);
+      margin: 0 0 0.45rem;
+      line-height: 1.32;
+    }
+
+    .quiz-context {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin: 0 0 1.15rem;
+    }
+
+    .quiz-options {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.6rem;
+    }
+
+    .quiz-opt {
+      width: 100%;
+      text-align: left;
+      padding: 0.85rem 1rem;
+      border-radius: 12px;
+      border: 1.5px solid var(--line-strong);
+      background: #fff;
+      color: var(--ink);
+      font-size: 0.96rem;
+      font-weight: 650;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+      transition: all 0.12s ease;
+    }
+
+    .quiz-opt:hover:not(:disabled) {
+      border-color: var(--green);
+      background: var(--green-pale);
+    }
+
+    .quiz-opt .opt-num {
+      flex: 0 0 auto;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: var(--card-subtle);
+      border: 1px solid var(--line-strong);
+      display: grid;
+      place-items: center;
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: var(--muted);
+    }
+
+    .quiz-opt.is-correct {
+      background: var(--green-pale);
+      border-color: #2f855a;
+      color: #0f3b28;
+    }
+
+    .quiz-opt.is-correct .opt-num {
+      background: #2f855a;
+      border-color: #2f855a;
+      color: #fff;
+    }
+
+    .quiz-opt.is-wrong {
+      background: var(--red-pale);
+      border-color: #c85a50;
+      color: #691e18;
+    }
+
+    .quiz-opt.is-wrong .opt-num {
+      background: #b8443a;
+      border-color: #b8443a;
+      color: #fff;
+    }
+
+    .quiz-feedback {
+      margin-top: 1.1rem;
+      padding: 0.95rem 1.05rem;
+      border-radius: 13px;
+      border: 1px solid #bfd8c8;
+      background: #f3faf5;
+    }
+
+    .quiz-feedback.is-review {
+      border-color: #e4b49d;
+      background: #fff6f1;
+    }
+
+    .quiz-feedback h4 {
+      margin: 0 0 0.3rem;
+      font-size: 0.96rem;
+    }
+
+    .quiz-feedback p {
+      margin: 0.25rem 0;
+      font-size: 0.89rem;
+    }
+
+    .missed-list {
+      margin: 1rem 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .missed-item {
+      padding: 0.75rem 0.9rem;
+      border-radius: 11px;
+      border: 1px solid var(--line);
+      background: var(--card-subtle);
+      font-size: 0.9rem;
+    }
+
+    /* Quick Building Blocks & Official Info Section */
+    .helper-section {
+      margin-top: 2rem;
+      padding-top: 1.8rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .helper-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
+      gap: 0.75rem;
+      margin-top: 0.9rem;
+    }
+
+    .helper-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 0.85rem 0.95rem;
+    }
+
+    .helper-es {
+      font-weight: 800;
+      color: var(--green-dark);
+      font-size: 0.98rem;
+      margin: 0 0 0.18rem;
+    }
+
+    .helper-en {
+      font-weight: 650;
+      color: var(--ink);
+      font-size: 0.88rem;
+      margin: 0 0 0.22rem;
+    }
+
+    .helper-pronun {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.76rem;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .official-box {
+      margin-top: 2rem;
+      padding: 1.15rem 1.25rem;
+      border-radius: var(--radius);
+      border: 1px solid #d5b86a;
+      background: var(--gold-pale);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .official-box h3 {
+      margin: 0 0 0.35rem;
+      font-size: 1.05rem;
+      color: #2c240c;
+    }
+
+    .official-box p {
+      margin: 0.3rem 0;
+      font-size: 0.9rem;
+      color: #3f3618;
+    }
+
+    footer {
+      padding: 1.6rem 0 2.6rem;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    footer p {
+      margin: 0.32rem 0;
+    }
+
+    @media (max-width: 520px) {
+      .wrap {
+        width: min(100% - 1.2rem, var(--max));
+      }
+      .mode-tab {
+        flex: 1 1 calc(50% - 0.4rem);
+        justify-content: center;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to study aid</a>
+
+  <div class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="back-link" href="../../" aria-label="Back to Ronnie's Experiments">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/><path d="M9 12h11"/></svg>
+        <span>Experiments</span>
+      </a>
+      <a class="brand" href="../../">RONNIE'S <b>EXPERIMENTS</b></a>
+      <span class="topbar-badge"><span class="status-dot" aria-hidden="true"></span>SF Poll Worker Study Aid · Nonpartisan</span>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="wrap hero-inner">
+      <div class="eyebrow">San Francisco Poll Worker Study Aid · Simple General Spanish</div>
+      <h1>Simple Spanish for <span>SF Election Volunteers</span></h1>
+      <p class="hero-deck">An interactive, mobile-friendly practice guide for greeting Spanish-speaking voters, checking in at the roster, explaining ballots and provisional envelopes, offering Spanish and accessible voting options, giving polling-place directions, and thanking voters.</p>
+      <ul class="hero-pills" aria-label="Study aid features">
+        <li>6 polling-place sections</li>
+        <li>41 English–Spanish pairs</li>
+        <li>Click-to-reveal practice</li>
+        <li>Interactive flashcards</li>
+        <li>Scenario self-quiz</li>
+      </ul>
+      <p class="hero-note" role="note">
+        <strong>Official election information &amp; neutrality note:</strong> This page is an unofficial, strictly nonpartisan volunteer study aid—no candidates, no ballot measures, no advocacy, and no voter data. Official election information, poll worker procedures, and official translated materials come from the <strong>San Francisco Department of Elections</strong> at <a href="https://sfelections.org" target="_blank" rel="noopener noreferrer">sfelections.org</a>.
+      </p>
+    </div>
+  </header>
+
+  <div class="sticky-shell">
+    <div class="wrap">
+      <div class="mode-bar" role="navigation" aria-label="Study modes">
+        <div class="mode-tabs" role="tablist" aria-label="Choose study mode">
+          <button type="button" class="mode-tab is-active" role="tab" aria-selected="true" data-mode="sections" id="tab-sections">
+            Phrase Sections <span class="tab-count" id="total-count-badge">41</span>
+          </button>
+          <button type="button" class="mode-tab" role="tab" aria-selected="false" data-mode="flashcards" id="tab-flashcards">
+            Flashcards
+          </button>
+          <button type="button" class="mode-tab" role="tab" aria-selected="false" data-mode="quiz" id="tab-quiz">
+            Self-Quiz
+          </button>
+        </div>
+        <div class="progress-summary" aria-live="polite">
+          <span class="stat-pill" id="starred-pill">★ 0 Starred</span>
+          <span class="stat-pill" id="learned-pill">✓ 0 / 41 Learned</span>
+        </div>
+      </div>
+
+      <nav class="section-rail" id="section-rail" aria-label="Jump to phrase section">
+        <a class="rail-link" href="#sec-greeting">1. Greeting &amp; Check-In</a>
+        <a class="rail-link" href="#sec-registration">2. Voter ID &amp; Registration</a>
+        <a class="rail-link" href="#sec-ballot">3. Ballot Help</a>
+        <a class="rail-link" href="#sec-accessibility">4. Accessibility &amp; Spanish Ballot</a>
+        <a class="rail-link" href="#sec-directions">5. Polling-Place Directions</a>
+        <a class="rail-link" href="#sec-closing">6. Closing Phrases</a>
+        <a class="rail-link" href="#sec-helpers">Helper Words</a>
+      </nav>
+    </div>
+  </div>
+
+  <main class="wrap" id="main">
+    <!-- VIEW 1: PHRASEBOOK SECTIONS & CLICK-TO-REVEAL -->
+    <section class="view-panel" id="view-sections" aria-labelledby="tab-sections">
+      <div class="tip-strip" aria-label="Quick volunteer communication tips">
+        <div class="tip-card">
+          <strong>Polite “usted” everywhere</strong>
+          <p>Every phrase here uses respectful <em>usted</em> forms (<em>su nombre</em>, <em>firme aquí</em>, <em>¿desea…?</em>), appropriate for helping adult voters of all ages.</p>
+        </div>
+        <div class="tip-card accent-orange">
+          <strong>Click-to-reveal active recall</strong>
+          <p>Switch to <em>Hide Spanish</em> or <em>Hide English</em> below to test yourself right inside each section—click or press Enter on any card to reveal.</p>
+        </div>
+        <div class="tip-card accent-blue">
+          <strong>When a question gets detailed</strong>
+          <p>Use simple phrases for routine flow, and bring in a bilingual poll worker or the official SF Elections language line whenever a voter has a complex question.</p>
+        </div>
+      </div>
+
+      <div class="study-controls" aria-label="Phrasebook study controls">
+        <div class="controls-top">
+          <div class="field-group search-box">
+            <label for="phrase-search">Search English, Spanish, or polling-place situation</label>
+            <span class="search-icon" aria-hidden="true">⌕</span>
+            <input id="phrase-search" type="search" placeholder="Try “provisional”, “mistake”, “Spanish ballot”, “line”, “address”…" autocomplete="off">
+          </div>
+
+          <div class="field-group">
+            <label id="reveal-mode-label">Card display mode (click-to-reveal)</label>
+            <div class="segmented" role="group" aria-labelledby="reveal-mode-label">
+              <button type="button" class="seg-btn is-active" data-reveal-mode="both">Show Both</button>
+              <button type="button" class="seg-btn" data-reveal-mode="hide-es">Hide Spanish (Reveal)</button>
+              <button type="button" class="seg-btn" data-reveal-mode="hide-en">Hide English (Reveal)</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="controls-bottom">
+          <div class="station-pills" role="group" aria-label="Filter by polling-place station">
+            <span class="station-label">Station:</span>
+            <button type="button" class="filter-chip is-active" data-station="all">All Stations</button>
+            <button type="button" class="filter-chip" data-station="checkin">Check-In Roster</button>
+            <button type="button" class="filter-chip" data-station="ballot">Ballot Table</button>
+            <button type="button" class="filter-chip" data-station="floor">Floor &amp; Accessibility</button>
+            <button type="button" class="filter-chip" data-station="exit">Scanner &amp; Exit</button>
+            <button type="button" class="filter-chip" id="starred-only-btn" aria-pressed="false">★ Starred Only</button>
+          </div>
+
+          <div class="utility-actions">
+            <button type="button" class="btn-subtle" id="reveal-all-btn" hidden>Reveal All Visible</button>
+            <button type="button" class="btn-subtle" id="cover-all-btn" hidden>Cover All Again</button>
+            <span class="filter-status" id="filter-status" aria-live="polite">Showing 41 of 41 phrases</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="sections-container"></div>
+      <div class="empty-box" id="sections-empty" hidden role="status">
+        <p><strong>No phrases match your current filter.</strong></p>
+        <p>Try clearing the search box or switching back to “All Stations”.</p>
+        <button type="button" class="btn" id="clear-filters-btn" style="margin-top:0.6rem;">Reset Filters</button>
+      </div>
+
+      <!-- Quick Helper Words -->
+      <section class="helper-section" id="sec-helpers" aria-labelledby="helpers-title">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Everyday Building Blocks</div>
+            <h2 id="helpers-title">Quick Helper Phrases &amp; Numbers</h2>
+            <p class="section-desc">Short bridge phrases for pacing, directions, and letting a voter know you are happy to help while learning Spanish.</p>
+          </div>
+        </div>
+        <div class="helper-grid" id="helpers-grid"></div>
+      </section>
+    </section>
+
+    <!-- VIEW 2: FLASHCARDS -->
+    <section class="view-panel" id="view-flashcards" aria-labelledby="tab-flashcards" hidden>
+      <div class="deck-shell">
+        <div class="deck-toolbar" aria-label="Flashcard deck settings">
+          <div class="field-group">
+            <label for="fc-deck-select">Phrase group</label>
+            <select id="fc-deck-select">
+              <option value="all">All 6 Sections (41 phrases)</option>
+              <option value="greeting">1. Greeting &amp; Check-In</option>
+              <option value="registration">2. Voter ID &amp; Registration</option>
+              <option value="ballot">3. Ballot Help</option>
+              <option value="accessibility">4. Accessibility &amp; Spanish Ballot</option>
+              <option value="directions">5. Polling-Place Directions</option>
+              <option value="closing">6. Closing Phrases</option>
+              <option value="starred">★ Starred Phrases Only</option>
+              <option value="unlearned">Needs Practice (Not Yet Learned)</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label for="fc-dir-select">Prompt side</label>
+            <select id="fc-dir-select">
+              <option value="en-to-es">English → Recall Spanish</option>
+              <option value="es-to-en">Spanish → Recall English</option>
+            </select>
+          </div>
+
+          <div class="field-group" style="display:flex; gap:0.45rem; flex-wrap:wrap;">
+            <button type="button" class="btn" id="fc-shuffle-btn" style="flex:1;">Shuffle</button>
+            <button type="button" class="btn" id="fc-reset-order-btn" style="flex:1;">In Order</button>
+          </div>
+        </div>
+
+        <div id="fc-content-area">
+          <div class="deck-progress">
+            <span id="fc-counter">Card 1 of 41</span>
+            <span id="fc-deck-learned">0 learned in this deck</span>
+          </div>
+          <div class="progress-track" aria-hidden="true">
+            <div class="progress-fill" id="fc-progress-fill" style="width: 2.5%;"></div>
+          </div>
+
+          <div class="flashcard-stage" id="fc-card" role="button" tabindex="0" aria-label="Flashcard. Activate with Click, Space, or Enter to flip.">
+            <div class="fc-meta">
+              <span class="station-tag" id="fc-section-badge">Greeting &amp; Check-In</span>
+              <span class="fc-side-tag" id="fc-side-indicator">Prompt</span>
+            </div>
+
+            <div class="fc-body">
+              <div class="fc-prompt-lang" id="fc-prompt-label">Say in Spanish</div>
+              <p class="fc-main-phrase" id="fc-front-text"></p>
+
+              <div class="fc-answer-panel" id="fc-answer-panel" hidden>
+                <div class="fc-prompt-lang" id="fc-answer-label">Spanish Phrase</div>
+                <p class="fc-answer-phrase" id="fc-back-text"></p>
+                <p class="fc-pronun" id="fc-pronun-text"></p>
+                <p class="fc-note" id="fc-note-text"></p>
+              </div>
+            </div>
+
+            <div class="fc-footer-hint" id="fc-hint">Click card or press Space / Enter to reveal answer</div>
+          </div>
+
+          <div class="fc-actions">
+            <button type="button" class="btn" id="fc-prev-btn">← Previous</button>
+            <button type="button" class="btn btn-primary" id="fc-flip-btn">Flip Card</button>
+            <button type="button" class="btn" id="fc-speak-btn" hidden>🔊 Listen (ES)</button>
+            <button type="button" class="btn" id="fc-star-btn">☆ Star</button>
+            <button type="button" class="btn btn-practice" id="fc-again-btn">Practice Again ↻</button>
+            <button type="button" class="btn btn-good" id="fc-gotit-btn">Got It ✓</button>
+            <button type="button" class="btn" id="fc-next-btn">Next →</button>
+          </div>
+
+          <p class="shortcut-note">
+            Shortcuts: <kbd>Space</kbd> flip · <kbd>←</kbd> <kbd>→</kbd> prev/next · <kbd>G</kbd> got it · <kbd>R</kbd> practice again · <kbd>S</kbd> star
+          </p>
+        </div>
+
+        <div class="empty-box" id="fc-empty" hidden>
+          <p><strong id="fc-empty-title">No cards in this filter yet.</strong></p>
+          <p id="fc-empty-desc">Star a few phrases in the Phrase Sections tab or switch back to All 6 Sections.</p>
+          <button type="button" class="btn btn-primary" id="fc-show-all-btn" style="margin-top:0.6rem;">Use All 41 Phrases</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 3: SELF-QUIZ -->
+    <section class="view-panel" id="view-quiz" aria-labelledby="tab-quiz" hidden>
+      <div class="quiz-shell">
+        <div class="deck-toolbar" aria-label="Self-quiz settings">
+          <div class="field-group">
+            <label for="quiz-section-select">Quiz topic</label>
+            <select id="quiz-section-select">
+              <option value="all">All 6 Polling-Place Sections</option>
+              <option value="greeting">1. Greeting &amp; Check-In</option>
+              <option value="registration">2. Voter ID &amp; Registration</option>
+              <option value="ballot">3. Ballot Help</option>
+              <option value="accessibility">4. Accessibility &amp; Spanish Ballot</option>
+              <option value="directions">5. Polling-Place Directions</option>
+              <option value="closing">6. Closing Phrases</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label for="quiz-dir-select">Question style</label>
+            <select id="quiz-dir-select">
+              <option value="mixed">Mixed (English ↔ Spanish)</option>
+              <option value="en-to-es">English → Choose Spanish</option>
+              <option value="es-to-en">Spanish → Choose English</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label for="quiz-len-select">Round length</label>
+            <select id="quiz-len-select">
+              <option value="8" selected>8 Questions</option>
+              <option value="12">12 Questions</option>
+              <option value="6">Quick 6 Questions</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <button type="button" class="btn btn-primary" id="quiz-restart-btn" style="width:100%;">New Quiz Round</button>
+          </div>
+        </div>
+
+        <!-- Active Quiz Card -->
+        <div class="quiz-card" id="quiz-active-card">
+          <div class="quiz-meta">
+            <span class="station-tag" id="quiz-cat-badge">Ballot Help</span>
+            <span class="filter-status" id="quiz-progress-text">Question 1 of 8 · Score: 0 / 0</span>
+          </div>
+
+          <p class="quiz-prompt-label" id="quiz-prompt-kicker">How do you say this in Spanish?</p>
+          <h3 class="quiz-question" id="quiz-question-text"></h3>
+          <p class="quiz-context" id="quiz-context-text"></p>
+
+          <div class="quiz-options" id="quiz-options" role="group" aria-label="Answer choices"></div>
+
+          <div class="quiz-feedback" id="quiz-feedback" hidden aria-live="polite">
+            <h4 id="quiz-fb-title"></h4>
+            <p id="quiz-fb-pair"></p>
+            <p class="pronun-text" id="quiz-fb-pronun"></p>
+            <p class="volunteer-note" id="quiz-fb-note" style="margin-top:0.3rem;"></p>
+            <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.75rem;">
+              <button type="button" class="btn btn-primary" id="quiz-next-btn">Next Question →</button>
+              <button type="button" class="btn" id="quiz-speak-btn" hidden>🔊 Listen (ES)</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quiz Summary Card -->
+        <div class="quiz-card" id="quiz-summary-card" hidden aria-live="polite">
+          <div class="section-kicker">Self-Quiz Complete</div>
+          <h2 id="quiz-final-headline" style="margin-top:0.25rem;"></h2>
+          <p id="quiz-final-sub" class="section-desc" style="margin-bottom:1rem;"></p>
+
+          <div id="quiz-missed-wrap" hidden>
+            <h3 style="font-size:1rem; margin:1rem 0 0.4rem;">Phrases to review from this round:</h3>
+            <ul class="missed-list" id="quiz-missed-list"></ul>
+          </div>
+
+          <div style="display:flex; gap:0.6rem; flex-wrap:wrap; margin-top:1.2rem;">
+            <button type="button" class="btn btn-primary" id="quiz-again-btn">Start Another Round</button>
+            <button type="button" class="btn" id="quiz-star-missed-btn" hidden>★ Star Missed &amp; Open Flashcards</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OFFICIAL SF DEPARTMENT OF ELECTIONS NOTE -->
+    <aside class="official-box" aria-labelledby="official-note-heading">
+      <h3 id="official-note-heading">Official Election Information &amp; Translated Materials</h3>
+      <p>
+        Official election information, poll worker manuals, voter rights notices, and official translated ballot materials come from the <strong>San Francisco Department of Elections</strong> at <a href="https://sfelections.org" target="_blank" rel="noopener noreferrer">sfelections.org</a>.
+      </p>
+      <p>
+        <strong>Privacy &amp; nonpartisanship:</strong> This study tool is strictly neutral and nonpartisan (no candidates, campaigns, or ballot measures) and uses simple, general Spanish for routine volunteer practice. No real voter data or personal information is included, requested, or transmitted anywhere—any starred or learned study progress stays locally in your browser and can be cleared anytime:
+        <button type="button" class="btn-subtle" id="reset-progress-btn" style="margin-left:0.35rem;">Reset Local Study Progress</button>
+      </p>
+    </aside>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p><strong>Simple Spanish for SF Election Volunteers</strong> · Part of <a href="../../">Ronnie's Experiments</a></p>
+      <p>Strictly nonpartisan volunteer study aid · Official election information and translated materials: <a href="https://sfelections.org" target="_blank" rel="noopener noreferrer">San Francisco Department of Elections (sfelections.org)</a>.</p>
+    </div>
+  </footer>
+
+  <script>
+    "use strict";
+
+    const SECTIONS = [
+      {
+        id: "greeting",
+        number: "01",
+        title: "Greeting & Check-In",
+        spanishTitle: "Saludo y registro de entrada",
+        station: "checkin",
+        stationLabel: "Check-In Roster",
+        description: "Welcoming voters warmly to the polling place, asking for their name and address, and guiding them to sign the roster."
+      },
+      {
+        id: "registration",
+        number: "02",
+        title: "Voter ID & Registration Questions",
+        spanishTitle: "Preguntas de registro e identificación",
+        station: "checkin",
+        stationLabel: "Check-In Roster",
+        description: "Simple, neutral questions for checking registration status, recent address changes, first-time voter roster notes, or calling over the polling-place supervisor."
+      },
+      {
+        id: "ballot",
+        number: "03",
+        title: "Ballot Help",
+        spanishTitle: "Ayuda con la boleta",
+        station: "ballot",
+        stationLabel: "Ballot Table",
+        description: "Handing out official ballots and privacy folders, explaining how to mark choices, replacing a spoiled ballot if a mistake is made, and explaining provisional ballots."
+      },
+      {
+        id: "accessibility",
+        number: "04",
+        title: "Accessibility & Spanish Ballot Options",
+        spanishTitle: "Accesibilidad y boleta en español",
+        station: "floor",
+        stationLabel: "Floor & Accessibility",
+        description: "Offering assistance, letting voters know a Spanish ballot and accessible voting options are available, and connecting voters with bilingual help."
+      },
+      {
+        id: "directions",
+        number: "05",
+        title: "Directions Inside the Polling Place",
+        spanishTitle: "Direcciones dentro del lugar de votación",
+        station: "floor",
+        stationLabel: "Floor & Scanner Flow",
+        description: "Guiding voters smoothly through the line, to open voting booths, to the ballot scanner, and toward the exit."
+      },
+      {
+        id: "closing",
+        number: "06",
+        title: "Closing Phrases",
+        spanishTitle: "Despedida y agradecimiento",
+        station: "exit",
+        stationLabel: "Scanner & Exit",
+        description: "Confirming a ballot has been accepted, offering an “I Voted!” sticker, and thanking voters for participating."
+      }
+    ];
+
+    const PHRASES = [
+      // 1. Greeting & Check-In
+      {
+        id: "g1",
+        section: "greeting",
+        station: "checkin",
+        context: "Welcome",
+        en: "Hello! Good morning / Good afternoon.",
+        es: "¡Hola! Buenos días / Buenas tardes.",
+        pronun: "OH-lah! BWEH-nohs DEE-ahs / BWEH-nahs TAR-dehs",
+        note: "Use “Buenos días” in the morning and “Buenas tardes” after noon (“Buenas noches” in the evening)."
+      },
+      {
+        id: "g2",
+        section: "greeting",
+        station: "checkin",
+        context: "Welcome",
+        en: "How may I help you?",
+        es: "¿En qué le puedo ayudar?",
+        pronun: "ehn keh leh PWEH-doh ah-yoo-DAR",
+        note: "Polite usted phrasing suitable for greeting any voter approaching your table."
+      },
+      {
+        id: "g3",
+        section: "greeting",
+        station: "checkin",
+        context: "Roster lookup",
+        en: "What is your name?",
+        es: "¿Cuál es su nombre?",
+        pronun: "kwahl ehs soo NOHM-breh",
+        note: "Simple, respectful way to ask for a voter's name at check-in."
+      },
+      {
+        id: "g4",
+        section: "greeting",
+        station: "checkin",
+        context: "Roster lookup",
+        en: "Could you spell your last name, please?",
+        es: "¿Puede deletrear su apellido, por favor?",
+        pronun: "PWEH-deh deh-leh-treh-AR soo ah-peh-YEE-doh, por fah-VOR",
+        note: "Helpful when confirming spelling in the printed or electronic roster."
+      },
+      {
+        id: "g5",
+        section: "greeting",
+        station: "checkin",
+        context: "Address check",
+        en: "What is your address?",
+        es: "¿Cuál es su dirección?",
+        pronun: "kwahl ehs soo dee-rehk-SYOHN",
+        note: "Standard check-in question to verify the voter's residential address."
+      },
+      {
+        id: "g6",
+        section: "greeting",
+        station: "checkin",
+        context: "Roster signature",
+        en: "Please sign here.",
+        es: "Por favor, firme aquí.",
+        pronun: "por fah-VOR, FEER-meh ah-KEE",
+        note: "Gesture clearly to the signature box next to the voter's roster line."
+      },
+      {
+        id: "g7",
+        section: "greeting",
+        station: "checkin",
+        context: "Brief pause",
+        en: "One moment, please.",
+        es: "Un momento, por favor.",
+        pronun: "oon moh-MEHN-toh, por fah-VOR",
+        note: "Reassures the voter while you turn pages or check precinct materials."
+      },
+
+      // 2. Voter ID & Registration Questions
+      {
+        id: "r1",
+        section: "registration",
+        station: "checkin",
+        context: "Registration status",
+        en: "Are you registered to vote in San Francisco?",
+        es: "¿Ya se registró para votar en San Francisco?",
+        pronun: "yah seh reh-hees-TROH PAH-rah boh-TAR ehn sahn frahn-SEES-koh",
+        note: "Uses a verb phrasing that stays identical regardless of the voter's gender."
+      },
+      {
+        id: "r2",
+        section: "registration",
+        station: "checkin",
+        context: "Address update",
+        en: "Have you changed your address recently?",
+        es: "¿Cambió de dirección recientemente?",
+        pronun: "kahm-BYOH deh dee-rehk-SYOHN reh-syehn-teh-MEHN-teh",
+        note: "Helps identify whether the voter moved to a different precinct or needs an address update."
+      },
+      {
+        id: "r3",
+        section: "registration",
+        station: "checkin",
+        context: "First-time voter",
+        en: "Is this your first time voting here?",
+        es: "¿Es la primera vez que vota aquí?",
+        pronun: "ehs lah pree-MEH-rah behs keh BOH-tah ah-KEE",
+        note: "Useful when checking first-time voter notes on the roster."
+      },
+      {
+        id: "r4",
+        section: "registration",
+        station: "checkin",
+        context: "ID check when required",
+        en: "Do you have a form of identification with you?",
+        es: "¿Trae alguna identificación con usted?",
+        pronun: "TRAH-eh ahl-GOO-nah ee-dehn-tee-fee-kah-SYOHN kohn oos-TEHD",
+        note: "Ask only when official SF Department of Elections roster instructions call for ID."
+      },
+      {
+        id: "r5",
+        section: "registration",
+        station: "checkin",
+        context: "General ID rule",
+        en: "In most cases, you do not need to show an ID.",
+        es: "En la mayoría de los casos, no necesita mostrar identificación.",
+        pronun: "ehn lah mah-yoh-REE-ah deh lohs KAH-sohs, noh neh-seh-SEE-tah mohs-TRAR ee-dehn-tee-fee-kah-SYOHN",
+        note: "Helpful reassurance when a voter offers an ID unnecessarily; always follow official roster instructions."
+      },
+      {
+        id: "r6",
+        section: "registration",
+        station: "checkin",
+        context: "Same-day / Provisional reassurance",
+        en: "You can still vote today.",
+        es: "Usted todavía puede votar hoy.",
+        pronun: "oos-TEHD toh-dah-BEE-ah PWEH-deh boh-TAR oy",
+        note: "Reassuring phrase before explaining Same-Day Registration or provisional voting options."
+      },
+      {
+        id: "r7",
+        section: "registration",
+        station: "checkin",
+        context: "Supervisor support",
+        en: "Let me ask the supervisor to help us.",
+        es: "Permítame llamar al supervisor para ayudarnos.",
+        pronun: "pehr-MEE-tah-meh yah-MAR ahl soo-pehr-bee-SOR PAH-rah ah-yoo-DAR-nohs",
+        note: "Great bridge phrase whenever a roster question needs the Polling Place Inspector."
+      },
+
+      // 3. Ballot Help
+      {
+        id: "b1",
+        section: "ballot",
+        station: "ballot",
+        context: "Issuing ballot",
+        en: "Here is your ballot and privacy folder.",
+        es: "Aquí tiene su boleta y la carpeta de privacidad.",
+        pronun: "ah-KEE TYEH-neh soo boh-LEH-tah ee lah kar-PEH-tah deh pree-bah-see-DAHD",
+        note: "Said when handing the official ballot cards and secrecy folder to the voter."
+      },
+      {
+        id: "b2",
+        section: "ballot",
+        station: "ballot",
+        context: "Marking instructions",
+        en: "Mark your choices by filling in the oval completely.",
+        es: "Marque sus opciones llenando el óvalo por completo.",
+        pronun: "MAR-keh soos ohp-SYOH-nehs yeh-NAHN-doh ehl OH-bah-loh por kohm-PLEH-toh",
+        note: "You can point to the visual example printed at the top of the ballot card."
+      },
+      {
+        id: "b3",
+        section: "ballot",
+        station: "ballot",
+        context: "Pen instruction",
+        en: "Please use this pen to mark your ballot.",
+        es: "Por favor, use esta pluma para marcar su boleta.",
+        pronun: "por fah-VOR, OO-seh EHS-tah PLOO-mah PAH-rah mar-KAR soo boh-LEH-tah",
+        note: "Helps ensure marks dry cleanly and scan properly."
+      },
+      {
+        id: "b4",
+        section: "ballot",
+        station: "ballot",
+        context: "Multi-card / Two-sided ballot",
+        en: "Remember to check both sides of every ballot card.",
+        es: "Recuerde revisar ambos lados de cada tarjeta de la boleta.",
+        pronun: "reh-KWEHR-deh reh-bee-SAR AHM-bohs LAH-dohs deh KAH-dah tar-HEH-tah deh lah boh-LEH-tah",
+        note: "San Francisco elections frequently have multiple cards with contests on front and back."
+      },
+      {
+        id: "b5",
+        section: "ballot",
+        station: "ballot",
+        context: "Replacement ballot",
+        en: "If you make a mistake, ask for a new ballot.",
+        es: "Si comete un error, pida una boleta nueva.",
+        pronun: "see koh-MEH-teh oon eh-RROR, PEE-dah OO-nah boh-LEH-tah NWEH-bah",
+        note: "Lets voters know they can exchange a spoiled ballot card rather than crossing out marks."
+      },
+      {
+        id: "b6",
+        section: "ballot",
+        station: "ballot",
+        context: "Vote-by-mail drop-off",
+        en: "Are you dropping off a vote-by-mail ballot today?",
+        es: "¿Viene a entregar su boleta de voto por correo hoy?",
+        pronun: "BYEH-neh ah ehn-treh-GAR soo boh-LEH-tah deh BOH-toh por koh-RREH-oh oy",
+        note: "Remind mail-ballot drop-off voters to make sure their return envelope is signed and sealed."
+      },
+      {
+        id: "b7",
+        section: "ballot",
+        station: "ballot",
+        context: "Provisional voting",
+        en: "You may vote using a provisional ballot.",
+        es: "Usted puede votar con una boleta provisional.",
+        pronun: "oos-TEHD PWEH-deh boh-TAR kohn OO-nah boh-LEH-tah proh-bee-syoh-NAHL",
+        note: "Used whenever regular roster check-in cannot be completed immediately."
+      },
+      {
+        id: "b8",
+        section: "ballot",
+        station: "ballot",
+        context: "Provisional envelope",
+        en: "Please place your ballot in this envelope, seal it, and sign here.",
+        es: "Por favor, ponga su boleta en este sobre, ciérrelo y firme aquí.",
+        pronun: "por fah-VOR, POHN-gah soo boh-LEH-tah ehn EHS-teh SOH-breh, SYEH-rreh-loh ee FEER-meh ah-KEE",
+        note: "Point to the voter signature section on the provisional envelope before it is placed in the ballot box."
+      },
+
+      // 4. Accessibility & Spanish Ballot Options
+      {
+        id: "a1",
+        section: "accessibility",
+        station: "floor",
+        context: "Offering help",
+        en: "Do you need help?",
+        es: "¿Necesita ayuda?",
+        pronun: "neh-seh-SEE-tah ah-YOO-dah",
+        note: "Simple, respectful offer whenever a voter pauses or looks for assistance."
+      },
+      {
+        id: "a2",
+        section: "accessibility",
+        station: "ballot",
+        context: "Language access",
+        en: "A Spanish ballot is available.",
+        es: "Hay una boleta en español disponible.",
+        pronun: "eye OO-nah boh-LEH-tah ehn ehs-pah-NYOHL dees-poh-NEE-bleh",
+        note: "Lets Spanish-speaking voters know translated Spanish ballots and reference materials are ready."
+      },
+      {
+        id: "a3",
+        section: "accessibility",
+        station: "ballot",
+        context: "Language access",
+        en: "Would you like a ballot in Spanish?",
+        es: "¿Desea una boleta en español?",
+        pronun: "deh-SEH-ah OO-nah boh-LEH-tah ehn ehs-pah-NYOHL",
+        note: "Proactively offer when issuing a ballot to a voter speaking Spanish."
+      },
+      {
+        id: "a4",
+        section: "accessibility",
+        station: "floor",
+        context: "Accessible options",
+        en: "Accessible voting options are available.",
+        es: "Hay opciones de votación accesible disponibles.",
+        pronun: "eye ohp-SYOH-nehs deh boh-tah-SYOHN ahk-seh-SEE-bleh dees-poh-NEE-blehs",
+        note: "Covers accessible ballot-marking devices, audio ballots, magnifiers, and seated voting booths."
+      },
+      {
+        id: "a5",
+        section: "accessibility",
+        station: "floor",
+        context: "Touchscreen / Audio machine",
+        en: "Would you like to use the accessible machine with audio or large text?",
+        es: "¿Desea usar la máquina accesible con audio o letra grande?",
+        pronun: "deh-SEH-ah oo-SAR lah MAH-kee-nah ahk-seh-SEE-bleh kohn OW-dyoh oh LEH-trah GRAHN-deh",
+        note: "Any voter may choose to mark their ballot on the accessible voting machine."
+      },
+      {
+        id: "a6",
+        section: "accessibility",
+        station: "floor",
+        context: "Bilingual support",
+        en: "Let me get a Spanish-speaking volunteer or call the language line.",
+        es: "Permítame buscar a un voluntario que habla español o llamar a la línea de idiomas.",
+        pronun: "pehr-MEE-tah-meh boos-KAR ah oon boh-loon-TAH-ryoh keh AH-blah ehs-pah-NYOHL oh yah-MAR ah lah LEE-neh-ah deh ee-DYOH-mahs",
+        note: "Essential phrase when a voter asks a detailed procedural question beyond basic phrases."
+      },
+      {
+        id: "a7",
+        section: "accessibility",
+        station: "floor",
+        context: "Seating & comfort",
+        en: "Would you like a chair while you wait?",
+        es: "¿Desea una silla mientras espera?",
+        pronun: "deh-SEH-ah OO-nah SEE-yah MYEHN-trahs ehs-PEH-rah",
+        note: "Thoughtful offer for older adults, expectant parents, or anyone with mobility needs."
+      },
+
+      // 5. Directions Inside the Polling Place
+      {
+        id: "d1",
+        section: "directions",
+        station: "floor",
+        context: "Line flow",
+        en: "Please wait in line here.",
+        es: "Por favor, espere en la fila aquí.",
+        pronun: "por fah-VOR, ehs-PEH-reh ehn lah FEE-lah ah-KEE",
+        note: "Keeps walkways clear and guides arriving voters to the start of the queue."
+      },
+      {
+        id: "d2",
+        section: "directions",
+        station: "checkin",
+        context: "Calling next voter",
+        en: "Next voter, please come forward.",
+        es: "Siguiente votante, pase adelante, por favor.",
+        pronun: "see-GYEHN-teh boh-TAHN-teh, PAH-seh ah-deh-LAHN-teh, por fah-VOR",
+        note: "Clear, polite call when a check-in clerk or voting booth becomes free."
+      },
+      {
+        id: "d3",
+        section: "directions",
+        station: "floor",
+        context: "Booth location",
+        en: "The voting booth is over there.",
+        es: "La cabina de votación está por allá.",
+        pronun: "lah kah-BEE-nah deh boh-tah-SYOHN ehs-TAH por ah-YAH",
+        note: "Gesture toward an open privacy booth so the voter knows where to mark their ballot."
+      },
+      {
+        id: "d4",
+        section: "directions",
+        station: "floor",
+        context: "Seated booth",
+        en: "The seated voting booth is on the right / on the left.",
+        es: "La cabina con silla está a la derecha / a la izquierda.",
+        pronun: "lah kah-BEE-nah kohn SEE-yah ehs-TAH ah lah deh-REH-chah / ah lah ees-KYEHR-dah",
+        note: "Use “a la derecha” for on the right and “a la izquierda” for on the left."
+      },
+      {
+        id: "d5",
+        section: "directions",
+        station: "exit",
+        context: "Casting ballot",
+        en: "When you finish, take your ballot to the scanner.",
+        es: "Cuando termine, lleve su boleta al escáner.",
+        pronun: "KWAHN-doh tehr-MEE-neh, YEH-beh soo boh-LEH-tah ahl ehs-KAH-nehr",
+        note: "Directs standard-ballot voters to the optical scanner station after marking."
+      },
+      {
+        id: "d6",
+        section: "directions",
+        station: "exit",
+        context: "Scanner guidance",
+        en: "Insert one ballot card at a time.",
+        es: "Inserte una tarjeta de la boleta a la vez.",
+        pronun: "een-SEHR-teh OO-nah tar-HEH-tah deh lah boh-LEH-tah ah lah behs",
+        note: "Stand back to protect ballot secrecy while explaining how cards feed into the scanner."
+      },
+      {
+        id: "d7",
+        section: "directions",
+        station: "exit",
+        context: "Wayfinding",
+        en: "The exit is this way.",
+        es: "La salida es por aquí.",
+        pronun: "lah sah-LEE-dah ehs por ah-KEE",
+        note: "Helps voters navigate out smoothly during busy Election Day hours."
+      },
+
+      // 6. Closing Phrases
+      {
+        id: "c1",
+        section: "closing",
+        station: "exit",
+        context: "Scanner confirmation",
+        en: "Your ballot has been accepted.",
+        es: "Su boleta ya fue recibida.",
+        pronun: "soo boh-LEH-tah yah fweh reh-see-BEE-dah",
+        note: "Reassures the voter once the scanner screen confirms the card was cast."
+      },
+      {
+        id: "c2",
+        section: "closing",
+        station: "exit",
+        context: "Voter sticker",
+        en: "Would you like an “I Voted!” sticker?",
+        es: "¿Desea una calcomanía de «¡Yo voté!»?",
+        pronun: "deh-SEH-ah OO-nah kahl-koh-mah-NEE-ah deh yoh boh-TEH",
+        note: "San Francisco stickers feature multilingual “I Voted! / ¡Yo voté!” designs."
+      },
+      {
+        id: "c3",
+        section: "closing",
+        station: "exit",
+        context: "Gratitude",
+        en: "Thank you for voting!",
+        es: "¡Gracias por votar!",
+        pronun: "GRAH-syahs por boh-TAR",
+        note: "Warm, classic send-off for every voter leaving the polling place."
+      },
+      {
+        id: "c4",
+        section: "closing",
+        station: "exit",
+        context: "Busy-line appreciation",
+        en: "Thank you for your patience.",
+        es: "Gracias por su paciencia.",
+        pronun: "GRAH-syahs por soo pah-SYEHN-syah",
+        note: "Especially appreciated during morning and evening rush periods."
+      },
+      {
+        id: "c5",
+        section: "closing",
+        station: "exit",
+        context: "Farewell",
+        en: "Have a good day! / Have a good evening!",
+        es: "¡Que tenga un buen día! / ¡Que pase buenas noches!",
+        pronun: "keh TEHN-gah oon bwehn DEE-ah / keh PAH-seh BWEH-nahs NOH-chehs",
+        note: "Friendly closing wish as voters head out."
+      }
+    ];
+
+    const HELPERS = [
+      {
+        es: "No hablo mucho español, pero quiero ayudarle.",
+        en: "I don't speak much Spanish, but I want to help you.",
+        pronun: "noh AH-bloh MOO-choh ehs-pah-NYOHL, PEH-roh KYEH-roh ah-yoo-DAR-leh"
+      },
+      {
+        es: "Más despacio, por favor.",
+        en: "Slower, please.",
+        pronun: "mahs dehs-PAH-syoh, por fah-VOR"
+      },
+      {
+        es: "¿Puede repetir, por favor?",
+        en: "Could you repeat that, please?",
+        pronun: "PWEH-deh reh-peh-TEER, por fah-VOR"
+      },
+      {
+        es: "Sí · No · Por favor · Gracias · De nada",
+        en: "Yes · No · Please · Thank you · You're welcome",
+        pronun: "see · noh · por fah-VOR · GRAH-syahs · deh NAH-dah"
+      },
+      {
+        es: "Aquí · Por allá · Por aquí",
+        en: "Here · Over there · This way",
+        pronun: "ah-KEE · por ah-YAH · por ah-KEE"
+      },
+      {
+        es: "A la izquierda · A la derecha",
+        en: "To the left · To the right",
+        pronun: "ah lah ees-KYEHR-dah · ah lah deh-REH-chah"
+      },
+      {
+        es: "Uno, dos, tres, cuatro tarjetas",
+        en: "One, two, three, four cards",
+        pronun: "OO-noh, dohs, trehs, KWAH-troh tar-HEH-tahs"
+      },
+      {
+        es: "De siete de la mañana a ocho de la noche",
+        en: "From 7:00 a.m. to 8:00 p.m. (Election Day poll hours)",
+        pronun: "deh SYEH-teh deh lah mah-NYAH-nah ah OH-choh deh lah NOH-cheh"
+      }
+    ];
+
+    const STORAGE_KEY = "sf_poll_spanish_study_v1";
+
+    const state = {
+      mode: "sections",
+      revealMode: "both", // "both" | "hide-es" | "hide-en"
+      stationFilter: "all",
+      starredOnly: false,
+      search: "",
+      revealedIds: new Set(),
+      starredIds: new Set(),
+      learnedIds: new Set(),
+      speechSupported: typeof window !== "undefined" && "speechSynthesis" in window,
+
+      // Flashcards
+      fcDeckFilter: "all",
+      fcDirection: "en-to-es",
+      fcOrder: [],
+      fcIndex: 0,
+      fcFlipped: false,
+
+      // Quiz
+      quizSection: "all",
+      quizDirection: "mixed",
+      quizLength: 8,
+      quizQuestions: [],
+      quizIndex: 0,
+      quizScore: 0,
+      quizAnswered: false,
+      quizMissedIds: []
+    };
+
+    function loadProgress() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed.starred)) {
+          parsed.starred.forEach(id => {
+            if (PHRASES.some(p => p.id === id)) state.starredIds.add(id);
+          });
+        }
+        if (Array.isArray(parsed.learned)) {
+          parsed.learned.forEach(id => {
+            if (PHRASES.some(p => p.id === id)) state.learnedIds.add(id);
+          });
+        }
+      } catch (_) {
+        // Ignore storage errors in restricted browsing modes
+      }
+    }
+
+    function saveProgress() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          starred: Array.from(state.starredIds),
+          learned: Array.from(state.learnedIds)
+        }));
+      } catch (_) {
+        // Ignore storage errors
+      }
+    }
+
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, ch => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#39;"
+      }[ch]));
+    }
+
+    function getSectionMeta(sectionId) {
+      return SECTIONS.find(s => s.id === sectionId) || SECTIONS[0];
+    }
+
+    function speakSpanish(text) {
+      if (!state.speechSupported) return;
+      try {
+        window.speechSynthesis.cancel();
+        const cleaned = text.replace(/\s*\/\s*/g, ", ");
+        const utter = new SpeechSynthesisUtterance(cleaned);
+        utter.lang = "es-MX";
+        utter.rate = 0.9;
+        const voices = window.speechSynthesis.getVoices ? window.speechSynthesis.getVoices() : [];
+        const esVoice = voices.find(v => /^es[-_](MX|US)/i.test(v.lang)) || voices.find(v => /^es/i.test(v.lang));
+        if (esVoice) utter.voice = esVoice;
+        window.speechSynthesis.speak(utter);
+      } catch (_) {
+        // Ignore speech synthesis errors
+      }
+    }
+
+    function updateProgressPills() {
+      document.getElementById("total-count-badge").textContent = String(PHRASES.length);
+      document.getElementById("starred-pill").textContent = `★ ${state.starredIds.size} Starred`;
+      document.getElementById("learned-pill").textContent = `✓ ${state.learnedIds.size} / ${PHRASES.length} Learned`;
+    }
+
+    // ================= PHRASEBOOK SECTIONS & CLICK-TO-REVEAL =================
+    function matchesFilters(phrase) {
+      if (state.stationFilter !== "all" && phrase.station !== state.stationFilter) {
+        return false;
+      }
+      if (state.starredOnly && !state.starredIds.has(phrase.id)) {
+        return false;
+      }
+      if (state.search) {
+        const q = state.search.toLowerCase();
+        const hay = `${phrase.en} ${phrase.es} ${phrase.context} ${phrase.note}`.toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      return true;
+    }
+
+    function renderPhraseCard(phrase) {
+      const isStarred = state.starredIds.has(phrase.id);
+      const isLearned = state.learnedIds.has(phrase.id);
+      const isRevealed = state.revealedIds.has(phrase.id);
+
+      const hideEs = state.revealMode === "hide-es" && !isRevealed;
+      const hideEn = state.revealMode === "hide-en" && !isRevealed;
+
+      const enMarkup = hideEn
+        ? `<button type="button" class="reveal-cover" data-action="reveal" data-id="${escapeHTML(phrase.id)}" aria-expanded="false">
+             <span>Click to reveal English meaning</span>
+             <span class="reveal-hint">Reveal ↵</span>
+           </button>`
+        : `<div class="lang-block en-block">
+             <span class="lang-label">English</span>
+             <p class="en-text">${escapeHTML(phrase.en)}</p>
+             ${state.revealMode === "hide-en" ? `<button type="button" class="rehide-btn" data-action="rehide" data-id="${escapeHTML(phrase.id)}">Cover again</button>` : ""}
+           </div>`;
+
+      const esMarkup = hideEs
+        ? `<button type="button" class="reveal-cover" data-action="reveal" data-id="${escapeHTML(phrase.id)}" aria-expanded="false">
+             <span>Click to reveal Spanish &amp; pronunciation</span>
+             <span class="reveal-hint">Reveal ↵</span>
+           </button>`
+        : `<div class="lang-block es-block">
+             <span class="lang-label">Español (simple, polite usted)</span>
+             <p class="es-text">${escapeHTML(phrase.es)}</p>
+             <p class="pronun-text">Pronunciation: ${escapeHTML(phrase.pronun)}</p>
+             ${state.revealMode === "hide-es" ? `<button type="button" class="rehide-btn" data-action="rehide" data-id="${escapeHTML(phrase.id)}">Cover again</button>` : ""}
+           </div>`;
+
+      const speakBtn = state.speechSupported
+        ? `<button type="button" class="icon-btn" data-action="speak" data-id="${escapeHTML(phrase.id)}" title="Listen to Spanish pronunciation" aria-label="Listen to Spanish phrase">🔊 ES</button>`
+        : "";
+
+      return `
+        <article class="phrase-card ${isLearned ? "is-learned" : ""}" data-phrase-id="${escapeHTML(phrase.id)}">
+          <div class="phrase-card-top">
+            <span class="context-pill">${escapeHTML(phrase.context)}</span>
+            <div class="card-tools">
+              ${speakBtn}
+              <button type="button" class="icon-btn ${isStarred ? "is-starred" : ""}" data-action="star" data-id="${escapeHTML(phrase.id)}" aria-pressed="${isStarred}">
+                ${isStarred ? "★ Starred" : "☆ Star"}
+              </button>
+              <button type="button" class="icon-btn ${isLearned ? "is-learned" : ""}" data-action="learned" data-id="${escapeHTML(phrase.id)}" aria-pressed="${isLearned}">
+                ${isLearned ? "✓ Learned" : "Mark Learned"}
+              </button>
+            </div>
+          </div>
+          ${enMarkup}
+          ${esMarkup}
+          <p class="volunteer-note">${escapeHTML(phrase.note)}</p>
+        </article>
+      `;
+    }
+
+    function renderSections() {
+      const container = document.getElementById("sections-container");
+      let visibleTotal = 0;
+
+      const html = SECTIONS.map(sec => {
+        const items = PHRASES.filter(p => p.section === sec.id && matchesFilters(p));
+        visibleTotal += items.length;
+        if (items.length === 0) {
+          return `<section class="phrase-section" id="sec-${escapeHTML(sec.id)}" hidden></section>`;
+        }
+        return `
+          <section class="phrase-section" id="sec-${escapeHTML(sec.id)}" aria-labelledby="title-${escapeHTML(sec.id)}">
+            <div class="section-head">
+              <div>
+                <div class="section-kicker">Section ${escapeHTML(sec.number)} · ${escapeHTML(sec.spanishTitle)}</div>
+                <h2 id="title-${escapeHTML(sec.id)}">${escapeHTML(sec.title)}</h2>
+                <p class="section-desc">${escapeHTML(sec.description)}</p>
+              </div>
+              <span class="station-tag">${escapeHTML(sec.stationLabel)} · ${items.length} ${items.length === 1 ? "phrase" : "phrases"}</span>
+            </div>
+            <div class="phrase-grid">
+              ${items.map(renderPhraseCard).join("")}
+            </div>
+          </section>
+        `;
+      }).join("");
+
+      container.innerHTML = html;
+
+      document.getElementById("sections-empty").hidden = visibleTotal > 0;
+      document.getElementById("filter-status").textContent = `Showing ${visibleTotal} of ${PHRASES.length} phrases`;
+
+      const inHideMode = state.revealMode !== "both" && visibleTotal > 0;
+      document.getElementById("reveal-all-btn").hidden = !inHideMode;
+      document.getElementById("cover-all-btn").hidden = !inHideMode;
+    }
+
+    function renderHelpers() {
+      const grid = document.getElementById("helpers-grid");
+      grid.innerHTML = HELPERS.map(h => `
+        <article class="helper-card">
+          <p class="helper-es">${escapeHTML(h.es)}</p>
+          <p class="helper-en">${escapeHTML(h.en)}</p>
+          <p class="helper-pronun">${escapeHTML(h.pronun)}</p>
+        </article>
+      `).join("");
+    }
+
+    // ================= FLASHCARDS =================
+    function getFilteredDeckList() {
+      const filter = state.fcDeckFilter;
+      if (filter === "all") return PHRASES.slice();
+      if (filter === "starred") return PHRASES.filter(p => state.starredIds.has(p.id));
+      if (filter === "unlearned") return PHRASES.filter(p => !state.learnedIds.has(p.id));
+      return PHRASES.filter(p => p.section === filter);
+    }
+
+    function rebuildFlashcardDeck(shuffle = false) {
+      const list = getFilteredDeckList().map(p => p.id);
+      if (shuffle) {
+        for (let i = list.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [list[i], list[j]] = [list[j], list[i]];
+        }
+      }
+      state.fcOrder = list;
+      state.fcIndex = 0;
+      state.fcFlipped = false;
+      renderFlashcard();
+    }
+
+    function renderFlashcard() {
+      const contentArea = document.getElementById("fc-content-area");
+      const emptyBox = document.getElementById("fc-empty");
+
+      if (state.fcOrder.length === 0) {
+        contentArea.hidden = true;
+        emptyBox.hidden = false;
+        const emptyTitle = document.getElementById("fc-empty-title");
+        const emptyDesc = document.getElementById("fc-empty-desc");
+        if (state.fcDeckFilter === "starred") {
+          emptyTitle.textContent = "No starred phrases yet.";
+          emptyDesc.textContent = "Star any phrase in Phrase Sections or during practice to build a custom focus deck.";
+        } else if (state.fcDeckFilter === "unlearned") {
+          emptyTitle.textContent = "Every phrase is marked learned!";
+          emptyDesc.textContent = "Great job—switch back to All 6 Sections anytime for a refresher.";
+        } else {
+          emptyTitle.textContent = "No cards in this selection.";
+          emptyDesc.textContent = "Switch to All 6 Sections to review all 41 phrases.";
+        }
+        return;
+      }
+
+      contentArea.hidden = false;
+      emptyBox.hidden = true;
+
+      if (state.fcIndex >= state.fcOrder.length) state.fcIndex = 0;
+      if (state.fcIndex < 0) state.fcIndex = state.fcOrder.length - 1;
+
+      const phraseId = state.fcOrder[state.fcIndex];
+      const phrase = PHRASES.find(p => p.id === phraseId) || PHRASES[0];
+      const sec = getSectionMeta(phrase.section);
+
+      const learnedInDeck = state.fcOrder.filter(id => state.learnedIds.has(id)).length;
+      document.getElementById("fc-counter").textContent = `Card ${state.fcIndex + 1} of ${state.fcOrder.length}`;
+      document.getElementById("fc-deck-learned").textContent = `${learnedInDeck} of ${state.fcOrder.length} marked learned`;
+      const pct = Math.max(3, Math.round(((state.fcIndex + 1) / state.fcOrder.length) * 100));
+      document.getElementById("fc-progress-fill").style.width = `${pct}%`;
+
+      document.getElementById("fc-section-badge").textContent = `${sec.title} · ${phrase.context}`;
+
+      const enToEs = state.fcDirection === "en-to-es";
+      document.getElementById("fc-prompt-label").textContent = enToEs ? "English (Say in Spanish)" : "Español (What does this mean?)";
+      document.getElementById("fc-front-text").textContent = enToEs ? phrase.en : phrase.es;
+
+      document.getElementById("fc-answer-label").textContent = enToEs ? "Simple Spanish" : "English Meaning";
+      document.getElementById("fc-back-text").textContent = enToEs ? phrase.es : phrase.en;
+      document.getElementById("fc-pronun-text").textContent = `Pronunciation: ${phrase.pronun}`;
+      document.getElementById("fc-note-text").textContent = phrase.note;
+
+      const cardEl = document.getElementById("fc-card");
+      const answerPanel = document.getElementById("fc-answer-panel");
+      const sideIndicator = document.getElementById("fc-side-indicator");
+      const hint = document.getElementById("fc-hint");
+
+      cardEl.classList.toggle("is-flipped", state.fcFlipped);
+      answerPanel.hidden = !state.fcFlipped;
+      sideIndicator.textContent = state.fcFlipped ? "Answer Revealed" : "Prompt";
+      hint.textContent = state.fcFlipped
+        ? "Mark “Got It ✓” or “Practice Again ↻”, or click to flip back"
+        : "Click card or press Space / Enter to reveal answer";
+
+      const isStarred = state.starredIds.has(phrase.id);
+      const starBtn = document.getElementById("fc-star-btn");
+      starBtn.textContent = isStarred ? "★ Starred" : "☆ Star";
+      starBtn.setAttribute("aria-pressed", String(isStarred));
+
+      const speakBtn = document.getElementById("fc-speak-btn");
+      speakBtn.hidden = !state.speechSupported;
+    }
+
+    // ================= SELF-QUIZ =================
+    function shuffleArray(items) {
+      const arr = items.slice();
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function buildQuizRound() {
+      const pool = state.quizSection === "all"
+        ? PHRASES.slice()
+        : PHRASES.filter(p => p.section === state.quizSection);
+
+      const count = Math.min(state.quizLength, pool.length);
+      const chosen = shuffleArray(pool).slice(0, count);
+
+      state.quizQuestions = chosen.map((target, idx) => {
+        const dir = state.quizDirection === "mixed"
+          ? (idx % 2 === 0 ? "en-to-es" : "es-to-en")
+          : state.quizDirection;
+
+        const sameSectionDistractors = shuffleArray(
+          PHRASES.filter(p => p.id !== target.id && p.section === target.section)
+        );
+        const otherDistractors = shuffleArray(
+          PHRASES.filter(p => p.id !== target.id && p.section !== target.section)
+        );
+        const distractors = [...sameSectionDistractors.slice(0, 2), ...otherDistractors].slice(0, 3);
+        const options = shuffleArray([target, ...distractors]);
+
+        return {
+          target,
+          dir,
+          options
+        };
+      });
+
+      state.quizIndex = 0;
+      state.quizScore = 0;
+      state.quizAnswered = false;
+      state.quizMissedIds = [];
+      renderQuiz();
+    }
+
+    function renderQuiz() {
+      const activeCard = document.getElementById("quiz-active-card");
+      const summaryCard = document.getElementById("quiz-summary-card");
+
+      if (state.quizIndex >= state.quizQuestions.length) {
+        activeCard.hidden = true;
+        summaryCard.hidden = false;
+        const total = state.quizQuestions.length;
+        const pct = Math.round((state.quizScore / total) * 100);
+        document.getElementById("quiz-final-headline").textContent =
+          `You scored ${state.quizScore} out of ${total} (${pct}%)`;
+
+        let msg = "Nice practice round! Reviewing a few key phrases before your shift helps build smooth polling-place confidence.";
+        if (pct === 100) {
+          msg = "Spot-on! You recognized every polling-place phrase in this round.";
+        } else if (pct >= 75) {
+          msg = "Great job! You have a strong handle on these volunteer phrases.";
+        }
+        document.getElementById("quiz-final-sub").textContent = msg;
+
+        const missedWrap = document.getElementById("quiz-missed-wrap");
+        const missedList = document.getElementById("quiz-missed-list");
+        const starMissedBtn = document.getElementById("quiz-star-missed-btn");
+
+        if (state.quizMissedIds.length > 0) {
+          missedWrap.hidden = false;
+          starMissedBtn.hidden = false;
+          const uniqueMissed = Array.from(new Set(state.quizMissedIds))
+            .map(id => PHRASES.find(p => p.id === id))
+            .filter(Boolean);
+          missedList.innerHTML = uniqueMissed.map(p => `
+            <li class="missed-item">
+              <strong>${escapeHTML(p.en)}</strong><br>
+              <span style="color:var(--green-dark); font-weight:800;">${escapeHTML(p.es)}</span>
+              <span class="pronun-text" style="display:block;">Pronunciation: ${escapeHTML(p.pronun)}</span>
+            </li>
+          `).join("");
+        } else {
+          missedWrap.hidden = true;
+          starMissedBtn.hidden = true;
+          missedList.innerHTML = "";
+        }
+        return;
+      }
+
+      activeCard.hidden = false;
+      summaryCard.hidden = true;
+
+      const q = state.quizQuestions[state.quizIndex];
+      const sec = getSectionMeta(q.target.section);
+      const answeredCount = state.quizIndex + (state.quizAnswered ? 1 : 0);
+
+      document.getElementById("quiz-cat-badge").textContent = `${sec.title} · ${q.target.context}`;
+      document.getElementById("quiz-progress-text").textContent =
+        `Question ${state.quizIndex + 1} of ${state.quizQuestions.length} · Score: ${state.quizScore} / ${answeredCount}`;
+
+      const enToEs = q.dir === "en-to-es";
+      document.getElementById("quiz-prompt-kicker").textContent = enToEs
+        ? "Volunteer Scenario · Choose the Spanish phrase"
+        : "Comprehension Check · Choose the English meaning";
+      document.getElementById("quiz-question-text").textContent = enToEs ? q.target.en : q.target.es;
+      document.getElementById("quiz-context-text").textContent =
+        `Station: ${sec.stationLabel} (${q.target.context})`;
+
+      const optsContainer = document.getElementById("quiz-options");
+      optsContainer.innerHTML = q.options.map((opt, idx) => `
+        <button type="button" class="quiz-opt" data-opt-id="${escapeHTML(opt.id)}" ${state.quizAnswered ? "disabled" : ""}>
+          <span class="opt-num">${idx + 1}</span>
+          <span>${escapeHTML(enToEs ? opt.es : opt.en)}</span>
+        </button>
+      `).join("");
+
+      document.getElementById("quiz-feedback").hidden = true;
+    }
+
+    function handleQuizChoice(chosenId) {
+      if (state.quizAnswered) return;
+      state.quizAnswered = true;
+
+      const q = state.quizQuestions[state.quizIndex];
+      const isCorrect = chosenId === q.target.id;
+
+      if (isCorrect) {
+        state.quizScore += 1;
+        state.learnedIds.add(q.target.id);
+        saveProgress();
+        updateProgressPills();
+      } else {
+        state.quizMissedIds.push(q.target.id);
+      }
+
+      const buttons = document.querySelectorAll("#quiz-options .quiz-opt");
+      buttons.forEach(btn => {
+        btn.disabled = true;
+        const optId = btn.getAttribute("data-opt-id");
+        if (optId === q.target.id) {
+          btn.classList.add("is-correct");
+        } else if (optId === chosenId && !isCorrect) {
+          btn.classList.add("is-wrong");
+        }
+      });
+
+      const answeredCount = state.quizIndex + 1;
+      document.getElementById("quiz-progress-text").textContent =
+        `Question ${state.quizIndex + 1} of ${state.quizQuestions.length} · Score: ${state.quizScore} / ${answeredCount}`;
+
+      const fb = document.getElementById("quiz-feedback");
+      fb.hidden = false;
+      fb.classList.toggle("is-review", !isCorrect);
+      document.getElementById("quiz-fb-title").textContent = isCorrect
+        ? "✓ Correct!"
+        : "↻ Good one to review:";
+      document.getElementById("quiz-fb-pair").innerHTML =
+        `<strong>${escapeHTML(q.target.en)}</strong> → <strong style="color:var(--green-dark);">${escapeHTML(q.target.es)}</strong>`;
+      document.getElementById("quiz-fb-pronun").textContent = `Pronunciation: ${q.target.pronun}`;
+      document.getElementById("quiz-fb-note").textContent = q.target.note;
+
+      const nextBtn = document.getElementById("quiz-next-btn");
+      nextBtn.textContent = state.quizIndex + 1 >= state.quizQuestions.length
+        ? "See Quiz Summary →"
+        : "Next Question →";
+
+      const speakBtn = document.getElementById("quiz-speak-btn");
+      speakBtn.hidden = !state.speechSupported;
+    }
+
+    // ================= MODE SWITCHING & EVENTS =================
+    function setMode(mode) {
+      state.mode = mode;
+      document.querySelectorAll(".mode-tab").forEach(tab => {
+        const active = tab.dataset.mode === mode;
+        tab.classList.toggle("is-active", active);
+        tab.setAttribute("aria-selected", String(active));
+      });
+
+      document.getElementById("view-sections").hidden = mode !== "sections";
+      document.getElementById("view-flashcards").hidden = mode !== "flashcards";
+      document.getElementById("view-quiz").hidden = mode !== "quiz";
+      document.getElementById("section-rail").hidden = mode !== "sections";
+
+      if (mode === "sections") {
+        renderSections();
+      } else if (mode === "flashcards") {
+        if (state.fcOrder.length === 0) rebuildFlashcardDeck(false);
+        else renderFlashcard();
+      } else if (mode === "quiz") {
+        if (state.quizQuestions.length === 0) buildQuizRound();
+      }
+    }
+
+    // Top mode tabs
+    document.querySelectorAll(".mode-tab").forEach(tab => {
+      tab.addEventListener("click", () => setMode(tab.dataset.mode));
+    });
+
+    // Search
+    document.getElementById("phrase-search").addEventListener("input", e => {
+      state.search = e.target.value.trim();
+      renderSections();
+    });
+
+    // Reveal mode buttons
+    document.querySelectorAll("[data-reveal-mode]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        state.revealMode = btn.dataset.revealMode;
+        state.revealedIds.clear();
+        document.querySelectorAll("[data-reveal-mode]").forEach(b => {
+          b.classList.toggle("is-active", b === btn);
+        });
+        renderSections();
+      });
+    });
+
+    // Station filter buttons
+    document.querySelectorAll("[data-station]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        state.stationFilter = btn.dataset.station;
+        document.querySelectorAll("[data-station]").forEach(b => {
+          b.classList.toggle("is-active", b === btn);
+        });
+        renderSections();
+      });
+    });
+
+    // Starred only toggle
+    document.getElementById("starred-only-btn").addEventListener("click", e => {
+      state.starredOnly = !state.starredOnly;
+      e.currentTarget.classList.toggle("is-active", state.starredOnly);
+      e.currentTarget.setAttribute("aria-pressed", String(state.starredOnly));
+      renderSections();
+    });
+
+    // Reveal all / Cover all
+    document.getElementById("reveal-all-btn").addEventListener("click", () => {
+      PHRASES.filter(matchesFilters).forEach(p => state.revealedIds.add(p.id));
+      renderSections();
+    });
+
+    document.getElementById("cover-all-btn").addEventListener("click", () => {
+      state.revealedIds.clear();
+      renderSections();
+    });
+
+    document.getElementById("clear-filters-btn").addEventListener("click", () => {
+      state.search = "";
+      state.stationFilter = "all";
+      state.starredOnly = false;
+      document.getElementById("phrase-search").value = "";
+      document.querySelectorAll("[data-station]").forEach(b => {
+        b.classList.toggle("is-active", b.dataset.station === "all");
+      });
+      const starBtn = document.getElementById("starred-only-btn");
+      starBtn.classList.remove("is-active");
+      starBtn.setAttribute("aria-pressed", "false");
+      renderSections();
+    });
+
+    // Delegated clicks inside Phrase Sections
+    document.getElementById("sections-container").addEventListener("click", e => {
+      const btn = e.target.closest("[data-action]");
+      if (!btn) return;
+      const action = btn.dataset.action;
+      const id = btn.dataset.id;
+      const phrase = PHRASES.find(p => p.id === id);
+      if (!phrase) return;
+
+      if (action === "reveal") {
+        state.revealedIds.add(id);
+        renderSections();
+      } else if (action === "rehide") {
+        state.revealedIds.delete(id);
+        renderSections();
+      } else if (action === "star") {
+        if (state.starredIds.has(id)) state.starredIds.delete(id);
+        else state.starredIds.add(id);
+        saveProgress();
+        updateProgressPills();
+        renderSections();
+      } else if (action === "learned") {
+        if (state.learnedIds.has(id)) state.learnedIds.delete(id);
+        else state.learnedIds.add(id);
+        saveProgress();
+        updateProgressPills();
+        renderSections();
+      } else if (action === "speak") {
+        speakSpanish(phrase.es);
+      }
+    });
+
+    // Flashcard events
+    document.getElementById("fc-deck-select").addEventListener("change", e => {
+      state.fcDeckFilter = e.target.value;
+      rebuildFlashcardDeck(false);
+    });
+
+    document.getElementById("fc-dir-select").addEventListener("change", e => {
+      state.fcDirection = e.target.value;
+      state.fcFlipped = false;
+      renderFlashcard();
+    });
+
+    document.getElementById("fc-shuffle-btn").addEventListener("click", () => rebuildFlashcardDeck(true));
+    document.getElementById("fc-reset-order-btn").addEventListener("click", () => rebuildFlashcardDeck(false));
+    document.getElementById("fc-show-all-btn").addEventListener("click", () => {
+      state.fcDeckFilter = "all";
+      document.getElementById("fc-deck-select").value = "all";
+      rebuildFlashcardDeck(false);
+    });
+
+    function flipCurrentCard() {
+      if (state.fcOrder.length === 0) return;
+      state.fcFlipped = !state.fcFlipped;
+      renderFlashcard();
+    }
+
+    document.getElementById("fc-card").addEventListener("click", flipCurrentCard);
+    document.getElementById("fc-card").addEventListener("keydown", e => {
+      if (e.key === " " || e.key === "Enter") {
+        e.preventDefault();
+        flipCurrentCard();
+      }
+    });
+    document.getElementById("fc-flip-btn").addEventListener("click", flipCurrentCard);
+
+    document.getElementById("fc-prev-btn").addEventListener("click", () => {
+      state.fcIndex -= 1;
+      state.fcFlipped = false;
+      renderFlashcard();
+    });
+
+    document.getElementById("fc-next-btn").addEventListener("click", () => {
+      state.fcIndex += 1;
+      state.fcFlipped = false;
+      renderFlashcard();
+    });
+
+    document.getElementById("fc-gotit-btn").addEventListener("click", () => {
+      if (state.fcOrder.length === 0) return;
+      const currentId = state.fcOrder[state.fcIndex];
+      state.learnedIds.add(currentId);
+      saveProgress();
+      updateProgressPills();
+      if (state.fcDeckFilter === "unlearned") {
+        rebuildFlashcardDeck(false);
+      } else {
+        state.fcIndex += 1;
+        state.fcFlipped = false;
+        renderFlashcard();
+      }
+    });
+
+    document.getElementById("fc-again-btn").addEventListener("click", () => {
+      if (state.fcOrder.length === 0) return;
+      const currentId = state.fcOrder[state.fcIndex];
+      state.learnedIds.delete(currentId);
+      saveProgress();
+      updateProgressPills();
+      state.fcIndex += 1;
+      state.fcFlipped = false;
+      renderFlashcard();
+    });
+
+    document.getElementById("fc-star-btn").addEventListener("click", () => {
+      if (state.fcOrder.length === 0) return;
+      const currentId = state.fcOrder[state.fcIndex];
+      if (state.starredIds.has(currentId)) state.starredIds.delete(currentId);
+      else state.starredIds.add(currentId);
+      saveProgress();
+      updateProgressPills();
+      if (state.fcDeckFilter === "starred" && !state.starredIds.has(currentId)) {
+        rebuildFlashcardDeck(false);
+      } else {
+        renderFlashcard();
+      }
+    });
+
+    document.getElementById("fc-speak-btn").addEventListener("click", () => {
+      if (state.fcOrder.length === 0) return;
+      const currentId = state.fcOrder[state.fcIndex];
+      const phrase = PHRASES.find(p => p.id === currentId);
+      if (phrase) speakSpanish(phrase.es);
+    });
+
+    // Quiz events
+    document.getElementById("quiz-section-select").addEventListener("change", e => {
+      state.quizSection = e.target.value;
+      buildQuizRound();
+    });
+
+    document.getElementById("quiz-dir-select").addEventListener("change", e => {
+      state.quizDirection = e.target.value;
+      buildQuizRound();
+    });
+
+    document.getElementById("quiz-len-select").addEventListener("change", e => {
+      state.quizLength = Number(e.target.value) || 8;
+      buildQuizRound();
+    });
+
+    document.getElementById("quiz-restart-btn").addEventListener("click", buildQuizRound);
+    document.getElementById("quiz-again-btn").addEventListener("click", buildQuizRound);
+
+    document.getElementById("quiz-options").addEventListener("click", e => {
+      const btn = e.target.closest("[data-opt-id]");
+      if (!btn) return;
+      handleQuizChoice(btn.getAttribute("data-opt-id"));
+    });
+
+    document.getElementById("quiz-next-btn").addEventListener("click", () => {
+      state.quizIndex += 1;
+      state.quizAnswered = false;
+      renderQuiz();
+    });
+
+    document.getElementById("quiz-speak-btn").addEventListener("click", () => {
+      const q = state.quizQuestions[state.quizIndex];
+      if (q && q.target) speakSpanish(q.target.es);
+    });
+
+    document.getElementById("quiz-star-missed-btn").addEventListener("click", () => {
+      state.quizMissedIds.forEach(id => state.starredIds.add(id));
+      saveProgress();
+      updateProgressPills();
+      state.fcDeckFilter = "starred";
+      document.getElementById("fc-deck-select").value = "starred";
+      rebuildFlashcardDeck(false);
+      setMode("flashcards");
+    });
+
+    // Global keyboard shortcuts for Flashcards and Quiz
+    document.addEventListener("keydown", e => {
+      const tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : "";
+      if (tag === "input" || tag === "select" || tag === "textarea") return;
+
+      if (state.mode === "flashcards" && state.fcOrder.length > 0) {
+        if (e.key === "ArrowRight") {
+          e.preventDefault();
+          state.fcIndex += 1;
+          state.fcFlipped = false;
+          renderFlashcard();
+        } else if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          state.fcIndex -= 1;
+          state.fcFlipped = false;
+          renderFlashcard();
+        } else if (e.key === " " && e.target !== document.getElementById("fc-card")) {
+          e.preventDefault();
+          flipCurrentCard();
+        } else if (e.key.toLowerCase() === "g") {
+          document.getElementById("fc-gotit-btn").click();
+        } else if (e.key.toLowerCase() === "r") {
+          document.getElementById("fc-again-btn").click();
+        } else if (e.key.toLowerCase() === "s") {
+          document.getElementById("fc-star-btn").click();
+        }
+      } else if (state.mode === "quiz" && state.quizIndex < state.quizQuestions.length) {
+        if (!state.quizAnswered && ["1", "2", "3", "4"].includes(e.key)) {
+          const idx = Number(e.key) - 1;
+          const btns = document.querySelectorAll("#quiz-options .quiz-opt");
+          if (btns[idx]) btns[idx].click();
+        } else if (state.quizAnswered && e.key === "Enter" && e.target.tagName.toLowerCase() !== "button") {
+          document.getElementById("quiz-next-btn").click();
+        }
+      }
+    });
+
+    // Reset local progress
+    document.getElementById("reset-progress-btn").addEventListener("click", () => {
+      state.starredIds.clear();
+      state.learnedIds.clear();
+      state.revealedIds.clear();
+      try {
+        localStorage.removeItem(STORAGE_KEY);
+      } catch (_) {}
+      updateProgressPills();
+      renderSections();
+      if (state.mode === "flashcards") rebuildFlashcardDeck(false);
+    });
+
+    // Initialize
+    loadProgress();
+    updateProgressPills();
+    renderSections();
+    renderHelpers();
+    rebuildFlashcardDeck(false);
+    buildQuizRound();
+  </script>
+</body>
+</html>

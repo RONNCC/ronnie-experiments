@@ -1,5 +1,21 @@
 [
   {
+    "id": "spanish-election-phrases",
+    "title": "Simple Spanish for SF Election Volunteers",
+    "description": "An interactive, strictly nonpartisan English-Spanish study aid for San Francisco poll workers: 41 simple phrases across 6 polling-place sections (greeting & check-in, voter ID & registration, ballot help, accessibility & Spanish ballots, directions, and closing), with click-to-reveal practice, flashcards, and a scenario self-quiz.",
+    "path": "experiments/spanish-election-phrases/",
+    "category": "Education",
+    "tags": [
+      "San Francisco",
+      "Poll Worker",
+      "Spanish",
+      "Civic Education",
+      "Flashcards",
+      "Interactive"
+    ],
+    "date": "2026-11-03"
+  },
+  {
     "id": "eda-tools-explorer",
     "title": "The Chip Design Software Landscape \u2014 What People Actually Use",
     "description": "An interactive field guide to chip design software: filter tools by pipeline stage and license, follow three example workflows, and explore open silicon and emerging AI tools.",
