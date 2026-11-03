@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { createCoatMaterials, createEyeMaterial, SHELL_PARTS } from "./fur.js";
+import { createCoatMaterials, createEyeMaterial, EYE_LOOK, SHELL_PARTS } from "./fur.js";
 import { STALK_PATH, INTEREST } from "./room.js";
 
 const UP = new THREE.Vector3(0, 1, 0);
@@ -157,6 +157,9 @@ function addShells(root, shells) {
       shell.receiveShadow = false;
       shell.renderOrder = 1 + i;
       shell.userData.shell = true;
+      // The lift lives in the shader closure; record it on the mesh too so
+      // tooling (tools/tabby-slink-harness) can see which shell is which.
+      shell.userData.shellLift = shells[i].userData.shellLift;
       mesh.add(shell);
     });
   }
@@ -402,41 +405,73 @@ function buildEar(side, mats) {
   return group;
 }
 
+// Eye dimensions live here so the harness can measure the same numbers the
+// skull is built from: "eyes still small" is a size question long before it is
+// a shading one.
+export const EYE_SIZE = {
+  ball: 0.0130,
+  cornea: 0.0139,
+  rim: 0.0132,
+  lid: 0.0160,
+};
+
+/*
+ * Where the lid rides. This is the *aperture* control, and the aperture is what
+ * "eyes still small" actually was: the lid is an opaque fur shell sliding over
+ * the eyeball, so how much of the globe it leaves exposed decides how big the
+ * eye reads, long before any shading does.
+ *
+ * Round 2 left the lid centred at 0.0076 on a 13.4mm sphere flattened to 0.5
+ * (a 6.7mm half-height), so its lower edge sat 0.9mm above the centre of a
+ * 10.4mm globe — and since the lid surface and the globe surface are within a
+ * millimetre of each other at that radius, only the front cap of the eyeball
+ * cleared it. The lid now rests above the top of the globe (about 70% of it
+ * exposed) and closes to just below the lower rim.
+ */
+export const EYE_LID = {
+  openY: 0.0164,
+  shutY: 0.0012,
+};
+
 function buildEye(side, mats, eyeMat) {
   // The old pivot sat at z 0.0405, where the cranium's surface is already at
   // z 0.058: the eyeball was inside the skull mesh and only showed edge-on.
+  // Round 3 grew the eyeball 25% (a 10.4mm eye on this skull read as a bead in
+  // close-ups) and pulled the pivot back along the socket, so the larger globe
+  // still seats in the skull instead of floating off it.
   const pivot = new THREE.Group();
-  pivot.position.set(side * 0.019, 0.0085, 0.0475);
+  pivot.position.set(side * 0.019, 0.0085, 0.0452);
   pivot.rotation.y = side * -0.3;
   pivot.rotation.x = 0.06;
 
-  const ball = new THREE.Mesh(new THREE.SphereGeometry(0.0104, 24, 18), eyeMat);
+  const ball = new THREE.Mesh(new THREE.SphereGeometry(EYE_SIZE.ball, 24, 18), eyeMat);
   ball.castShadow = false;
   pivot.add(ball);
 
-  const cornea = new THREE.Mesh(new THREE.SphereGeometry(0.0111, 18, 14), mats.cornea);
+  const cornea = new THREE.Mesh(new THREE.SphereGeometry(EYE_SIZE.cornea, 18, 14), mats.cornea);
   cornea.castShadow = false;
   pivot.add(cornea);
 
   // A small, soft, slightly warm catchlight reads as a reflection, where a
-  // pure-white unlit disc read as a sticker.
-  const glint = new THREE.Mesh(new THREE.SphereGeometry(0.0015, 8, 6), mats.catchlight);
-  glint.position.set(-0.0026, 0.0030, 0.0092);
+  // pure-white unlit disc read as a sticker. Smaller and dimmer than round 2:
+  // with the eye itself larger the highlight does not need to carry it.
+  const glint = new THREE.Mesh(new THREE.SphereGeometry(0.0012, 8, 6), mats.catchlight);
+  glint.position.set(-0.0028, 0.0032, 0.0110);
   glint.castShadow = false;
   pivot.add(glint);
 
   const rim = new THREE.Mesh(
-    new THREE.TorusGeometry(0.0106, 0.0006, 6, 20),
+    new THREE.TorusGeometry(EYE_SIZE.rim, 0.00065, 6, 20),
     new THREE.MeshStandardMaterial({ color: 0x3d2a1c, roughness: 0.75 })
   );
-  rim.position.z = 0.003;
+  rim.position.z = 0.0026;
   rim.castShadow = false;
   pivot.add(rim);
 
-  const lid = new THREE.Mesh(new THREE.SphereGeometry(0.0134, 16, 12), mats.fur);
+  const lid = new THREE.Mesh(new THREE.SphereGeometry(EYE_SIZE.lid, 16, 12), mats.fur);
   coat(lid, 1);
-  lid.scale.set(1.06, 0.5, 0.52);
-  lid.position.set(0, 0.0128, 0.003);
+  lid.scale.set(1.06, 0.46, 0.52);
+  lid.position.set(0, EYE_LID.openY, 0.003);
   pivot.add(lid);
 
   return { pivot, lid };
@@ -502,7 +537,7 @@ function addWhisker(parent, origin, dir, length, droop, mats) {
   // Thin, slightly tapered whiskers. The old 1.05mm tube with a bright
   // material read as white plastic spikes at close range.
   const mesh = new THREE.Mesh(
-    new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 5, 0.00062, 3, false),
+    new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 5, 0.0005, 3, false),
     mats.whisker
   );
   mesh.castShadow = false;
@@ -542,7 +577,9 @@ function buildHead(mats, eyeMat) {
   const brow = new THREE.Mesh(new THREE.SphereGeometry(0.025, 14, 10), mats.fur);
   coat(brow, 1);
   brow.scale.set(1.35, 0.26, 0.62);
-  brow.position.set(0, 0.0205, 0.038);
+  // Raised from 0.0205 with the eyeball: the larger globe needs the socket
+  // above it, otherwise the brow reads as a hood over the eye's top third.
+  brow.position.set(0, 0.0238, 0.038);
   head.add(brow);
 
   const chin = new THREE.Mesh(new THREE.SphereGeometry(0.0135, 12, 10), mats.fur);
@@ -615,7 +652,7 @@ function buildHead(mats, eyeMat) {
     [0.012, 0.034, 0.04],
     [0.02, 0.01, 0.046],
   ].map((p) => projectEllipsoid(new THREE.Vector3(...p), craniumCenter, craniumR, craniumScale, 0.0024));
-  head.add(markingTube(mRaw, 0.0025, mats.fur));
+  head.add(markingTube(mRaw, 0.0016, mats.fur));
   for (const s of [-1, 1]) {
     const peak = projectEllipsoid(
       new THREE.Vector3(s * 0.012, 0.034, 0.04),
@@ -631,7 +668,7 @@ function buildHead(mats, eyeMat) {
       craniumScale,
       0.002
     );
-    head.add(markingTube([peak, up], 0.0021, mats.fur));
+    head.add(markingTube([peak, up], 0.0014, mats.fur));
     const cheekC = new THREE.Vector3(s * 0.028, -0.006, 0.03);
     const cheekS = new THREE.Vector3(1.12, 0.78, 1.18);
     const stripes = [0.004, -0.004, -0.011].map((y, i) => {
@@ -643,7 +680,7 @@ function buildHead(mats, eyeMat) {
         cheekS,
         0.0016
       );
-      return markingTube([a, b], 0.0017, mats.fur);
+      return markingTube([a, b], 0.0011, mats.fur);
     });
     stripes.forEach((mesh) => head.add(mesh));
     const liner = [
@@ -651,7 +688,7 @@ function buildHead(mats, eyeMat) {
       new THREE.Vector3(s * 0.042, 0.004, 0.024),
       new THREE.Vector3(s * 0.048, 0.008, 0.004),
     ].map((p) => projectEllipsoid(p, craniumCenter, craniumR, craniumScale, 0.002));
-    head.add(markingTube(liner, 0.0018, mats.fur));
+    head.add(markingTube(liner, 0.0011, mats.fur));
   }
 
   return { head, ears, eyes };
@@ -807,7 +844,7 @@ export function createTabby() {
     new THREE.Vector3(0, 0.142, 0.12),
     new THREE.Vector3(0, 0.134, 0.162),
   ];
-  torso.add(markingTube(dorsalPts, 0.0034, mats.fur));
+  torso.add(markingTube(dorsalPts, 0.0022, mats.fur));
 
   const neckBase = new THREE.Vector3(0, 0.096, 0.126);
   const headJoint = new THREE.Vector3(0, 0.108, 0.176);
@@ -997,8 +1034,23 @@ export function createTabby() {
     return (cycleT - OFFSET[name] + 1) % 1;
   }
 
-  function anyActiveSwing(cycleT) {
-    return Object.keys(OFFSET).some((name) => legPhase(name, cycleT) < SWING * 0.82);
+  /**
+   * Is any leg in the last part of its swing — the "placing" beat?
+   *
+   * This is the gate for a freeze, and it used to be the *opposite* question
+   * ("is no leg swinging"). That moment never arrives: four legs a quarter
+   * cycle apart with a 38% swing duty cover the cycle densely enough that one
+   * paw is always within the old window, so `pendingFreeze` was set and then
+   * waited forever — the tabby never froze, and every "Frozen in the moonbeam"
+   * status line in the UI was unreachable. Waiting instead for the hover, with
+   * three paws planted and the fourth about to be placed, is both reachable and
+   * the beat the page describes: a low reach, a hover, then the placement.
+   */
+  function hoveringMoment(cycleT) {
+    return Object.keys(OFFSET).some((name) => {
+      const t = legPhase(name, cycleT);
+      return t < SWING && t > SWING * 0.6;
+    });
   }
 
   function predictLand(leg, forward, right) {
@@ -1130,8 +1182,8 @@ export function createTabby() {
         }
       }
     }
-    const openY = 0.0076;
-    const shutY = 0.001;
+    const openY = EYE_LID.openY;
+    const shutY = EYE_LID.shutY;
     built.eyes.forEach((eye) => {
       eye.lid.position.y = openY + (shutY - openY) * state.blink;
       eye.lid.position.z = 0.005 + state.blink * 0.003;
@@ -1251,7 +1303,7 @@ export function createTabby() {
     }
 
     const cycleTnow = (state.gaitTime / CYCLE) % 1;
-    if (state.pendingFreeze && !anyActiveSwing(cycleTnow)) {
+    if (state.pendingFreeze && hoveringMoment(cycleTnow)) {
       state.frozen = true;
       state.pendingFreeze = false;
       state.freezeLeft = 1.5 + Math.random() * 1.3;
@@ -1360,7 +1412,7 @@ export function createTabby() {
       ? "Tail tip twitching · pupils wide"
       : `${support} paws down · ${locationName(root.position)}`;
 
-    const shine = attentive || state.frozen ? 0.38 : 0.14;
+    const shine = attentive || state.frozen ? EYE_LOOK.shineAlert : EYE_LOOK.shine;
     eyeMat.uniforms.uShine.value = damp(eyeMat.uniforms.uShine.value, shine, 2, liveDt || 0.016);
 
     return {
