@@ -91,8 +91,8 @@
     .action-button { min-height: 42px; padding: .55rem .78rem; border: 1px solid #b7c5ba; border-radius: 10px; background: white; color: #29463b; font-size: .84rem; font-weight: 750; }
     .action-button:hover { background: var(--green-pale); }
     .match-count { align-self: center; margin-left: auto; color: var(--muted); font-size: .82rem; }
-    .section-card-list { display: grid; grid-template-columns: 1fr; gap: .85rem; }
-    .contest-card { border: 1px solid #d5dcd2; border-radius: 16px; background: var(--card); box-shadow: 0 5px 18px rgba(22,42,34,.045); overflow: clip; }
+    .section-card-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: .85rem; }
+    .contest-card { min-width: 0; border: 1px solid #d5dcd2; border-radius: 16px; background: var(--card); box-shadow: 0 5px 18px rgba(22,42,34,.045); overflow: clip; }
     .contest-card[hidden] { display: none; }
     .contest-card > summary { display: grid; grid-template-columns: 1fr auto; gap: .4rem .7rem; align-items: center; min-height: 116px; padding: 1rem 1rem 1.05rem; cursor: pointer; list-style: none; }
     .contest-card > summary::-webkit-details-marker { display: none; }
@@ -111,6 +111,8 @@
     .plain-box h4, .section-label { display: flex; align-items: center; flex-wrap: wrap; gap: .45rem; margin: 0 0 .35rem; font-size: .98rem; }
     .plain-box p, .funding-box p { margin: .32rem 0; }
     .sides-grid, .vote-grid { display: grid; grid-template-columns: 1fr; gap: .65rem; }
+    .summary-main, .card-body, .card-body > *, .side-box, .vote-box { min-width: 0; overflow-wrap: anywhere; }
+    .sides-grid, .vote-grid { grid-template-columns: minmax(0, 1fr); }
     .side-box, .vote-box { padding: .85rem; border: 1px solid #e0e5dd; border-radius: 12px; background: #fff; }
     .side-box h5, .vote-box h5 { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; margin: 0 0 .4rem; font-size: .94rem; }
     .side-box p, .vote-box p { margin: .32rem 0; color: #42554b; font-size: .91rem; }
