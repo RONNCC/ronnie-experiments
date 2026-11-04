@@ -1,5 +1,20 @@
 [
   {
+    "id": "warped-gravity",
+    "title": "Why Is Gravity So Weak? A Beginner's Warp Lab",
+    "description": "A zero-background, six-step interactive guide to the Randall-Sundrum idea: lift a paper clip with a magnet, build space dimensions, explore two branes, compare flat and warped geometry, and adjust an exponential warp lab. Includes 25 plain-word glossary entries, five teaching quizzes, source links, and clear distinctions between a mathematical proposal and established physics.",
+    "path": "experiments/warped-gravity/",
+    "category": "Physics",
+    "tags": [
+      "Gravity",
+      "Extra Dimensions",
+      "Randall-Sundrum",
+      "Beginner",
+      "Interactive"
+    ],
+    "date": "2026-11-04"
+  },
+  {
     "id": "spanish-election-phrases",
     "title": "Simple Spanish for SF Election Volunteers",
     "description": "An interactive, strictly nonpartisan English-Spanish study aid for San Francisco poll workers: 41 simple phrases across 6 polling-place sections (greeting & check-in, voter ID & registration, ballot help, accessibility & Spanish ballots, directions, and closing), with click-to-reveal practice, flashcards, and a scenario self-quiz.",
