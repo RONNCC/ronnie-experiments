@@ -1,5 +1,20 @@
 [
   {
+    "id": "mp4-to-photons",
+    "title": "From MP4 to Photons and Sound",
+    "description": "A beginner-friendly interactive journey from an MP4 container through video and audio decoding, display hardware, speakers, and AV sync, with hands-on labs and a searchable glossary.",
+    "path": "experiments/mp4-to-photons/",
+    "category": "Education",
+    "tags": [
+      "Video",
+      "Audio",
+      "Hardware",
+      "Beginner",
+      "Interactive"
+    ],
+    "date": "2026-11-06"
+  },
+  {
     "id": "prelude-ai-research",
     "title": "Prelude (prelude.ai) Research Brief",
     "description": "An evidence-labeled research brief on Prelude, Nonso Maduka's stealth AI + financial services startup: corporate record (CA filing Aug 2025), the founder's path from Citi trading through NerdWallet, Glassdoor, and Plaid product leadership, hiring signals, funding and name-collision checks, and open questions. Every claim is labeled by verification level.",
