@@ -1,6 +1,9 @@
 # Work energy lab
-An original 24-question energy reflection quiz inspired by the six-type Working Genius framework. Independent and not endorsed by The Table Group. Questions and scoring are not the official assessment and are not validated.
 
-Runs offline in one HTML file. Four questions per type, means on a 1-5 scale, boundary ties unresolved. Optional result-sharing link encodes six scores in the URL fragment only. No individual answers, name, account, analytics, database or persistent storage.
+Independent short-form reflection pilot. Not the official Working Genius assessment.
 
-Source framework: https://www.workinggenius.com/
+Version 2: 24 original activity prompts, four per domain. Recent mental-energy ratings use five fully labeled response anchors plus unscored not-experienced/too-variable options. Equal means require at least three numeric answers; partial coverage is explicit. No forced genius/competency/frustration classifications. Exact means remain tied; pairwise gaps <=0.25 receive a disclosed, unvalidated close-score display note. No norms, psychological precision, or hiring use.
+
+Share format v2 stores per-domain sum and count in a URL fragment. It includes no name or item-level answers. Legacy v1 links remain readable and labeled as older wording. No accounts, analytics or server-side response storage.
+
+Methods and citations are included on the page. Automated tests verify software behavior, not psychometric validity.
