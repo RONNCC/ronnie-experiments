@@ -12,7 +12,7 @@ Interactive prototypes, physics simulations, algorithmic visualizers, and learni
 
 | Experiment | Category | Description | Path |
 |---|---|---|---|
-| **The Relit Wave — Why Movements Come in Waves** | Education | An interactive cultural and intellectual atlas tracing why specialty coffee, variationist sociolinguistics, bean-to-bar chocolate, ska, emo, CBT, HCI, AI, environmentalism, democratization, and feminism all move in numbered "relit waves"—with an 11-domain explorer, everyday moment translator, side-by-side comparator, and Ocean Swell vs. Radio Frequency lab. | [`experiments/relit-waves/`](experiments/relit-waves/) |
+| **The Relit Wave — Why Movements Come in Waves** | Education | Eleven movements that count their history in waves, from Martha Weinman Lear's second feminist wave in 1968 to DARPA's three waves of AI. Each label is dated to its first documented use and tagged by whether scholars coined it or marketers borrowed it, with the critiques that say the metaphor hides the work in between. An atlas of 39 waves, an everyday translator, a cross-field comparator, a spot-a-wave sandbox, and an interactive ocean swell versus radio frequency lab. | [`experiments/relit-waves/`](experiments/relit-waves/) |
 | **Why Is Gravity So Weak?** | Physics | A beginner-first six-step interactive guide to the Randall-Sundrum model: magnet, dimensions, branes, warping, exponential scale lab, glossary and teaching quizzes. Carefully distinguishes hypotheses from established physics. | [`experiments/warped-gravity/`](experiments/warped-gravity/) |
 | **Simple Spanish for SF Election Volunteers** | Education | An interactive, strictly nonpartisan English–Spanish study aid for San Francisco poll workers: 41 simple phrases across 6 polling-place sections (greeting & check-in, voter ID & registration, ballot help, accessibility & Spanish ballots, directions, and closing), with click-to-reveal practice, flashcards, and a scenario self-quiz. | [`experiments/spanish-election-phrases/`](experiments/spanish-election-phrases/) |
 | **SF 94102 Voter Guide — November 3, 2026** | Education | A neutral, mobile-first guide to every contest and measure listed for the 94102 area: ballot logistics and district caveats, statewide races and propositions, federal/state/local offices, judicial retention questions, RTM, San Francisco measures A–J, labeled endorsements, and a vested-interest money map. | [`experiments/sf-voter-guide-2026/`](experiments/sf-voter-guide-2026/) |
@@ -35,6 +35,21 @@ Interactive prototypes, physics simulations, algorithmic visualizers, and learni
 | **Sorting Visualizer** | Algorithms | Step-by-step visualizer for Tim Sort, Quicksort, Mergesort, Heapsort, Shell Sort, Radix Sort, Bubble, and Selection Sort. | [`experiments/sorting-visualizer/`](experiments/sorting-visualizer/) |
 | **Cellular Automata Lab** | Simulations | Conway's Game of Life with interactive cell drawing and preset oscillators (Gosper Gun, Pulsar, Acorn). | [`experiments/cellular-automata/`](experiments/cellular-automata/) |
 | **Lower Leg Circulation & DVT Visualizer** | Simulations | Interactive educational model of calf-muscle pumping, venous return, healthy vs damaged valves, and the ~3-month clot-healing window. | [`experiments/lower-leg-circulation/`](experiments/lower-leg-circulation/) |
+
+---
+
+## Design system
+
+New pages follow the vendored design skills in [`skills/`](skills/README.md), taken from
+[elayadesign/ai-design-skills](https://github.com/elayadesign/ai-design-skills) and its companion
+[redesign-skill](https://github.com/elayadesign/redesign-skill), both MIT. Short version: one
+typeface, flat backgrounds, one accent, Tailwind spacing and type steps, no italics, motion on a
+single easing curve with reduced motion handled, and no invented facts.
+
+- [`skills/landing-page-design/SKILL.md`](skills/landing-page-design/SKILL.md) for anything built
+  from scratch.
+- [`skills/redesign-existing-projects/SKILL.md`](skills/redesign-existing-projects/SKILL.md) for
+  auditing a page that already exists.
 
 ---
 
