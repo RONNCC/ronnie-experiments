@@ -102,10 +102,10 @@
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      margin-bottom: 2rem;
+      margin-bottom: 1.25rem;
     }
 
-    @media (min-width: 640px) {
+    @media (min-width: 760px) {
       .toolbar {
         flex-direction: row;
         justify-content: space-between;
@@ -116,7 +116,7 @@
     .search-box {
       position: relative;
       width: 100%;
-      max-width: 340px;
+      max-width: 360px;
     }
 
     .search-icon {
@@ -175,17 +175,21 @@
 
     .categories {
       display: flex;
-      gap: 0.5rem;
+      gap: 0.45rem;
       flex-wrap: wrap;
     }
 
     .cat-btn {
-      padding: 0.4rem 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.38rem;
+      padding: 0.38rem 0.78rem;
       background: transparent;
       border: 1px solid var(--border);
       color: var(--text-muted);
       border-radius: 20px;
-      font-size: 0.825rem;
+      font-size: 0.82rem;
+      font-family: inherit;
       cursor: pointer;
       transition: all 0.15s ease;
     }
@@ -195,20 +199,106 @@
       border-color: var(--text-muted);
     }
 
+    .cat-btn.zero {
+      opacity: 0.48;
+    }
+
     .cat-btn.active {
       background: var(--accent);
       color: #0d1117;
       border-color: var(--accent);
       font-weight: 600;
+      opacity: 1;
+    }
+
+    .cat-count {
+      font-size: 0.72rem;
+      padding: 0.05rem 0.4rem;
+      border-radius: 10px;
+      background: rgba(240, 246, 252, 0.08);
+      color: inherit;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .cat-btn.active .cat-count {
+      background: rgba(13, 17, 23, 0.2);
+    }
+
+    .filter-status {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+      padding: 0.55rem 0.85rem;
+      background: rgba(22, 27, 34, 0.7);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.83rem;
+      color: var(--text-muted);
+    }
+
+    .filter-status[hidden] {
+      display: none;
+    }
+
+    .filter-status-left {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-status strong {
+      color: var(--text-main);
+    }
+
+    .active-tag-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.18rem 0.55rem;
+      border-radius: 4px;
+      font-size: 0.76rem;
+      font-family: inherit;
+      font-weight: 600;
+      background: rgba(126, 231, 135, 0.15);
+      color: var(--tag-text);
+      border: 1px solid rgba(126, 231, 135, 0.45);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .active-tag-chip:hover {
+      background: rgba(126, 231, 135, 0.25);
+    }
+
+    .clear-all-btn {
+      background: transparent;
+      border: none;
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-family: inherit;
+      font-weight: 500;
+      cursor: pointer;
+      padding: 0.15rem 0.3rem;
+      border-radius: 4px;
+    }
+
+    .clear-all-btn:hover {
+      text-decoration: underline;
     }
 
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
       gap: 1.5rem;
+      margin-top: 0.5rem;
     }
 
     .card {
+      position: relative;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 10px;
@@ -216,8 +306,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
-      text-decoration: none;
+      transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
       color: inherit;
     }
 
@@ -226,6 +315,10 @@
       border-color: var(--accent);
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
       background: var(--card-hover);
+    }
+
+    .card:focus-within {
+      border-color: var(--accent);
     }
 
     .card-category {
@@ -244,11 +337,95 @@
       margin-bottom: 0.6rem;
     }
 
+    .card-link {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .card-link::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      border-radius: 10px;
+    }
+
+    .card-link:focus {
+      outline: none;
+    }
+
     .card-desc {
       font-size: 0.9rem;
       color: var(--text-muted);
-      margin-bottom: 1.25rem;
+      margin-bottom: 1.15rem;
       flex: 1;
+    }
+
+    .card-match {
+      margin-bottom: 1.1rem;
+      padding: 0.65rem 0.75rem;
+      background: rgba(88, 166, 255, 0.06);
+      border: 1px solid rgba(88, 166, 255, 0.22);
+      border-radius: 6px;
+      font-size: 0.8rem;
+      line-height: 1.45;
+    }
+
+    .card-match-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+      margin-bottom: 0.3rem;
+    }
+
+    .card-match-excerpt {
+      color: var(--text-muted);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-match-excerpt mark {
+      background: rgba(88, 166, 255, 0.24);
+      color: var(--text-main);
+      padding: 0.04rem 0.2rem;
+      border-radius: 3px;
+      font-weight: 600;
+    }
+
+    .card-sublinks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.45rem;
+    }
+
+    .card-sublink {
+      position: relative;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.74rem;
+      color: var(--accent);
+      background: rgba(88, 166, 255, 0.1);
+      border: 1px solid rgba(88, 166, 255, 0.25);
+      padding: 0.14rem 0.48rem;
+      border-radius: 4px;
+      text-decoration: none;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .card-sublink:hover {
+      background: rgba(88, 166, 255, 0.2);
+      border-color: var(--accent);
     }
 
     .card-tags {
@@ -259,12 +436,29 @@
     }
 
     .tag {
+      position: relative;
+      z-index: 2;
       font-size: 0.75rem;
-      padding: 0.2rem 0.5rem;
+      font-family: inherit;
+      padding: 0.2rem 0.52rem;
       background: var(--tag-bg);
       color: var(--tag-text);
       border-radius: 4px;
       border: 1px solid rgba(126, 231, 135, 0.2);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .tag:hover {
+      border-color: rgba(126, 231, 135, 0.6);
+      background: rgba(126, 231, 135, 0.14);
+    }
+
+    .tag.active {
+      background: var(--tag-text);
+      color: #0d1117;
+      border-color: var(--tag-text);
+      font-weight: 600;
     }
 
     .card-action {
@@ -346,18 +540,18 @@
         <span class="search-icon" aria-hidden="true">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
         </span>
-        <input type="text" id="searchInput" class="search-input" placeholder="Search experiments, topics, or tags..." aria-label="Search experiments" autocomplete="off" spellcheck="false">
+        <input type="text" id="searchInput" class="search-input" placeholder="Full-text search experiments, topics, or tags..." aria-label="Search experiments" autocomplete="off" spellcheck="false">
         <button type="button" id="searchClear" class="search-clear" aria-label="Clear search" title="Clear search (Esc)">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
         </button>
       </div>
-      <div class="categories" id="categories">
-        <button class="cat-btn active" data-cat="All">All</button>
-        <button class="cat-btn" data-cat="Visualizations">Visualizations</button>
-        <button class="cat-btn" data-cat="Algorithms">Algorithms</button>
-        <button class="cat-btn" data-cat="Simulations">Simulations</button>
-        <button class="cat-btn" data-cat="Education">Education</button>
+      <div class="categories" id="categories" role="group" aria-label="Filter by category">
+        <button type="button" class="cat-btn active" data-cat="All">All</button>
       </div>
+    </div>
+
+    <div class="filter-status" id="filterStatus" hidden>
+      <!-- Injected via JavaScript when filters or search are active -->
     </div>
 
     <main class="grid" id="experimentGrid">
@@ -379,6 +573,24 @@
         category: "Education",
         tags: ["Culture", "Third Wave Coffee", "Linguistics", "Music History", "Sociology", "Interactive"],
         date: "2026-11-12"
+      },
+      {
+        id: "prelude-ai-research",
+        title: "Prelude (prelude.ai) Research Brief",
+        description: "An evidence-labeled research brief on Prelude, Nonso Maduka's stealth AI + financial services startup: corporate record (CA filing Aug 2025), the founder's path from Citi trading through NerdWallet, Glassdoor, and Plaid product leadership, hiring signals, funding and name-collision checks, and open questions.",
+        path: "experiments/prelude-ai-research/",
+        category: "Research",
+        tags: ["Fintech", "AI", "Company Research", "Stealth Startup"],
+        date: "2026-11-05"
+      },
+      {
+        id: "warped-gravity",
+        title: "Why Is Gravity So Weak? A Beginner's Warp Lab",
+        description: "A zero-background, six-step interactive guide to the Randall-Sundrum idea: lift a paper clip with a magnet, build space dimensions, explore two branes, compare flat and warped geometry, and adjust an exponential warp lab.",
+        path: "experiments/warped-gravity/",
+        category: "Physics",
+        tags: ["Gravity", "Extra Dimensions", "Randall-Sundrum", "Beginner", "Interactive"],
+        date: "2026-11-04"
       },
       {
         id: "spanish-election-phrases",
@@ -785,11 +997,28 @@
 
     const sortedPhrases = Array.from(knownPhrasesSet).sort((a, b) => b.length - a.length || a.localeCompare(b));
 
+    const PREFERRED_CATEGORY_ORDER = [
+      "All",
+      "Education",
+      "Visualizations",
+      "Simulations",
+      "Algorithms",
+      "Physics",
+      "Research"
+    ];
+
     let experiments = fallbackExperiments;
     let searchIndex = [];
     let searchVocab = new Set();
     let activeCategory = "All";
+    let activeTag = "";
     let searchQuery = "";
+
+    let pagefindClient = null;
+    let pagefindInitPromise = null;
+    const pagefindQueryCache = new Map();
+    let activePagefindHits = new Map();
+    let searchRequestSeq = 0;
 
     function rebuildSearchIndex() {
       const vocab = new Set();
@@ -961,12 +1190,10 @@
       return best > 0 ? best + Math.min(secondary, 4.0) : 0;
     }
 
-    function searchExperiments(rawQuery, categoryFilter) {
+    function resolveQueryClauses(rawQuery) {
       const { norm, clauses } = parseQueryClauses(rawQuery);
       if (clauses.length === 0) {
-        return searchIndex
-          .filter(doc => categoryFilter === "All" || doc.item.category === categoryFilter)
-          .map(doc => doc.item);
+        return { norm: "", clauses: [], resolvedClauses: [] };
       }
 
       const isMultiClause = clauses.length > 1;
@@ -992,11 +1219,24 @@
         return { clause, fixes: fixes.length > 0 ? fixes : null };
       });
 
-      const scored = [];
+      return { norm, clauses, resolvedClauses };
+    }
+
+    function buildTypoCorrectedQuery(rawQuery) {
+      const { resolvedClauses } = resolveQueryClauses(rawQuery);
+      if (resolvedClauses.length === 0 || !resolvedClauses.some(rc => rc.fixes && rc.fixes.length > 0)) {
+        return "";
+      }
+      return resolvedClauses.map(rc => (rc.fixes && rc.fixes[0]) ? rc.fixes[0] : rc.clause).join(" ");
+    }
+
+    function scoreCatalogMap(rawQuery) {
+      const { norm, clauses, resolvedClauses } = resolveQueryClauses(rawQuery);
+      const scoreMap = new Map();
+      if (clauses.length === 0) return scoreMap;
+
+      const isMultiClause = clauses.length > 1;
       for (const doc of searchIndex) {
-        if (categoryFilter !== "All" && doc.item.category !== categoryFilter) {
-          continue;
-        }
         let total = 0;
         let matchedAll = true;
         for (const { clause, fixes } of resolvedClauses) {
@@ -1027,11 +1267,301 @@
           }
         }
 
-        scored.push({ score: total, idx: doc.idx, item: doc.item });
+        scoreMap.set(doc.item.id, total);
+      }
+
+      return scoreMap;
+    }
+
+    function extractExperimentIdFromPagefind(data) {
+      if (data && data.meta && data.meta.id) {
+        return data.meta.id;
+      }
+      const url = (data && data.url) ? String(data.url) : "";
+      const match = url.match(/experiments\/([^/#?]+)/);
+      return match ? match[1] : "";
+    }
+
+    function sanitizeExcerpt(raw) {
+      if (!raw) return "";
+      const MARK_OPEN = "\u0000PF_MARK_OPEN\u0000";
+      const MARK_CLOSE = "\u0000PF_MARK_CLOSE\u0000";
+      const decoded = String(raw)
+        .replace(/<mark>/gi, MARK_OPEN)
+        .replace(/<\/mark>/gi, MARK_CLOSE)
+        .replace(/<[^>]+>/g, " ")
+        .replace(/&amp;/g, "&")
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">")
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'")
+        .replace(/\s+/g, " ")
+        .trim();
+      return escapeHtml(decoded)
+        .split(MARK_OPEN).join("<mark>")
+        .split(MARK_CLOSE).join("</mark>");
+    }
+
+    function ensurePagefind() {
+      if (pagefindClient) return Promise.resolve(pagefindClient);
+      if (pagefindInitPromise) return pagefindInitPromise;
+      pagefindInitPromise = (async () => {
+        try {
+          const bundleUrl = new URL("./pagefind/pagefind.js", window.location.href).href;
+          const pf = await import(bundleUrl);
+          await pf.init();
+          pagefindClient = pf;
+          return pf;
+        } catch (err) {
+          console.warn("Pagefind full-text index unavailable, using catalog search:", err);
+          return null;
+        }
+      })();
+      return pagefindInitPromise;
+    }
+
+    async function fetchPagefindMap(pf, queryStr) {
+      const trimmed = queryStr.trim();
+      const cacheKey = trimmed.toLowerCase();
+      if (!cacheKey) return new Map();
+      if (pagefindQueryCache.has(cacheKey)) return pagefindQueryCache.get(cacheKey);
+
+      let searchRes = await pf.search(trimmed);
+      let results = (searchRes && Array.isArray(searchRes.results)) ? searchRes.results : [];
+
+      if (results.length === 0) {
+        const corrected = buildTypoCorrectedQuery(trimmed);
+        if (corrected && corrected !== cacheKey) {
+          const retryRes = await pf.search(corrected);
+          if (retryRes && Array.isArray(retryRes.results)) {
+            results = retryRes.results;
+          }
+        }
+      }
+
+      const loaded = await Promise.all(
+        results.map(async r => {
+          const data = await r.data();
+          return { score: r.score || 0, data };
+        })
+      );
+
+      const hitMap = new Map();
+      for (const { score, data } of loaded) {
+        const id = extractExperimentIdFromPagefind(data);
+        if (!id) continue;
+        const prev = hitMap.get(id);
+        if (!prev || score > prev.score) {
+          hitMap.set(id, {
+            score,
+            excerpt: data.excerpt || "",
+            subResults: Array.isArray(data.sub_results) ? data.sub_results : []
+          });
+        }
+      }
+
+      pagefindQueryCache.set(cacheKey, hitMap);
+      return hitMap;
+    }
+
+    async function triggerPagefindSearch(rawQuery) {
+      const trimmed = rawQuery.trim();
+      const seq = ++searchRequestSeq;
+      if (!trimmed) {
+        activePagefindHits = new Map();
+        return;
+      }
+
+      const cacheKey = trimmed.toLowerCase();
+      if (pagefindQueryCache.has(cacheKey)) {
+        activePagefindHits = pagefindQueryCache.get(cacheKey);
+        render();
+        return;
+      }
+
+      const pf = await ensurePagefind();
+      if (!pf || seq !== searchRequestSeq) return;
+
+      try {
+        const hitMap = await fetchPagefindMap(pf, trimmed);
+        if (seq !== searchRequestSeq) return;
+        activePagefindHits = hitMap;
+        render();
+      } catch (err) {
+        console.warn("Pagefind search error:", err);
+      }
+    }
+
+    function itemMatchesTag(item, tagFilter) {
+      if (!tagFilter) return true;
+      const needle = tagFilter.toLowerCase();
+      return (item.tags || []).some(t => t.toLowerCase() === needle);
+    }
+
+    function queryAllCategories(rawQuery, tagFilter, pfHitsOverride) {
+      const trimmed = rawQuery.trim();
+      const pfHits = pfHitsOverride || (trimmed ? (pagefindQueryCache.get(trimmed.toLowerCase()) || activePagefindHits) : new Map());
+
+      if (!trimmed) {
+        return searchIndex
+          .filter(doc => itemMatchesTag(doc.item, tagFilter))
+          .map(doc => ({ item: doc.item, score: 0, idx: doc.idx, pfHit: null }));
+      }
+
+      const catalogScores = scoreCatalogMap(trimmed);
+      const scored = [];
+
+      for (const doc of searchIndex) {
+        if (!itemMatchesTag(doc.item, tagFilter)) continue;
+        const catScore = catalogScores.get(doc.item.id) || 0;
+        const pfHit = pfHits.get(doc.item.id) || null;
+        const pfScore = pfHit ? pfHit.score : 0;
+        const combined = catScore * 3.0 + pfScore;
+        if (combined <= 0) continue;
+        scored.push({
+          item: doc.item,
+          score: combined,
+          idx: doc.idx,
+          pfHit
+        });
       }
 
       scored.sort((a, b) => b.score - a.score || a.idx - b.idx);
-      return scored.map(entry => entry.item);
+      return scored;
+    }
+
+    function searchExperiments(rawQuery, categoryFilter, tagFilter) {
+      return queryAllCategories(rawQuery, tagFilter || "")
+        .filter(entry => categoryFilter === "All" || entry.item.category === categoryFilter)
+        .map(entry => entry.item);
+    }
+
+    function getOrderedCategories() {
+      const present = new Set(experiments.map(item => item.category).filter(Boolean));
+      const ordered = ["All"];
+      for (const cat of PREFERRED_CATEGORY_ORDER) {
+        if (cat !== "All" && present.has(cat)) {
+          ordered.push(cat);
+          present.delete(cat);
+        }
+      }
+      for (const extra of Array.from(present).sort((a, b) => a.localeCompare(b))) {
+        ordered.push(extra);
+      }
+      return ordered;
+    }
+
+    function renderCategories(matchedEntries) {
+      const container = document.getElementById("categories");
+      if (!container) return;
+
+      const counts = new Map();
+      counts.set("All", matchedEntries.length);
+      for (const entry of matchedEntries) {
+        const cat = entry.item.category;
+        counts.set(cat, (counts.get(cat) || 0) + 1);
+      }
+
+      const categories = getOrderedCategories();
+      if (activeCategory !== "All" && !categories.includes(activeCategory)) {
+        activeCategory = "All";
+      }
+
+      container.innerHTML = categories.map(cat => {
+        const count = counts.get(cat) || 0;
+        const isActive = cat === activeCategory;
+        const isZero = count === 0 && !isActive;
+        const cls = ["cat-btn", isActive ? "active" : "", isZero ? "zero" : ""].filter(Boolean).join(" ");
+        return `<button type="button" class="${cls}" data-cat="${escapeHtml(cat)}">${escapeHtml(cat)}<span class="cat-count">${count}</span></button>`;
+      }).join("");
+    }
+
+    function renderFilterStatus(filteredCount) {
+      const statusEl = document.getElementById("filterStatus");
+      if (!statusEl) return;
+
+      const hasQuery = Boolean(searchQuery.trim());
+      const hasTag = Boolean(activeTag);
+      const hasCat = activeCategory !== "All";
+
+      if (!hasQuery && !hasTag && !hasCat) {
+        statusEl.hidden = true;
+        statusEl.innerHTML = "";
+        return;
+      }
+
+      statusEl.hidden = false;
+      const noun = experiments.length === 1 ? "experiment" : "experiments";
+      const tagChipHtml = hasTag
+        ? `<button type="button" class="active-tag-chip" id="clearActiveTagBtn" aria-label="Remove tag filter ${escapeHtml(activeTag)}">Tag: ${escapeHtml(activeTag)} <span aria-hidden="true">&times;</span></button>`
+        : "";
+
+      statusEl.innerHTML = `
+        <div class="filter-status-left">
+          <span>Showing <strong>${filteredCount}</strong> of ${experiments.length} ${noun}</span>
+          ${tagChipHtml}
+        </div>
+        <button type="button" class="clear-all-btn" id="resetAllFiltersBtn">Reset filters</button>
+      `;
+
+      const clearTagBtn = document.getElementById("clearActiveTagBtn");
+      if (clearTagBtn) {
+        clearTagBtn.addEventListener("click", () => {
+          activeTag = "";
+          render();
+        });
+      }
+
+      const resetAllBtn = document.getElementById("resetAllFiltersBtn");
+      if (resetAllBtn) {
+        resetAllBtn.addEventListener("click", () => {
+          searchQuery = "";
+          activeTag = "";
+          activeCategory = "All";
+          activePagefindHits = new Map();
+          if (searchInputEl) searchInputEl.value = "";
+          render();
+        });
+      }
+    }
+
+    function buildCardMatchHtml(item, pfHit) {
+      if (!searchQuery.trim() || !pfHit) return "";
+
+      const itemNormTitle = cleanTerm(item.title);
+      const seenHashes = new Set();
+      const subLinks = [];
+
+      for (const sr of (pfHit.subResults || [])) {
+        if (!sr || !sr.url || !sr.title) continue;
+        const hashIdx = sr.url.indexOf("#");
+        if (hashIdx === -1) continue;
+        const anchor = sr.url.slice(hashIdx + 1);
+        if (!anchor || !/^[A-Za-z0-9_.:-]+$/.test(anchor) || seenHashes.has(anchor)) continue;
+        const cleanSubTitle = String(sr.title).replace(/\s+/g, " ").trim();
+        if (!cleanSubTitle || cleanTerm(cleanSubTitle) === itemNormTitle) continue;
+        seenHashes.add(anchor);
+        subLinks.push({
+          title: cleanSubTitle,
+          href: item.path + "#" + anchor
+        });
+        if (subLinks.length >= 2) break;
+      }
+
+      const safeExcerpt = sanitizeExcerpt(pfHit.excerpt);
+      if (!safeExcerpt && subLinks.length === 0) return "";
+
+      const subLinksHtml = subLinks.length > 0
+        ? `<div class="card-sublinks">${subLinks.map(sl => `<a class="card-sublink" href="${escapeHtml(sl.href)}" title="Jump to section: ${escapeHtml(sl.title)}">&rarr; ${escapeHtml(sl.title)}</a>`).join("")}</div>`
+        : "";
+
+      return `
+        <div class="card-match">
+          <div class="card-match-label">Matched inside experiment</div>
+          ${safeExcerpt ? `<p class="card-match-excerpt">&hellip;${safeExcerpt}&hellip;</p>` : ""}
+          ${subLinksHtml}
+        </div>
+      `;
     }
 
     function updateClearButton() {
@@ -1043,13 +1573,11 @@
 
     function setActiveCategory(cat) {
       activeCategory = cat;
-      document.querySelectorAll(".cat-btn").forEach(btn => {
-        btn.classList.toggle("active", btn.dataset.cat === cat);
-      });
     }
 
     async function loadExperiments() {
       rebuildSearchIndex();
+      render();
       try {
         const res = await fetch("experiments.json");
         if (res.ok) {
@@ -1060,30 +1588,64 @@
         console.warn("Using embedded manifest fallback:", err);
       }
       render();
+      if (searchQuery.trim()) {
+        triggerPagefindSearch(searchQuery);
+      } else {
+        setTimeout(() => ensurePagefind(), 60);
+      }
     }
 
     function render() {
       const grid = document.getElementById("experimentGrid");
       updateClearButton();
-      const filtered = searchExperiments(searchQuery, activeCategory);
+
+      const matchedAcrossCategories = queryAllCategories(searchQuery, activeTag);
+      renderCategories(matchedAcrossCategories);
+
+      const filtered = matchedAcrossCategories.filter(
+        entry => activeCategory === "All" || entry.item.category === activeCategory
+      );
+
+      renderFilterStatus(filtered.length);
 
       if (filtered.length === 0) {
-        if (activeCategory !== "All" && searchQuery.trim()) {
-          const allMatches = searchExperiments(searchQuery, "All");
-          if (allMatches.length > 0) {
-            const noun = allMatches.length === 1 ? "experiment" : "experiments";
+        if (activeCategory !== "All" && matchedAcrossCategories.length > 0) {
+          const noun = matchedAcrossCategories.length === 1 ? "experiment" : "experiments";
+          const filterDesc = searchQuery.trim()
+            ? `matched &ldquo;${escapeHtml(searchQuery.trim())}&rdquo;`
+            : `matched tag &ldquo;${escapeHtml(activeTag)}&rdquo;`;
+          grid.innerHTML = `
+            <div class="empty-state">
+              <div>No experiments in <strong>${escapeHtml(activeCategory)}</strong> ${filterDesc}.</div>
+              <button type="button" class="empty-reset-btn" id="showAllCategoriesBtn">
+                Show ${matchedAcrossCategories.length} matching ${noun} in All categories
+              </button>
+            </div>
+          `;
+          const resetBtn = document.getElementById("showAllCategoriesBtn");
+          if (resetBtn) {
+            resetBtn.addEventListener("click", () => {
+              setActiveCategory("All");
+              render();
+            });
+          }
+          return;
+        }
+        if (activeTag) {
+          const withoutTag = queryAllCategories(searchQuery, "");
+          if (withoutTag.length > 0) {
             grid.innerHTML = `
               <div class="empty-state">
-                <div>No experiments in <strong>${escapeHtml(activeCategory)}</strong> matched &ldquo;${escapeHtml(searchQuery.trim())}&rdquo;.</div>
-                <button type="button" class="empty-reset-btn" id="showAllCategoriesBtn">
-                  Show ${allMatches.length} matching ${noun} in All categories
+                <div>No experiments with tag <strong>${escapeHtml(activeTag)}</strong> matched your search.</div>
+                <button type="button" class="empty-reset-btn" id="clearEmptyTagBtn">
+                  Clear tag filter (${escapeHtml(activeTag)})
                 </button>
               </div>
             `;
-            const resetBtn = document.getElementById("showAllCategoriesBtn");
-            if (resetBtn) {
-              resetBtn.addEventListener("click", () => {
-                setActiveCategory("All");
+            const clearTagBtn = document.getElementById("clearEmptyTagBtn");
+            if (clearTagBtn) {
+              clearTagBtn.addEventListener("click", () => {
+                activeTag = "";
                 render();
               });
             }
@@ -1094,40 +1656,50 @@
         return;
       }
 
-      grid.innerHTML = filtered.map(item => `
-        <a class="card" href="${escapeHtml(item.path)}">
+      grid.innerHTML = filtered.map(({ item, pfHit }) => `
+        <article class="card">
           <div>
             <div class="card-category">${escapeHtml(item.category)}</div>
-            <h2 class="card-title">${escapeHtml(item.title)}</h2>
+            <h2 class="card-title">
+              <a class="card-link" href="${escapeHtml(item.path)}">${escapeHtml(item.title)}</a>
+            </h2>
             <p class="card-desc">${escapeHtml(item.description)}</p>
+            ${buildCardMatchHtml(item, pfHit)}
           </div>
           <div>
             <div class="card-tags">
-              ${(item.tags || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join("")}
+              ${(item.tags || []).map(t => {
+                const isTagActive = Boolean(activeTag) && activeTag.toLowerCase() === t.toLowerCase();
+                return `<button type="button" class="tag${isTagActive ? " active" : ""}" data-tag="${escapeHtml(t)}" aria-pressed="${isTagActive ? "true" : "false"}" title="Filter by tag: ${escapeHtml(t)}">${escapeHtml(t)}</button>`;
+              }).join("")}
             </div>
-            <div class="card-action">
+            <div class="card-action" aria-hidden="true">
               Launch Experiment
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </div>
           </div>
-        </a>
+        </article>
       `).join("");
     }
 
     const searchInputEl = document.getElementById("searchInput");
     const searchClearEl = document.getElementById("searchClear");
 
-    // Optional initial URL query parameters (?q=... & ?cat=...)
+    // Optional initial URL query parameters (?q=... & ?cat=... & ?tag=...)
     try {
       const params = new URLSearchParams(window.location.search);
       const initialQ = params.get("q");
       const initialCat = params.get("cat");
+      const initialTag = params.get("tag");
       if (initialQ) {
         searchQuery = initialQ;
         searchInputEl.value = initialQ;
       }
-      if (initialCat && Array.from(document.querySelectorAll(".cat-btn")).some(b => b.dataset.cat === initialCat)) {
-        setActiveCategory(initialCat);
+      if (initialCat) {
+        activeCategory = initialCat;
+      }
+      if (initialTag) {
+        activeTag = initialTag;
       }
     } catch (_) {
       // Ignore malformed URL parameters
@@ -1135,21 +1707,42 @@
 
     searchInputEl.addEventListener("input", e => {
       searchQuery = e.target.value;
-      render();
+      if (!searchQuery.trim()) {
+        searchRequestSeq++;
+        activePagefindHits = new Map();
+        render();
+      } else {
+        render();
+        triggerPagefindSearch(searchQuery);
+      }
+    });
+
+    searchInputEl.addEventListener("focus", () => {
+      ensurePagefind();
     });
 
     searchInputEl.addEventListener("keydown", e => {
-      if (e.key === "Escape" && searchInputEl.value) {
-        e.preventDefault();
-        searchInputEl.value = "";
-        searchQuery = "";
-        render();
+      if (e.key === "Escape") {
+        if (searchInputEl.value) {
+          e.preventDefault();
+          searchInputEl.value = "";
+          searchQuery = "";
+          searchRequestSeq++;
+          activePagefindHits = new Map();
+          render();
+        } else if (activeTag) {
+          e.preventDefault();
+          activeTag = "";
+          render();
+        }
       }
     });
 
     searchClearEl.addEventListener("click", () => {
       searchInputEl.value = "";
       searchQuery = "";
+      searchRequestSeq++;
+      activePagefindHits = new Map();
       render();
       searchInputEl.focus();
     });
@@ -1168,6 +1761,17 @@
       const btn = e.target.closest(".cat-btn");
       if (btn) {
         setActiveCategory(btn.dataset.cat);
+        render();
+      }
+    });
+
+    document.getElementById("experimentGrid").addEventListener("click", e => {
+      const tagBtn = e.target.closest(".tag");
+      if (tagBtn && tagBtn.dataset.tag) {
+        e.preventDefault();
+        e.stopPropagation();
+        const clicked = tagBtn.dataset.tag;
+        activeTag = (activeTag && activeTag.toLowerCase() === clicked.toLowerCase()) ? "" : clicked;
         render();
       }
     });

@@ -62,7 +62,13 @@ Adding a new experiment takes two simple steps:
    }
    ```
 
-3. **Commit and push:**
+3. **Rebuild the Pagefind full-text search index:**
+   ```bash
+   node scripts/build-pagefind.mjs
+   ```
+   This regenerates `./pagefind/` across all experiments (HTML, Markdown, and interactive JS prose).
+
+4. **Commit and push:**
    ```bash
    git add .
    git commit -m "feat: add my-new-experiment"
