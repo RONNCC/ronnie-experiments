@@ -113,22 +113,64 @@
       }
     }
 
+    .search-box {
+      position: relative;
+      width: 100%;
+      max-width: 340px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 0.85rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+    }
+
     .search-input {
-      padding: 0.6rem 1rem;
+      padding: 0.6rem 2.2rem 0.6rem 2.35rem;
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 6px;
       color: var(--text-main);
       font-size: 0.95rem;
       width: 100%;
-      max-width: 340px;
       outline: none;
-      transition: border-color 0.15s;
+      transition: border-color 0.15s, box-shadow 0.15s;
     }
 
     .search-input:focus {
       border-color: var(--accent);
       box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .search-clear {
+      position: absolute;
+      right: 0.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 0.25rem;
+      border-radius: 4px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+
+    .search-clear:hover {
+      color: var(--text-main);
+      background: var(--tag-bg);
+    }
+
+    .search-clear.visible {
+      display: inline-flex;
     }
 
     .categories {
@@ -249,6 +291,24 @@
       color: var(--text-muted);
     }
 
+    .empty-reset-btn {
+      margin-top: 0.85rem;
+      padding: 0.45rem 0.9rem;
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .empty-reset-btn:hover {
+      border-color: var(--accent);
+      background: var(--card-hover);
+    }
+
     footer {
       margin-top: 4rem;
       padding-top: 1.5rem;
@@ -282,7 +342,15 @@
     </header>
 
     <div class="toolbar">
-      <input type="text" id="searchInput" class="search-input" placeholder="Search experiments or tags..." aria-label="Search experiments">
+      <div class="search-box">
+        <span class="search-icon" aria-hidden="true">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        </span>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search experiments, topics, or tags..." aria-label="Search experiments" autocomplete="off" spellcheck="false">
+        <button type="button" id="searchClear" class="search-clear" aria-label="Clear search" title="Clear search (Esc)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
       <div class="categories" id="categories">
         <button class="cat-btn active" data-cat="All">All</button>
         <button class="cat-btn" data-cat="Visualizations">Visualizations</button>
@@ -311,6 +379,15 @@
         category: "Education",
         tags: ["San Francisco", "Poll Worker", "Spanish", "Civic Education", "Flashcards", "Interactive"],
         date: "2026-11-03"
+      },
+      {
+        id: "eliquis-lupus-guide",
+        title: "Eliquis and Lupus Anticoagulant: a hematologist's guide",
+        description: "An interactive hematology exhibit exploring apixaban, the coagulation cascade, laboratory interference, and lupus anticoagulant testing with synthetic simulations and cases.",
+        path: "experiments/eliquis-lupus-guide/",
+        category: "Education",
+        tags: ["Hematology", "Apixaban", "Lupus Anticoagulant", "Coagulation", "Laboratory Medicine", "Interactive"],
+        date: "2026-10-28"
       },
       {
         id: "vla-staff-roadmap",
@@ -347,6 +424,15 @@
         category: "Education",
         tags: ["Beginner-friendly", "Neuroscience", "Hematology", "Eliquis", "DOACs", "Health Education", "Simulation", "Interactive"],
         date: "2026-10-22"
+      },
+      {
+        id: "coagulation-lab",
+        title: "Inside the Coagulation Lab",
+        description: "Interactive 11-bench tour of the listed panel: Vitamin D 25-Hydroxy (LC-MS/MS), Lupus Anticoagulant Reflex (PTT-LA/dRVVT), APS panel (aPTT/PT/INR/TT/hexagonal/aCL+β2GP1), Protein S antigen (total & free), Factor V Leiden PCR, Protein S functional, Antithrombin activity, Protein C antigen, Factor II activity, Protein C functional — plus the synthesis Interpretation Report. Generic educational content only, no personal data.",
+        path: "experiments/coagulation-lab/",
+        category: "Education",
+        tags: ["Hematology", "Coagulation", "Thrombophilia", "Lab Medicine", "LC-MS/MS", "PCR", "Immunoassay", "Interactive"],
+        date: "2026-10-21"
       },
       {
         id: "ald-pvd-lab",
@@ -404,15 +490,562 @@
       }
     ];
 
+    const STOPWORDS = new Set([
+      "a", "an", "the", "of", "in", "on", "at", "to", "for", "with", "by",
+      "from", "and", "or", "vs", "is", "are", "how", "why", "what", "about", "into"
+    ]);
+
+    const STEM_OVERRIDES = {
+      medical: "medic", medicine: "medic", medicines: "medic", medically: "medic",
+      health: "health", healthy: "health", healthcare: "health",
+      hematology: "hematolog", hematologist: "hematolog", hematologists: "hematolog", hematological: "hematolog",
+      simulation: "simul", simulations: "simul", simulator: "simul", simulators: "simul", simulate: "simul", simulated: "simul", simulating: "simul",
+      visualization: "visual", visualizations: "visual", visualizer: "visual", visualizers: "visual", visualize: "visual", visualizing: "visual",
+      finance: "financ", financial: "financ", finances: "financ", financing: "financ",
+      economy: "econom", economics: "econom", economic: "econom",
+      verify: "verif", verification: "verif", verified: "verif", verifying: "verif",
+      robotics: "robot", robotic: "robot",
+      algorithmic: "algorithm",
+      circulation: "circul", circulatory: "circul",
+      coagulation: "coagul", coagulant: "coagul", coagulants: "coagul",
+      anticoagulation: "anticoagul", anticoagulant: "anticoagul", anticoagulants: "anticoagul",
+      clotting: "clot", clots: "clot",
+      thinners: "thinner",
+      automaton: "automata",
+      foundries: "foundry",
+      evals: "eval", evaluation: "eval", evaluations: "eval", evaluating: "eval",
+      vote: "vote", votes: "vote", voted: "vote", voting: "vote", voter: "vote", voters: "vote",
+      civic: "civic", civics: "civic"
+    };
+
+    // Symmetric equivalence groups (bidirectional synonyms & abbreviations)
+    const SYNONYM_GROUPS = [
+      ["eliquis", "apixaban"],
+      ["xarelto", "rivaroxaban"],
+      ["pradaxa", "dabigatran"],
+      ["doac", "doacs", "anticoagulant", "anticoagulants", "blood thinner", "blood thinners"],
+      ["dvt", "deep vein thrombosis", "thromboembolism"],
+      ["clot", "clots", "clotting", "coagulation", "thrombosis", "thrombus", "thrombophilia"],
+      ["bleed", "bleeding", "hemorrhage"],
+      ["vein", "veins", "venous", "vascular"],
+      ["neuroscience", "neurology"],
+      ["sf", "san francisco"],
+      ["election", "elections", "voting", "voter", "vote", "ballot", "poll", "polls"],
+      ["ml", "machine learning"],
+      ["dl", "deep learning"],
+      ["rag", "retrieval augmented generation"],
+      ["vla", "vision language action"],
+      ["cv", "computer vision"],
+      ["rl", "reinforcement learning", "rlvr"],
+      ["eda", "electronic design automation"],
+      ["rtl", "register transfer level", "verilog", "systemverilog"],
+      ["ald", "atomic layer deposition"],
+      ["pvd", "physical vapor deposition"],
+      ["3d", "webgl", "threejs", "three js"],
+      ["cat", "feline", "kitty", "tabby"],
+      ["game of life", "conway", "cellular automata"],
+      ["mp4", "mpeg", "h264", "codec", "codecs"],
+      ["audio", "sound", "speaker", "speakers", "aac"],
+      ["book", "books", "textbook", "textbooks", "fieldbook"],
+      ["accounting", "bookkeeping", "general ledger", "double entry"],
+      ["legal", "lawyer", "attorney", "lawsuit", "litigation", "legaltech", "cocounsel"]
+    ];
+
+    // Directional umbrella concepts: broad topic query -> specific domain terms
+    const CONCEPT_RULES = [
+      {
+        keys: ["medical", "medicine", "health", "healthcare", "clinical", "biomedical", "biology", "biological", "physiology", "doctor", "physician", "disease"],
+        targets: ["health", "medicine", "medical", "hematology", "hematologist", "coagulation", "thrombophilia", "anatomy", "circulation", "neuroscience", "dvt", "apixaban", "eliquis", "doacs", "lupus", "immunoassay"]
+      },
+      {
+        keys: ["pharmacology", "medication", "medications", "drug", "drugs", "rx", "pill", "pills"],
+        targets: ["eliquis", "apixaban", "doacs", "xarelto", "pradaxa", "anticoagulant", "blood thinners"]
+      },
+      {
+        keys: ["diagnostics", "diagnostic", "pathology", "bloodwork", "assay", "assays"],
+        targets: ["laboratory medicine", "lab medicine", "immunoassay", "pcr", "coagulation", "lupus anticoagulant", "thrombophilia"]
+      },
+      {
+        keys: ["blood", "cardiovascular", "cardiology"],
+        targets: ["blood", "hematology", "hematologist", "coagulation", "thrombophilia", "circulation", "dvt", "vein", "clot", "clotting", "eliquis", "apixaban", "doacs"]
+      },
+      {
+        keys: ["stroke", "intracranial"],
+        targets: ["brain", "bleed", "skull"]
+      },
+      {
+        keys: ["drinking", "ethanol"],
+        targets: ["alcohol", "hangover"]
+      },
+      {
+        keys: ["chip", "chips", "semiconductor", "semiconductors", "silicon", "asic", "vlsi", "microchip"],
+        targets: ["chip", "chips", "semiconductor", "semiconductors", "silicon", "rtl", "eda", "uvm", "hls", "tapeout", "foundries", "chiplets", "ald", "pvd"]
+      },
+      {
+        keys: ["hardware", "electronics", "electrical"],
+        targets: ["hardware", "semiconductors", "semiconductor", "chip", "chips", "silicon", "rtl", "eda", "foundries", "ald", "pvd", "robotics", "display"]
+      },
+      {
+        keys: ["fab", "fabrication", "manufacturing", "nanotech", "nanotechnology", "wafer"],
+        targets: ["foundries", "tapeout", "ald", "pvd", "semiconductor", "semiconductors", "physical design", "chiplets", "materials science"]
+      },
+      {
+        keys: ["finance", "financial", "fintech", "money", "investing", "investment", "banking", "wall street", "capital", "wealth"],
+        targets: ["finance", "financial", "fintech", "accounting", "valuation", "private markets", "private equity", "private credit", "hedge funds", "family offices", "ria", "revenue recognition", "invoicing", "plaid", "trading"]
+      },
+      {
+        keys: ["economics", "economy", "macro"],
+        targets: ["economics", "finance", "private markets", "valuation", "silicon economics"]
+      },
+      {
+        keys: ["ai", "artificial intelligence"],
+        targets: ["ai", "agents", "agent", "agentic", "rag", "vla", "llm", "transformers", "pytorch", "diffusion", "rlvr", "self supervision", "harvey", "cocounsel"]
+      },
+      {
+        keys: ["llm", "llms", "language model", "language models", "large language model", "gpt", "genai", "generative ai"],
+        targets: ["llm", "ai engineering", "applied ai", "agent harnesses", "ai agents", "rag", "agents", "post training", "rlvr", "legal ai"]
+      },
+      {
+        keys: ["ml", "machine learning", "deep learning", "neural", "neural network", "neural networks"],
+        targets: ["ml", "pytorch", "transformers", "cnn", "vla", "diffusion", "rlvr", "scaling laws", "self supervision", "post training", "inductive bias", "ai engineering", "applied ai", "agent harnesses"]
+      },
+      {
+        keys: ["law"],
+        targets: ["legal", "legal ai", "cocounsel", "harvey", "legora"],
+        mult: 0.85
+      },
+      {
+        keys: ["civic", "civics", "politics", "political", "government", "policy", "democracy"],
+        targets: ["civic", "election", "voter", "voting", "ballot", "poll", "propositions", "measures", "government", "lobbying", "federal"]
+      },
+      {
+        keys: ["media", "multimedia", "streaming", "playback"],
+        targets: ["mp4", "video", "audio", "sound", "av", "display", "speakers"]
+      },
+      {
+        keys: ["graphics", "rendering", "shader", "shaders", "creative", "art"],
+        targets: ["webgl", "three js", "canvas", "generative", "animation", "photons"]
+      },
+      {
+        keys: ["spacetime", "relativity", "cosmology", "astrophysics"],
+        targets: ["gravity", "warped", "extra dimensions", "randall sundrum"]
+      },
+      {
+        keys: ["science"],
+        targets: ["science", "physics", "gravity", "hematology", "neuroscience", "materials science", "nobel", "anatomy", "coagulation"]
+      },
+      {
+        keys: ["chemistry", "chemical"],
+        targets: ["ald", "pvd", "materials science", "lc ms", "immunoassay", "apixaban"]
+      },
+      {
+        keys: ["math", "mathematics"],
+        targets: ["math", "geometry", "exponential", "randall sundrum", "vectors", "simplex", "algorithms", "scaling laws"]
+      },
+      {
+        keys: ["cs", "dsa", "computer science"],
+        targets: ["algorithms", "sorting", "data structures", "quicksort", "mergesort", "heapsort", "benchmarking"]
+      },
+      {
+        keys: ["productivity", "teamwork", "collaboration", "strengths"],
+        targets: ["working genius", "work energy", "teams"]
+      },
+      {
+        keys: ["career", "jobs", "job", "hiring", "prep"],
+        targets: ["interview", "interviews", "interview prep", "staff", "role", "work", "teams", "portfolio", "hiring"]
+      },
+      {
+        keys: ["beginner", "intro", "introductory", "basics", "101"],
+        targets: ["beginner", "beginner friendly", "zero background", "start from zero", "plain english", "simple"]
+      }
+    ];
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function normalizeText(str) {
+      return String(str || "")
+        .toLowerCase()
+        .normalize("NFKD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/β/g, "b")
+        .replace(/α/g, "a")
+        .replace(/μ/g, "u")
+        .replace(/['’]s\b/g, "");
+    }
+
+    function stemWord(w) {
+      if (STEM_OVERRIDES[w]) return STEM_OVERRIDES[w];
+      if (w.length <= 3) return w;
+      if (w.length > 4 && w.endsWith("ies")) {
+        return w.slice(0, -3) + "y";
+      }
+      if (w.length > 5 && w.endsWith("ing")) {
+        let base = w.slice(0, -3);
+        if (base.length >= 3 && base[base.length - 1] === base[base.length - 2] && !"aeiou".includes(base[base.length - 1])) {
+          base = base.slice(0, -1);
+        }
+        return STEM_OVERRIDES[base] || base;
+      }
+      if (w.length > 4 && w.endsWith("ed") && !w.endsWith("eed")) {
+        let base = w.slice(0, -2);
+        if (base.endsWith("at") || base.endsWith("iz")) base += "e";
+        return STEM_OVERRIDES[base] || base;
+      }
+      if (w.length > 4 && (w.endsWith("ches") || w.endsWith("shes") || w.endsWith("xes") || w.endsWith("zes") || w.endsWith("sses"))) {
+        return w.slice(0, -2);
+      }
+      if (w.length > 3 && w.endsWith("s") && !w.endsWith("ss") && !w.endsWith("us") && !w.endsWith("is") && !w.endsWith("os")) {
+        const base = w.slice(0, -1);
+        return STEM_OVERRIDES[base] || base;
+      }
+      return w;
+    }
+
+    function cleanTerm(str) {
+      const words = normalizeText(str).match(/[a-z0-9]+/g);
+      return words ? words.join(" ") : "";
+    }
+
+    function tokenizeField(raw) {
+      const norm = normalizeText(raw);
+      const words = norm.match(/[a-z0-9]+/g) || [];
+      const compounds = norm.match(/[a-z0-9]+(?:[-./][a-z0-9]+)+/g) || [];
+      const joined = compounds.map(c => c.replace(/[-./]+/g, ""));
+      const allWords = words.concat(joined);
+      const wordSet = new Set(allWords);
+      const stemSet = new Set(allWords.map(stemWord));
+      return {
+        phrase: " " + words.join(" ") + " ",
+        words: allWords,
+        wordSet,
+        stemSet
+      };
+    }
+
+    const synonymMap = new Map();
+    const conceptMap = new Map();
+    const knownPhrasesSet = new Set();
+
+    function addMapEntry(map, key, entry) {
+      if (!key) return;
+      if (!map.has(key)) map.set(key, []);
+      const list = map.get(key);
+      if (!list.some(e => e.term === entry.term)) {
+        list.push(entry);
+      }
+    }
+
+    for (const group of SYNONYM_GROUPS) {
+      const cleaned = group.map(cleanTerm).filter(Boolean);
+      for (const term of cleaned) {
+        if (term.includes(" ")) knownPhrasesSet.add(term);
+        for (const other of cleaned) {
+          if (other !== term) {
+            addMapEntry(synonymMap, term, { term: other, mult: 0.68 });
+            if (!term.includes(" ")) {
+              addMapEntry(synonymMap, stemWord(term), { term: other, mult: 0.68 });
+            }
+          }
+        }
+      }
+    }
+
+    for (const rule of CONCEPT_RULES) {
+      const mult = rule.mult || 0.56;
+      const cleanedKeys = rule.keys.map(cleanTerm).filter(Boolean);
+      const cleanedTargets = rule.targets.map(cleanTerm).filter(Boolean);
+      for (const key of cleanedKeys) {
+        if (key.includes(" ")) knownPhrasesSet.add(key);
+        for (const target of cleanedTargets) {
+          if (target !== key) {
+            addMapEntry(conceptMap, key, { term: target, mult });
+            if (!key.includes(" ")) {
+              addMapEntry(conceptMap, stemWord(key), { term: target, mult });
+            }
+          }
+        }
+      }
+    }
+
+    const sortedPhrases = Array.from(knownPhrasesSet).sort((a, b) => b.length - a.length || a.localeCompare(b));
+
     let experiments = fallbackExperiments;
+    let searchIndex = [];
+    let searchVocab = new Set();
     let activeCategory = "All";
     let searchQuery = "";
 
+    function rebuildSearchIndex() {
+      const vocab = new Set();
+      for (const k of synonymMap.keys()) {
+        if (!k.includes(" ") && k.length >= 4) vocab.add(k);
+      }
+      for (const k of conceptMap.keys()) {
+        if (!k.includes(" ") && k.length >= 4) vocab.add(k);
+      }
+
+      searchIndex = experiments.map((item, idx) => {
+        const extraKeywords = Array.isArray(item.keywords) ? item.keywords.join(" ") : "";
+        const fields = [
+          { name: "title", weight: 10.0, data: tokenizeField(item.title) },
+          { name: "tags", weight: 8.0, data: tokenizeField((item.tags || []).join(" ") + " " + extraKeywords) },
+          { name: "meta", weight: 6.0, data: tokenizeField((item.id || "") + " " + (item.category || "")) },
+          { name: "desc", weight: 3.5, data: tokenizeField(item.description) }
+        ];
+        for (const f of fields) {
+          for (const w of f.data.wordSet) {
+            if (w.length >= 4) vocab.add(w);
+          }
+        }
+        return { idx, item, fields };
+      });
+
+      searchVocab = vocab;
+    }
+
+    function damerauLevenshtein(a, b) {
+      const la = a.length;
+      const lb = b.length;
+      if (Math.abs(la - lb) > 2) return 3;
+      const dp = Array.from({ length: la + 1 }, () => new Array(lb + 1).fill(0));
+      for (let i = 0; i <= la; i++) dp[i][0] = i;
+      for (let j = 0; j <= lb; j++) dp[0][j] = j;
+      for (let i = 1; i <= la; i++) {
+        for (let j = 1; j <= lb; j++) {
+          const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+          dp[i][j] = Math.min(
+            dp[i - 1][j] + 1,
+            dp[i][j - 1] + 1,
+            dp[i - 1][j - 1] + cost
+          );
+          if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) {
+            dp[i][j] = Math.min(dp[i][j], dp[i - 2][j - 2] + cost);
+          }
+        }
+      }
+      return dp[la][lb];
+    }
+
+    function parseQueryClauses(rawQuery) {
+      const norm = cleanTerm(rawQuery);
+      if (!norm) return { norm: "", clauses: [] };
+      let padded = " " + norm + " ";
+      const foundPhrases = [];
+      for (const phrase of sortedPhrases) {
+        const needle = " " + phrase + " ";
+        if (padded.includes(needle)) {
+          foundPhrases.push(phrase);
+          padded = padded.split(needle).join(" ");
+        }
+      }
+      const remWords = padded.trim() ? padded.trim().split(/\s+/) : [];
+      const allClauses = foundPhrases.concat(remWords);
+      const nonStop = allClauses.filter(c => !STOPWORDS.has(c));
+      return {
+        norm,
+        clauses: nonStop.length > 0 ? nonStop : allClauses
+      };
+    }
+
+    function matchTermInField(term, fieldName, fieldData, allowPrefix, allowShortDescPrefix) {
+      if (term.includes(" ")) {
+        return fieldData.phrase.includes(" " + term + " ") ? 1.25 : 0;
+      }
+      if (fieldData.wordSet.has(term)) {
+        return 1.0;
+      }
+      if (term.length >= 3 && fieldData.stemSet.has(stemWord(term))) {
+        return 0.9;
+      }
+      if (allowPrefix) {
+        if (term.length >= 3 && fieldData.words.some(w => w.startsWith(term))) {
+          return 0.78;
+        }
+        if (term.length <= 2 && (fieldName !== "desc" || allowShortDescPrefix) && fieldData.words.some(w => w.startsWith(term))) {
+          return 0.65;
+        }
+      }
+      return 0;
+    }
+
+    function collectExpansions(map, clause, cStem, prefixDiscount) {
+      const merged = new Map();
+      for (const entry of (map.get(clause) || [])) {
+        merged.set(entry.term, Math.max(merged.get(entry.term) || 0, entry.mult));
+      }
+      for (const entry of (map.get(cStem) || [])) {
+        merged.set(entry.term, Math.max(merged.get(entry.term) || 0, entry.mult));
+      }
+      if (!clause.includes(" ") && clause.length >= 4) {
+        for (const [key, entries] of map.entries()) {
+          if (!key.includes(" ") && key !== clause && key.startsWith(clause)) {
+            for (const entry of entries) {
+              const discounted = entry.mult * prefixDiscount;
+              merged.set(entry.term, Math.max(merged.get(entry.term) || 0, discounted));
+            }
+          }
+        }
+      }
+      return merged;
+    }
+
+    function scoreClauseOnDoc(clause, doc, isMultiClause) {
+      let best = 0;
+      let secondary = 0;
+
+      for (const field of doc.fields) {
+        const m = matchTermInField(clause, field.name, field.data, true, isMultiClause);
+        if (m > 0) {
+          const s = field.weight * m;
+          if (s > best) {
+            secondary += best * 0.15;
+            best = s;
+          } else {
+            secondary += s * 0.15;
+          }
+        }
+      }
+
+      const cStem = clause.includes(" ") ? clause : stemWord(clause);
+
+      // 1. Tight equivalence synonyms
+      const synEntries = collectExpansions(synonymMap, clause, cStem, 0.75);
+      for (const [expTerm, mult] of synEntries.entries()) {
+        for (const field of doc.fields) {
+          const m = matchTermInField(expTerm, field.name, field.data, false, false);
+          if (m > 0) {
+            const s = field.weight * m * mult;
+            if (s > best) best = s;
+          }
+        }
+      }
+
+      // 2. Broader domain concepts (match primary metadata directly, or description when corroborated)
+      const conEntries = collectExpansions(conceptMap, clause, cStem, 0.78);
+      let descConceptHits = 0;
+      let bestDescConcept = 0;
+      for (const [expTerm, mult] of conEntries.entries()) {
+        for (const field of doc.fields) {
+          const m = matchTermInField(expTerm, field.name, field.data, false, false);
+          if (m > 0) {
+            const s = field.weight * m * mult;
+            if (field.name !== "desc") {
+              if (s > best) best = s;
+            } else {
+              descConceptHits += 1;
+              if (s > bestDescConcept) bestDescConcept = s;
+            }
+          }
+        }
+      }
+      if (descConceptHits >= 2 && bestDescConcept > best) {
+        best = bestDescConcept;
+      }
+
+      return best > 0 ? best + Math.min(secondary, 4.0) : 0;
+    }
+
+    function searchExperiments(rawQuery, categoryFilter) {
+      const { norm, clauses } = parseQueryClauses(rawQuery);
+      if (clauses.length === 0) {
+        return searchIndex
+          .filter(doc => categoryFilter === "All" || doc.item.category === categoryFilter)
+          .map(doc => doc.item);
+      }
+
+      const isMultiClause = clauses.length > 1;
+      const resolvedClauses = clauses.map(clause => {
+        const hasDirectMatch = searchIndex.some(doc => scoreClauseOnDoc(clause, doc, isMultiClause) > 0);
+        if (hasDirectMatch || clause.includes(" ") || clause.length < 5) {
+          return { clause, fixes: null };
+        }
+        const maxDist = clause.length >= 9 ? 2 : 1;
+        let bestDist = maxDist + 1;
+        let fixes = [];
+        for (const cand of searchVocab) {
+          if (cand[0] === clause[0] && Math.abs(cand.length - clause.length) <= maxDist) {
+            const d = damerauLevenshtein(clause, cand);
+            if (d < bestDist) {
+              bestDist = d;
+              fixes = [cand];
+            } else if (d === bestDist) {
+              fixes.push(cand);
+            }
+          }
+        }
+        return { clause, fixes: fixes.length > 0 ? fixes : null };
+      });
+
+      const scored = [];
+      for (const doc of searchIndex) {
+        if (categoryFilter !== "All" && doc.item.category !== categoryFilter) {
+          continue;
+        }
+        let total = 0;
+        let matchedAll = true;
+        for (const { clause, fixes } of resolvedClauses) {
+          let cs = 0;
+          if (!fixes) {
+            cs = scoreClauseOnDoc(clause, doc, isMultiClause);
+          } else {
+            for (const fix of fixes) {
+              cs = Math.max(cs, scoreClauseOnDoc(fix, doc, isMultiClause) * 0.42);
+            }
+          }
+          if (cs <= 0) {
+            matchedAll = false;
+            break;
+          }
+          total += cs;
+        }
+        if (!matchedAll) continue;
+
+        if (norm.includes(" ")) {
+          const needle = " " + norm + " ";
+          if (doc.fields[0].data.phrase.includes(needle)) {
+            total += 20.0;
+          } else if (doc.fields[1].data.phrase.includes(needle)) {
+            total += 14.0;
+          } else if (doc.fields[3].data.phrase.includes(needle)) {
+            total += 8.0;
+          }
+        }
+
+        scored.push({ score: total, idx: doc.idx, item: doc.item });
+      }
+
+      scored.sort((a, b) => b.score - a.score || a.idx - b.idx);
+      return scored.map(entry => entry.item);
+    }
+
+    function updateClearButton() {
+      const clearBtn = document.getElementById("searchClear");
+      if (clearBtn) {
+        clearBtn.classList.toggle("visible", Boolean(searchQuery.trim().length || searchQuery.length));
+      }
+    }
+
+    function setActiveCategory(cat) {
+      activeCategory = cat;
+      document.querySelectorAll(".cat-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.cat === cat);
+      });
+    }
+
     async function loadExperiments() {
+      rebuildSearchIndex();
       try {
         const res = await fetch("experiments.json");
         if (res.ok) {
           experiments = await res.json();
+          rebuildSearchIndex();
         }
       } catch (err) {
         console.warn("Using embedded manifest fallback:", err);
@@ -422,31 +1055,46 @@
 
     function render() {
       const grid = document.getElementById("experimentGrid");
-      const filtered = experiments.filter(item => {
-        const matchesCategory = activeCategory === "All" || item.category === activeCategory;
-        const q = searchQuery.toLowerCase().trim();
-        const matchesSearch = !q ||
-          item.title.toLowerCase().includes(q) ||
-          item.description.toLowerCase().includes(q) ||
-          item.tags.some(t => t.toLowerCase().includes(q));
-        return matchesCategory && matchesSearch;
-      });
+      updateClearButton();
+      const filtered = searchExperiments(searchQuery, activeCategory);
 
       if (filtered.length === 0) {
+        if (activeCategory !== "All" && searchQuery.trim()) {
+          const allMatches = searchExperiments(searchQuery, "All");
+          if (allMatches.length > 0) {
+            const noun = allMatches.length === 1 ? "experiment" : "experiments";
+            grid.innerHTML = `
+              <div class="empty-state">
+                <div>No experiments in <strong>${escapeHtml(activeCategory)}</strong> matched &ldquo;${escapeHtml(searchQuery.trim())}&rdquo;.</div>
+                <button type="button" class="empty-reset-btn" id="showAllCategoriesBtn">
+                  Show ${allMatches.length} matching ${noun} in All categories
+                </button>
+              </div>
+            `;
+            const resetBtn = document.getElementById("showAllCategoriesBtn");
+            if (resetBtn) {
+              resetBtn.addEventListener("click", () => {
+                setActiveCategory("All");
+                render();
+              });
+            }
+            return;
+          }
+        }
         grid.innerHTML = '<div class="empty-state">No experiments found matching your filter.</div>';
         return;
       }
 
       grid.innerHTML = filtered.map(item => `
-        <a class="card" href="${item.path}">
+        <a class="card" href="${escapeHtml(item.path)}">
           <div>
-            <div class="card-category">${item.category}</div>
-            <h2 class="card-title">${item.title}</h2>
-            <p class="card-desc">${item.description}</p>
+            <div class="card-category">${escapeHtml(item.category)}</div>
+            <h2 class="card-title">${escapeHtml(item.title)}</h2>
+            <p class="card-desc">${escapeHtml(item.description)}</p>
           </div>
           <div>
             <div class="card-tags">
-              ${item.tags.map(t => `<span class="tag">${t}</span>`).join("")}
+              ${(item.tags || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join("")}
             </div>
             <div class="card-action">
               Launch Experiment
@@ -457,16 +1105,60 @@
       `).join("");
     }
 
-    document.getElementById("searchInput").addEventListener("input", e => {
+    const searchInputEl = document.getElementById("searchInput");
+    const searchClearEl = document.getElementById("searchClear");
+
+    // Optional initial URL query parameters (?q=... & ?cat=...)
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const initialQ = params.get("q");
+      const initialCat = params.get("cat");
+      if (initialQ) {
+        searchQuery = initialQ;
+        searchInputEl.value = initialQ;
+      }
+      if (initialCat && Array.from(document.querySelectorAll(".cat-btn")).some(b => b.dataset.cat === initialCat)) {
+        setActiveCategory(initialCat);
+      }
+    } catch (_) {
+      // Ignore malformed URL parameters
+    }
+
+    searchInputEl.addEventListener("input", e => {
       searchQuery = e.target.value;
       render();
     });
 
+    searchInputEl.addEventListener("keydown", e => {
+      if (e.key === "Escape" && searchInputEl.value) {
+        e.preventDefault();
+        searchInputEl.value = "";
+        searchQuery = "";
+        render();
+      }
+    });
+
+    searchClearEl.addEventListener("click", () => {
+      searchInputEl.value = "";
+      searchQuery = "";
+      render();
+      searchInputEl.focus();
+    });
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "/" && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        const tag = (document.activeElement && document.activeElement.tagName) || "";
+        if (tag !== "INPUT" && tag !== "TEXTAREA" && !(document.activeElement && document.activeElement.isContentEditable)) {
+          e.preventDefault();
+          searchInputEl.focus();
+        }
+      }
+    });
+
     document.getElementById("categories").addEventListener("click", e => {
-      if (e.target.classList.contains("cat-btn")) {
-        document.querySelectorAll(".cat-btn").forEach(btn => btn.classList.remove("active"));
-        e.target.classList.add("active");
-        activeCategory = e.target.dataset.cat;
+      const btn = e.target.closest(".cat-btn");
+      if (btn) {
+        setActiveCategory(btn.dataset.cat);
         render();
       }
     });
