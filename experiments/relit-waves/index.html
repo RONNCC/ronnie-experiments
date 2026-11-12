@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Why does coffee have a 'Third Wave'—and why do sociolinguistics, ska, emo, chocolate, therapy, HCI, AI, democracy, and feminism move in waves too? An interactive cultural & intellectual atlas.">
+  <meta property="og:title" content="The Relit Wave — How Cultural & Intellectual Movements Come Back Around">
+  <meta property="og:description" content="From Folgers → Starbucks → single-farm pour-overs to Eckert's three waves of sociolinguistics, 2 Tone ska, CBT, and Nancy Hewitt's radio-wave critique.">
+  <title>The Relit Wave · Cultural, Culinary &amp; Intellectual Wave Movements</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="data.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="back-link" href="../../">← All experiments</a>
+      <nav class="page-nav" aria-label="On this page">
+        <a href="#anatomy">01 Anatomy</a>
+        <a href="#atlas">02 11-Domain Atlas</a>
+        <a href="#translator">03 Everyday Lens</a>
+        <a href="#compare">04 Compare</a>
+        <a href="#metaphor-lab">05 Ocean vs. Radio</a>
+        <a href="#quiz">06 Quiz</a>
+        <a href="#glossary">Glossary</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="wrap">
+        <div class="hero-grid">
+          <div>
+            <p class="eyebrow">CULTURAL &amp; INTELLECTUAL PERIODIZATION · INTERACTIVE ATLAS</p>
+            <h1>The <em>Relit</em> Wave</h1>
+            <p class="lede">
+              Stumble onto <strong>third-wave coffee</strong> and a strange question pops up: wait—<em>food</em> has numbered waves? Once you look, the exact same wave pattern shows up in <strong>sociolinguistics</strong>, <strong>ska &amp; emo music</strong>, <strong>bean-to-bar chocolate</strong>, <strong>psychotherapy</strong>, <strong>HCI</strong>, <strong>AI</strong>, and <strong>civic history</strong>.
+            </p>
+            <p class="hero-note">
+              A "relit wave" happens when a generation inherits something that feels settled—a grocery tin of coffee, a census map of accents, a workplace desktop—and relights the underlying craft, agency, or politics that standardization flattened out.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#atlas">Explore the 11 Movements ↓</a>
+              <a class="btn" href="#metaphor-lab">Test Ocean vs. Radio Waves</a>
+            </div>
+          </div>
+
+          <aside class="hero-card" aria-label="Diagram comparing three waves from mass commodity to ritual to terroir craft">
+            <svg viewBox="0 0 460 275" role="img" aria-labelledby="heroSvgTitle">
+              <title id="heroSvgTitle">Three crests showing how Wave 1 mass scale, Wave 2 social ritual, and Wave 3 granular craft overlap rather than erase one another</title>
+              <defs>
+                <linearGradient id="crest1" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#35496b" stop-opacity="0.34"/>
+                  <stop offset="100%" stop-color="#35496b" stop-opacity="0.03"/>
+                </linearGradient>
+                <linearGradient id="crest2" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#9b6a12" stop-opacity="0.36"/>
+                  <stop offset="100%" stop-color="#9b6a12" stop-opacity="0.03"/>
+                </linearGradient>
+                <linearGradient id="crest3" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#b85427" stop-opacity="0.42"/>
+                  <stop offset="100%" stop-color="#b85427" stop-opacity="0.04"/>
+                </linearGradient>
+              </defs>
+              <rect width="460" height="275" rx="10" fill="#f6f2e9"/>
+              <line x1="24" y1="230" x2="436" y2="230" stroke="#b3a892" stroke-width="1.5"/>
+
+              <!-- Wave 1 -->
+              <path d="M24,230 C65,230 78,122 126,122 C178,122 215,196 436,204 L436,230 Z" fill="url(#crest1)"/>
+              <path d="M24,230 C65,230 78,122 126,122 C178,122 215,196 436,204" fill="none" stroke="#35496b" stroke-width="3"/>
+
+              <!-- Wave 2 -->
+              <path d="M70,230 C135,230 175,86 238,86 C298,86 340,175 436,184 L436,230 Z" fill="url(#crest2)"/>
+              <path d="M70,230 C135,230 175,86 238,86 C298,86 340,175 436,184" fill="none" stroke="#9b6a12" stroke-width="3"/>
+
+              <!-- Wave 3 -->
+              <path d="M168,230 C238,230 288,46 352,46 C394,46 416,112 436,134 L436,230 Z" fill="url(#crest3)"/>
+              <path d="M168,230 C238,230 288,46 352,46 C394,46 416,112 436,134" fill="none" stroke="#b85427" stroke-width="3.2"/>
+
+              <circle cx="126" cy="122" r="5" fill="#35496b"/>
+              <text x="126" y="106" text-anchor="middle" font-size="11.5" font-weight="700" fill="#35496b">1ST WAVE</text>
+              <text x="126" y="143" text-anchor="middle" font-size="10.5" fill="#1a211e">Scale &amp; Category</text>
+
+              <circle cx="238" cy="86" r="5" fill="#9b6a12"/>
+              <text x="238" y="70" text-anchor="middle" font-size="11.5" font-weight="700" fill="#9b6a12">2ND WAVE</text>
+              <text x="238" y="107" text-anchor="middle" font-size="10.5" fill="#1a211e">Ritual &amp; Network</text>
+
+              <circle cx="352" cy="46" r="5.5" fill="#b85427"/>
+              <text x="352" y="30" text-anchor="middle" font-size="11.5" font-weight="700" fill="#b85427">3RD WAVE</text>
+              <text x="352" y="67" text-anchor="middle" font-size="10.5" fill="#1a211e">Terroir &amp; Agency</text>
+
+              <text x="432" y="248" text-anchor="end" font-size="10" fill="#627069">Earlier waves rarely vanish — they persist underneath →</text>
+            </svg>
+            <p class="hero-card-caption">
+              <strong>Fun genealogy fact:</strong> When coffee roaster Trish Rothgeb popularized "Third-Wave Coffee" in 2002–2003, she explicitly borrowed the numbering from <em>third-wave feminism</em>—which traced back to a 1968 <em>New York Times</em> headline.
+            </p>
+          </aside>
+        </div>
+
+        <div class="boundary-strip">
+          <strong>How to read this guide:</strong> Some "waves" are <em>canonical scholarly or industry terms</em> (feminism, coffee, Eckert's sociolinguistics, 2 Tone/3rd-wave ska, Huntington's democratization, Hayes's CBT, Bødker's HCI, DARPA's AI). Others are <em>borrowed craft analogies or fan periodizations</em> (bean-to-bar chocolate, 4th/5th-wave emo, 4th-wave coffee). Every card below labels its exact status—and where the wave metaphor breaks down.
+        </div>
+      </div>
+    </section>
+
+    <!-- 01: ANATOMY & GENEALOGY -->
+    <section id="anatomy" class="section">
+      <div class="wrap">
+        <div class="section-header">
+          <p class="eyebrow">01 / ANATOMY OF A RELIT WAVE</p>
+          <h2>Why do movements come in threes (and retroactive ones)?</h2>
+          <p>
+            Nobody opening a Folgers tin in 1952 or playing Kingston ska in 1962 announced, "Welcome to the First Wave." Wave numbers are <strong>retroactive</strong>: a movement names itself a Second or Third Wave to claim a lineage while rebelling against the blind spots of the status quo.
+          </p>
+        </div>
+
+        <div class="cycle-grid">
+          <article class="cycle-card">
+            <span class="cycle-step">PHASE 01 · FOUNDATION</span>
+            <h3>Breakthrough &amp; Scale</h3>
+            <p>Solves a hard foundational problem: putting coffee in every home, winning the ballot, correlating speech with class, or measuring human-machine errors.</p>
+          </article>
+          <article class="cycle-card">
+            <span class="cycle-step">PHASE 02 · INSTITUTION</span>
+            <h3>Ritual, Identity &amp; Spread</h3>
+            <p>Turns a commodity or method into a self-conscious culture: espresso "third places," local ethnographies, 2 Tone records, cognitive restructuring, or federal statutes.</p>
+          </article>
+          <article class="cycle-card">
+            <span class="cycle-step">PHASE 03 · RELIGHTING</span>
+            <h3>Granularity &amp; Agency</h3>
+            <p>Pushes back against Wave 2's standardization: single-farm light roasts, speaker persona, intersectionality, mindfulness context, or DIY crossover.</p>
+          </article>
+          <article class="cycle-card">
+            <span class="cycle-step">PHASE 04 · FRACTURE / LEAPFROG</span>
+            <h3>Science, Synthesis, or Revival</h3>
+            <p>Once "Third Wave" goes mainstream, Wave 4 either gets hyper-technical (refractometers), synthesizes prior waves, or skips Wave 3 to revive Wave 2 (emo revival).</p>
+          </article>
+        </div>
+
+        <div class="lineage-box" aria-label="Chronological genealogy of the wave metaphor">
+          <div class="lineage-head">
+            <h3>How the "Third Wave" phrase jumped across fields (1968–2017)</h3>
+            <span style="font-size:0.82rem;color:var(--muted)">Select a year to trace the borrowing chain</span>
+          </div>
+          <div id="lineagePills" class="lineage-pills" role="group" aria-label="Coinage years"></div>
+          <div id="lineageDetail" class="lineage-detail" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02: ELEVEN-DOMAIN ATLAS -->
+    <section id="atlas" class="section">
+      <div class="wrap">
+        <div class="section-header">
+          <p class="eyebrow">02 / THE ELEVEN-MOVEMENT ATLAS</p>
+          <h2>Same wave grammar, wildly different worlds</h2>
+          <p>
+            Filter by field or structural archetype, then inspect any movement's waves, what each wave relit, what it missed, and why historians or practitioners push back on the tidy numbering.
+          </p>
+        </div>
+
+        <div class="atlas-controls">
+          <div id="categoryFilters" class="filter-group" role="group" aria-label="Filter movements by category"></div>
+          <div id="archetypeFilters" class="filter-group" role="group" aria-label="Filter movements by wave archetype"></div>
+        </div>
+
+        <div id="domainTabs" class="domain-tabs" role="tablist" aria-label="Movements"></div>
+
+        <article id="domainStage" class="domain-stage" role="tabpanel" aria-live="polite"></article>
+      </div>
+    </section>
+
+    <!-- 03: EVERYDAY SCENE TRANSLATOR -->
+    <section id="translator" class="section">
+      <div class="wrap">
+        <div class="section-header">
+          <p class="eyebrow">03 / SAME MOMENT, THREE WAVES</p>
+          <h2>How a single everyday act changes across Wave 1, 2, and 3</h2>
+          <p>
+            Abstract historiography clicks fastest on something concrete: ordering a morning coffee, pronouncing a sharp <code>/t/</code> at the end of <em>"right"</em>, handling stage fright, or scoping a software interface.
+          </p>
+        </div>
+
+        <div class="scene-lab">
+          <div class="scene-controls">
+            <div id="sceneButtons" class="filter-group" role="group" aria-label="Choose an everyday scenario"></div>
+            <span id="sceneDomainBadge" class="badge badge-status"></span>
+          </div>
+          <div id="sceneCards" class="scene-cards" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04: CROSS-DOMAIN WAVE SYNTHESIZER & CUSTOM MAPPER -->
+    <section id="compare" class="section">
+      <div class="wrap">
+        <div class="section-header">
+          <p class="eyebrow">04 / CROSS-DOMAIN COMPARATOR &amp; SANDBOX</p>
+          <h2>Pair any two fields side-by-side—or test your own "Relit Wave"</h2>
+          <p>
+            Put <strong>Coffee</strong> next to <strong>Sociolinguistics</strong> or <strong>Ska</strong> next to <strong>Artificial Intelligence</strong> to see where the structural analogy holds up and where it diverges.
+          </p>
+        </div>
+
+        <div class="compare-panel">
+          <div class="compare-pickers">
+            <label for="compareLeft">
+              Left movement
+              <select id="compareLeft"></select>
+            </label>
+            <label for="compareRight">
+              Right movement
+              <select id="compareRight"></select>
+            </label>
+          </div>
+          <div class="compare-table-wrap">
+            <table class="compare-table" id="compareTable">
+              <thead>
+                <tr>
+                  <th>Dimension</th>
+                  <th id="thLeft">Movement A</th>
+                  <th id="thRight">Movement B</th>
+                </tr>
+              </thead>
+              <tbody id="compareBody"></tbody>
+            </table>
+          </div>
+          <div id="compareInsight" class="compare-insight" aria-live="polite"></div>
+        </div>
+
+        <div style="margin-top:1.5rem" class="builder-grid">
+          <div>
+            <p class="eyebrow">TRY OTHER DOMAINS</p>
+            <h3 style="margin-bottom:0.45rem">Spot-a-Wave Sandbox</h3>
+            <p style="font-size:0.9rem;color:var(--ink-soft);margin:0 0 0.9rem">
+              Load a preset (craft beer, natural wine, ramen, the web) or type any cultural corner you know to test what kind of wave engine drives it.
+            </p>
+            <div id="presetButtons" class="filter-group" style="margin-bottom:0.9rem" role="group" aria-label="Sandbox presets"></div>
+            <div class="builder-form">
+              <label for="customName">Domain name
+                <input id="customName" type="text" maxlength="60">
+              </label>
+              <label for="customW1">1st Wave (mass baseline or early root)
+                <input id="customW1" type="text" maxlength="120">
+              </label>
+              <label for="customW2">2nd Wave (codification, lifestyle, or regional spread)
+                <input id="customW2" type="text" maxlength="120">
+              </label>
+              <label for="customW3">3rd Wave (terroir, context, or DIY relighting)
+                <input id="customW3" type="text" maxlength="120">
+              </label>
+              <label for="customMech">What drives the transition into Wave 3?
+                <select id="customMech">
+                  <option value="granularity">Zooming into finer provenance / terroir (like Coffee &amp; Cacao)</option>
+                  <option value="reaction">Rebelling against Wave 2 commercialization (like Natural Wine &amp; Emo)</option>
+                  <option value="synthesis">Combining Wave 1 structure with Wave 2 scale (like 3rd-Wave AI &amp; CBT)</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div class="builder-preview" id="builderPreview" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05: METAPHOR PHYSICS LAB (OCEAN VS RADIO WAVES) -->
+    <section id="metaphor-lab" class="section">
+      <div class="wrap">
+        <div class="section-header">
+          <p class="eyebrow">05 / WHEN THE WAVE METAPHOR LIES</p>
+          <h2>Ocean Waves vs. Nancy Hewitt's Radio Frequencies</h2>
+          <p>
+            Why do historians warn against taking "waves" too literally? Ocean waves suggest one giant wall of water followed by dead calm—hiding everyone who kept working in the "troughs" and pretending Folgers or 1st-wave exposure therapy disappeared. Historian <strong>Nancy A. Hewitt</strong> (<em>No Permanent Waves</em>, 2010) suggested switching the physics from <strong>ocean swells</strong> to <strong>radio waves</strong>: simultaneous broadcasts at different frequencies.
+          </p>
+        </div>
+
+        <div class="physics-lab">
+          <div class="control-stack">
+            <div class="mode-toggle" role="group" aria-label="Select wave physics model">
+              <button type="button" id="modeOcean" class="btn btn-primary" aria-pressed="true">Ocean Swells (Successive Peaks)</button>
+              <button type="button" id="modeRadio" class="btn" aria-pressed="false">Radio Frequencies (Concurrent)</button>
+            </div>
+
+            <div class="slider-field">
+              <div class="slider-field-top">
+                <label for="persistSlider">Persistence of earlier waves</label>
+                <output id="persistOut" for="persistSlider">35%</output>
+              </div>
+              <input id="persistSlider" type="range" min="0" max="100" value="35">
+            </div>
+
+            <div class="slider-field">
+              <div class="slider-field-top">
+                <label for="undertowSlider">Reverse-wave undertow / backlash</label>
+                <output id="undertowOut" for="undertowSlider">20%</output>
+              </div>
+              <input id="undertowSlider" type="range" min="0" max="80" value="20">
+            </div>
+
+            <div class="slider-field">
+              <div class="slider-field-top">
+                <label for="grassrootsSlider">Unarchived "trough" / grassroots signal</label>
+                <output id="grassrootsOut" for="grassrootsSlider">50%</output>
+              </div>
+              <input id="grassrootsSlider" type="range" min="0" max="100" value="50">
+            </div>
+
+            <div class="hook-card" id="modelExplanation"></div>
+          </div>
+
+          <div class="wave-canvas-box">
+            <svg id="physicsSvg" viewBox="0 0 540 260" role="img" aria-label="Interactive wave model plot"></svg>
+            <div class="canvas-legend">
+              <span><i class="legend-dot" style="background:#6ba3d6"></i>Wave 1 layer</span>
+              <span><i class="legend-dot" style="background:#e9b44c"></i>Wave 2 layer</span>
+              <span><i class="legend-dot" style="background:#f07148"></i>Wave 3 layer</span>
+              <span><i class="legend-dot" style="background:#7bd389"></i>Continuous grassroots / unarchived signal</span>
+            </div>
+            <p class="physics-readout" id="physicsReadout" aria-live="polite"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06: SCENARIO QUIZ -->
+    <section id="quiz" class="section">
+      <div class="wrap">
+        <div class="section-header">
+          <p class="eyebrow">06 / PATTERN CHECK</p>
+          <h2>Can you diagnose the wave?</h2>
+          <p>Five quick scenarios across cacao, linguistics, music revivals, movement history, and AI.</p>
+        </div>
+
+        <div id="quizScore" class="quiz-score-bar" aria-live="polite">Answered: 0 / 5</div>
+        <div id="quizList" class="quiz-list"></div>
+      </div>
+    </section>
+
+    <!-- GLOSSARY -->
+    <section id="glossary" class="section">
+      <div class="wrap">
+        <div class="section-header">
+          <p class="eyebrow">07 / POCKET VOCABULARY</p>
+          <h2>Cross-disciplinary wave glossary</h2>
+          <p>Filter terms shared across specialty food, sociolinguistics, music scenes, and social science.</p>
+        </div>
+
+        <label for="glossarySearch" class="eyebrow" style="display:block;margin-bottom:0.35rem">Filter terms</label>
+        <input id="glossarySearch" class="search-input" type="search" placeholder="Try terroir, indexical, leapfrog, reverse wave…">
+        <dl id="glossaryGrid" class="glossary-grid"></dl>
+        <p id="glossaryEmpty" hidden style="color:var(--muted)">No matching glossary terms. Try a broader word.</p>
+      </div>
+    </section>
+
+    <!-- SOURCES -->
+    <section id="sources" class="section" style="border-bottom:0">
+      <div class="wrap">
+        <div class="section-header">
+          <p class="eyebrow">08 / SOURCES &amp; PROVENANCE</p>
+          <h2>Where each "wave" framework comes from</h2>
+          <p>
+            Primary coinages, review articles, and historiographical critiques used to build this guide. No user inputs or quiz choices leave your browser.
+          </p>
+        </div>
+        <ul id="sourcesList" class="sources-list"></ul>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <span>The Relit Wave · An interactive cultural &amp; intellectual history sandbox</span>
+      <a href="../../">← Back to Ronnie's Experiments</a>
+    </div>
+  </footer>
+</body>
+</html>

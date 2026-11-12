@@ -1,5 +1,21 @@
 [
   {
+    "id": "relit-waves",
+    "title": "The Relit Wave \u2014 Why Movements Come in Waves",
+    "description": "Why does coffee have a 'Third Wave'\u2014and why do sociolinguistics, ska, emo, bean-to-bar chocolate, CBT, HCI, AI, environmentalism, democratization, and feminism move in numbered waves too? Explore an 11-movement atlas, everyday wave translator, cross-field comparator, and an interactive Ocean Swells vs. Nancy Hewitt Radio-Frequency lab.",
+    "path": "experiments/relit-waves/",
+    "category": "Education",
+    "tags": [
+      "Culture",
+      "Third Wave Coffee",
+      "Linguistics",
+      "Music History",
+      "Sociology",
+      "Interactive"
+    ],
+    "date": "2026-11-12"
+  },
+  {
     "id": "working-genius-lab",
     "title": "Work energy lab: six kinds of work",
     "description": "An original, independent 24-question reflection quiz about work energy, with a beginner guide, glossary, transparent experimental scoring and optional shareable result links. Not the official Working Genius assessment.",
