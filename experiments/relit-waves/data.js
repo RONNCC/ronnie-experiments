@@ -668,6 +668,7 @@ window.RELIT_WAVE_DATA = {
   everydayScenes: [
     {
       id: "cup",
+      domainId: "coffee",
       title: "Ordering a morning cup",
       domain: "Coffee culture",
       waves: [
@@ -693,6 +694,7 @@ window.RELIT_WAVE_DATA = {
     },
     {
       id: "speech",
+      domainId: "sociolinguistics",
       title: "Pronouncing the /t/ in right",
       domain: "Variationist sociolinguistics",
       waves: [
@@ -718,6 +720,7 @@ window.RELIT_WAVE_DATA = {
     },
     {
       id: "thought",
+      domainId: "cbt",
       title: "Walking into a talk you are scared of",
       domain: "Cognitive and behavioral therapy",
       waves: [
@@ -743,6 +746,7 @@ window.RELIT_WAVE_DATA = {
     },
     {
       id: "interface",
+      domainId: "hci",
       title: "Designing a digital tool",
       domain: "Human computer interaction",
       waves: [
@@ -774,34 +778,35 @@ window.RELIT_WAVE_DATA = {
       w1: "Post Prohibition adjunct macro lagers, shelf stable and uniformly fizzy",
       w2: "1970s and 80s microbrew pioneers and brewpubs, Anchor and Sierra Nevada",
       w3: "Hyper local taprooms, single hop hazy IPAs, spontaneous wild and farmhouse fermentations",
-      mechanism: "reaction"
+      mechanism: "commodity-craft"
     },
     {
       name: "Wine",
       w1: "Bulk jug table wine and anonymous regional blends",
       w2: "Varietal labels, 100 point scores, and oaked international prestige",
       w3: "Low intervention wine: native yeasts, skin contact, tiny grower transparency",
-      mechanism: "reaction"
+      mechanism: "commodity-craft"
     },
     {
       name: "Web and computing",
       w1: "Static read only pages, directories, and dial up portals",
       w2: "Centralized social feeds, mobile cloud platforms, and algorithmic scale",
       w3: "Local first software, open protocols, user owned graphs, malleable tools",
-      mechanism: "synthesis"
+      mechanism: "structure-context"
     },
     {
       name: "Ramen outside Japan",
       w1: "1970s freeze dried instant noodle bricks in dorm kitchens",
       w2: "2000s urban tonkotsu boom and queues outside ramen shops",
       w3: "Regional tare craft, heritage wheat house noodles, hyper specific broths",
-      mechanism: "granularity"
+      mechanism: "commodity-craft"
     }
   ],
 
   quizScenarios: [
     {
       id: "q1",
+      domainId: "chocolate",
       prompt:
         "A chocolate maker buys fermented cacao directly from one cooperative in Piura, Peru, roasts it lightly in small batches, and uses only cacao and cane sugar so the raspberry acidity comes through.",
       question: "Which wave pattern is this, and why?",
@@ -825,6 +830,7 @@ window.RELIT_WAVE_DATA = {
     },
     {
       id: "q2",
+      domainId: "sociolinguistics",
       prompt:
         "A linguist hears a teenager use crisp, released /t/ endings to land a dry joke, then drop them seconds later when speaking warmly to the same friend.",
       question: "Which wave of sociolinguistics was built to explain that switch?",
@@ -848,6 +854,7 @@ window.RELIT_WAVE_DATA = {
     },
     {
       id: "q3",
+      domainId: "emo",
       prompt:
         "Around 2011, DIY bands in Philadelphia and the Midwest skipped the glossy 2006 arena version of emo to revive the intricate 1997 sound of Cap'n Jazz and American Football.",
       question: "What does that tell you about how cultural waves move?",
@@ -871,6 +878,7 @@ window.RELIT_WAVE_DATA = {
     },
     {
       id: "q4",
+      domainId: "feminism",
       prompt:
         "Historian Nancy A. Hewitt proposed replacing ocean waves with radio waves when teaching the history of US feminism.",
       question: "Which blind spot of the ocean metaphor does the radio model fix?",
@@ -894,6 +902,7 @@ window.RELIT_WAVE_DATA = {
     },
     {
       id: "q5",
+      domainId: "ai",
       prompt:
         "In DARPA's three waves of AI, a tax engine uses explicit statutory rules while a vision model uses billions of learned weights to spot road hazards.",
       question: "How does that framework see the two systems today?",
