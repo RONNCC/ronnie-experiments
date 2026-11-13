@@ -69,6 +69,8 @@ class FakeElement {
     this.dispatchEvent('click');
   }
 
+  scrollIntoView() {}
+
   get innerHTML() {
     return this._innerHTML;
   }
@@ -429,7 +431,7 @@ test('app.js renders every widget and reacts to interaction', () => {
     'falls back to all shapes instead of showing an empty list'
   );
 
-  // Everyday translator swaps scenes and redraws the meters.
+  // Everyday scenes swap scenes and redraw the meters.
   const speech = elements
     .get('sceneButtons')
     .querySelectorAll('button')
@@ -437,6 +439,10 @@ test('app.js renders every widget and reacts to interaction', () => {
   speech.click();
   assert.equal(elements.get('sceneDomain').textContent, 'Variationist sociolinguistics');
   assert.match(elements.get('sceneCards').textContent, /indexical/i);
+
+  // The scene's atlas link opens the linked movement.
+  elements.get('sceneAtlasLink').querySelectorAll('button')[0].click();
+  assert.match(elements.get('movementDetail').textContent, /Variationist sociolinguistics/);
 
   // Comparator rewrites the table and the reading.
   elements.get('compareLeft').value = 'ska';
@@ -450,17 +456,17 @@ test('app.js renders every widget and reacts to interaction', () => {
 
   // Sandbox previews the typed value and matches the mechanism.
   elements.get('customName').value = 'Artisanal sourdough';
-  elements.get('customMech').value = 'reaction';
+  elements.get('customMech').value = 'revival-relay';
   elements.get('customName').dispatchEvent('input');
   assert.match(elements.get('builderPreview').textContent, /Three waves of Artisanal sourdough/);
-  assert.match(elements.get('builderPreview').textContent, /Reads like wine and emo/);
+  assert.match(elements.get('builderPreview').textContent, /Reads like Ska and Emo/);
 
   // Metaphor lab switches between the two models and re-reads the sliders.
   assert.match(elements.get('physicsSvg').innerHTML, /Era 1/);
   elements.get('modeRadio').click();
   assert.equal(elements.get('modeRadio').getAttribute('aria-pressed'), 'true');
   assert.equal(elements.get('modeOcean').getAttribute('aria-pressed'), 'false');
-  assert.match(elements.get('physicsSvg').innerHTML, /Radio|legal and commodity/);
+  assert.match(elements.get('physicsSvg').innerHTML, /Wave 1 layer/);
   assert.match(elements.get('physicsReadout').textContent, /Four frequencies/);
 
   elements.get('persistSlider').value = '80';
@@ -475,6 +481,31 @@ test('app.js renders every widget and reacts to interaction', () => {
   right.click();
   assert.match(elements.get('quizScore').textContent, /Answered 1 of 5/);
   assert.match(elements.get('quizScore').textContent, /Correct 1 of 5/);
+
+  // The quiz answer links to the atlas entry and opens it.
+  elements.get('quizList').querySelectorAll('.atlas-link-btn')[0].click();
+  assert.match(elements.get('movementDetail').textContent, /Craft and bean to bar chocolate/);
+
+  // The lab movement select explains its movement and links to the atlas.
+  elements.get('labMovement').value = 'ska';
+  elements.get('labMovement').dispatchEvent('change');
+  assert.match(elements.get('labMovementDetail').textContent, /Ska/);
+  elements.get('labMovementDetail').querySelectorAll('.atlas-link-btn')[0].click();
+  assert.match(elements.get('movementDetail').textContent, /Ska/);
+
+  // A shape card filters the atlas to its movements.
+  elements
+    .get('archetypeFilters')
+    .querySelectorAll('button')
+    .find((b) => b.dataset.arch === 'revival-relay')
+    .click();
+  assert.equal(elements.get('movementList').querySelectorAll('button').length, 2);
+
+  // Every navigation link points at a section that exists, and every section is listed.
+  const navHrefs = [...html.matchAll(/<nav class="nav-rail"[\s\S]*?<\/nav>/g)][0][0].matchAll(/href="#([^"]+)"/g);
+  const navIds = [...navHrefs].map((m) => m[1]);
+  const sectionIds = [...html.matchAll(/<section id="([^"]+)"/g)].map((m) => m[1]);
+  assert.deepEqual(navIds.sort(), sectionIds.sort());
 
   // Glossary filters and shows an empty state.
   elements.get('glossarySearch').value = 'terroir';

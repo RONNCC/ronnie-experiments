@@ -94,24 +94,12 @@
   }
 
   /* ---------------------------------------------------------
-   * Scroll reveals and the tagline
+   * Scroll reveals
    * ------------------------------------------------------- */
 
   function initMotion() {
-    const tagline = $("taglineText");
-    if (tagline) {
-      const words = tagline.textContent.trim().split(/\s+/);
-      tagline.innerHTML = words
-        .map((word, i) => {
-          const accent = i === words.length - 1 ? " accent" : "";
-          return `<span class="word${accent}">${escapeHtml(word)}</span>`;
-        })
-        .join(" ");
-    }
-
     if (prefersReduced || !("IntersectionObserver" in window)) {
       document.querySelectorAll(".reveal").forEach((el) => el.classList.add("is-visible"));
-      if (tagline) tagline.querySelectorAll(".word").forEach((w) => w.classList.add("is-lit"));
       return;
     }
 
@@ -127,23 +115,6 @@
     );
 
     document.querySelectorAll(".reveal").forEach((el) => reveal.observe(el));
-
-    if (tagline) {
-      const words = [...tagline.querySelectorAll(".word")];
-      const lit = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (!entry.isIntersecting) return;
-            const word = entry.target;
-            const order = words.indexOf(word);
-            window.setTimeout(() => word.classList.add("is-lit"), order * 45);
-            lit.unobserve(word);
-          });
-        },
-        { rootMargin: "0px 0px -12% 0px", threshold: 0.4 }
-      );
-      words.forEach((word) => lit.observe(word));
-    }
   }
 
   /* ---------------------------------------------------------
@@ -217,17 +188,30 @@
         )
         .join("");
 
+    const shapes = [
+      { id: "all", name: "All shapes", summary: `Show all ${DATA.domains.length} movements, whatever their shape.`, movements: [] },
+      ...DATA.archetypes.map((arch) => ({
+        id: arch.id,
+        name: arch.name,
+        summary: arch.summary,
+        movements: DATA.domains.filter((d) => d.archetype === arch.id)
+      }))
+    ];
     $("archetypeFilters").innerHTML =
-      `<span class="label">Wave shape</span>` +
-      [{ id: "all", short: "All" }, ...DATA.archetypes]
+      `<span class="label">Wave shape</span><div class="shape-cards">` +
+      shapes
         .map(
-          (arch) =>
-            `<button type="button" class="chip" data-arch="${escapeHtml(arch.id)}" aria-pressed="${
-              arch.id === activeArchetype
-            }">${escapeHtml(arch.short)}</button>`
+          (shape) => `
+          <button type="button" class="shape-card" data-arch="${escapeHtml(shape.id)}" aria-pressed="${
+            shape.id === activeArchetype
+          }">
+            <strong>${escapeHtml(shape.name)}</strong>
+            <span>${escapeHtml(shape.summary)}</span>
+            ${shape.movements.map((d) => `<span class="shape-movement">${escapeHtml(d.title)}</span>`).join("")}
+          </button>`
         )
-        .join("");
-
+        .join("") +
+      `</div>`;
     $("categoryFilters")
       .querySelectorAll("button")
       .forEach((btn) =>
@@ -247,6 +231,16 @@
           renderAtlas();
         })
       );
+  }
+
+
+
+  function openInAtlas(domainId) {
+    activeDomainId = domainId;
+    activeCategory = "All";
+    activeArchetype = "all";
+    renderAtlas();
+    $("atlas").scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   function ensureValidDomain() {
@@ -371,7 +365,7 @@
   }
 
   /* ---------------------------------------------------------
-   * 3. Everyday translator
+   * 3. Everyday scenes
    * ------------------------------------------------------- */
 
   function renderScenes() {
@@ -425,6 +419,12 @@
         </article>`
       )
       .join("");
+
+    const linked = DATA.domains.find((d) => d.id === scene.domainId);
+    $("sceneAtlasLink").innerHTML = `<button type="button" class="btn btn-ghost atlas-link-btn" data-domain="${escapeHtml(linked.id)}">Open ${escapeHtml(linked.title)} in the atlas</button>`;
+    $("sceneAtlasLink")
+      .querySelectorAll(".atlas-link-btn")
+      .forEach((btn) => btn.addEventListener("click", () => openInAtlas(btn.dataset.domain)));
   }
 
   /* ---------------------------------------------------------
@@ -540,6 +540,10 @@
       el.addEventListener("change", renderSandbox);
     });
 
+    $("customMech").innerHTML = DATA.archetypes
+      .map((arch) => `<option value="${escapeHtml(arch.id)}">${escapeHtml(arch.short)}</option>`)
+      .join("");
+
     loadPreset(0);
   }
 
@@ -550,14 +554,11 @@
     const w3 = $("customW3").value.trim() || "The specific or dissenting version";
     const mech = $("customMech").value;
 
-    const verdicts = {
-      granularity:
-        "Reads like coffee and cacao. The third wave is a pull toward origin detail, and the usual risk is that detail costs money, which narrows the audience.",
-      reaction:
-        "Reads like wine and emo. The third wave defines itself against the second one's polish while keeping the first one's raw material, which is why revivals keep reaching backward.",
-      synthesis:
-        "Reads like AI and CBT. The third wave does not discard either predecessor. It tries to hold explicit structure and messy real world context at the same time."
-    };
+    const arch = DATA.archetypes.find((a) => a.id === mech) || DATA.archetypes[0];
+    const titles = new Intl.ListFormat("en", { style: "long", type: "conjunction" }).format(
+      DATA.domains.filter((d) => d.archetype === arch.id).map((d) => d.title)
+    );
+    const diagnosis = `${arch.summary} Reads like ${titles}.`;
 
     $("builderPreview").innerHTML = `
       <header>
@@ -569,7 +570,7 @@
         <li><span><b>Wave 2.</b> ${escapeHtml(w2)}</span></li>
         <li><span><b>Wave 3.</b> ${escapeHtml(w3)}</span></li>
       </ol>
-      <p class="wave-verdict"><b>Diagnosis.</b> ${escapeHtml(verdicts[mech] || verdicts.granularity)}</p>
+      <p class="wave-verdict"><b>Diagnosis.</b> ${escapeHtml(diagnosis)}</p>
     `;
   }
 
@@ -594,6 +595,13 @@
     ["persistSlider", "undertowSlider", "grassrootsSlider"].forEach((id) => {
       $(id).addEventListener("input", renderPhysics);
     });
+
+    $("labMovement").innerHTML = DATA.domains
+      .map((d) => `<option value="${escapeHtml(d.id)}">${escapeHtml(d.title)}</option>`)
+      .join("");
+    $("labMovement").value = "feminism";
+    $("labMovement").addEventListener("change", renderLabMovement);
+    renderLabMovement();
 
     renderPhysics();
   }
@@ -687,9 +695,9 @@
         ${[62, 118, 174, 226]
           .map((y) => `<line x1="24" y1="${y}" x2="536" y2="${y}" stroke="${rule}" stroke-width="1"/>`)
           .join("")}
-        <text x="30" y="${62 - 12}" font-size="10" fill="#8d867a">Wave 1: legal and commodity</text>
-        <text x="30" y="${118 - 12}" font-size="10" fill="#8d867a">Wave 2: lifestyle and network</text>
-        <text x="30" y="${174 - 12}" font-size="10" fill="#a2603a">Wave 3: specific and contextual</text>
+        <text x="30" y="${62 - 12}" font-size="10" fill="#8d867a">Wave 1 layer</text>
+        <text x="30" y="${118 - 12}" font-size="10" fill="#8d867a">Wave 2 layer</text>
+        <text x="30" y="${174 - 12}" font-size="10" fill="#a2603a">Wave 3 layer</text>
         <text x="30" y="${226 - 12}" font-size="10" fill="#2f6663">Unarchived local work</text>
         <path d="${buildPath(ch1)}" fill="none" stroke="#b6afa2" stroke-width="2"/>
         <path d="${buildPath(ch2)}" fill="none" stroke="#8d867a" stroke-width="2"/>
@@ -707,6 +715,16 @@
         "Four frequencies at once. On one block today you can buy a canned first wave coffee, a second wave caramel latte, and a third wave single origin pour over, while the people who never got written down keep broadcasting.";
     }
   }
+  function renderLabMovement() {
+    const domain = DATA.domains.find((d) => d.id === $("labMovement").value);
+    $("labMovementDetail").innerHTML = `
+      <p>${escapeHtml(domain.critique)}</p>
+      <button type="button" class="btn btn-ghost atlas-link-btn" data-domain="${escapeHtml(domain.id)}">See ${escapeHtml(domain.title)} in the atlas</button>
+    `;
+    $("labMovementDetail")
+      .querySelectorAll(".atlas-link-btn")
+      .forEach((btn) => btn.addEventListener("click", () => openInAtlas(btn.dataset.domain)));
+  }
 
   /* ---------------------------------------------------------
    * 6. Quiz
@@ -720,6 +738,7 @@
         const picked = quizAnswers[q.id];
         const answered = typeof picked === "number";
         const chosen = answered ? q.choices[picked] : null;
+        const domain = DATA.domains.find((d) => d.id === q.domainId);
 
         return `
         <article class="quiz-item">
@@ -743,7 +762,10 @@
               chosen
                 ? `<p class="quiz-feedback ${chosen.correct ? "right" : ""}">${
                     chosen.correct ? "Correct. " : "Not quite. "
-                  }${escapeHtml(chosen.feedback)}</p>`
+                  }${escapeHtml(chosen.feedback)}</p>
+            <button type="button" class="btn btn-ghost atlas-link-btn" data-domain="${escapeHtml(
+              domain.id
+            )}">See ${escapeHtml(domain.title)} in the atlas</button>`
                 : ""
             }
           </div>
@@ -759,6 +781,10 @@
           renderQuiz();
         })
       );
+
+    $("quizList")
+      .querySelectorAll(".atlas-link-btn")
+      .forEach((btn) => btn.addEventListener("click", () => openInAtlas(btn.dataset.domain)));
 
     const total = DATA.quizScenarios.length;
     const answeredCount = Object.keys(quizAnswers).length;
