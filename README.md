@@ -35,6 +35,7 @@ Interactive prototypes, physics simulations, algorithmic visualizers, and learni
 | **Sorting Visualizer** | Algorithms | Step-by-step visualizer for Tim Sort, Quicksort, Mergesort, Heapsort, Shell Sort, Radix Sort, Bubble, and Selection Sort. | [`experiments/sorting-visualizer/`](experiments/sorting-visualizer/) |
 | **Cellular Automata Lab** | Simulations | Conway's Game of Life with interactive cell drawing and preset oscillators (Gosper Gun, Pulsar, Acorn). | [`experiments/cellular-automata/`](experiments/cellular-automata/) |
 | **Lower Leg Circulation & DVT Visualizer** | Simulations | Interactive educational model of calf-muscle pumping, venous return, healthy vs damaged valves, and the ~3-month clot-healing window. | [`experiments/lower-leg-circulation/`](experiments/lower-leg-circulation/) |
+| **Brake Heat Lab: Why Brakes Fade** | Simulations | Interactive lab on brake fade, heat soak, and vapor lock for every vehicle, not only race cars. Five simulations cover kinetic energy per stop, the thermal barrier from disc to fluid, fade over laps with clean versus blocked ducts, altitude and air density, and vapor lock pedal travel. | [`experiments/brake-heat-lab/`](experiments/brake-heat-lab/) |
 
 ---
 
