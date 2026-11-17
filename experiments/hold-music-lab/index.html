@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0d1117">
+  <meta name="description" content="Why does hold music sound terrible over the phone? An interactive lab on the 300 to 3400 Hz telephone tunnel, 8 kHz sampling, mu-law companding, speech codecs, and the PSTN legacy that keeps it all stuck.">
+  <title>Why Hold Music Sounds Terrible — The Phone Audio Lab</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="back-link" href="../../" aria-label="Back to experiments hub">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/><path d="M9 12h11"/></svg>
+        <span>Experiments</span>
+      </a>
+      <a class="brand" href="../../" aria-label="Ronnie's Experiments home">
+        <span class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><path d="M15.9 4.5c-1.5 4.3-5.2 6.4-4.7 11.1.2 2.1 1.4 3.8 3.3 4.6-1.5-2.2-.8-4.9 1.5-6.6-.3 3.7 4.3 4.8 4.1 8.1-.1 1.7-1.2 3.2-2.8 4.1 5.3-.7 8.2-5.5 6.8-10.2-.9-3-3.4-4.2-4.2-7.7-.7 2.1-1.7 3.2-2.7 3.8.3-2.6-.2-5.2-1.3-7.2Z"/><path d="M10 24.7h11.5"/></svg>
+        </span>
+        <span>RONNIE'S <b>EXPERIMENTS</b></span>
+      </a>
+      <div class="topbar-actions">
+        <span class="topbar-tag"><span class="status-dot"></span>Interactive audio lab</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-heading">
+      <div>
+        <p class="eyebrow"><span class="eyebrow-line"></span> TELECOM / AUDIO ENGINEERING</p>
+        <h1>Why hold music sounds <span>terrible</span></h1>
+        <p class="page-intro">
+          <strong>New to all of this? Start at Lab&nbsp;0.</strong> It grades the famous Reddit answer in plain
+          English, then each lab adds one layer of real engineering: the narrow frequency tunnel phones were
+          built for, the sampling trick that enforces it, the compression that squeezes speech into tiny
+          packets, and the legacy network that keeps hold music trapped inside all three. Every claim that is
+          a simplification is flagged <span class="approx-badge">simplified</span>.
+        </p>
+      </div>
+    </section>
+
+    <section class="how-strip" aria-label="How to use this lab">
+      <div class="how-item"><span class="how-num">1</span><p><strong>Predict first.</strong> Each lab opens with a question. Commit to an answer before you touch anything.</p></div>
+      <div class="how-item"><span class="how-num">2</span><p><strong>Push the sliders.</strong> Every control feeds a live simulation. Watch what changes and read the why line.</p></div>
+      <div class="how-item"><span class="how-num">3</span><p><strong>Listen last.</strong> Lab 4 plays real synthesized music and voice through a phone chain so you can hear each loss.</p></div>
+    </section>
+
+    <nav class="lab-nav" aria-label="Lab sections">
+      <a href="#lab0"><span>Lab 0 · Start here</span> The Reddit answer, graded</a>
+      <a href="#lab1"><span>Lab 1</span> The 300 to 3400 Hz tunnel</a>
+      <a href="#lab2"><span>Lab 2</span> Sampling and Nyquist</a>
+      <a href="#lab3"><span>Lab 3</span> Squeezing bits</a>
+      <a href="#lab4"><span>Lab 4</span> Listening lab</a>
+      <a href="#lab5"><span>Lab 5</span> Why it never got fixed</a>
+      <a href="#lab6"><span>Lab 6</span> The fix that exists</a>
+      <a href="#wrapup"><span>Wrap-up</span> Quiz and glossary</a>
+    </nav>
+
+    <!-- ======================= LAB 0 ======================= -->
+    <section class="lab lab0" id="lab0" aria-labelledby="lab0-title">
+      <header class="lab-header">
+        <p class="section-kicker">LAB 00 <span>/</span> START HERE, NO BACKGROUND NEEDED</p>
+        <h2 id="lab0-title">The Reddit answer, graded</h2>
+        <p class="lab-intro">
+          The question comes from r/explainlikeimfive: <em>Why does most hold music sound so terrible over the
+          phone?</em> The top comment, by ChefGorton, says the standards were created when wires carried very
+          little data, the data is compressed and optimized for the range of regular human speech, and music
+          cannot be well represented that way. That is essentially correct. This lab turns that one paragraph
+          into the four concrete mechanisms underneath it, so you can see exactly what gets thrown away and why.
+        </p>
+      </header>
+
+      <div class="verdict-grid" aria-label="Grading the Reddit answer">
+        <div class="verdict-card good">
+          <p class="verdict-label">What it gets right</p>
+          <h3>Built for speech, not music</h3>
+          <p>Phone standards were designed in the era of analog copper pairs and early digital trunks. The
+          channel was engineered to carry the frequencies that make words intelligible, and nothing else.
+          Music needs far more. Labs 1 and 2 show the exact numbers.</p>
+        </div>
+        <div class="verdict-card good">
+          <p class="verdict-label">What it gets right</p>
+          <h3>Compression is real, and brutal</h3>
+          <p>A phone call uses a few thousand bits per second where a music stream uses hundreds of thousands.
+          The codec is not a generic compressor. It is a speech model that assumes a human vocal tract. Lab 3
+          opens that model up.</p>
+        </div>
+        <div class="verdict-card partial">
+          <p class="verdict-label">What it leaves out</p>
+          <h3>It is not just one filter</h3>
+          <p>Hold music suffers at least four separate hits: a band limit, a low sample rate, companding
+          quantization, and a speech codec, plus network jitter and loss on top. Each lab isolates one hit so
+          you can hear and see it alone.</p>
+        </div>
+        <div class="verdict-card partial">
+          <p class="verdict-label">What it leaves out</p>
+          <h3>Why it persists</h3>
+          <p>Modern codecs can carry full band music easily. Hold music still sounds bad because the call
+          usually crosses into the old telephone network, where every device must agree on the lowest common
+          denominator. Lab 5 explains the trap.</p>
+        </div>
+      </div>
+
+      <div class="eli5-box">
+        <p class="eli5-label">The 30 second version</p>
+        <p>Imagine a phone call as a narrow tunnel that only lets through the middle pitches of a human voice.
+        Music has deep bass, sparkling highs, and many instruments at once, so most of it hits the tunnel walls
+        and is lost. What survives is then chopped into 8,000 tiny snapshots per second and squeezed into a
+        speech shaped box. Words survive that journey. Music does not.</p>
+      </div>
+
+      <div class="predict-box" data-predict="p0">
+        <p class="predict-q"><strong>Predict first.</strong> If you could only keep one slice of a song and still
+        recognize the words of a singer, which slice would you keep?</p>
+        <div class="predict-options">
+          <button type="button" data-correct="false">The deep bass below 200 Hz, because bass carries the beat</button>
+          <button type="button" data-correct="true">The middle slice around 300 to 3400 Hz, because that is where speech intelligibility lives</button>
+          <button type="button" data-correct="false">The sparkling highs above 8 kHz, because they carry detail</button>
+        </div>
+        <p class="predict-feedback" hidden></p>
+      </div>
+    </section>
+
+    <!-- ======================= LAB 1 ======================= -->
+    <section class="lab lab1" id="lab1" aria-labelledby="lab1-title">
+      <header class="lab-header">
+        <p class="section-kicker">LAB 01 <span>/</span> FREQUENCY</p>
+        <h2 id="lab1-title">The tunnel: 300 to 3400 Hz</h2>
+        <p class="lab-intro">
+          Every classic telephone channel passes roughly <strong>300 Hz to 3400 Hz</strong> and attenuates
+          everything outside that band. The band was chosen because the formants of speech, the resonant
+          frequencies that distinguish vowels, sit mostly inside it. A sung vowel keeps its identity there.
+          A piano chord does not. Drag the tunnel walls and watch what survives.
+        </p>
+      </header>
+
+      <div class="predict-box" data-predict="p1">
+        <p class="predict-q"><strong>Predict first.</strong> A piano note at 110 Hz with harmonics at 220, 330, 440
+        Hz and above enters the tunnel. What happens to its pitch?</p>
+        <div class="predict-options">
+          <button type="button" data-correct="false">Nothing. The phone shifts the whole note up into the tunnel.</button>
+          <button type="button" data-correct="true">The fundamental is cut. You hear only the upper harmonics, so the note sounds thin and an octave higher than it is.</button>
+          <button type="button" data-correct="false">The note is amplified so you can still hear it.</button>
+        </div>
+        <p class="predict-feedback" hidden></p>
+      </div>
+
+      <div class="lab-grid">
+        <div class="viz-card">
+          <div class="viz-head">
+            <strong>Spectrum tunnel</strong>
+            <span class="tag">Interactive · <span class="approx-badge">simplified</span> spectrum model</span>
+          </div>
+          <canvas id="spectrumCanvas" width="720" height="360" aria-label="Spectrum showing voice and music energy with a draggable telephone passband"></canvas>
+          <div class="legend-row">
+            <span><i class="swatch voice"></i>Speech formants</span>
+            <span><i class="swatch music"></i>Music energy</span>
+            <span><i class="swatch tunnel"></i>Phone passband</span>
+          </div>
+          <div class="controls">
+            <label>Low wall <input type="range" id="lowWall" min="50" max="1000" step="10" value="300"> <output id="lowWallOut">300 Hz</output></label>
+            <label>High wall <input type="range" id="highWall" min="2000" max="12000" step="100" value="3400"> <output id="highWallOut">3400 Hz</output></label>
+            <label>Source
+              <select id="spectrumSource">
+                <option value="music">Music</option>
+                <option value="voice">Voice</option>
+                <option value="both">Both</option>
+              </select>
+            </label>
+          </div>
+          <p class="why-line" id="spectrumWhy">With the classic walls at 300 and 3400 Hz, most music energy is outside the tunnel. Speech formants sit inside it.</p>
+        </div>
+
+        <div class="explain-card">
+          <h3>Why those exact numbers</h3>
+          <p>The public switched telephone network, or PSTN, allocates each voice channel a 4 kHz slot. Guard
+          bands at the edges keep neighboring channels from leaking into each other, leaving about 3.1 kHz of
+          usable passband. Bell System and later ITU measurements showed that band limited speech in that range
+          stays intelligible even though it sounds muffled. Intelligibility was the design goal, not fidelity.</p>
+          <div class="formula">Passband ≈ 300 Hz to 3400 Hz &nbsp;·&nbsp; Channel slot = 4000 Hz</div>
+          <h3>What music loses</h3>
+          <ul class="fact-list">
+            <li><strong>Bass below 300 Hz:</strong> kick drum, bass guitar, piano fundamentals. The beat survives only as harmonics.</li>
+            <li><strong>Air above 3400 Hz:</strong> cymbal shimmer, string bow texture, consonant crispness, reverb tails.</li>
+            <li><strong>Stereo width:</strong> phone channels are mono. Panning and chorus collapse to the center.</li>
+          </ul>
+          <p class="small-note">The spectrum curves here are a teaching model shaped from typical long term
+          average spectra, not a measurement of one recording. The passband edges are the real standard values.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= LAB 2 ======================= -->
+    <section class="lab lab2" id="lab2" aria-labelledby="lab2-title">
+      <header class="lab-header">
+        <p class="section-kicker">LAB 02 <span>/</span> SAMPLING</p>
+        <h2 id="lab2-title">Sampling: 8000 snapshots per second</h2>
+        <p class="lab-intro">
+          A digital phone does not carry a continuous wave. It takes <strong>8000 snapshots per second</strong>
+          of the waveform and sends those numbers. The Nyquist rule says you can only reconstruct frequencies
+          below half the snapshot rate. At 8000 snapshots, that ceiling is 4000 Hz, which is exactly why the
+          tunnel in Lab 1 ends near 3400 Hz. Push the tone above the ceiling and watch it alias into a false
+          lower pitch.
+        </p>
+      </header>
+
+      <div class="predict-box" data-predict="p2">
+        <p class="predict-q"><strong>Predict first.</strong> You sample a 6000 Hz tone at 8000 snapshots per second.
+        What pitch do you hear back?</p>
+        <div class="predict-options">
+          <button type="button" data-correct="false">6000 Hz, unchanged. Sampling preserves everything.</button>
+          <button type="button" data-correct="true">2000 Hz. The tone folds over the 4000 Hz ceiling and appears at 8000 minus 6000.</button>
+          <button type="button" data-correct="false">Silence. Anything above the ceiling is simply deleted.</button>
+        </div>
+        <p class="predict-feedback" hidden></p>
+      </div>
+
+      <div class="lab-grid">
+        <div class="viz-card">
+          <div class="viz-head">
+            <strong>Nyquist and aliasing</strong>
+            <span class="tag">Interactive · exact math</span>
+          </div>
+          <canvas id="nyquistCanvas" width="720" height="360" aria-label="Sine wave with sampling points and aliased reconstruction"></canvas>
+          <div class="controls">
+            <label>Tone frequency <input type="range" id="toneFreq" min="100" max="9000" step="50" value="1200"> <output id="toneFreqOut">1200 Hz</output></label>
+            <label>Sample rate <input type="range" id="sampleRate" min="4000" max="48000" step="500" value="8000"> <output id="sampleRateOut">8000 Hz</output></label>
+          </div>
+          <p class="why-line" id="nyquistWhy">1200 Hz is below the 4000 Hz ceiling, so the samples reconstruct the tone correctly.</p>
+          <div class="formula">Nyquist ceiling = sample rate / 2 &nbsp;·&nbsp; Need f<sub>s</sub> &gt; 2 × f<sub>max</sub></div>
+        </div>
+
+        <div class="explain-card">
+          <h3>Why 8000, not 6800</h3>
+          <p>To preserve 3400 Hz you need more than 6800 snapshots per second. Engineers picked 8000 because it
+          divides cleanly into the 64 kHz digital trunk clocks of the era and leaves a 600 Hz guard band for the
+          anti alias filter. That filter must remove everything above 4000 Hz <em>before</em> sampling, or those
+          frequencies fold back as audible aliasing. Music has plenty of energy above 4000 Hz, so the filter
+          deletes it permanently.</p>
+          <h3>Compare the snapshot rates</h3>
+          <div class="rate-table">
+            <div><strong>8,000</strong><span>Phone G.711<br>ceiling 4 kHz</span></div>
+            <div><strong>16,000</strong><span>Wideband HD Voice<br>ceiling 8 kHz</span></div>
+            <div><strong>44,100</strong><span>CD audio<br>ceiling 22.05 kHz</span></div>
+            <div><strong>48,000</strong><span>Opus fullband<br>ceiling 24 kHz</span></div>
+          </div>
+          <p class="small-note">Anti alias filtering is why hold music sounds dull rather than buzzy. Aliasing
+          would add false tones on top. The dullness is the filter doing its job.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= LAB 3 ======================= -->
+    <section class="lab lab3" id="lab3" aria-labelledby="lab3-title">
+      <header class="lab-header">
+        <p class="section-kicker">LAB 03 <span>/</span> COMPRESSION</p>
+        <h2 id="lab3-title">Squeezing bits: mu-law and speech codecs</h2>
+        <p class="lab-intro">
+          After sampling, the phone must shrink each snapshot. The classic trick is <strong>mu-law
+          companding</strong>: loud sounds get fewer quantization steps, quiet sounds get more, matching how
+          ears and speech behave. Later codecs go further and model the vocal tract directly. Both tricks
+          assume speech. Music, with its wide dynamics and dense harmonics, exposes every shortcut.
+        </p>
+      </header>
+
+      <div class="predict-box" data-predict="p3">
+        <p class="predict-q"><strong>Predict first.</strong> Mu-law gives quiet sounds more precision and loud
+        sounds less. What does that do to a quiet piano passage played under a loud chorus?</p>
+        <div class="predict-options">
+          <button type="button" data-correct="false">Nothing. Companding is lossless.</button>
+          <button type="button" data-correct="true">The quiet notes get crushed into a few coarse steps and drown in quantization noise from the loud parts.</button>
+          <button type="button" data-correct="false">The quiet notes get louder automatically.</button>
+        </div>
+        <p class="predict-feedback" hidden></p>
+      </div>
+
+      <div class="lab-grid">
+        <div class="viz-card">
+          <div class="viz-head">
+            <strong>Mu-law companding curve</strong>
+            <span class="tag">Interactive · exact formula</span>
+          </div>
+          <canvas id="mulawCanvas" width="720" height="360" aria-label="Mu-law compression curve with quantization steps"></canvas>
+          <div class="controls">
+            <label>Mu value <input type="range" id="muValue" min="1" max="255" step="1" value="255"> <output id="muValueOut">255</output></label>
+            <label>Show <select id="mulawMode"><option value="curve">Curve</option><option value="steps">Quantization steps</option></select></label>
+          </div>
+          <p class="why-line" id="mulawWhy">Mu of 255 is the G.711 standard. The curve compresses loud amplitudes so 8 bits can cover a wide dynamic range.</p>
+          <div class="formula">y = sign(x) × ln(1 + μ|x|) / ln(1 + μ) &nbsp;·&nbsp; μ = 255 for G.711</div>
+        </div>
+
+        <div class="explain-card">
+          <h3>From 64 kbps down to 8 kbps</h3>
+          <p>G.711 sends 8000 samples at 8 bits each, which is 64 kbps. That was already a compromise: 8 bit
+          linear audio would clip or hiss badly. Mu-law makes 8 bits behave like roughly 12 to 13 bits for
+          speech. Modern speech codecs go much further by sending <em>model parameters</em> instead of samples:
+          a pitch period, a spectral envelope, and an excitation signal. That is why G.729 reaches 8 kbps and
+          still sounds like a person, while music through the same codec turns to warbling mush.</p>
+          <div class="bitrate-bars" id="bitrateBars" aria-label="Bitrate comparison chart"></div>
+          <p class="small-note">Bitrates are the standard nominal values. Music streaming at 320 kbps is shown
+          for scale. The gap is the whole story.</p>
+        </div>
+      </div>
+
+      <div class="codec-table-wrap">
+        <h3>Codec timeline: same network, wider ears</h3>
+        <div class="table-scroll">
+        <table class="codec-table">
+          <thead><tr><th>Codec</th><th>Year</th><th>Bitrate</th><th>Sample rate</th><th>Passband</th><th>Designed for</th></tr></thead>
+          <tbody>
+            <tr><td><strong>G.711</strong> mu-law / A-law</td><td>1972</td><td>64 kbps</td><td>8 kHz</td><td>300 to 3400 Hz</td><td>PSTN trunk, interoperability</td></tr>
+            <tr><td><strong>G.729</strong> CS-ACELP</td><td>1996</td><td>8 kbps</td><td>8 kHz</td><td>300 to 3400 Hz</td><td>Mobile and VoIP bandwidth saving</td></tr>
+            <tr><td><strong>G.722</strong> wideband</td><td>1988</td><td>64 kbps</td><td>16 kHz</td><td>50 to 7000 Hz</td><td>HD Voice, conference</td></tr>
+            <tr><td><strong>AMR-WB</strong></td><td>2001</td><td>6.6 to 23.85 kbps</td><td>16 kHz</td><td>50 to 7000 Hz</td><td>Mobile HD Voice</td></tr>
+            <tr><td><strong>Opus</strong> RFC 6716</td><td>2012</td><td>6 to 510 kbps</td><td>8 to 48 kHz</td><td>Up to 20 kHz fullband</td><td>Speech and music, adaptive</td></tr>
+            <tr><td><strong>EVS</strong></td><td>2014</td><td>5.9 to 128 kbps</td><td>8 to 48 kHz</td><td>Up to 20 kHz fullband</td><td>Mobile voice and music</td></tr>
+          </tbody>
+        </table>
+        </div>
+        <p class="small-note">Opus and EVS prove the point: when the network allows it, a single codec can carry
+        both speech and music well. Hold music sounds bad not because modern codecs cannot do better, but
+        because the call path forces the old ones.</p>
+      </div>
+    </section>
+
+    <!-- ======================= LAB 4 ======================= -->
+    <section class="lab lab4" id="lab4" aria-labelledby="lab4-title">
+      <header class="lab-header">
+        <p class="section-kicker">LAB 04 <span>/</span> LISTENING LAB</p>
+        <h2 id="lab4-title">Hear each loss, one at a time</h2>
+        <p class="lab-intro">
+          This lab synthesizes a short music loop and a sung vowel in your browser, then routes them through
+          simulated phone chains. Switch between full fidelity, the classic phone chain, and wideband. The
+          waveform and spectrogram update live so you can connect what you hear to what the filters removed.
+          Headphones recommended. Sound starts only when you press play.
+        </p>
+      </header>
+
+      <div class="predict-box" data-predict="p4">
+        <p class="predict-q"><strong>Predict first.</strong> You switch the music loop from full fidelity to the
+        phone chain. Which change will you notice first?</p>
+        <div class="predict-options">
+          <button type="button" data-correct="false">It gets louder.</button>
+          <button type="button" data-correct="true">It gets thin and tinny. The bass and sparkle vanish, leaving only the middle.</button>
+          <button type="button" data-correct="false">Nothing. The phone chain is transparent.</button>
+        </div>
+        <p class="predict-feedback" hidden></p>
+      </div>
+
+      <div class="listen-grid">
+        <div class="viz-card listen-card">
+          <div class="viz-head">
+            <strong>Live audio chain</strong>
+            <span class="tag">WebAudio · synthesized, no files</span>
+          </div>
+          <div class="listen-controls">
+            <button type="button" id="playBtn" class="primary-btn">Play music loop</button>
+            <button type="button" id="voiceBtn">Play sung vowel</button>
+            <button type="button" id="stopBtn">Stop</button>
+          </div>
+          <div class="mode-row" role="group" aria-label="Audio mode">
+            <button type="button" class="mode-btn active" data-mode="full">Full fidelity</button>
+            <button type="button" class="mode-btn" data-mode="phone">Phone 300 to 3400 Hz</button>
+            <button type="button" class="mode-btn" data-mode="wideband">Wideband 50 to 7000 Hz</button>
+          </div>
+          <p class="why-line" id="listenWhy">Full fidelity: the loop reaches your speakers unfiltered. Switch to phone mode and listen for the bass and highs disappearing.</p>
+          <div class="scope-wrap">
+            <canvas id="waveCanvas" width="720" height="180" aria-label="Live waveform"></canvas>
+            <canvas id="specCanvas" width="720" height="180" aria-label="Live spectrogram"></canvas>
+          </div>
+          <div class="legend-row">
+            <span><i class="swatch voice"></i>Waveform</span>
+            <span><i class="swatch music"></i>Spectrogram, low frequencies at bottom</span>
+          </div>
+        </div>
+
+        <div class="explain-card">
+          <h3>What the phone chain actually does here</h3>
+          <ol class="step-list">
+            <li><strong>Band limit:</strong> high pass at 300 Hz and low pass at 3400 Hz remove bass and air.</li>
+            <li><strong>Companding:</strong> a mu-law style waveshaper adds the coarse quantization character of G.711.</li>
+            <li><strong>Mono collapse:</strong> the loop is summed to one channel, as on a real call.</li>
+          </ol>
+          <p>The wideband mode keeps 50 to 7000 Hz, which is why HD Voice sounds noticeably more natural. It
+          still is not full fidelity, and that gap is the point: each standard is a deliberate trade between
+          bandwidth and quality.</p>
+          <p class="small-note">This is a teaching simulation using standard filter types and the real cutoff
+          frequencies. It is not a bit exact G.711 or G.729 encoder. The perceptual effect, thin and muffled
+          music with intelligible voice, matches real calls.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= LAB 5 ======================= -->
+    <section class="lab lab5" id="lab5" aria-labelledby="lab5-title">
+      <header class="lab-header">
+        <p class="section-kicker">LAB 05 <span>/</span> THE NETWORK</p>
+        <h2 id="lab5-title">Why it never got fixed: the call path</h2>
+        <p class="lab-intro">
+          Hold music rarely travels end to end on modern codecs. It is injected by a phone system, often
+          transcoded into the telephone band, carried as tiny packets, and decoded by a handset that expects
+          speech. Every hop can downgrade the audio. The animation below shows packets moving through that
+          path. Add loss and jitter and watch the quality meter fall.
+        </p>
+      </header>
+
+      <div class="predict-box" data-predict="p5">
+        <p class="predict-q"><strong>Predict first.</strong> Your call goes from a modern VoIP system into the
+        old telephone network and back. What codec does the old network force on the whole call?</p>
+        <div class="predict-options">
+          <button type="button" data-correct="false">The best codec either side supports, Opus fullband.</button>
+          <button type="button" data-correct="true">The lowest common denominator, usually G.711 narrowband, because the PSTN leg only speaks that.</button>
+          <button type="button" data-correct="false">No codec. The network carries raw audio.</button>
+        </div>
+        <p class="predict-feedback" hidden></p>
+      </div>
+
+      <div class="lab-grid">
+        <div class="viz-card">
+          <div class="viz-head">
+            <strong>Call path packet animation</strong>
+            <span class="tag">Interactive · <span class="approx-badge">simplified</span> timing model</span>
+          </div>
+          <canvas id="callCanvas" width="720" height="300" aria-label="Animated packets traveling from hold music source through network to phone"></canvas>
+          <div class="controls">
+            <label>Packet loss <input type="range" id="lossRange" min="0" max="20" step="1" value="0"> <output id="lossOut">0%</output></label>
+            <label>Jitter <input type="range" id="jitterRange" min="0" max="100" step="5" value="10"> <output id="jitterOut">10 ms</output></label>
+          </div>
+          <div class="quality-meter">
+            <div class="quality-bar"><div class="quality-fill" id="qualityFill"></div></div>
+            <p><strong>Estimated call quality:</strong> <span id="qualityLabel">Good</span> <span class="small-note" id="qualityNote">Low loss and jitter. Speech and music both survive.</span></p>
+          </div>
+          <p class="why-line" id="callWhy">At 0% loss and low jitter, packets arrive in order and the jitter buffer hides small timing wobbles.</p>
+        </div>
+
+        <div class="explain-card">
+          <h3>The hops, in order</h3>
+          <ol class="step-list">
+            <li><strong>Source:</strong> hold music file on the phone system, often already low quality MP3.</li>
+            <li><strong>Encode:</strong> converted to G.711 or G.729 narrowband. This is where the damage happens.</li>
+            <li><strong>Packetize:</strong> 20 ms of audio per packet for VoIP, 160 samples at 8 kHz.</li>
+            <li><strong>Network:</strong> packets can arrive late, out of order, or not at all. A jitter buffer delays playback to smooth this out.</li>
+            <li><strong>Decode and play:</strong> the handset decodes speech and plays it through a small speaker with its own limits.</li>
+          </ol>
+          <h3>Why jitter hurts music more</h3>
+          <p>Speech tolerates small gaps because the brain fills them in. Music exposes every gap as a stutter
+          or a warble, because rhythm and harmony leave no room for guessing. Echo cancellers, built to remove
+          the far end voice leaking back, can also misfire on sustained music and pump its volume.</p>
+          <p class="small-note">The quality meter here is a teaching heuristic combining loss and jitter, not
+          a standardized MOS score. Real measurements use models such as E-model or POLQA.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= LAB 6 ======================= -->
+    <section class="lab lab6" id="lab6" aria-labelledby="lab6-title">
+      <header class="lab-header">
+        <p class="section-kicker">LAB 06 <span>/</span> THE FIX</p>
+        <h2 id="lab6-title">The fix already exists, and it works</h2>
+        <p class="lab-intro">
+          Wideband voice doubles the tunnel to 50 to 7000 Hz. Fullband codecs such as Opus and EVS carry the
+          full 20 Hz to 20 kHz range and adapt their bitrate to the network. When both ends support them, calls
+          sound dramatically more natural and music becomes recognizable. The problem is not technology. It is
+          agreement: every device, carrier, and gateway on the path must support the better codec at the same time.
+        </p>
+      </header>
+
+      <div class="predict-box" data-predict="p6">
+        <p class="predict-q"><strong>Predict first.</strong> Both phones support Opus fullband, but the call is
+        routed through a legacy gateway that only supports G.711. What do you hear?</p>
+        <div class="predict-options">
+          <button type="button" data-correct="false">Fullband Opus quality, because the phones are modern.</button>
+          <button type="button" data-correct="true">Narrowband G.711 quality. The gateway transcodes down and the phones cannot recover what was removed.</button>
+          <button type="button" data-correct="false">The call fails.</button>
+        </div>
+        <p class="predict-feedback" hidden></p>
+      </div>
+
+      <div class="viz-card">
+        <div class="viz-head">
+          <strong>Passband expansion over time</strong>
+          <span class="tag">Interactive · standards history</span>
+        </div>
+        <canvas id="historyCanvas" width="720" height="320" aria-label="Chart of audio passband widening from narrowband to fullband over time"></canvas>
+        <div class="controls">
+          <label>Era
+            <select id="eraSelect">
+              <option value="g711">1972 · G.711 narrowband</option>
+              <option value="g722">1988 · G.722 wideband</option>
+              <option value="amrwb">2001 · AMR-WB mobile HD</option>
+              <option value="opus">2012 · Opus fullband</option>
+              <option value="evs">2014 · EVS fullband</option>
+            </select>
+          </label>
+        </div>
+        <p class="why-line" id="historyWhy">G.711 in 1972: 300 to 3400 Hz at 8 kHz sampling. Everything since has been about widening this tunnel.</p>
+      </div>
+
+      <div class="fix-grid">
+        <div class="fix-card">
+          <h3>What wideband buys you</h3>
+          <p>Doubling the top of the tunnel to 7000 Hz restores consonant crispness and the sense of a real
+          room. Voices gain presence. Music gains recognizable timbre, though bass below 50 Hz is still gone.
+          This is the HD Voice experience on modern mobile networks.</p>
+        </div>
+        <div class="fix-card">
+          <h3>What fullband buys you</h3>
+          <p>Fullband carries the whole audible range and adapts bitrate moment by moment. Opus can drop to
+          speech only efficiency on a weak network and expand to music quality when bandwidth allows. That
+          adaptivity is why it replaced older codecs in WebRTC and many VoIP systems.</p>
+        </div>
+        <div class="fix-card">
+          <h3>Why hold music lags behind</h3>
+          <p>Hold music is often a licensed loop played from a server that was built for the PSTN era. Even
+          when the call itself is VoIP, the music source, the gateway, or the handset may force a downgrade.
+          Fixing hold music means fixing the whole chain, not just one codec.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= WRAPUP ======================= -->
+    <section class="lab wrapup" id="wrapup" aria-labelledby="wrapup-title">
+      <header class="lab-header">
+        <p class="section-kicker">WRAP-UP <span>/</span> CHECK YOUR UNDERSTANDING</p>
+        <h2 id="wrapup-title">You can now explain the whole chain</h2>
+        <p class="lab-intro">
+          Hold music sounds terrible because a 1970s speech tunnel, an 8 kHz sampler, a speech shaped
+          compressor, and a legacy network all stack on top of each other. Each one is reasonable for voice.
+          Together they are fatal for music. Answer the quiz to lock it in.
+        </p>
+      </header>
+
+      <div class="quiz" id="quiz">
+        <div class="quiz-head">
+          <strong>Quick quiz · 5 questions</strong>
+          <span class="tag" id="quizScore">Score: 0 / 5</span>
+        </div>
+        <div id="quizBody"></div>
+        <p class="why-line" id="quizWhy">Answer each question. The why line explains the correct answer.</p>
+      </div>
+
+      <div class="glossary-grid" id="glossary">
+        <h3>Glossary</h3>
+        <div class="term-grid">
+          <div class="term"><strong>Passband</strong><p>The frequency range a channel passes without heavy attenuation. The phone passband is about 300 to 3400 Hz.</p></div>
+          <div class="term"><strong>Formant</strong><p>A resonant peak in the vocal tract spectrum. Vowel identity lives in the first three formants, mostly inside the phone band.</p></div>
+          <div class="term"><strong>Nyquist rate</strong><p>Twice the highest frequency to be preserved. Sampling at 8000 Hz preserves up to 4000 Hz.</p></div>
+          <div class="term"><strong>Aliasing</strong><p>False tones created when a frequency above the Nyquist ceiling folds back into the audible band during sampling.</p></div>
+          <div class="term"><strong>Companding</strong><p>Compressing dynamic range before quantization and expanding after, so quiet sounds get finer steps. Mu-law is the classic example.</p></div>
+          <div class="term"><strong>Codec</strong><p>An encoder and decoder pair that compresses audio. Speech codecs model the vocal tract. Music codecs preserve waveforms and spectra.</p></div>
+          <div class="term"><strong>LPC</strong><p>Linear predictive coding. The codec predicts each sample from previous ones and only sends the error plus model parameters.</p></div>
+          <div class="term"><strong>Transcoding</strong><p>Decoding one codec and re-encoding into another. Each pass loses quality. Gateways transcode between VoIP and PSTN.</p></div>
+          <div class="term"><strong>Jitter buffer</strong><p>A small delay buffer that smooths packet arrival timing so playback stays continuous, at the cost of added latency.</p></div>
+          <div class="term"><strong>Narrowband vs wideband</strong><p>Narrowband is the 300 to 3400 Hz phone band. Wideband extends to 7000 Hz. Fullband extends to 20 kHz.</p></div>
+        </div>
+      </div>
+
+      <div class="sources-box" id="sources">
+        <h3>Sources and further reading</h3>
+        <ul>
+          <li>ITU-T Recommendation G.711, Pulse code modulation of voice frequencies. The 64 kbps mu-law and A-law standard at 8000 samples per second.</li>
+          <li>ITU-T Recommendation G.729, Coding of speech at 8 kbit/s using conjugate-structure algebraic-code-excited linear prediction.</li>
+          <li>ITU-T Recommendation G.722, Wideband speech coding at 64 kbit/s. The 50 to 7000 Hz HD Voice band at 16 kHz sampling.</li>
+          <li>IETF RFC 6716, Definition of the Opus Audio Codec. Adaptive speech and music coding from 6 to 510 kbps at 8 to 48 kHz sampling.</li>
+          <li>3GPP TS 26.445, EVS codec. Fullband speech and music coding for mobile networks.</li>
+          <li>ITU-T Recommendation G.168, Digital network echo cancellers. Why echo cancellation can interact with sustained music.</li>
+        </ul>
+        <p class="small-note">The Reddit thread that inspired this lab is r/explainlikeimfive, TechnologyELI5: Why does most hold music sound so terrible over the phone, top comment by ChefGorton. The spectrum shapes, the listening simulation, and the quality meter are teaching models flagged as simplified where they are not exact standards.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Ronnie's Experiments · <a href="../../">Back to the hub</a> · Built as a single page lab with Canvas and WebAudio. No audio files are uploaded or recorded.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
