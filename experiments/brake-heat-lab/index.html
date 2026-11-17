@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brake heat lab: why brakes fade | Ronnie's Experiments</title>
+<meta name="description" content="An interactive lab on brake fade, heat soak, and vapor lock. Change the vehicle, altitude, airflow, and piston material, then watch a thermal model decide whether the fluid boils.">
+<meta property="og:title" content="Brake heat lab: why brakes fade">
+<meta property="og:description" content="Five hands on simulations on kinetic energy, thermal barriers, altitude, and vapor lock. Built for every vehicle, not only race cars.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%23181818' stroke='%23E8A33D' stroke-width='3'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%23E8A33D'/%3E%3C/svg%3E">
+<style>
+@font-face {
+  font-family: "Geist";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("assets/fonts/geist-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Geist";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("assets/fonts/geist-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+    U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0,
+    U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+:root {
+  color-scheme: dark;
+  --bg: #181818;
+  --surface: #1F1F1F;
+  --surface-2: #272727;
+  --border: #313131;
+  --text: #F5F5F5;
+  --text-soft: #C9C9C9;
+  --text-muted: #9B9B9B;
+  --accent: #E8A33D;
+  --accent-deep: #B87A1E;
+  --danger: #E05D44;
+  --ok: #7FB069;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+
+  --lh-xs: 1rem;
+  --lh-sm: 1.25rem;
+  --lh-base: 1.5rem;
+  --lh-lg: 1.75rem;
+  --lh-2xl: 2rem;
+  --lh-3xl: 2.25rem;
+  --lh-4xl: 2.5rem;
+  --lh-display: 1;
+
+  --sp-25: 2px;
+  --sp-50: 4px;
+  --sp-75: 8px;
+  --sp-100: 12px;
+  --sp-200: 16px;
+  --sp-300: 24px;
+  --sp-400: 32px;
+  --sp-500: 40px;
+  --sp-600: 48px;
+  --sp-700: 64px;
+  --sp-800: 80px;
+  --sp-900: 96px;
+
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+  --r-xl: 16px;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-move: 500ms;
+  --dur-color: 300ms;
+
+  --shell: 1120px;
+  --nav-h: 64px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-h) + var(--sp-200));
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: var(--text-base);
+  line-height: var(--lh-base);
+  text-wrap: pretty;
+}
+
+h1, h2, h3, h4 { text-wrap: balance; margin: 0; font-weight: 600; }
+p { margin: 0; }
+a { color: var(--accent); }
+button { font: inherit; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: var(--r-sm); }
+
+.skip {
+  position: absolute;
+  left: var(--sp-200);
+  top: -48px;
+  background: var(--surface-2);
+  color: var(--text);
+  padding: var(--sp-75) var(--sp-200);
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+  z-index: 100;
+  transition: top var(--dur-color) var(--ease);
+}
+.skip:focus { top: var(--sp-200); }
+
+.shell { max-width: var(--shell); margin: 0 auto; padding: 0 var(--sp-300); }
+
+/* Navigation */
+.nav {
+  position: fixed;
+  top: var(--sp-200);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-300);
+  background: rgba(31, 31, 31, 0.88);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: var(--sp-75) var(--sp-200);
+  max-width: calc(100vw - var(--sp-400));
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.nav a {
+  color: var(--text-soft);
+  text-decoration: none;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  transition: color var(--dur-color) var(--ease);
+}
+.nav a:hover { color: var(--accent); }
+.nav .back { color: var(--text-muted); }
+.nav .brand { color: var(--accent); font-weight: 600; }
+
+/* Hero */
+.hero { padding: calc(var(--nav-h) + var(--sp-800)) 0 var(--sp-700); }
+.eyebrow {
+  font-size: var(--text-xs);
+  line-height: var(--lh-xs);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--sp-200);
+}
+.hero h1 {
+  font-size: var(--text-6xl);
+  line-height: var(--lh-display);
+  max-width: 680px;
+}
+.hero .lede {
+  font-size: var(--text-xl);
+  line-height: var(--lh-2xl);
+  color: var(--text-soft);
+  max-width: 680px;
+  margin-top: var(--sp-300);
+}
+.hero .caption {
+  font-size: var(--text-sm);
+  line-height: var(--lh-sm);
+  color: var(--text-muted);
+  margin-top: var(--sp-200);
+}
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--sp-200);
+  margin-top: var(--sp-600);
+}
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: var(--sp-300);
+}
+.stat-card .k {
+  font-size: var(--text-xs);
+  line-height: var(--lh-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.stat-card .v {
+  font-size: var(--text-3xl);
+  line-height: var(--lh-3xl);
+  font-weight: 600;
+  margin-top: var(--sp-75);
+}
+.stat-card .u { font-size: var(--text-sm); color: var(--text-muted); margin-top: var(--sp-25); }
+
+/* Sections */
+section.lab { padding: var(--sp-700) 0; border-top: 1px solid var(--border); }
+section.lab h2 { font-size: var(--text-4xl); line-height: var(--lh-4xl); max-width: 680px; }
+section.lab .intro {
+  font-size: var(--text-lg);
+  line-height: var(--lh-lg);
+  color: var(--text-soft);
+  max-width: 680px;
+  margin-top: var(--sp-200);
+}
+.lab-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-400);
+  margin-top: var(--sp-600);
+  align-items: start;
+}
+@media (max-width: 860px) {
+  .lab-grid { grid-template-columns: 1fr; }
+}
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: var(--sp-400);
+}
+.panel h3 { font-size: var(--text-xl); line-height: var(--lh-2xl); }
+.panel .sub { font-size: var(--text-sm); line-height: var(--lh-sm); color: var(--text-muted); margin-top: var(--sp-75); }
+
+.presets { display: flex; flex-wrap: wrap; gap: var(--sp-75); margin-top: var(--sp-300); }
+.chip {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text-soft);
+  border-radius: 999px;
+  padding: var(--sp-75) var(--sp-200);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  transition: border-color var(--dur-color) var(--ease), color var(--dur-color) var(--ease), background var(--dur-color) var(--ease);
+}
+.chip:hover { border-color: var(--accent); color: var(--text); }
+.chip[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); background: #2A2113; }
+.chip:active { transform: scale(0.98); }
+
+.controls { display: flex; flex-direction: column; gap: var(--sp-300); margin-top: var(--sp-400); }
+.control label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--sp-200);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-soft);
+  margin-bottom: var(--sp-75);
+}
+.control output { color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; }
+.control input[type="range"] { width: 100%; accent-color: var(--accent); height: 24px; }
+.control .hint { font-size: var(--text-xs); line-height: var(--lh-xs); color: var(--text-muted); margin-top: var(--sp-25); }
+
+.readouts { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-200); margin-top: var(--sp-400); }
+.readout {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: var(--sp-200);
+}
+.readout .k { font-size: var(--text-xs); line-height: var(--lh-xs); color: var(--text-muted); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+.readout .v { font-size: var(--text-2xl); line-height: var(--lh-2xl); font-weight: 600; margin-top: var(--sp-50); font-variant-numeric: tabular-nums; }
+.readout .u { font-size: var(--text-xs); color: var(--text-muted); margin-top: var(--sp-25); }
+.readout.warn .v { color: var(--danger); }
+
+canvas.viz { width: 100%; display: block; border-radius: var(--r-lg); background: #141414; border: 1px solid var(--border); }
+.chart-summary { font-size: var(--text-sm); line-height: var(--lh-sm); color: var(--text-muted); margin-top: var(--sp-200); }
+.note {
+  font-size: var(--text-sm);
+  line-height: var(--lh-sm);
+  color: var(--text-muted);
+  margin-top: var(--sp-300);
+  padding: var(--sp-200);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
+}
+.note strong { color: var(--text-soft); }
+
+/* Barrier */
+.barrier-wrap { margin-top: var(--sp-400); }
+.barrier-svg { width: 100%; height: auto; display: block; }
+.layer-list { display: flex; flex-direction: column; gap: var(--sp-75); margin-top: var(--sp-300); }
+.layer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--sp-200);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: var(--sp-100) var(--sp-200);
+  font-size: var(--text-sm);
+}
+.layer-row .name { color: var(--text-soft); font-weight: 500; }
+.layer-row .temp { font-weight: 600; font-variant-numeric: tabular-nums; }
+.layer-row .drop { color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.gauge { margin-top: var(--sp-400); }
+.gauge-track {
+  position: relative;
+  height: 16px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  margin-top: var(--sp-200);
+}
+.gauge-fill {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  transition: width var(--dur-move) var(--ease);
+}
+.gauge-line { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--danger); }
+.gauge-line.wet { background: var(--text-muted); }
+.gauge-labels { display: flex; justify-content: space-between; font-size: var(--text-xs); color: var(--text-muted); margin-top: var(--sp-75); }
+
+/* Sim controls */
+.sim-controls { display: flex; flex-wrap: wrap; gap: var(--sp-75); align-items: center; margin-top: var(--sp-300); }
+.btn {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: var(--r-md);
+  padding: var(--sp-75) var(--sp-200);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  transition: border-color var(--dur-color) var(--ease), background var(--dur-color) var(--ease);
+}
+.btn:hover { border-color: var(--accent); }
+.btn:active { transform: scale(0.98); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #181818; }
+.btn.primary:hover { background: var(--accent-deep); border-color: var(--accent-deep); }
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-75);
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  padding: var(--sp-50) var(--sp-200);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+.status-pill .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); }
+.status-pill.warn .dot { background: var(--accent); }
+.status-pill.bad .dot { background: var(--danger); }
+.legend { display: flex; flex-wrap: wrap; gap: var(--sp-200); margin-top: var(--sp-200); font-size: var(--text-xs); color: var(--text-muted); }
+.legend span { display: inline-flex; align-items: center; gap: var(--sp-50); }
+.legend i { width: 16px; height: 3px; border-radius: 2px; display: inline-block; }
+
+/* Cards */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--sp-200); margin-top: var(--sp-600); }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: var(--sp-400);
+}
+.card h3 { font-size: var(--text-lg); line-height: var(--lh-lg); }
+.card p { font-size: var(--text-sm); line-height: var(--lh-sm); color: var(--text-soft); margin-top: var(--sp-100); }
+
+/* Tagline */
+.tagline { padding: var(--sp-800) 0; border-top: 1px solid var(--border); }
+.tagline p {
+  font-size: var(--text-4xl);
+  line-height: var(--lh-4xl);
+  font-weight: 600;
+  max-width: 680px;
+}
+.tagline .w { opacity: 0.28; transition: opacity 600ms var(--ease); }
+.tagline .w.on { opacity: 1; }
+
+/* FAQ, glossary, method */
+details {
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  padding: var(--sp-200) var(--sp-300);
+  margin-top: var(--sp-100);
+}
+summary { cursor: pointer; font-weight: 600; font-size: var(--text-base); }
+details p { color: var(--text-soft); font-size: var(--text-sm); line-height: var(--lh-sm); margin-top: var(--sp-100); }
+dl.glossary { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-200); margin-top: var(--sp-400); }
+@media (max-width: 700px) { dl.glossary { grid-template-columns: 1fr; } }
+dl.glossary div { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: var(--sp-200); }
+dt { font-weight: 600; font-size: var(--text-sm); }
+dd { margin: var(--sp-50) 0 0; color: var(--text-soft); font-size: var(--text-sm); line-height: var(--lh-sm); }
+ol.sources { color: var(--text-soft); font-size: var(--text-sm); line-height: var(--lh-sm); padding-left: var(--sp-300); margin-top: var(--sp-200); }
+ol.sources li { margin-top: var(--sp-100); }
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: var(--sp-600) 0 var(--sp-700);
+  display: flex;
+  justify-content: space-between;
+  gap: var(--sp-300);
+  flex-wrap: wrap;
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+/* Reveal */
+.reveal { opacity: 0; transform: translateY(32px); transition: opacity 700ms var(--ease), transform 700ms var(--ease); }
+.reveal.in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: opacity 300ms var(--ease); }
+  .tagline .w { opacity: 1; transition: none; }
+  .gauge-fill, .chip, .btn, .nav a { transition: none; }
+}
+
+@media (max-width: 700px) {
+  .hero h1 { font-size: var(--text-5xl); }
+  section.lab h2 { font-size: var(--text-3xl); line-height: var(--lh-3xl); }
+  .tagline p { font-size: var(--text-3xl); line-height: var(--lh-3xl); }
+  .readouts { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="nav" aria-label="Page">
+  <a class="back" href="../../">← All experiments</a>
+  <a class="brand" href="#top">Brake heat lab</a>
+  <a href="#energy">Energy</a>
+  <a href="#barrier">Barrier</a>
+  <a href="#laps">Laps</a>
+  <a href="#altitude">Altitude</a>
+  <a href="#pedal">Pedal</a>
+  <a href="#faq">FAQ</a>
+</nav>
+
+<main id="main">
+  <div class="shell">
+
+    <header class="hero" id="top">
+      <p class="eyebrow">Thermal physics · Every vehicle</p>
+      <h1>Why brakes<br>fade</h1>
+      <p class="lede">A race car braking from 361 km/h, a loaded truck easing down a mountain grade, and a family car on a summer descent all fight the same enemy. Heat with nowhere to go. This lab lets you change the vehicle, the altitude, the airflow, and the materials, then watch the physics decide.</p>
+      <p class="caption">Five hands on labs · One shared model · Mexico City is the starting preset, not the whole story</p>
+
+      <div class="hero-stats" aria-label="Headline numbers for the current preset">
+        <div class="stat-card">
+          <p class="k">Energy per stop</p>
+          <p class="v" id="heroEnergy">4.0</p>
+          <p class="u">megajoules of motion to remove</p>
+        </div>
+        <div class="stat-card">
+          <p class="k">Peak power per disc</p>
+          <p class="v" id="heroPower">310</p>
+          <p class="u">kilowatts into one brake</p>
+        </div>
+        <div class="stat-card">
+          <p class="k">Disc after one stop</p>
+          <p class="v" id="heroDisc">260</p>
+          <p class="u">degrees Celsius, adiabatic estimate</p>
+        </div>
+        <div class="stat-card">
+          <p class="k">Fluid margin</p>
+          <p class="v" id="heroMargin">133</p>
+          <p class="u">degrees below the racing boil line</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Lab 1: Energy -->
+    <section class="lab reveal" id="energy" aria-labelledby="energy-h">
+      <p class="eyebrow">Lab 1 · Kinetic energy</p>
+      <h2 id="energy-h">One stop, how much energy?</h2>
+      <p class="intro">Every stop turns motion into heat. Kinetic energy grows with the square of speed, so a small increase in speed costs a lot more heat. Pick a vehicle, then move the sliders. The disc shows what one stop does to a single brake.</p>
+
+      <div class="lab-grid">
+        <div class="panel">
+          <h3>Set the vehicle</h3>
+          <p class="sub">Presets set mass, speed, disc size, and tire grip together. Sliders override any preset.</p>
+          <div class="presets" role="group" aria-label="Vehicle presets">
+            <button class="chip" data-preset="f1" aria-pressed="true">Formula 1 car</button>
+            <button class="chip" data-preset="gt" aria-pressed="false">GT sports car</button>
+            <button class="chip" data-preset="sedan" aria-pressed="false">Family sedan</button>
+            <button class="chip" data-preset="moto" aria-pressed="false">Motorcycle and rider</button>
+            <button class="chip" data-preset="truck" aria-pressed="false">Loaded truck</button>
+            <button class="chip" data-preset="train" aria-pressed="false">Passenger train</button>
+          </div>
+
+          <div class="controls">
+            <div class="control">
+              <label for="speed">Speed before braking <output id="speedOut">361 km/h</output></label>
+              <input type="range" id="speed" min="40" max="380" step="1" value="361">
+              <p class="hint">Energy scales with speed squared. From 200 to 360 km/h the energy more than triples.</p>
+            </div>
+            <div class="control">
+              <label for="mass">Mass <output id="massOut">798 kg</output></label>
+              <input type="range" id="mass" min="200" max="20000" step="10" value="798">
+              <p class="hint">Energy scales in direct proportion to mass. Loads and trailers matter.</p>
+            </div>
+            <div class="control">
+              <label for="altitude">Altitude <output id="altOut">2240 m</output></label>
+              <input type="range" id="altitude" min="0" max="3600" step="10" value="2240">
+              <p class="hint">Mexico City sits near 2240 metres. Sea level is 0. The air lab below explains why altitude changes the answer.</p>
+            </div>
+            <div class="control">
+              <label for="ambient">Ambient temperature <output id="ambOut">25°C</output></label>
+              <input type="range" id="ambient" min="-10" max="50" step="1" value="25">
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>What one stop does</h3>
+          <p class="sub">One disc, one stop, no cooling during the stop. Real stops cool a little, so treat this as an upper bound.</p>
+          <canvas class="viz" id="discCanvas" width="640" height="360" role="img" aria-label="A brake disc glowing with heat after one stop"></canvas>
+          <p class="chart-summary" id="discSummary">Disc temperature after one stop: about 260°C.</p>
+          <div class="readouts">
+            <div class="readout">
+              <p class="k">Energy per stop</p>
+              <p class="v" id="rEnergy">4.0 MJ</p>
+              <p class="u">Whole vehicle</p>
+            </div>
+            <div class="readout">
+              <p class="k">Peak power per disc</p>
+              <p class="v" id="rPower">310 kW</p>
+              <p class="u">At peak deceleration</p>
+            </div>
+            <div class="readout">
+              <p class="k">Heat into one disc</p>
+              <p class="v" id="rHeat">0.89 MJ</p>
+              <p class="u">89 percent of the disc share</p>
+            </div>
+            <div class="readout" id="rRiseCard">
+              <p class="k">Rise per stop</p>
+              <p class="v" id="rRise">233°C</p>
+              <p class="u">Adiabatic, one stop only</p>
+            </div>
+          </div>
+          <p class="note"><strong>Why 89 percent?</strong> The model sends 89 percent of each disc share into the disc and 11 percent into the pad. Real splits vary with pad material and braking style. The square law survives every variation: double the speed, quadruple the heat.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lab 2: Barrier -->
+    <section class="lab reveal" id="barrier" aria-labelledby="barrier-h">
+      <p class="eyebrow">Lab 2 · Conduction</p>
+      <h2 id="barrier-h">The thermal barrier</h2>
+      <p class="intro">Heat must cross a stack of layers before it reaches the brake fluid. Each layer drops the temperature by an amount set by its thickness and its thermal conductivity. Titanium conducts poorly, and that is exactly why engineers use it here. A poor conductor is a good wall.</p>
+
+      <div class="lab-grid">
+        <div class="panel">
+          <h3>Cross section, disc to fluid</h3>
+          <p class="sub">Layer colors follow temperature. The fluid gauge compares the result with boiling lines.</p>
+          <div class="barrier-wrap">
+            <svg class="barrier-svg" id="barrierSvg" viewBox="0 0 640 220" role="img" aria-label="Cross section of disc, pad, shim, piston, and fluid with temperatures">
+              <g font-family="Geist, sans-serif" font-size="13">
+                <rect x="10"  y="40" width="150" height="100" rx="8" id="layDisc"   fill="#3a3a3a" stroke="#313131"/>
+                <rect x="168" y="40" width="80"  height="100" rx="8" id="layPad"    fill="#3a3a3a" stroke="#313131"/>
+                <rect x="256" y="40" width="44"  height="100" rx="8" id="layShim"   fill="#3a3a3a" stroke="#313131"/>
+                <rect x="308" y="40" width="110" height="100" rx="8" id="layPiston" fill="#3a3a3a" stroke="#313131"/>
+                <rect x="426" y="40" width="204" height="100" rx="8" id="layFluid"  fill="#3a3a3a" stroke="#313131"/>
+                <text x="85"  y="30" text-anchor="middle" fill="#C9C9C9" font-weight="600">Disc</text>
+                <text x="208" y="30" text-anchor="middle" fill="#C9C9C9" font-weight="600">Pad</text>
+                <text x="278" y="30" text-anchor="middle" fill="#C9C9C9" font-weight="600">Shim</text>
+                <text x="363" y="30" text-anchor="middle" fill="#C9C9C9" font-weight="600">Piston</text>
+                <text x="528" y="30" text-anchor="middle" fill="#C9C9C9" font-weight="600">Fluid</text>
+                <text x="85"  y="95" text-anchor="middle" fill="#F5F5F5" font-size="18" font-weight="600" id="tDisc">990°C</text>
+                <text x="208" y="95" text-anchor="middle" fill="#F5F5F5" font-size="18" font-weight="600" id="tPad">640°C</text>
+                <text x="278" y="95" text-anchor="middle" fill="#F5F5F5" font-size="18" font-weight="600" id="tShim">520°C</text>
+                <text x="363" y="95" text-anchor="middle" fill="#F5F5F5" font-size="18" font-weight="600" id="tPiston">440°C</text>
+                <text x="528" y="95" text-anchor="middle" fill="#F5F5F5" font-size="18" font-weight="600" id="tFluid">167°C</text>
+                <text x="85"  y="118" text-anchor="middle" fill="#9B9B9B" font-size="11" id="dDisc">friction face</text>
+                <text x="208" y="118" text-anchor="middle" fill="#9B9B9B" font-size="11" id="dPad">drop 350°C</text>
+                <text x="278" y="118" text-anchor="middle" fill="#9B9B9B" font-size="11" id="dShim">drop 120°C</text>
+                <text x="363" y="118" text-anchor="middle" fill="#9B9B9B" font-size="11" id="dPiston">drop 80°C</text>
+                <text x="528" y="118" text-anchor="middle" fill="#9B9B9B" font-size="11" id="dFluid">caliper</text>
+                <text x="10" y="170" fill="#9B9B9B" font-size="12" id="barrierNote">Heat flows left to right. Each step down is a thermal resistance.</text>
+              </g>
+            </svg>
+          </div>
+          <div class="layer-list" id="layerList" aria-label="Layer temperatures"></div>
+
+          <div class="gauge" aria-label="Fluid temperature gauge">
+            <p style="font-size: var(--text-sm); font-weight: 600;">Fluid temperature <span id="gaugeVal" style="color: var(--accent);">167°C</span></p>
+            <div class="gauge-track">
+              <div class="gauge-fill" id="gaugeFill" style="width: 40%;"></div>
+              <div class="gauge-line wet" id="wetLine" style="left: 38%;" title="Wet DOT 4 boiling point"></div>
+              <div class="gauge-line" id="dryLine" style="left: 65%;" title="Dry DOT 4 boiling point"></div>
+            </div>
+            <div class="gauge-labels">
+              <span>25°C</span><span>Wet DOT 4 · 155°C</span><span>Dry DOT 4 · 260°C</span><span>Racing · 300°C</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Choose the piston material</h3>
+          <p class="sub">Thermal conductivity in watts per metre kelvin. Lower is better here.</p>
+          <div class="presets" role="group" aria-label="Piston material">
+            <button class="chip" data-mat="ti" aria-pressed="true">Titanium · k 7</button>
+            <button class="chip" data-mat="steel" aria-pressed="false">Steel · k 50</button>
+            <button class="chip" data-mat="aluminium" aria-pressed="false">Aluminium · k 167</button>
+          </div>
+
+          <div class="controls">
+            <div class="control">
+              <label for="flux">Heat flux into the caliper <output id="fluxOut">1.00×</output></label>
+              <input type="range" id="flux" min="0.5" max="1.6" step="0.05" value="1">
+              <p class="hint">More flux means a hotter disc, longer stops, or a thinner barrier. Every layer drop scales with flux.</p>
+            </div>
+            <div class="control">
+              <label for="discTemp">Disc temperature <output id="discTempOut">990°C</output></label>
+              <input type="range" id="discTemp" min="200" max="1200" step="10" value="990">
+              <p class="hint">Drag the disc temperature and watch the fluid follow. The barrier drop grows as the disc warms, reaching full value near 990°C.</p>
+            </div>
+          </div>
+
+          <p class="note"><strong>The lesson:</strong> With titanium the fluid sits near 167°C, safely below boiling. Swap to aluminium and the same disc pushes the fluid past 400°C. Material choice is not a detail. It is the difference between braking and not braking.</p>
+          <p class="note"><strong>Wet versus dry:</strong> Brake fluid absorbs water over time. Wet DOT 4 fluid can boil near 155°C, far below the dry rating on the bottle. Old fluid fails earlier for this reason alone.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lab 3: Laps -->
+    <section class="lab reveal" id="laps" aria-labelledby="laps-h">
+      <p class="eyebrow">Lab 3 · Simulation</p>
+      <h2 id="laps-h">Fade over laps</h2>
+      <p class="intro">One stop is a spike. Racing and mountain driving are a soak. This simulation repeats the braking cycle and integrates heat in and heat out, second by second. Car A keeps a clean brake duct. Car B has a blocked duct. Move the airflow slider and watch the blocked car cross the boiling line first.</p>
+
+      <div class="panel" style="margin-top: var(--sp-600);">
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: var(--sp-200); flex-wrap: wrap;">
+          <div>
+            <h3>Two cars, one thermal model</h3>
+            <p class="sub">Lap time 70 seconds · Each stop lasts 3 seconds and repeats through the lap · Same vehicle, same altitude, same piston material</p>
+          </div>
+          <span class="status-pill" id="simStatus"><span class="dot"></span><span id="simStatusText">Safe · fluid below boiling</span></span>
+        </div>
+
+        <div class="sim-controls">
+          <button class="btn primary" id="playBtn">Play</button>
+          <button class="btn" id="resetBtn">Reset</button>
+          <button class="btn" data-speed="1" aria-pressed="false">1×</button>
+          <button class="btn" data-speed="4" aria-pressed="true">4×</button>
+          <button class="btn" data-speed="16" aria-pressed="false">16×</button>
+          <span style="font-size: var(--text-sm); color: var(--text-muted); margin-left: var(--sp-100);">Lap <span id="lapOut" style="color: var(--text); font-weight: 600;">0</span> · Time <span id="timeOut" style="color: var(--text); font-weight: 600;">0 s</span></span>
+        </div>
+
+        <div class="control" style="max-width: 560px; margin-top: var(--sp-300);">
+          <label for="ductB">Car B duct airflow <output id="ductBOut">100%</output></label>
+          <input type="range" id="ductB" min="0" max="100" step="5" value="100">
+          <p class="hint">A tear off visor strip, debris, or a damaged duct can starve one brake of air. Try 0 percent.</p>
+        </div>
+
+        <canvas class="viz" id="lapCanvas" width="1000" height="440" style="margin-top: var(--sp-300);" role="img" aria-label="Chart of disc and fluid temperatures over time for two cars"></canvas>
+        <div class="legend" aria-hidden="true">
+          <span><i style="background: #E8A33D;"></i>Disc A · clean duct</span>
+          <span><i style="background: #F5F5F5;"></i>Disc B · blocked duct</span>
+          <span><i style="background: #E8A33D; opacity: 0.45;"></i>Fluid A</span>
+          <span><i style="background: #F5F5F5; opacity: 0.45;"></i>Fluid B</span>
+          <span><i style="background: #E05D44;"></i>Fluid boiling · 300°C</span>
+          <span><i style="background: #9B9B9B;"></i>Wet DOT 4 · 155°C</span>
+        </div>
+        <p class="chart-summary" id="lapSummary">Press play. Both cars start at ambient temperature. The blocked car heats faster once airflow drops.</p>
+
+        <div class="readouts" style="grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));">
+          <div class="readout">
+            <p class="k">Disc A</p>
+            <p class="v" id="discAOut">25°C</p>
+            <p class="u">Clean duct</p>
+          </div>
+          <div class="readout">
+            <p class="k">Disc B</p>
+            <p class="v" id="discBOut">25°C</p>
+            <p class="u">Blocked duct</p>
+          </div>
+          <div class="readout">
+            <p class="k">Fluid A</p>
+            <p class="v" id="fluidAOut">25°C</p>
+            <p class="u">Margin to boil</p>
+          </div>
+          <div class="readout" id="fluidBCard">
+            <p class="k">Fluid B</p>
+            <p class="v" id="fluidBOut">25°C</p>
+            <p class="u">Margin to boil</p>
+          </div>
+          <div class="readout">
+            <p class="k">Pad fade at disc temp</p>
+            <p class="v" id="fadeOut">0%</p>
+            <p class="u">Grip loss, Car A disc</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lab 4: Altitude -->
+    <section class="lab reveal" id="altitude" aria-labelledby="alt-h">
+      <p class="eyebrow">Lab 4 · Air density</p>
+      <h2 id="alt-h">Altitude and air</h2>
+      <p class="intro">Thin air cuts both ways. Less drag means higher speeds and harder stops. Less air density also means weaker convective cooling, because the air that carries heat away is thinner. Mexico City at 2240 metres is a famous case. Denver, La Paz, and every high pass tell the same story with different numbers.</p>
+
+      <div class="lab-grid">
+        <div class="panel">
+          <h3>Density, cooling, and drag</h3>
+          <p class="sub">Standard atmosphere model. Each curve is normalized to its sea level value.</p>
+          <canvas class="viz" id="altCanvas" width="640" height="360" role="img" aria-label="Chart of air density, cooling, and drag versus altitude"></canvas>
+          <p class="chart-summary" id="altSummary">At 2240 metres, air density is about 80 percent of sea level. Cooling falls to about 84 percent. Drag falls to 80 percent.</p>
+          <div class="control" style="margin-top: var(--sp-300);">
+            <label for="altitude2">Altitude <output id="altOut2">2240 m</output></label>
+            <input type="range" id="altitude2" min="0" max="3600" step="10" value="2240">
+            <p class="hint">Synced with Lab 1. Markers show sea level, Denver near 1600 metres, Mexico City near 2240, and La Paz near 3600.</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Why altitude makes braking harder</h3>
+          <div class="layer-list">
+            <div class="layer-row"><span class="name">Less drag, more speed</span><span class="temp">Top speed rises</span></div>
+            <div class="layer-row"><span class="name">More speed, more energy</span><span class="temp">Square law</span></div>
+            <div class="layer-row"><span class="name">Thinner air, less cooling</span><span class="temp">Density scaling</span></div>
+            <div class="layer-row"><span class="name">Hotter discs, hotter fluid</span><span class="temp">Smaller margin</span></div>
+          </div>
+          <p class="note"><strong>The trap:</strong> The same thin air that lets a car reach a higher speed also removes less heat at that speed. Energy in goes up. Cooling out goes down. The disc pays the difference.</p>
+          <p class="note"><strong>Not only racing:</strong> A loaded truck crossing a high pass faces the same physics on every descent. Altitude shrinks the safety margin before the driver does anything wrong.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lab 5: Pedal -->
+    <section class="lab reveal" id="pedal" aria-labelledby="pedal-h">
+      <p class="eyebrow">Lab 5 · Hydraulics</p>
+      <h2 id="pedal-h">Vapor lock and the pedal</h2>
+      <p class="intro">Hydraulic brakes work because liquid barely compresses. Gas compresses easily. Even a small fraction of vapor in the fluid multiplies pedal travel, because the pedal spends its motion squeezing gas instead of pushing pistons. Move the vapor slider and watch the pedal.</p>
+
+      <div class="lab-grid">
+        <div class="panel">
+          <h3>Pedal travel versus vapor fraction</h3>
+          <p class="sub">Baseline pedal travel is 30 mm with pure liquid. Gas is about 3000 times more compressible than liquid.</p>
+          <canvas class="viz" id="pedalCanvas" width="640" height="360" role="img" aria-label="Animation of a brake pedal and piston with vapor bubbles"></canvas>
+          <p class="chart-summary" id="pedalSummary">With pure liquid, pedal travel is 30 mm. Add 1 percent vapor and travel grows past 900 mm. The pedal hits the floor.</p>
+          <div class="control" style="margin-top: var(--sp-300);">
+            <label for="vapor">Vapor fraction <output id="vaporOut">0.0%</output></label>
+            <input type="range" id="vapor" min="0" max="5" step="0.1" value="0">
+            <p class="hint">One tenth of one percent of vapor already quadruples travel. Boiling does not need much gas to ruin the pedal.</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Why incompressibility matters</h3>
+          <div class="layer-list">
+            <div class="layer-row"><span class="name">Liquid bulk modulus</span><span class="temp">1.5 GPa</span></div>
+            <div class="layer-row"><span class="name">Gas bulk modulus</span><span class="temp">0.5 MPa</span></div>
+            <div class="layer-row"><span class="name">Travel at 0.1 percent vapor</span><span class="temp" id="t01">120 mm</span></div>
+            <div class="layer-row"><span class="name">Travel at 1 percent vapor</span><span class="temp" id="t1">930 mm</span></div>
+            <div class="layer-row"><span class="name">Travel at 5 percent vapor</span><span class="temp" id="t5">4500 mm</span></div>
+          </div>
+          <p class="note"><strong>Vapor lock:</strong> Once fluid boils, bubbles form in the caliper. The pedal compresses bubbles instead of moving pistons. Braking force collapses even though the pads and discs are still fine. Pumping the pedal helps only until the gas grows again.</p>
+          <p class="note"><strong>Fade versus boil:</strong> Pad fade is gradual. Grip falls as temperature climbs, and the pedal stays firm. Boiling is sudden. The pedal goes soft or to the floor. Drivers describe the first as a long pedal and the second as no pedal at all.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Everywhere -->
+    <section class="lab reveal" id="everywhere" aria-labelledby="every-h">
+      <p class="eyebrow">Beyond racing</p>
+      <h2 id="every-h">Why this matters everywhere</h2>
+      <p class="intro">The Mexico City example is dramatic, but the same equations run on every road, rail line, and runway. Six places where brake heat decides the outcome.</p>
+      <div class="cards">
+        <article class="card">
+          <h3>Mountain grades</h3>
+          <p>A loaded truck on a 6 percent grade turns gravity into heat continuously. Engine braking and retarders help, but the service brakes still soak. This is why descent signs warn about brake checks and escape ramps.</p>
+        </article>
+        <article class="card">
+          <h3>Towing and load</h3>
+          <p>Extra mass raises kinetic energy in direct proportion. A car towing a trailer carries more energy into every stop, and the trailer brakes share the work only if they are set up to do so.</p>
+        </article>
+        <article class="card">
+          <h3>Track days</h3>
+          <p>Repeated hard stops with short cooling gaps are the fastest way to learn about fade. Street pads fade early. Fluid condition matters as much as pad choice, because old fluid boils sooner.</p>
+        </article>
+        <article class="card">
+          <h3>City traffic</h3>
+          <p>Stop and go driving rarely overheats brakes, but it wears pads and glazes surfaces. Heat cycling changes friction over months, not minutes, which is why brakes feel different in winter and summer.</p>
+        </article>
+        <article class="card">
+          <h3>Rail</h3>
+          <p>Trains carry enormous kinetic energy and spread it across many discs or tread brakes. Long descents still challenge cooling, which is why dynamic braking shares the load on modern stock.</p>
+        </article>
+        <article class="card">
+          <h3>Aviation</h3>
+          <p>Aircraft brakes absorb landing energy in steel discs with forced air cooling. Rejected takeoffs are the design case, because the energy is largest at the highest speed and the mass is greatest.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Tagline -->
+    <section class="tagline" aria-label="Summary">
+      <p id="taglineText">Heat always wins unless you give it somewhere to go.</p>
+    </section>
+
+    <!-- FAQ -->
+    <section class="lab reveal" id="faq" aria-labelledby="faq-h">
+      <p class="eyebrow">Questions</p>
+      <h2 id="faq-h">Common questions</h2>
+      <div style="margin-top: var(--sp-400); max-width: 760px;">
+        <details>
+          <summary>Why does the pedal go to the floor?</summary>
+          <p>Boiling creates gas bubbles in the caliper. Gas compresses, so pedal motion squeezes bubbles instead of pushing pistons. The pedal travels far with little or no clamping force. This is vapor lock.</p>
+        </details>
+        <details>
+          <summary>Why does braking get weaker before boiling?</summary>
+          <p>Pad friction falls at very high temperature, a thin gas film can form between pad and disc, and hot components expand. Each effect reduces grip or changes pedal feel before the fluid ever boils.</p>
+        </details>
+        <details>
+          <summary>Why titanium pistons?</summary>
+          <p>Titanium conducts heat about 24 times worse than aluminium. That poor conductivity keeps heat away from the fluid. In this lab, swapping titanium for aluminium moves the fluid from safe to boiling at the same disc temperature.</p>
+        </details>
+        <details>
+          <summary>Why do brake ducts matter so much?</summary>
+          <p>Cooling scales with airflow. A blocked duct can cut the cooling coefficient by most of its value. The disc then soaks hotter lap after lap until the fluid follows. Lab 3 shows the divergence.</p>
+        </details>
+        <details>
+          <summary>Why is altitude worse for brakes?</summary>
+          <p>Thin air reduces drag, so speeds rise and stopping energy grows with the square of speed. Thin air also carries less heat away. Energy in rises while cooling out falls.</p>
+        </details>
+        <details>
+          <summary>Are disc temperatures near 1000°C real?</summary>
+          <p>Yes, for carbon ceramic and carbon carbon race brakes. Cast iron road discs run far cooler in normal use, typically a few hundred degrees in hard driving. The model uses the same equations for both, with different masses and materials.</p>
+        </details>
+        <details>
+          <summary>What is the difference between fade and boil?</summary>
+          <p>Fade is gradual grip loss from hot pads. Boil is sudden pedal loss from gas in the fluid. Fade warns you. Boil removes the brake.</p>
+        </details>
+        <details>
+          <summary>Can I use this lab for my own car?</summary>
+          <p>Use it to compare choices, not to certify a car. Real brake design uses measured data, fluid dynamics, and safety margins. This lab teaches the direction and size of each effect.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- Glossary -->
+    <section class="lab reveal" id="glossary" aria-labelledby="gloss-h">
+      <p class="eyebrow">Plain words</p>
+      <h2 id="gloss-h">Glossary</h2>
+      <dl class="glossary">
+        <div><dt>Brake fade</dt><dd>Gradual loss of braking grip as pads and discs get hot. The pedal stays firm, but stopping takes longer.</dd></div>
+        <div><dt>Vapor lock</dt><dd>Gas bubbles in brake fluid after boiling. The pedal compresses gas instead of pushing pistons, so braking force collapses.</dd></div>
+        <div><dt>Thermal barrier</dt><dd>The stack of pad, shim, and piston between the hot disc and the fluid. Each layer drops the temperature.</dd></div>
+        <div><dt>Kinetic energy</dt><dd>Energy of motion, one half mass times speed squared. Brakes must remove all of it as heat.</dd></div>
+        <div><dt>Thermal conductivity</dt><dd>How well a material conducts heat. Titanium is low. Aluminium is high. Low is better in a piston.</dd></div>
+        <div><dt>Convective cooling</dt><dd>Heat carried away by moving air. Faster air and denser air both help. Ducts deliver the air.</dd></div>
+        <div><dt>Wet boiling point</dt><dd>The boiling temperature of fluid that has absorbed water. Far lower than the dry rating.</dd></div>
+        <div><dt>Bulk modulus</dt><dd>Resistance to compression. Liquid is stiff. Gas is soft. Mixing them ruins pedal feel.</dd></div>
+        <div><dt>Heat soak</dt><dd>Slow temperature rise from repeated braking with too little cooling between stops.</dd></div>
+      </dl>
+    </section>
+
+    <!-- Method -->
+    <section class="lab reveal" id="method" aria-labelledby="method-h">
+      <p class="eyebrow">Method and limits</p>
+      <h2 id="method-h">How the model works</h2>
+      <p class="intro">This page uses a lumped thermal model, not computational fluid dynamics. Each disc is one temperature. Cooling follows a standard forced convection scaling with air density. The barrier uses one dimensional conduction. Numbers are rounded teaching values. Treat them as a way to compare choices, not as engineering data for a specific car.</p>
+      <ol class="sources">
+        <li><a href="https://en.wikipedia.org/wiki/Brake_fade" target="_blank" rel="noopener">Brake fade, overview of fade mechanisms</a><p>Background on pad fade, fluid boil, and vapor lock.</p></li>
+        <li><a href="https://en.wikipedia.org/wiki/Brake_fluid" target="_blank" rel="noopener">Brake fluid, DOT boiling points</a><p>Dry and wet boiling points for DOT 3, DOT 4, and racing fluids.</p></li>
+        <li><a href="https://en.wikipedia.org/wiki/Thermal_conductivity" target="_blank" rel="noopener">Thermal conductivity of common materials</a><p>Values for titanium, steel, aluminium, and carbon composites.</p></li>
+        <li><a href="https://en.wikipedia.org/wiki/Standard_atmosphere" target="_blank" rel="noopener">Standard atmosphere and air density</a><p>The density model used in Lab 4.</p></li>
+        <li><a href="https://en.wikipedia.org/wiki/Bulk_modulus" target="_blank" rel="noopener">Bulk modulus of liquids and gases</a><p>The compressibility contrast behind Lab 5.</p></li>
+      </ol>
+      <p class="note">Content checked 17 November 2026. General education, with rounded teaching numbers. No personal information is sent or stored.</p>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="shell" style="display: flex; justify-content: space-between; gap: var(--sp-300); flex-wrap: wrap; width: 100%;">
+    <a href="../../">← Back to all experiments</a>
+    <span>Brake heat lab · Built with one shared thermal model</span>
+  </div>
+</footer>
+
+<script>
+"use strict";
+
+/* ---------- Utilities ---------- */
+const $ = (id) => document.getElementById(id);
+const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+const fmt = (v, d = 0) => Number(v).toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* Blackbody style ramp: cold grey to white hot */
+function tempColor(t) {
+  const stops = [
+    [25, [42, 42, 42]],
+    [300, [90, 52, 30]],
+    [500, [150, 70, 28]],
+    [700, [205, 105, 30]],
+    [900, [235, 150, 40]],
+    [1100, [250, 195, 90]],
+    [1300, [255, 240, 200]]
+  ];
+  t = clamp(t, 25, 1300);
+  for (let i = 1; i < stops.length; i++) {
+    if (t <= stops[i][0]) {
+      const [t0, c0] = stops[i - 1];
+      const [t1, c1] = stops[i];
+      const f = (t - t0) / (t1 - t0);
+      const c = c0.map((v, k) => Math.round(v + (c1[k] - v) * f));
+      return `rgb(${c[0]},${c[1]},${c[2]})`;
+    }
+  }
+  return "rgb(255,240,200)";
+}
+
+/* ---------- Physics ---------- */
+const G = 9.81;
+
+function airDensity(h) {
+  const base = 1 - 2.25577e-5 * clamp(h, 0, 11000);
+  return 1.225 * Math.pow(Math.max(base, 0.1), 4.2561);
+}
+
+const PRESETS = {
+  f1:    { label: "Formula 1 car",        mass: 798,   speed: 361, discMass: 4.5, cp: 850, mu: 1.6,  discs: 4,  mat: "Carbon ceramic", events: 4 },
+  gt:    { label: "GT sports car",        mass: 1520,  speed: 318, discMass: 11,  cp: 500, mu: 1.15, discs: 4,  mat: "Cast iron",      events: 3 },
+  sedan: { label: "Family sedan",         mass: 1650,  speed: 200, discMass: 8.5, cp: 460, mu: 0.9,  discs: 4,  mat: "Cast iron",      events: 2 },
+  moto:  { label: "Motorcycle and rider", mass: 260,   speed: 275, discMass: 3.2, cp: 460, mu: 1.0,  discs: 2,  mat: "Steel",          events: 3 },
+  truck: { label: "Loaded truck",         mass: 18000, speed: 90,  discMass: 14,  cp: 460, mu: 0.8,  discs: 6,  mat: "Cast iron",      events: 1 },
+  train: { label: "Passenger train",      mass: 400000,speed: 160, discMass: 60,  cp: 460, mu: 0.6,  discs: 80, mat: "Steel",          events: 1 }
+};
+
+const MATERIALS = {
+  ti:        { label: "Titanium",  k: 7 },
+  steel:     { label: "Steel",     k: 50 },
+  aluminium: { label: "Aluminium", k: 167 }
+};
+
+const state = {
+  preset: "f1",
+  speed: 361,
+  mass: 798,
+  altitude: 2240,
+  ambient: 25,
+  pistonMat: "ti",
+  flux: 1.0,
+  discTemp: 990,
+  ductB: 100,
+  vapor: 0
+};
+
+function energyModel() {
+  const p = PRESETS[state.preset];
+  const v = state.speed / 3.6;
+  const ke = 0.5 * state.mass * v * v;                 // joules, whole vehicle
+  const force = p.mu * state.mass * G;                 // peak braking force
+  const pTotal = force * v;                            // peak power, whole vehicle
+  const pDisc = pTotal / p.discs;                      // peak power per disc
+  const eDisc = (ke / p.discs) * 0.89;                 // heat into one disc
+  const cDisc = p.discMass * p.cp;                     // heat capacity J/K
+  const dT = eDisc / cDisc;                            // adiabatic rise
+  const rho = airDensity(state.altitude);
+  return { v, ke, pTotal, pDisc, eDisc, cDisc, dT, rho, preset: p };
+}
+
+/* Barrier: drops scale with flux, piston resistance scales with 1/k.
+ * Heat flux ramps in as the disc warms, reaching full value at 990°C,
+ * so the fluid tracks ambient when the disc is cold. */
+function barrierModel(discT) {
+  const k = MATERIALS[state.pistonMat].k;
+  const s = clamp((discT - state.ambient) / (990 - state.ambient), 0, 1);
+  const q = 785 * state.flux * s;                      // watts into caliper
+  const rPad = 0.45, rShim = 0.15, rGap = 0.10;
+  const rPiston = 0.35 * (7 / k);
+  const dPad = q * rPad, dShim = q * rShim, dGap = q * rGap, dPiston = q * rPiston;
+  const tPad = discT - dPad;
+  const tShim = tPad - dShim;
+  const tPiston = tShim - dGap - dPiston;
+  const tFluid = tPiston;
+  return { q, dPad, dShim, dGap, dPiston, tPad, tShim, tPiston, tFluid };
+}
+
+/* Pad fade factor: grip loss above 600°C */
+function padFade(discT) {
+  const over = Math.max(0, (discT - 600) / 500);
+  return clamp(0.55 * Math.pow(over, 1.5), 0, 0.55);
+}
+
+/* Pedal travel multiplier from vapor fraction */
+function pedalMultiplier(x) {
+  const kLiq = 1.5e9, kGas = 5e5;
+  const inv = (1 - x) / kLiq + x / kGas;
+  const kEff = 1 / inv;
+  return kLiq / kEff;
+}
+
+/* ---------- Lab 1 + hero ---------- */
+function renderEnergy() {
+  const m = energyModel();
+  const discAfter = state.ambient + m.dT;
+
+  $("speedOut").textContent = `${fmt(state.speed)} km/h`;
+  $("massOut").textContent = `${fmt(state.mass)} kg`;
+  $("altOut").textContent = `${fmt(state.altitude)} m`;
+  $("ambOut").textContent = `${fmt(state.ambient)}°C`;
+  $("altOut2").textContent = `${fmt(state.altitude)} m`;
+
+  $("heroEnergy").textContent = fmt(m.ke / 1e6, 1);
+  $("heroPower").textContent = fmt(m.pDisc / 1000);
+  $("heroDisc").textContent = fmt(discAfter);
+  const b = barrierModel(discAfter);
+  $("heroMargin").textContent = fmt(Math.max(0, 300 - b.tFluid));
+
+  $("rEnergy").textContent = `${fmt(m.ke / 1e6, 1)} MJ`;
+  $("rPower").textContent = `${fmt(m.pDisc / 1000)} kW`;
+  $("rHeat").textContent = `${fmt(m.eDisc / 1e6, 2)} MJ`;
+  $("rRise").textContent = `${fmt(m.dT)}°C`;
+  $("rRiseCard").classList.toggle("warn", m.dT > 400);
+  $("discSummary").textContent =
+    `Disc temperature after one stop: about ${fmt(discAfter)}°C. ` +
+    `Peak power per disc: ${fmt(m.pDisc / 1000)} kW. ` +
+    `Air density at ${fmt(state.altitude)} metres: ${fmt(m.rho, 2)} kg per cubic metre.`;
+
+  drawDisc(discAfter, m);
+}
+
+function drawDisc(discT, m) {
+  const cv = $("discCanvas");
+  const ctx = cv.getContext("2d");
+  const W = cv.width, H = cv.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const cx = W / 2, cy = H / 2, r = Math.min(W, H) * 0.36;
+  const col = tempColor(discT);
+
+  // Outer disc
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, 0, Math.PI * 2);
+  ctx.fillStyle = col;
+  ctx.fill();
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = "#313131";
+  ctx.stroke();
+
+  // Inner ring darker
+  ctx.beginPath();
+  ctx.arc(cx, cy, r * 0.62, 0, Math.PI * 2);
+  ctx.fillStyle = "rgba(0,0,0,0.28)";
+  ctx.fill();
+
+  // Drilled holes
+  ctx.fillStyle = "rgba(0,0,0,0.45)";
+  for (let ring = 0; ring < 2; ring++) {
+    const rr = r * (0.72 + ring * 0.14);
+    const n = 14 + ring * 6;
+    for (let i = 0; i < n; i++) {
+      const a = (i / n) * Math.PI * 2 + ring * 0.22;
+      ctx.beginPath();
+      ctx.arc(cx + Math.cos(a) * rr, cy + Math.sin(a) * rr, 5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  // Hub
+  ctx.beginPath();
+  ctx.arc(cx, cy, r * 0.3, 0, Math.PI * 2);
+  ctx.fillStyle = "#272727";
+  ctx.fill();
+  ctx.strokeStyle = "#9B9B9B";
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.fillStyle = "#F5F5F5";
+  ctx.font = "600 20px Geist, sans-serif";
+  ctx.textAlign = "center";
+  ctx.fillText(`${fmt(discT)}°C`, cx, cy + 7);
+
+  // Airflow arrows
+  ctx.strokeStyle = "#9B9B9B";
+  ctx.lineWidth = 2;
+  for (let i = 0; i < 3; i++) {
+    const y = cy - r * 0.9 + i * 14;
+    ctx.beginPath();
+    ctx.moveTo(cx - r - 70, y);
+    ctx.lineTo(cx - r - 12, y);
+    ctx.moveTo(cx - r - 12, y);
+    ctx.lineTo(cx - r - 22, y - 6);
+    ctx.moveTo(cx - r - 12, y);
+    ctx.lineTo(cx - r - 22, y + 6);
+    ctx.stroke();
+  }
+  ctx.fillStyle = "#9B9B9B";
+  ctx.font = "12px Geist, sans-serif";
+  ctx.textAlign = "left";
+  ctx.fillText("cooling air", cx - r - 70, cy - r - 12);
+  ctx.fillText(`${m.preset.mat} disc · ${fmt(m.preset.discMass, 1)} kg`, cx - r, cy + r + 26);
+}
+
+/* ---------- Lab 2: barrier ---------- */
+function renderBarrier() {
+  const discT = state.discTemp;
+  const b = barrierModel(discT);
+
+  $("discTempOut").textContent = `${fmt(discT)}°C`;
+  $("fluxOut").textContent = `${fmt(state.flux, 2)}×`;
+
+  $("tDisc").textContent = `${fmt(discT)}°C`;
+  $("tPad").textContent = `${fmt(b.tPad)}°C`;
+  $("tShim").textContent = `${fmt(b.tShim)}°C`;
+  $("tPiston").textContent = `${fmt(b.tPiston)}°C`;
+  $("tFluid").textContent = `${fmt(b.tFluid)}°C`;
+
+  $("dPad").textContent = `drop ${fmt(b.dPad)}°C`;
+  $("dShim").textContent = `drop ${fmt(b.dShim)}°C`;
+  $("dPiston").textContent = `drop ${fmt(b.dPiston + b.dGap)}°C`;
+
+  $("layDisc").setAttribute("fill", tempColor(discT));
+  $("layPad").setAttribute("fill", tempColor(b.tPad));
+  $("layShim").setAttribute("fill", tempColor(b.tShim));
+  $("layPiston").setAttribute("fill", tempColor(b.tPiston));
+  $("layFluid").setAttribute("fill", tempColor(b.tFluid));
+
+  const rows = [
+    ["Disc face", discT, "friction surface"],
+    ["Pad back", b.tPad, `drop ${fmt(b.dPad)}°C`],
+    ["Shim", b.tShim, `drop ${fmt(b.dShim)}°C`],
+    ["Piston", b.tPiston, `drop ${fmt(b.dPiston + b.dGap)}°C`],
+    ["Fluid", b.tFluid, b.tFluid > 300 ? "boiling" : b.tFluid > 155 ? "above wet DOT 4" : "safe"]
+  ];
+  $("layerList").innerHTML = rows.map(([n, t, d]) =>
+    `<div class="layer-row"><span class="name">${n}</span><span class="drop">${d}</span><span class="temp">${fmt(t)}°C</span></div>`
+  ).join("");
+
+  $("gaugeVal").textContent = `${fmt(b.tFluid)}°C`;
+  const pct = clamp(((b.tFluid - 25) / (400 - 25)) * 100, 0, 100);
+  $("gaugeFill").style.width = `${pct}%`;
+  $("gaugeFill").style.background = b.tFluid > 300 ? "var(--danger)" : b.tFluid > 155 ? "var(--accent-deep)" : "var(--accent)";
+  $("wetLine").style.left = `${((155 - 25) / 375) * 100}%`;
+  $("dryLine").style.left = `${((260 - 25) / 375) * 100}%`;
+  $("barrierNote").textContent =
+    `${MATERIALS[state.pistonMat].label} piston, k ${MATERIALS[state.pistonMat].k}. ` +
+    `Fluid at ${fmt(b.tFluid)}°C. ` +
+    (b.tFluid > 300 ? "Above the racing boil line. Braking fails." :
+     b.tFluid > 155 ? "Above wet DOT 4. Old fluid would boil here." : "Below every boiling line. Margin holds.");
+}
+
+/* ---------- Lab 3: lap simulation ---------- */
+const sim = {
+  running: false,
+  speed: 4,
+  time: 0,
+  lapTime: 70,
+  brakeTime: 3,
+  discA: 25, discB: 25,
+  hist: [], // {t, dA, dB, fA, fB}
+  lastSample: 0,
+  lastFrame: 0
+};
+
+function coolingCoeff(ductFactor) {
+  const m = energyModel();
+  const rhoRatio = m.rho / 1.225;
+  const vRatio = Math.pow(Math.max(m.v, 5) / 28, 0.8);
+  const sizeFactor = Math.sqrt(m.preset.discMass / 4.5);
+  return 23 * sizeFactor * vRatio * Math.pow(rhoRatio, 0.8) * ductFactor;
+}
+
+function stepSim(dt) {
+  const m = energyModel();
+  const p = m.preset;
+  const interval = sim.lapTime / p.events;
+  const phase = sim.time % interval;
+  const braking = phase < sim.brakeTime;
+  const pBrake = braking ? m.pDisc : 0;
+
+  const hA = coolingCoeff(1.0);
+  const hB = coolingCoeff(0.12 + 0.88 * (state.ductB / 100));
+
+  const area = 0.15 * Math.pow(p.discMass / 4.5, 2 / 3);
+  const rad = (T) => 0.8 * 5.67e-8 * area * (Math.pow(T + 273, 4) - Math.pow(state.ambient + 273, 4));
+
+  const dA = (pBrake - hA * (sim.discA - state.ambient) - rad(sim.discA)) / m.cDisc;
+  const dB = (pBrake - hB * (sim.discB - state.ambient) - rad(sim.discB)) / m.cDisc;
+  sim.discA += dA * dt;
+  sim.discB += dB * dt;
+  sim.time += dt;
+
+  if (sim.time - sim.lastSample >= 0.5) {
+    sim.lastSample = sim.time;
+    const fA = barrierModel(sim.discA).tFluid;
+    const fB = barrierModel(sim.discB).tFluid;
+    sim.hist.push({ t: sim.time, dA: sim.discA, dB: sim.discB, fA, fB });
+    if (sim.hist.length > 1200) sim.hist.shift();
+  }
+}
+
+function drawLapChart() {
+  const cv = $("lapCanvas");
+  const ctx = cv.getContext("2d");
+  const W = cv.width, H = cv.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const padL = 56, padR = 16, padT = 16, padB = 36;
+  const yMax = 1400;
+  const tMax = Math.max(140, sim.hist.length ? sim.hist[sim.hist.length - 1].t : 0);
+  const x = (t) => padL + (t / tMax) * (W - padL - padR);
+  const y = (T) => padT + (1 - clamp(T, 0, yMax) / yMax) * (H - padT - padB);
+
+  // Grid
+  ctx.strokeStyle = "#272727";
+  ctx.lineWidth = 1;
+  ctx.fillStyle = "#9B9B9B";
+  ctx.font = "11px Geist, sans-serif";
+  ctx.textAlign = "right";
+  for (let T = 0; T <= 1400; T += 200) {
+    ctx.beginPath();
+    ctx.moveTo(padL, y(T));
+    ctx.lineTo(W - padR, y(T));
+    ctx.stroke();
+    ctx.fillText(`${T}°`, padL - 8, y(T) + 4);
+  }
+  ctx.textAlign = "center";
+  for (let t = 0; t <= tMax; t += Math.max(70, Math.round(tMax / 8 / 10) * 10)) {
+    ctx.fillText(`${t}s`, x(t), H - 12);
+  }
+
+  // Thresholds
+  ctx.strokeStyle = "#E05D44";
+  ctx.setLineDash([6, 4]);
+  ctx.beginPath(); ctx.moveTo(padL, y(300)); ctx.lineTo(W - padR, y(300)); ctx.stroke();
+  ctx.strokeStyle = "#9B9B9B";
+  ctx.beginPath(); ctx.moveTo(padL, y(155)); ctx.lineTo(W - padR, y(155)); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = "#E05D44";
+  ctx.textAlign = "left";
+  ctx.fillText("fluid boiling 300°C", padL + 8, y(300) - 6);
+  ctx.fillStyle = "#9B9B9B";
+  ctx.fillText("wet DOT 4 155°C", padL + 8, y(155) - 6);
+
+  if (sim.hist.length < 2) {
+    ctx.fillStyle = "#9B9B9B";
+    ctx.textAlign = "center";
+    ctx.fillText("Press play to run the simulation", W / 2, H / 2);
+    return;
+  }
+
+  const series = [
+    { key: "dA", color: "#E8A33D", width: 2.5 },
+    { key: "dB", color: "#F5F5F5", width: 2.5 },
+    { key: "fA", color: "#E8A33D", width: 1.5, alpha: 0.5 },
+    { key: "fB", color: "#F5F5F5", width: 1.5, alpha: 0.5 }
+  ];
+  for (const s of series) {
+    ctx.strokeStyle = s.color;
+    ctx.globalAlpha = s.alpha || 1;
+    ctx.lineWidth = s.width;
+    ctx.beginPath();
+    sim.hist.forEach((p, i) => {
+      if (i === 0) ctx.moveTo(x(p.t), y(p[s.key]));
+      else ctx.lineTo(x(p.t), y(p[s.key]));
+    });
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+  }
+}
+
+function renderSimReadouts() {
+  const fA = barrierModel(sim.discA).tFluid;
+  const fB = barrierModel(sim.discB).tFluid;
+  $("discAOut").textContent = `${fmt(sim.discA)}°C`;
+  $("discBOut").textContent = `${fmt(sim.discB)}°C`;
+  $("fluidAOut").textContent = `${fmt(fA)}°C`;
+  $("fluidBOut").textContent = `${fmt(fB)}°C`;
+  $("fluidBCard").classList.toggle("warn", fB > 300);
+  $("fadeOut").textContent = `${fmt(padFade(sim.discA) * 100)}%`;
+  $("lapOut").textContent = fmt(Math.floor(sim.time / sim.lapTime));
+  $("timeOut").textContent = `${fmt(sim.time)} s`;
+
+  const pill = $("simStatus");
+  const txt = $("simStatusText");
+  if (fB > 300 || fA > 300) {
+    pill.className = "status-pill bad";
+    txt.textContent = "Fluid boiling · pedal to the floor";
+  } else if (fB > 200 || fA > 200 || sim.discB > 1150 || sim.discA > 1150) {
+    pill.className = "status-pill warn";
+    txt.textContent = "Warning · margin shrinking fast";
+  } else {
+    pill.className = "status-pill";
+    txt.textContent = "Safe · fluid below boiling";
+  }
+
+  const last = sim.hist[sim.hist.length - 1];
+  if (last) {
+    $("lapSummary").textContent =
+      `At ${fmt(sim.time)} seconds: disc A ${fmt(sim.discA)}°C, disc B ${fmt(sim.discB)}°C, ` +
+      `fluid A ${fmt(fA)}°C, fluid B ${fmt(fB)}°C. ` +
+      (fB > 300 ? "Car B fluid has boiled. Its pedal is gone." :
+       state.ductB < 100 ? "Car B runs hotter because its duct passes less air." : "Both ducts pass full air, so both cars track together.");
+  }
+}
+
+function simLoop(ts) {
+  if (!sim.running) return;
+  if (!sim.lastFrame) sim.lastFrame = ts;
+  const realDt = Math.min((ts - sim.lastFrame) / 1000, 0.1);
+  sim.lastFrame = ts;
+  let remaining = realDt * sim.speed;
+  const dt = 0.05;
+  while (remaining > 0) {
+    stepSim(Math.min(dt, remaining));
+    remaining -= dt;
+  }
+  drawLapChart();
+  renderSimReadouts();
+  requestAnimationFrame(simLoop);
+}
+
+function resetSim() {
+  sim.time = 0;
+  sim.discA = state.ambient;
+  sim.discB = state.ambient;
+  sim.hist = [];
+  sim.lastSample = 0;
+  sim.lastFrame = 0;
+  drawLapChart();
+  renderSimReadouts();
+}
+
+/* ---------- Lab 4: altitude ---------- */
+function drawAltitude() {
+  const cv = $("altCanvas");
+  const ctx = cv.getContext("2d");
+  const W = cv.width, H = cv.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const padL = 48, padR = 16, padT = 16, padB = 36;
+  const x = (h) => padL + (h / 3600) * (W - padL - padR);
+  const y = (v) => padT + (1 - clamp(v, 0, 1.2) / 1.2) * (H - padT - padB);
+
+  ctx.strokeStyle = "#272727";
+  ctx.fillStyle = "#9B9B9B";
+  ctx.font = "11px Geist, sans-serif";
+  ctx.textAlign = "right";
+  for (let v = 0; v <= 1.2; v += 0.2) {
+    ctx.beginPath(); ctx.moveTo(padL, y(v)); ctx.lineTo(W - padR, y(v)); ctx.stroke();
+    ctx.fillText(fmt(v, 1), padL - 8, y(v) + 4);
+  }
+  ctx.textAlign = "center";
+  for (let h = 0; h <= 3600; h += 600) ctx.fillText(`${fmt(h)} m`, x(h), H - 12);
+
+  const series = [
+    { fn: (h) => airDensity(h) / 1.225, color: "#E8A33D", label: "Air density" },
+    { fn: (h) => Math.pow(airDensity(h) / 1.225, 0.8), color: "#F5F5F5", label: "Cooling" },
+    { fn: (h) => airDensity(h) / 1.225, color: "#9B9B9B", label: "Drag", dash: true }
+  ];
+  // Density and drag share a curve; draw cooling distinct, density solid amber, drag dashed grey offset slightly for visibility
+  const draw = (fn, color, dash, width) => {
+    ctx.strokeStyle = color;
+    ctx.lineWidth = width;
+    ctx.setLineDash(dash ? [5, 4] : []);
+    ctx.beginPath();
+    for (let h = 0; h <= 3600; h += 30) {
+      const px = x(h), py = y(fn(h));
+      if (h === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+    ctx.setLineDash([]);
+  };
+  draw(series[0].fn, "#E8A33D", false, 2.5);
+  draw(series[1].fn, "#F5F5F5", false, 2.5);
+  draw(series[2].fn, "#9B9B9B", true, 1.5);
+
+  // City markers
+  const cities = [[0, "Sea level"], [1600, "Denver"], [2240, "Mexico City"], [3600, "La Paz"]];
+  ctx.fillStyle = "#9B9B9B";
+  ctx.textAlign = "center";
+  for (const [h, name] of cities) {
+    ctx.beginPath();
+    ctx.arc(x(h), y(airDensity(h) / 1.225), 4, 0, Math.PI * 2);
+    ctx.fillStyle = "#E8A33D";
+    ctx.fill();
+    ctx.fillStyle = "#9B9B9B";
+    ctx.fillText(name, x(h), y(airDensity(h) / 1.225) - 10);
+  }
+
+  // Current altitude line
+  ctx.strokeStyle = "#E8A33D";
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(x(state.altitude), padT);
+  ctx.lineTo(x(state.altitude), H - padB);
+  ctx.stroke();
+
+  const rho = airDensity(state.altitude) / 1.225;
+  $("altSummary").textContent =
+    `At ${fmt(state.altitude)} metres, air density is ${fmt(rho * 100)} percent of sea level. ` +
+    `Cooling falls to ${fmt(Math.pow(rho, 0.8) * 100)} percent. Drag falls to ${fmt(rho * 100)} percent. ` +
+    `Less drag raises speed. Less cooling raises temperature.`;
+}
+
+/* ---------- Lab 5: pedal ---------- */
+function drawPedal() {
+  const cv = $("pedalCanvas");
+  const ctx = cv.getContext("2d");
+  const W = cv.width, H = cv.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const x = state.vapor / 100;
+  const mult = pedalMultiplier(x);
+  const travel = 30 * mult;
+  const travelClamped = clamp(travel, 30, 900);
+  const frac = (travelClamped - 30) / (900 - 30);
+
+  // Pedal arm
+  const pivotX = 120, pivotY = 250;
+  const armLen = 150;
+  const angle = -0.5 + frac * 0.9;
+  const tipX = pivotX + Math.cos(angle) * armLen;
+  const tipY = pivotY + Math.sin(angle) * armLen;
+  ctx.strokeStyle = "#F5F5F5";
+  ctx.lineWidth = 6;
+  ctx.beginPath();
+  ctx.moveTo(pivotX, pivotY);
+  ctx.lineTo(tipX, tipY);
+  ctx.stroke();
+  ctx.fillStyle = "#E8A33D";
+  ctx.beginPath();
+  ctx.arc(pivotX, pivotY, 10, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = "#F5F5F5";
+  ctx.font = "600 14px Geist, sans-serif";
+  ctx.textAlign = "left";
+  ctx.fillText("pedal", tipX + 12, tipY + 5);
+
+  // Master cylinder + fluid column
+  const cylX = 340, cylY = 120, cylW = 220, cylH = 60;
+  ctx.strokeStyle = "#9B9B9B";
+  ctx.lineWidth = 2;
+  ctx.strokeRect(cylX, cylY, cylW, cylH);
+  // Fluid
+  ctx.fillStyle = "#3A5A7A";
+  ctx.fillRect(cylX + 2, cylY + 2, cylW - 4, cylH - 4);
+  // Vapor bubbles
+  if (x > 0) {
+    ctx.fillStyle = "#F5F5F5";
+    const n = Math.round(x * 400);
+    for (let i = 0; i < n; i++) {
+      const bx = cylX + 10 + ((i * 37) % (cylW - 20));
+      const by = cylY + 10 + ((i * 53) % (cylH - 20));
+      ctx.beginPath();
+      ctx.arc(bx, by, 3 + (i % 3), 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+  // Piston
+  const pistonX = cylX + cylW - 14 - frac * 30;
+  ctx.fillStyle = "#E8A33D";
+  ctx.fillRect(pistonX, cylY - 6, 14, cylH + 12);
+  ctx.fillStyle = "#9B9B9B";
+  ctx.font = "12px Geist, sans-serif";
+  ctx.fillText("caliper fluid", cylX, cylY - 10);
+  ctx.fillText(x > 0 ? `vapor ${fmt(state.vapor, 1)} percent` : "pure liquid", cylX, cylY + cylH + 22);
+
+  // Travel readout
+  ctx.fillStyle = "#F5F5F5";
+  ctx.font = "600 22px Geist, sans-serif";
+  ctx.fillText(`travel ${fmt(travel)} mm`, 60, 80);
+  ctx.font = "12px Geist, sans-serif";
+  ctx.fillStyle = "#9B9B9B";
+  ctx.fillText(`multiplier ${fmt(mult, 1)}×`, 60, 104);
+  if (travel > 200) {
+    ctx.fillStyle = "#E05D44";
+    ctx.font = "600 14px Geist, sans-serif";
+    ctx.fillText("pedal at the floor", 60, 130);
+  }
+
+  $("pedalSummary").textContent =
+    `With pure liquid, pedal travel is 30 mm. ` +
+    `At ${fmt(state.vapor, 1)} percent vapor, travel is ${fmt(travel)} mm, ` +
+    `${fmt(mult, 1)} times the baseline. ` +
+    (travel > 200 ? "The pedal hits the floor before full pressure builds." : "The pedal still has reserve travel.");
+}
+
+/* ---------- Wiring ---------- */
+function syncAltitude(v) {
+  state.altitude = v;
+  $("altitude").value = v;
+  $("altitude2").value = v;
+}
+
+function bindControls() {
+  document.querySelectorAll("[data-preset]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll("[data-preset]").forEach((b) => b.setAttribute("aria-pressed", "false"));
+      btn.setAttribute("aria-pressed", "true");
+      state.preset = btn.dataset.preset;
+      const p = PRESETS[state.preset];
+      state.speed = p.speed;
+      state.mass = p.mass;
+      $("speed").value = p.speed;
+      $("mass").value = p.mass;
+      renderEnergy();
+      resetSim();
+    });
+  });
+
+  document.querySelectorAll("[data-mat]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll("[data-mat]").forEach((b) => b.setAttribute("aria-pressed", "false"));
+      btn.setAttribute("aria-pressed", "true");
+      state.pistonMat = btn.dataset.mat;
+      renderBarrier();
+      renderSimReadouts();
+      drawLapChart();
+    });
+  });
+
+  $("speed").addEventListener("input", (e) => { state.speed = +e.target.value; renderEnergy(); });
+  $("mass").addEventListener("input", (e) => { state.mass = +e.target.value; renderEnergy(); });
+  $("altitude").addEventListener("input", (e) => { syncAltitude(+e.target.value); renderEnergy(); drawAltitude(); });
+  $("altitude2").addEventListener("input", (e) => { syncAltitude(+e.target.value); renderEnergy(); drawAltitude(); });
+  $("ambient").addEventListener("input", (e) => { state.ambient = +e.target.value; renderEnergy(); });
+  $("flux").addEventListener("input", (e) => { state.flux = +e.target.value; renderBarrier(); });
+  $("discTemp").addEventListener("input", (e) => { state.discTemp = +e.target.value; renderBarrier(); });
+  $("ductB").addEventListener("input", (e) => {
+    state.ductB = +e.target.value;
+    $("ductBOut").textContent = `${fmt(state.ductB)}%`;
+    renderSimReadouts();
+  });
+  $("vapor").addEventListener("input", (e) => {
+    state.vapor = +e.target.value;
+    $("vaporOut").textContent = `${fmt(state.vapor, 1)}%`;
+    drawPedal();
+  });
+
+  $("playBtn").addEventListener("click", () => {
+    sim.running = !sim.running;
+    $("playBtn").textContent = sim.running ? "Pause" : "Play";
+    if (sim.running) {
+      sim.lastFrame = 0;
+      requestAnimationFrame(simLoop);
+    }
+  });
+  $("resetBtn").addEventListener("click", resetSim);
+
+  document.querySelectorAll("[data-speed]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll("[data-speed]").forEach((b) => b.setAttribute("aria-pressed", "false"));
+      btn.setAttribute("aria-pressed", "true");
+      sim.speed = +btn.dataset.speed;
+    });
+  });
+}
+
+/* ---------- Reveals + tagline ---------- */
+function initReveals() {
+  const tag = $("taglineText");
+  const words = tag.textContent.trim().split(/\s+/);
+  tag.innerHTML = words.map((w) => `<span class="w">${w}</span>`).join(" ");
+
+  if (reducedMotion) {
+    document.querySelectorAll(".reveal").forEach((el) => el.classList.add("in"));
+    tag.querySelectorAll(".w").forEach((el) => el.classList.add("on"));
+    return;
+  }
+
+  const io = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("in");
+        io.unobserve(entry.target);
+      }
+    }
+  }, { threshold: 0.12 });
+  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+
+  const wordEls = [...tag.querySelectorAll(".w")];
+  const io2 = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
+        wordEls.forEach((el, i) => {
+          setTimeout(() => el.classList.add("on"), i * 90);
+        });
+        io2.disconnect();
+      }
+    }
+  }, { threshold: 0.5 });
+  io2.observe(tag);
+}
+
+/* ---------- Init ---------- */
+bindControls();
+renderEnergy();
+renderBarrier();
+drawAltitude();
+drawPedal();
+resetSim();
+initReveals();
+</script>
+</body>
+</html>
