@@ -1,5 +1,21 @@
 [
   {
+    "id": "multifamily-fieldbook",
+    "title": "The Multifamily Fieldbook — From Site Search to Underwriting",
+    "description": "A beginner’s Washington multifamily textbook with six chapters, 31 short lessons, twelve product decision rehearsals, a River North reconciliation lab, a one-hour interview route, a copyable glossary and a downloadable full-text edition. Distinguishes supplied project facts, illustrative assumptions and primary-source checks.",
+    "path": "experiments/multifamily-fieldbook/",
+    "category": "Education",
+    "tags": [
+      "Real Estate",
+      "Multifamily",
+      "Washington",
+      "Zoning",
+      "Underwriting",
+      "Interview Prep"
+    ],
+    "date": "2026-11-18"
+  },
+  {
     "id": "hold-music-lab",
     "title": "Why Hold Music Sounds Terrible — The Phone Audio Lab",
     "description": "An interactive lab explaining why hold music sounds awful over the phone: the 300 to 3400 Hz telephone tunnel, 8 kHz sampling and Nyquist aliasing, mu-law companding and speech codecs, a live WebAudio listening lab with music and voice through simulated phone chains, the PSTN call path with jitter and loss, and the wideband and fullband fix. Includes spectrum, sampling, and codec visualizations, a quiz, and a glossary.",
