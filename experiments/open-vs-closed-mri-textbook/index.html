@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="An eight-chapter beginner’s guide to open and closed MRI, with scanner diagrams, a signal demonstration, and a decision quiz.">
+<title>Open vs Closed MRI — A Field Guide</title>
+<link rel="stylesheet" href="styles.css">
+<script src="app.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#start">Skip to textbook</a>
+<header class="top"><a href="../../">RONNIE’S EXPERIMENTS</a><span>FIELDNOTES / MEDICAL IMAGING</span></header>
+<div class="layout">
+<aside><div class="sidebar-title">THE LEARNING ATLAS <span>8 short chapters · 3 activities</span></div>
+<details id="contents" open><summary>Table of contents</summary><nav aria-label="Table of contents">
+<a href="#start">Start here</a><a href="#chapter-1">1. From magnet to image</a><a href="#chapter-2">2. Inside a closed scanner</a><a href="#chapter-3">3. How an open scanner differs</a><a href="#chapter-4">4. What magnet strength buys</a><a href="#chapter-5">5. Matching scanner to exam</a><a href="#chapter-6">6. Comfort, space, and positioning</a><a href="#chapter-7">7. What a scan feels like</a><a href="#chapter-8">8. Safety questions and myths</a><a href="#sources">Further reading</a><a href="#glossary">Glossary</a>
+</nav></details></aside>
+<main>
+<section id="start" class="hero" tabindex="-1">
+<p class="eyebrow">A BEGINNER’S FIELD GUIDE / 01</p>
+<h1>Open vs <em>closed MRI.</em></h1>
+<p class="deck">One way to make pictures inside the body. Two broad scanner shapes. Learn why the best fit depends on both the picture needed and the person being scanned.</p>
+<a class="start-action" href="#chapter-1">Start reading →</a> · <a href="#contents">Chapters</a>
+<div class="circuit" aria-label="Magnet, then radio waves, then signal, then image"><span>MAGNET</span><b aria-hidden="true">→</b><span>RADIO WAVES</span><b aria-hidden="true">→</b><span>SIGNAL</span><b aria-hidden="true">→</b><span>IMAGE</span></div>
+<p class="boundary">General education, not a scanner recommendation or a safety clearance.</p>
+</section>
+<section class="chapter" id="chapter-1"><h2>1. From magnet to image</h2>
+<p><strong>Magnetic resonance imaging (MRI)</strong> is a way to make pictures of the inside of the body using magnets and radio waves, not X-rays. The scanner listens for tiny signals from the body and uses them to build pictures.</p>
+<ol>
+<li><strong>Set up the signal.</strong> A <strong>magnetic field</strong> is the region where a magnet has an effect. Inside the scanner’s strong field, hydrogen atoms (tiny building blocks of matter) matter because they are abundant in water and fat. Each hydrogen nucleus (the center of the atom) behaves like a tiny magnet. Slightly more point with the field than against it, creating a small combined magnetic effect.</li>
+<li><strong>Send a pulse and listen.</strong> <strong>Radio waves</strong> carry energy through changing electric and magnetic fields. A short burst at the right frequency (rate of oscillation) tips the combined magnetic effect away from its resting direction. That selective response is <strong>resonance</strong>. After the burst, the combined effect rotates and returns toward rest, producing a faint electrical signal in a nearby <strong>receiver coil</strong>, a loop or group of loops of wire.</li>
+<li><strong>Locate and assemble.</strong> Extra coils make small, controlled changes in the field across the body, called <strong>gradients</strong>. These changes leave location clues in the signal. A computer combines many readings to build images, often shown as <strong>slices</strong>, or views through thin layers of the body. Different body materials and structures, called <strong>tissues</strong>, give different signals and return toward rest at different rates. The scanner’s settings can use those differences to make tissues look brighter or darker.</li>
+</ol>
+<p><strong>What to remember:</strong> The scanner measures signals, not light. The image is a calculated map, not a photograph.</p>
+</section>
+<section class="chapter" id="chapter-2"><h2>2. Inside a closed scanner</h2>
+<p>A <strong>closed MRI</strong> usually has a round tunnel called a <strong>bore</strong>. It is generally open at both ends; “closed” means the magnet surrounds the table on all sides. The table slides in until the area being examined is near the center, where the field is most even. Depending on the exam, the head may remain outside.</p>
+<p>Many closed scanners use a <strong>superconducting magnet</strong>: an electric coil kept so cold that current can flow without electrical resistance, or opposition to its flow. This design maintains a strong field, typically directed along the tunnel. Other coils send the radio bursts, listen for the response, and make the small field changes that locate it. A <strong>wide-bore MRI</strong> is still a closed scanner; it just has a larger opening. A shorter tunnel can also feel less enclosed.</p>
+</section>
+<section class="chapter" id="chapter-3"><h2>3. How an open scanner differs</h2>
+<p>An <strong>open MRI</strong> leaves more open space at the sides. A common design resembles two broad plates, one above and one below the table, with the field running between them. Some use <strong>permanent magnets</strong>, which maintain a field without electric current. Others use <strong>electromagnets</strong>, which create a field with current in coils; some of these are superconducting. The shape and the way the magnet produces its field are separate choices.</p>
+<p>Some open systems have supports to one side; some <strong>upright MRI</strong> systems place the magnet assemblies to either side of a person who can sit or stand for certain exams. Not every open system scans upright. All still need a controlled field, radio pulses, a receiver, and location clues. “Open” does not guarantee unlimited room: the gap between magnets and the space taken up by the receiver still matter.</p>
+<div class="lab">
+<p class="eyebrow">FIGURE 01 / SCANNER GEOMETRY</p><h3>Look at the opening</h3>
+<p>Switch views to compare tunnel width and side access. These are front views, not to scale; the shapes cannot tell you whether a particular scanner fits.</p>
+<div class="lab-controls" hidden data-controls><label for="shape">Scanner design</label><select id="shape"><option value="standard">Standard bore</option><option value="wide">Wide bore</option><option value="open">Open-sided</option></select></div>
+<svg id="geometry" viewBox="0 0 320 170" role="img" aria-label="Front view of a standard tunnel surrounding the table">
+<circle class="magnet" cx="160" cy="82" r="59" fill="none" stroke-width="25"/>
+<g class="plates" hidden><rect x="70" y="19" width="180" height="27" rx="6"/><rect x="70" y="122" width="180" height="27" rx="6"/></g>
+<ellipse cx="160" cy="89" rx="26" ry="12" fill="#739640"/><rect x="113" y="101" width="94" height="9" rx="3" fill="#315841"/>
+</svg>
+<p class="result" id="shape-note" role="status">Standard bore: the housing surrounds the table on all sides in this front view.</p>
+</div>
+</section>
+<section class="chapter" id="chapter-4"><h2>4. What magnet strength buys</h2>
+<p>A <strong>tesla (T)</strong> is a unit of magnetic field strength. Closed scanners commonly use 1.5 T or 3 T. Many open scanners operate below 1 T, though some open designs reach 1 T or more. Shape alone does not tell you the strength, and 3 T is not automatically twice as good as 1.5 T.</p>
+<p>A stronger field generally makes more usable signal available. That can improve the <strong>signal-to-noise ratio</strong>, how clearly the wanted signal stands out from random variation. The scan team can spend that advantage on showing smaller details, collecting data faster, or making a cleaner picture. To make up for weaker signal, a lower-field system might repeat measurements and average them, which takes time, or show less fine detail. How long the exam actually takes also depends on the receiver, the settings, the number of pictures, and whether movement forces a repeat.</p>
+<p>Stronger fields can also worsen some <strong>artifacts</strong> (image distortions or patterns that do not represent the body), for example near metal cleared for scanning. Radio-wave heating can also constrain which settings are allowed. The right question is whether the scanner can produce the needed picture, not just whether its number is higher.</p>
+<div class="lab">
+<p class="eyebrow">LAB 02 / SIGNAL AND NOISE</p><h3>Find the same pattern twice</h3>
+<p>Switch between two drawings with the same random variation. A stronger drawn signal makes the central rise easier to distinguish. This is a teaching sketch, not a scanner measurement or a conversion from tesla to image quality.</p>
+<div class="lab-controls" hidden data-controls><label for="signal">Signal level</label><select id="signal"><option value="weak">Weaker signal</option><option value="strong">Stronger signal</option></select></div>
+<svg viewBox="0 0 320 125" role="img" id="signal-plot" aria-label="A small central rise partly masked by random variation"><path d="M10 105H310" stroke="#9eae9c"/><polyline id="trace" points="10,92 35,77 60,97 85,80 110,88 135,65 160,76 185,63 210,89 235,78 260,96 285,78 310,91" fill="none" stroke="#315841" stroke-width="3"/></svg>
+<p class="result" id="signal-note" role="status">Weaker signal: the central rise is hard to separate from nearby bumps.</p>
+</div>
+</section>
+<section class="chapter" id="chapter-5"><h2>5. Matching scanner to exam</h2>
+<p>The ordering clinician (the health professional requesting the exam) starts with a question: What must the images show? The <strong>radiologist</strong>, a doctor trained to interpret medical images, and the scanning team choose a scanner and <strong>protocol</strong>, the set of pictures and settings needed to answer it. They also check equipment availability, safety, whether the person can fit, and whether they can stay still.</p>
+<p>High-field closed scanners are often preferred when very fine detail or specialized techniques are needed, such as for certain brain, heart, or blood-vessel exams. An open scanner may be suitable for some routine joint or spine exams if the site has the right equipment and protocol. This is not a fixed rule by body part: two exams of the same joint can ask very different questions.</p>
+<div class="lab"><p class="eyebrow">CHECK 03 / SCANNER CHOICE</p><h3>Which factor changes the choice?</h3><p>Predict the answer, then reveal the reasoning. The point is to practice comparing requirements, not to pick a machine for a real exam.</p>
+<details><summary>Very fine detail is essential, and either design is tolerable. What is worth checking first?</summary><p>Whether a high-field system supports the needed protocol. A closed scanner is often a candidate, but strength by itself does not establish suitability.</p></details>
+<details><summary>Either machine can answer the question, but staying still in a tunnel is difficult. What changes?</summary><p>Comfort can determine whether the scan succeeds. An open or wide-bore option may help; movement can erase the advantage of a stronger signal.</p></details>
+<details><summary>The question concerns a structure while standing. Does any open scanner work?</summary><p>No. The site needs a system that supports standing and can produce usable images of that region in that position.</p></details></div>
+</section>
+<section class="chapter" id="chapter-6"><h2>6. Comfort, space, and positioning</h2>
+<p><strong>Claustrophobia</strong> is fear or distress in confined spaces. Open sides or a wider, shorter tunnel can help, but a nearby upper plate or a receiver around the head can still feel close. A clear explanation, a mirror where available, and communication with staff may also help. Useful images depend on staying still, so comfort can matter as much as equipment specifications.</p>
+<p>For larger bodies, table weight limits and usable clearance are separate checks. The team has to account for the region being scanned, padding, and the receiver, not just the advertised opening. For children, preparation and simple instructions can help; a more open view is not a substitute for deciding whether the child can stay still. If <strong>sedation</strong> (medicine used to reduce alertness or help someone stay still) is considered, it requires separate safety planning and monitoring.</p>
+<p>Some open systems allow exams in positions that a tunnel cannot accommodate, including certain seated or <strong>weight-bearing</strong> views, where body weight presses on the structure being examined. Only some clinical questions benefit from those views, and the equipment must support the exact position and exam.</p>
+</section>
+<section class="chapter" id="chapter-7"><h2>7. What a scan feels like</h2>
+<p>Before entering the room, expect safety questions and instructions about removing items such as jewelry and electronics. A <strong>technologist</strong>, the professional who operates the scanner, positions the body with cushions and places a receiver near the area being examined. You may enter head first or feet first. During the scan, staff can usually talk with you by intercom and provide a way to call them.</p>
+<p>Expect knocking or buzzing when the coils that create the gradients change their magnetic fields quickly. Both open and closed systems can make noise, and staff provide appropriate hearing protection. The technologist may ask you to stay still or briefly hold your breath. Many exams take roughly 30–60 minutes, though some are shorter or longer; preparation and waiting are extra.</p>
+<p>Some exams use a <strong>contrast agent</strong>, often called contrast dye, to make certain tissues or blood vessels easier to distinguish. MRI contrast is often a medicine containing gadolinium (a metallic element bound within a chemical compound), injected into a vein. It changes how nearby hydrogen signals behave; it does not simply color the tissue. Many exams do not need it. The team weighs the benefit against risks, including prior reactions and relevant kidney problems.</p>
+</section>
+<section class="chapter" id="chapter-8"><h2>8. Safety questions and myths</h2>
+<h3>“No X-rays means no risk.”</h3><p>MRI does not use <strong>ionizing radiation</strong>, energy that can knock electrons (tiny negatively charged particles) off atoms, as X-rays can. It does have other risks: strong magnets can pull certain objects toward the scanner, radio waves can cause heating, and the scanner’s noise can harm hearing without protection. The main magnet may remain on even when no scan is running. Open systems also require safety screening.</p>
+<h3>“Any metal rules out MRI.”</h3><p>No. The team needs to know what it is and where it is. Some metals can move, heat, or distort pictures. An <strong>implant</strong> is a device or material placed inside the body. An implant labeled <strong>MR Conditional</strong> has been shown safe only under specified conditions, which can include field strength and scan settings. The team checks the exact model and the specific scanner conditions; a lower-field or open scanner is not a workaround for an unknown device. Report metal fragments as well as implanted devices.</p>
+<h3>“Tattoos always prevent scanning.”</h3><p>Most do not, but tattoo or permanent-makeup pigments can rarely warm or irritate skin during MRI. Tell staff about them during screening and alert staff promptly if you feel warmth, burning, or discomfort during the scan.</p>
+</section>
+<section class="chapter" id="sources"><h2>Further reading</h2><ul>
+<li><a href="https://www.nibib.nih.gov/science-education/science-topics/magnetic-resonance-imaging-mri">National Institute of Biomedical Imaging and Bioengineering: how MRI works</a></li>
+<li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8505165/">Low-field MRI: a review of magnet designs and imaging tradeoffs</a></li>
+<li><a href="https://www.radiologyinfo.org/en/info/bodymr">RadiologyInfo: body MRI and what to expect</a></li>
+<li><a href="https://www.fda.gov/radiation-emitting-products/mri-magnetic-resonance-imaging/benefits-and-risks">U.S. Food and Drug Administration: MRI benefits and risks</a></li>
+</ul></section>
+<section class="chapter" id="glossary"><h2>Glossary</h2><dl>
+<dt>Artifact</dt><dd>A feature or distortion in an image that does not faithfully represent the body.</dd>
+<dt>Bore</dt><dd>The tunnel through a closed scanner. A wide bore is a wider tunnel, not open sides.</dd>
+<dt>Claustrophobia</dt><dd>Fear or distress in confined spaces.</dd>
+<dt>Closed, open, and upright MRI</dt><dd>Closed systems surround the table with a tunnel; open systems offer side access; upright systems support some scans while sitting or standing.</dd>
+<dt>Contrast agent</dt><dd>A substance used to change how structures appear in the image; many MRI exams do not need it.</dd>
+<dt>Electromagnet, permanent magnet, and superconducting magnet</dt><dd>An electromagnet uses electric current; a permanent magnet does not need current. A superconducting magnet is an electromagnet whose very cold coil carries current without electrical resistance.</dd>
+<dt>Field strength and tesla (T)</dt><dd>How strong the magnetic field is, measured in units called tesla.</dd>
+<dt>Frequency and resonance</dt><dd>Frequency is the rate at which a wave cycles. Resonance is the selective response to a wave at the right frequency.</dd>
+<dt>Gadolinium</dt><dd>A metallic element used in bound form in many MRI contrast medicines.</dd>
+<dt>Gradient</dt><dd>A controlled change in field strength across space that helps locate the signal.</dd>
+<dt>Hydrogen nucleus</dt><dd>The center of a hydrogen atom; MRI commonly measures signals from these nuclei in water and fat.</dd>
+<dt>Implant and MR Conditional</dt><dd>An implant is something placed inside the body. MR Conditional means an item has been shown safe only under specified MRI conditions.</dd>
+<dt>Ionizing radiation</dt><dd>Energy that can remove electrons from atoms. MRI does not use this kind of radiation.</dd>
+<dt>Magnetic field</dt><dd>The region where a magnet has an effect.</dd>
+<dt>MRI</dt><dd>Magnetic resonance imaging: pictures made by measuring signals produced with magnetic fields and radio waves.</dd>
+<dt>Protocol</dt><dd>The set of pictures and scanner settings planned for a particular exam.</dd>
+<dt>Radio wave and receiver coil</dt><dd>A radio wave carries energy through changing electric and magnetic fields. A receiver coil is a wire loop or set of loops that detects the signal from the body.</dd>
+<dt>Radiologist and technologist</dt><dd>The radiologist is a doctor trained to interpret images; the technologist operates the scanner and helps position the person.</dd>
+<dt>Sedation</dt><dd>Medicine used to reduce alertness or help someone stay still under appropriate supervision.</dd>
+<dt>Signal-to-noise ratio</dt><dd>How much wanted signal there is compared with unwanted random variation.</dd>
+<dt>Slice and tissue</dt><dd>A slice shows a thin layer of the body; a tissue is a body material or structure, such as muscle or fat.</dd>
+<dt>Weight-bearing</dt><dd>Supporting body weight, as when standing, while the relevant structure is imaged.</dd>
+</dl></section>
+<footer>OPEN VS CLOSED MRI · RONNIE’S EXPERIMENTS</footer>
+</main></div></body></html>

@@ -1,5 +1,19 @@
 [
   {
+    "id": "open-vs-closed-mri-textbook",
+    "title": "Open vs Closed MRI — A Field Guide",
+    "description": "An eight-chapter beginner’s textbook on how MRI works, how open and closed scanners differ, and what to expect from an exam. Includes interactive scanner and signal diagrams, a decision quiz, and a glossary.",
+    "path": "experiments/open-vs-closed-mri-textbook/",
+    "category": "Education",
+    "tags": [
+      "MRI",
+      "Medical Imaging",
+      "Textbook",
+      "Interactive"
+    ],
+    "date": "2026-11-19"
+  },
+  {
     "id": "three-kingdoms-textbook",
     "title": "Three Kingdoms and Warring States: A Field Guide to China's Most Referenced Era",
     "description": "An illustrated, 23-chapter beginner’s textbook on the Three Kingdoms and Warring States: 16 figure profiles, famous scenes, Guan Yu’s head and the borrowed knife, diplomatic alliances, stratagems, pinyin idiom callouts and a modern-usage cheat sheet. Includes a timeline, two territory diagrams and a history-versus-novel evidence guide.",
