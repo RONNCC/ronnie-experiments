@@ -1,5 +1,20 @@
 [
   {
+    "id": "three-kingdoms-textbook",
+    "title": "Three Kingdoms and Warring States: A Field Guide to China's Most Referenced Era",
+    "description": "An illustrated, 23-chapter beginner’s textbook on the Three Kingdoms and Warring States: 16 figure profiles, famous scenes, Guan Yu’s head and the borrowed knife, diplomatic alliances, stratagems, pinyin idiom callouts and a modern-usage cheat sheet. Includes a timeline, two territory diagrams and a history-versus-novel evidence guide.",
+    "path": "experiments/three-kingdoms-textbook/",
+    "category": "Education",
+    "tags": [
+      "Chinese History",
+      "Three Kingdoms",
+      "Warring States",
+      "Literature",
+      "Idioms"
+    ],
+    "date": "2026-11-19"
+  },
+  {
     "id": "multifamily-fieldbook",
     "title": "The Multifamily Fieldbook — From Site Search to Underwriting",
     "description": "A beginner’s Washington multifamily textbook with six chapters, 31 short lessons, twelve product decision rehearsals, a River North reconciliation lab, a one-hour interview route, a copyable glossary and a downloadable full-text edition. Distinguishes supplied project facts, illustrative assumptions and primary-source checks.",
