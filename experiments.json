@@ -1,8 +1,8 @@
 [
   {
     "id": "open-vs-closed-mri-textbook",
-    "title": "Open vs Closed MRI — A Field Guide",
-    "description": "An eight-chapter beginner’s textbook on how MRI works, how open and closed scanners differ, and what to expect from an exam. Includes interactive scanner and signal diagrams, a decision quiz, and a glossary.",
+    "title": "Open vs Closed MRI — A Visual Field Guide",
+    "description": "A picture first beginner’s guide to how MRI works, how open and closed scanners differ, and what to expect from an exam. Eight short chapters, eight figures including a scanner cutaway and a visit timeline, two interactive diagrams, myth cards, a five question practice quiz, and a filterable plain-language glossary.",
     "path": "experiments/open-vs-closed-mri-textbook/",
     "category": "Education",
     "tags": [
