@@ -297,6 +297,25 @@
     "date": "2026-10-25"
   },
   {
+    "id": "financial-markets-textbook",
+    "title": "How Financial Markets Work — A Visual Textbook",
+    "description": "A beginner friendly, source linked book tracing claims, cash, collateral and risk through FX markets, central bank intervention, execution, settlement systems, fiat money and prime brokerage. Eleven illustrated chapters include worked balance sheets, interactive USD/KRW and leverage simulators, an Archegos case study, a linked glossary and clearly marked future topics.",
+    "path": "experiments/financial-markets-textbook/",
+    "category": "Education",
+    "tags": [
+      "Financial Markets",
+      "FX",
+      "Foreign Exchange",
+      "Prime Brokerage",
+      "Settlement",
+      "Central Banks",
+      "Leverage",
+      "Textbook",
+      "Interactive"
+    ],
+    "date": "2026-11-21"
+  },
+  {
     "id": "finance-interview-textbook",
     "title": "Finance Interview Textbook — Seven Career Tracks",
     "description": "An interactive finance interview textbook covering 70 topics across investment banking, private credit, private equity, hedge funds, sales & trading, equity research, and wealth management. Each section includes an original plain-English explanation, formulas and frameworks, checked worked arithmetic, interview model answers, self-checks, search, and saved progress.",
