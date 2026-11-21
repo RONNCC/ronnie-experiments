@@ -97,13 +97,43 @@ class TextbookTests(unittest.TestCase):
 
     def test_nonmarket_examples_are_labeled_illustrative(self):
         self.assertIn("illustrative quote", HTML.lower())
-        self.assertIn("invented teaching assumptions", HTML.lower())
+        self.assertIn("examples labeled illustrative use invented assumptions", HTML.lower())
         self.assertIn("not a live price", HTML.lower())
+
+    def test_opening_map_explains_aggregation_and_preserves_directional_labels(self):
+        self.assertIn("aggregate teaching map that combines roles and simplifies routes", HTML)
+        self.assertIn("This is a simplified aggregate teaching map", HTML)
+        for label in ["securities /", "fund shares", "savings /", "purchase money", "issue proceeds /", "funding"]:
+            self.assertIn(label, HTML)
+        self.assertIn('d="M228 198 H378"', HTML)  # purchase money flows from savers to dealers
+        self.assertIn('d="M378 170 H228"', HTML)  # investment claims flow back
+        self.assertIn('d="M614 115H290"', HTML)  # dollars flow from dealer to buyer
+        self.assertIn('d="M286 177H610"', HTML)  # won flows from buyer to dealer
+
+    def test_archegos_spelling_and_chapter_11_currency_sequence_are_consistent(self):
+        self.assertIn("ARCHEGOS</text>", HTML)
+        chapter = HTML.split('id="c11-worked-trade"', 1)[1].split('<section class="future"', 1)[0]
+        self.assertIn("holds KRW 13.5 billion", chapter)
+        self.assertIn("owes a Korean supplier USD 10 million", chapter)
+        self.assertIn("buys USD 10 million from its bank for KRW 13.5 billion", chapter)
+        self.assertIn("at an illustrative KRW 1,350 per USD", chapter)
+        self.assertIn("then instructs its bank to pay the supplier in USD", chapter)
+        self.assertIn("KRW 13.5bn → dealer", chapter)
+        self.assertIn("USD 10m ← dealer", chapter)
+        self.assertIn("through payment systems and a correspondent bank to the supplier", chapter)
+        self.assertIn("Illustrative two-stage sequence", chapter)
+        self.assertIn("CORRESPONDENT", chapter)
 
     def test_primary_source_appendix_and_developer_note_exist(self):
         self.assertIn("source-archegos", HTML)
         self.assertIn("source-bis-cls", HTML)
         self.assertIn("source-chips", HTML)
+        for verified_url in [
+            "https://www.bis.org/publications/qr-202512/global-fx-markets-when-hedging-takes-centre-stage",
+            "https://www.theclearinghouse.org/payment-systems/chips",
+            "https://www.bankofengland.co.uk/-/media/boe/files/quarterly-bulletin/2014/money-creation-in-the-modern-economy.pdf",
+        ]:
+            self.assertIn(verified_url, HTML)
         self.assertTrue((ROOT / "README.md").exists())
 
 
