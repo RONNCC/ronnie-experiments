@@ -105,8 +105,10 @@ import { convertUsdKrw, simulatePosition } from "./logic.mjs";
   const leverage = document.querySelector("#sim-leverage");
   const gap = document.querySelector("#sim-gap");
   function moneyMillions(value) {
-    if (value <= 0) return "$0";
-    return `$${value.toFixed(3).replace(/0+$/, "").replace(/\.$/, "")}m`;
+    const sign = value < 0 ? "-" : "";
+    const abs = Math.abs(value);
+    if (abs === 0) return "$0";
+    return `${sign}$${abs.toFixed(3).replace(/0+$/, "").replace(/\.$/, "")}m`;
   }
   function updateSimulator() {
     if (!notional || !leverage || !gap) return;
@@ -136,3 +138,4 @@ import { convertUsdKrw, simulatePosition } from "./logic.mjs";
   updateStage();
   updateSimulator();
 })();
+
