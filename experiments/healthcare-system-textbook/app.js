@@ -134,6 +134,9 @@ import { computeAnnualCost, formatUsd } from "./logic.mjs";
   updateStage();
 
   // --- EOB line decoder (Chapter 7) ---------------------------------------
+  // Rows render expanded in the HTML so the page is complete without script;
+  // with JavaScript, collapse them here and wire the Decode toggles.
+  document.querySelectorAll(".eob-detail").forEach(row => { row.hidden = true; });
   document.querySelectorAll(".eob-toggle").forEach(button => {
     button.addEventListener("click", () => {
       const row = button.closest("tr")?.nextElementSibling;
