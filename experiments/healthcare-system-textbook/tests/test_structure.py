@@ -154,6 +154,41 @@ class TextbookTests(unittest.TestCase):
         self.assertIn("Verified November 21, 2026", HTML)
         self.assertTrue((ROOT / "README.md").exists())
 
+    def test_updated_research_sources_and_terms_exist(self):
+        for term in ["term-site-neutral", "term-telehealth", "term-idr"]:
+            self.assertIn(f'id="{term}"', HTML)
+        sources_section = HTML.split('id="sources"', 1)[1]
+        body_section = HTML.split('id="sources"', 1)[0]
+        added_sources = [
+            ("source-cms-nhe-facts", "https://www.cms.gov/data-research/statistics-trends-and-reports/national-health-expenditure-data/nhe-fact-sheet"),
+            ("source-ldi-affordability", "https://ldi.upenn.edu/our-work/research-updates/finding-rare-agreement-on-fixing-the-health-care-affordability-crisis/"),
+            ("source-pennmed-telehealth", "https://www.pennmedicine.org/news/study-finds-telemedicine-visits-cost-far-less-than-office-visits"),
+            ("source-ldi-nurse-staffing", "https://ldi.upenn.edu/our-work/research-updates/pennsylvania-nurses-are-overloaded-putting-patients-at-risk/"),
+            ("source-kff-ehbs-2026", "https://www.kff.org/health-costs/2026-employer-health-benefits-survey/"),
+            ("source-ldi-hdhp", "https://ldi.upenn.edu/our-work/research-updates/high-deductible-health-plans-are-not-the-answer/"),
+            ("source-census-coverage-2025", "https://www.census.gov/library/publications/2026/demo/p60-291.html"),
+            ("source-kff-uninsured", "https://www.kff.org/uninsured/key-facts-about-the-uninsured-population/"),
+            ("source-kff-ma-pa", "https://www.kff.org/medicare/medicare-advantage-insurers-made-nearly-53-million-prior-authorization-determinations-in-2024/"),
+            ("source-kff-partd", "https://www.kff.org/medicare/a-current-snapshot-of-the-medicare-part-d-prescription-drug-benefit/"),
+            ("source-ldi-pa-bottleneck", "https://ldi.upenn.edu/our-work/research-updates/the-billing-bottleneck-how-medicare-advantage-insurers-use-prior-authorization/"),
+            ("source-bmj-pa", "https://www.bmj.com/content/384/bmj-2023-077797"),
+            ("source-ldi-pa-drugs", "https://ldi.upenn.edu/our-work/research-updates/understanding-cmss-proposed-rule-regarding-prior-authorization-for-drugs/"),
+            ("source-ldi-transparency", "https://ldi.upenn.edu/our-work/research-updates/from-secret-health-care-prices-to-too-much-information/"),
+            ("source-kff-marketplace-denials", "https://www.kff.org/patient-consumer-protections/claims-denials-and-appeals-in-aca-marketplace-plans-in-2024/"),
+            ("source-bmj-nsa", "https://www.bmj.com/content/390/bmj-2025-084803"),
+            ("source-ldi-nsa-idr", "https://ldi.upenn.edu/our-work/research-updates/how-the-no-surprises-act-solved-one-problem-and-created-another/"),
+            ("source-ha-nsa-rule", "https://www.healthaffairs.org/content/forefront/long-awaited-no-surprises-act-rule-finalized-1786106891322"),
+            ("source-wharton-pbm", "https://knowledge.wharton.upenn.edu/article/how-employers-are-reining-in-prescription-drug-costs/"),
+            ("source-ldi-pbm-integration", "https://ldi.upenn.edu/our-work/research-updates/when-insurers-acquire-pharmacy-benefit-managers-medicare-members-could-pay-more/"),
+            ("source-ldi-measles", "https://ldi.upenn.edu/our-work/research-updates/u-s-loss-of-measles-elimination-status-raises-risk-of-other-diseases/"),
+            ("source-ldi-child-mortality", "https://ldi.upenn.edu/our-work/research-updates/45-excess-child-deaths-a-day-in-the-u-s/"),
+        ]
+        for source_id, url in added_sources:
+            with self.subTest(source=source_id):
+                self.assertIn(f'id="{source_id}"', sources_section)
+                self.assertIn(url, sources_section)
+                self.assertIn(f'href="#{source_id}"', body_section)
+
     def test_developer_instructions_live_in_readme(self):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         for phrase in ["Add a chapter", "logic.mjs", "tests/logic.test.mjs", "tests/test_structure.py"]:
