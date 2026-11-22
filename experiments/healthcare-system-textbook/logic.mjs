@@ -72,7 +72,7 @@ export function computeAnnualCost({ monthlyPremium, deductible, coinsurancePerce
 }
 
 /**
- * The worked example in Chapter 11: one broken wrist ("Maya's" episode).
+ * The worked example in Chapter 11: one broken arm ("Maya's" episode, specifically her wrist).
  * Employer PPO, $1,500 deductible with $500 already met this year,
  * 20% coinsurance after the deductible, $6,000 out-of-pocket maximum
  * with the same $500 counted toward it.

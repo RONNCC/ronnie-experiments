@@ -194,6 +194,30 @@ class TextbookTests(unittest.TestCase):
         for phrase in ["Add a chapter", "logic.mjs", "tests/logic.test.mjs", "tests/test_structure.py"]:
             self.assertIn(phrase, readme)
 
+    def test_intentionality_review_consistency_pass(self):
+        import re
+
+        self.assertEqual(HTML.count("VERSION 4 · INTENTIONALITY REVIEW"), 2)
+        self.assertNotIn("VERSION 1", HTML)
+
+        body_before_sources, sources_section = HTML.split('id="sources"', 1)
+        defined_sources = set(re.findall(r'id="(source-[^"]+)"', sources_section))
+        cited_sources = set(re.findall(r'href="#(source-[^"]+)"', body_before_sources))
+        self.assertEqual(sorted(defined_sources - cited_sources), [])
+        self.assertEqual(sorted(cited_sources - defined_sources), [])
+
+        body_before_glossary, glossary_rest = HTML.split('id="glossary"', 1)
+        glossary_section = glossary_rest.split('id="sources"', 1)[0]
+        defined_terms = set(re.findall(r'id="(term-[^"]+)"', glossary_section))
+        linked_terms = set(re.findall(r'href="#(term-[^"]+)"', body_before_glossary))
+        self.assertEqual(sorted(defined_terms - linked_terms), [])
+
+        self.assertIn("Illustrative EOB — broken-arm episode", HTML)
+        self.assertIn("breaks her arm, specifically her wrist", HTML)
+        self.assertIn("Maya's broken arm looks like one bill", HTML)
+        self.assertNotIn("wrist fracture episode", HTML)
+        self.assertNotIn("Maya's wrist fracture", HTML)
+
 
 if __name__ == "__main__":
     unittest.main()
