@@ -1,5 +1,21 @@
 [
   {
+    "id": "startup-comp-calculator",
+    "title": "Startup Equity Offer Calculator — Shares, Dilution, and Exit Payout",
+    "description": "Turn a startup grant into ownership, dilution, and a pretax payout. Enter options or RSUs as shares, percent, or dollar value, plus fully diluted shares outstanding, post money valuation, 409A, preferences raised, and up to six future rounds with pool top ups. Shows ownership at exit, a nonparticipating or participating liquidation waterfall, a payout curve across exit values, break even exit versus salary elsewhere, exercise cost, and a shareable link. All math runs in the browser and is unit tested.",
+    "path": "experiments/startup-comp-calculator/",
+    "category": "Tools",
+    "tags": [
+      "Startups",
+      "Equity",
+      "Stock Options",
+      "Dilution",
+      "Calculator",
+      "Interactive"
+    ],
+    "date": "2026-11-22"
+  },
+  {
     "id": "open-vs-closed-mri-textbook",
     "title": "Open vs Closed MRI — A Visual Field Guide",
     "description": "A picture first beginner’s guide to how MRI works, how open and closed scanners differ, and what to expect from an exam. Eight short chapters, eight figures including a scanner cutaway and a visit timeline, two interactive diagrams, myth cards, a five question practice quiz, and a filterable plain-language glossary.",

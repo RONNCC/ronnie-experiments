@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Startup equity offer calculator: shares, dilution, and exit payout</title>
+  <meta name="description" content="Turn a startup grant into ownership, dilution through future rounds, and a pretax payout after the liquidation preference stack. Stock options or RSUs, shares or percent or dollars, all computed in your browser.">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#f7f6f2">
+  <link rel="canonical" href="https://sghose.me/ronnie-experiments/experiments/startup-comp-calculator/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Startup equity offer calculator">
+  <meta property="og:description" content="Shares to percent, percent to dollars, dollars after dilution and preferences. A calculator that shows its math.">
+  <meta property="og:url" content="https://sghose.me/ronnie-experiments/experiments/startup-comp-calculator/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Startup equity offer calculator">
+  <meta name="twitter:description" content="Shares to percent, percent to dollars, dollars after dilution and preferences.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.mjs"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="back-link" href="../../">
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3.5 5.5 8l4.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        All experiments
+      </a>
+      <nav class="nav-rail" id="navRail" aria-label="Sections">
+        <a href="#calculator">Calculator</a>
+        <a href="#dilution">Dilution</a>
+        <a href="#exits">Exit payout</a>
+        <a href="#math">The math</a>
+        <a href="#ask">Before you sign</a>
+        <a href="#glossary">Glossary</a>
+      </nav>
+      <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="navRail" aria-label="Open section menu">
+        <svg viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <path class="line-a" d="M2 6.5h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          <path class="line-b" d="M2 11.5h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero shell">
+      <p class="eyebrow">Startup equity</p>
+      <h1 class="heading-2 hero-title">What is your startup offer<br> actually worth?</h1>
+      <p class="hero-sub body-lg">
+        Turn a grant into a percent, the percent into dollars, and the dollars into a range
+        that survives future rounds and the preference stack.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#calculator">Enter your offer</a>
+        <span class="caption-2 muted">Runs in your browser. Nothing you type leaves this page.</span>
+      </div>
+    </section>
+
+    <section id="calculator" class="shell section calc" aria-labelledby="calcTitle">
+      <h2 id="calcTitle" class="sr-only">Calculator</h2>
+      <form class="calc-form" id="calcForm" novalidate autocomplete="off">
+
+        <fieldset class="card">
+          <legend class="card-title"><span class="step">1</span> Your offer</legend>
+
+          <div class="field">
+            <span class="label" id="grantTypeLabel">Grant type</span>
+            <div class="segmented" role="radiogroup" aria-labelledby="grantTypeLabel">
+              <label><input type="radio" name="grantType" value="options" checked><span>Stock options</span></label>
+              <label><input type="radio" name="grantType" value="rsu"><span>RSUs</span></label>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="label" id="grantModeLabel">The offer letter states the grant as</span>
+            <div class="segmented" role="radiogroup" aria-labelledby="grantModeLabel">
+              <label><input type="radio" name="grantMode" value="shares" checked><span>Shares</span></label>
+              <label><input type="radio" name="grantMode" value="percent"><span>Percent</span></label>
+              <label><input type="radio" name="grantMode" value="value"><span>Dollar value</span></label>
+            </div>
+          </div>
+
+          <div class="row-2">
+            <label class="field">
+              <span class="label" id="grantAmountLabel">Number of shares</span>
+              <input class="input" name="grantAmount" data-kind="shares" inputmode="decimal" aria-describedby="grantAmountHelp">
+              <span class="help" id="grantAmountHelp">Accepts shorthand like 48k.</span>
+            </label>
+            <label class="field" data-show="options">
+              <span class="label">Strike price per share</span>
+              <input class="input" name="strike" data-kind="price" inputmode="decimal">
+              <span class="help">Usually the 409A value on your grant date.</span>
+            </label>
+          </div>
+
+          <div class="row-3">
+            <label class="field">
+              <span class="label">Vesting years</span>
+              <input class="input" name="vestYears" data-kind="number" inputmode="decimal">
+            </label>
+            <label class="field">
+              <span class="label">Cliff months</span>
+              <input class="input" name="cliffMonths" data-kind="number" inputmode="decimal">
+            </label>
+            <label class="field">
+              <span class="label">Vests</span>
+              <select class="input" name="frequency">
+                <option value="monthly">Monthly</option>
+                <option value="quarterly">Quarterly</option>
+                <option value="annual">Annually</option>
+              </select>
+            </label>
+          </div>
+
+          <label class="field">
+            <span class="label">Base salary at this startup</span>
+            <input class="input" name="salary" data-kind="money" inputmode="decimal">
+          </label>
+        </fieldset>
+
+        <fieldset class="card">
+          <legend class="card-title"><span class="step">2</span> The company today</legend>
+
+          <div class="row-2">
+            <label class="field">
+              <span class="label">Fully diluted shares outstanding</span>
+              <input class="input" name="fdShares" data-kind="shares" inputmode="decimal">
+              <span class="help">Include every option, warrant, and the unissued pool.</span>
+            </label>
+            <label class="field">
+              <span class="label">Last round post money valuation</span>
+              <input class="input" name="postMoney" data-kind="money" inputmode="decimal">
+              <span class="help" id="priceReadout">Implied preferred price: computing</span>
+            </label>
+          </div>
+
+          <div class="row-2">
+            <label class="field">
+              <span class="label">409A value per common share</span>
+              <input class="input" name="fmv" data-kind="price" inputmode="decimal">
+              <span class="help">The company sets this for tax purposes. It is usually below the preferred price.</span>
+            </label>
+            <label class="field">
+              <span class="label">Total raised to date</span>
+              <input class="input" name="raisedToDate" data-kind="money" inputmode="decimal">
+              <span class="help">Treated as the liquidation preference already ahead of common.</span>
+            </label>
+          </div>
+
+          <div class="row-2">
+            <label class="field">
+              <span class="label">Investors' share of the company today</span>
+              <input class="input" name="investorPct" data-kind="percent" inputmode="decimal">
+              <span class="help">Percent of fully diluted shares held as preferred stock.</span>
+            </label>
+            <label class="field">
+              <span class="label">Preference multiple on new rounds</span>
+              <select class="input" name="prefMultiple">
+                <option value="1">1x</option>
+                <option value="1.5">1.5x</option>
+                <option value="2">2x</option>
+                <option value="3">3x</option>
+              </select>
+            </label>
+          </div>
+
+          <label class="check">
+            <input type="checkbox" name="participating">
+            <span>
+              <span class="body-5">Participating preferred</span>
+              <span class="help">Investors take their preference and then also share the rest. Leave off for the more common nonparticipating terms.</span>
+            </span>
+          </label>
+        </fieldset>
+
+        <fieldset class="card">
+          <legend class="card-title"><span class="step">3</span> Future rounds</legend>
+          <p class="help card-lede">Each round sells new shares and can top up the option pool before the money comes in. Both dilute you.</p>
+          <div class="rounds" id="rounds" role="list"></div>
+          <div class="rounds-empty" id="roundsEmpty" hidden>
+            <p class="body-6">No future rounds. The exit happens on today's cap table.</p>
+          </div>
+          <button class="btn btn-ghost btn-sm" type="button" id="addRound">
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            Add a round
+          </button>
+        </fieldset>
+
+        <fieldset class="card">
+          <legend class="card-title"><span class="step">4</span> Exit and your time</legend>
+
+          <div class="row-2">
+            <label class="field">
+              <span class="label">Exit happens after</span>
+              <select class="input" name="exitStage" id="exitStage"></select>
+            </label>
+            <label class="field">
+              <span class="label">Exit value</span>
+              <input class="input" name="exitValue" data-kind="money" inputmode="decimal">
+            </label>
+          </div>
+          <label class="field">
+            <span class="sr-only">Exit value slider</span>
+            <input class="range" type="range" id="exitSlider" min="0" max="1000" step="1" aria-label="Exit value, log scale">
+            <span class="range-scale caption-5"><span>$1M</span><span>$100M</span><span>$10B</span></span>
+          </label>
+
+          <div class="row-3">
+            <label class="field">
+              <span class="label">Years until exit</span>
+              <input class="input" name="yearsToExit" data-kind="number" inputmode="decimal">
+            </label>
+            <label class="field">
+              <span class="label">Years you stay</span>
+              <input class="input" name="yearsStay" data-kind="number" inputmode="decimal">
+            </label>
+            <label class="field">
+              <span class="label">Salary elsewhere</span>
+              <input class="input" name="marketSalary" data-kind="money" inputmode="decimal">
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="form-actions">
+          <button class="btn btn-primary" type="button" id="copyLink">Copy share link</button>
+          <button class="btn btn-ghost" type="button" id="resetExample">Reset to example</button>
+          <span class="caption-2 muted" id="actionStatus" role="status" aria-live="polite"></span>
+        </div>
+      </form>
+
+      <aside class="results" aria-labelledby="resultsTitle">
+        <div class="results-inner card" id="results" aria-live="polite">
+          <h2 id="resultsTitle" class="caption-3 eyebrow-sm">Your pretax payout at a <span data-out="exitValue">$900M</span> exit</h2>
+          <p class="big-number" data-out="payout">$0</p>
+          <p class="body-6 muted" data-out="payoutSub"></p>
+
+          <dl class="stats">
+            <div><dt>Ownership today</dt><dd data-out="ownershipToday"></dd><span class="caption-5" data-out="sharesLine"></span></div>
+            <div><dt>Ownership at exit</dt><dd data-out="ownershipAtExit"></dd><span class="caption-5" data-out="keptLine"></span></div>
+            <div><dt>Paper value today</dt><dd data-out="paperValue"></dd><span class="caption-5" data-out="paperLine"></span></div>
+            <div><dt data-out="costLabel">Cost to exercise</dt><dd data-out="exerciseCost"></dd><span class="caption-5" data-out="costLine"></span></div>
+            <div><dt>Break even exit</dt><dd data-out="breakEven"></dd><span class="caption-5" data-out="breakEvenLine"></span></div>
+            <div><dt>Total comp per year</dt><dd data-out="annualComp"></dd><span class="caption-5" data-out="annualLine"></span></div>
+          </dl>
+
+          <ul class="notes" id="notes"></ul>
+          <div class="error-box" id="errorBox" role="alert" hidden></div>
+        </div>
+      </aside>
+    </section>
+
+    <section id="dilution" class="shell section reveal" aria-labelledby="dilutionTitle">
+      <div class="section-head">
+        <p class="eyebrow">Dilution</p>
+        <h2 id="dilutionTitle" class="heading-4">Who owns the company, round by round</h2>
+        <p class="body-3 muted section-lede">Your share count never changes. The pie it sits in grows each time the company sells new shares or enlarges the option pool.</p>
+      </div>
+      <div class="card">
+        <div class="stack-chart" id="stackChart"></div>
+        <ul class="legend caption-4" id="stackLegend"></ul>
+      </div>
+      <div class="table-wrap card">
+        <table class="data-table" id="roundTable">
+          <caption class="sr-only">Cap table by stage</caption>
+          <thead>
+            <tr>
+              <th scope="col">Stage</th>
+              <th scope="col">Raise</th>
+              <th scope="col">Post money</th>
+              <th scope="col">Price per share</th>
+              <th scope="col">Round dilution</th>
+              <th scope="col">Your ownership</th>
+              <th scope="col">Your stake at round price</th>
+              <th scope="col">Preference stack</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="exits" class="shell section reveal" aria-labelledby="exitsTitle">
+      <div class="section-head">
+        <p class="eyebrow">Exit payout</p>
+        <h2 id="exitsTitle" class="heading-4">What you take home across exit values</h2>
+        <p class="body-3 muted section-lede">The flat start of the curve is the preference stack: investors are paid back before common sees a dollar. Move your pointer over the chart to read any point.</p>
+      </div>
+      <div class="card chart-card">
+        <div class="payout-chart" id="payoutChart"></div>
+        <ul class="legend caption-4">
+          <li><span class="swatch swatch-accent"></span>Your pretax payout</li>
+          <li><span class="swatch swatch-dash"></span>Cash you give up versus salary elsewhere</li>
+          <li><span class="swatch swatch-dot"></span>Preference stack</li>
+        </ul>
+      </div>
+      <div class="split">
+        <div class="table-wrap card">
+          <h3 class="title-3 table-title">Scenarios</h3>
+          <table class="data-table" id="scenarioTable">
+            <caption class="sr-only">Payout at multiples of the last post money valuation</caption>
+            <thead>
+              <tr><th scope="col">Exit</th><th scope="col">Exit value</th><th scope="col">Per common share</th><th scope="col">Your payout</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="table-wrap card">
+          <h3 class="title-3 table-title">Waterfall at your exit value</h3>
+          <table class="data-table" id="waterfallTable">
+            <caption class="sr-only">How the exit is split</caption>
+            <thead>
+              <tr><th scope="col">Holder</th><th scope="col">Takes</th><th scope="col">Payout</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell section tagline" aria-label="Summary">
+      <p class="heading-3 tagline-text" id="tagline">A share count is not a percent. A percent is not a payout. Ask for the numbers that connect them.</p>
+    </section>
+
+    <section id="math" class="shell section reveal" aria-labelledby="mathTitle">
+      <div class="section-head">
+        <p class="eyebrow">The math</p>
+        <h2 id="mathTitle" class="heading-4">How each number is computed</h2>
+      </div>
+      <ol class="math-grid">
+        <li class="card">
+          <h3 class="title-2">Ownership</h3>
+          <p class="formula">your shares ÷ fully diluted shares</p>
+          <p class="body-6 muted">A dollar value grant is converted at the implied preferred price, post money ÷ fully diluted shares. Check which price your offer letter used.</p>
+        </li>
+        <li class="card">
+          <h3 class="title-2">Dilution per round</h3>
+          <p class="formula">raise ÷ post money + pool top up</p>
+          <p class="body-6 muted">New investors buy raise ÷ post money of the company. A pool top up placed in the pre money dilutes existing holders only. You keep one minus both.</p>
+        </li>
+        <li class="card">
+          <h3 class="title-2">Preference stack</h3>
+          <p class="formula">raised to date + Σ raise × multiple</p>
+          <p class="body-6 muted">All series are paid pari passu, side by side. Nonparticipating series convert to common when converting pays more than their preference.</p>
+        </li>
+        <li class="card">
+          <h3 class="title-2">Per common share</h3>
+          <p class="formula">(exit − unconverted preferences) ÷ (common + converted preferred)</p>
+          <p class="body-6 muted">The unissued pool counts as common, the fully diluted view. That slightly understates value if part of the pool is never granted.</p>
+        </li>
+        <li class="card">
+          <h3 class="title-2">Your payout</h3>
+          <p class="formula">vested shares × max(0, per share − strike)</p>
+          <p class="body-6 muted">RSUs ignore the strike. Vesting stops when you leave, so a short stay caps the vested shares even if the exit comes later.</p>
+        </li>
+        <li class="card">
+          <h3 class="title-2">Break even exit</h3>
+          <p class="formula">smallest exit where payout ≥ salary gap × years you stay</p>
+          <p class="body-6 muted">Found by bisection, which works because your payout never falls as the exit value rises. All figures are before tax.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section id="ask" class="shell section reveal" aria-labelledby="askTitle">
+      <div class="section-head">
+        <p class="eyebrow">Before you sign</p>
+        <h2 id="askTitle" class="heading-4">Questions that fill in this calculator</h2>
+        <p class="body-3 muted section-lede">Companies often answer these on request. Without the first two, a share count tells you almost nothing.</p>
+      </div>
+      <ol class="ask-list">
+        <li class="card"><h3 class="title-3">How many fully diluted shares are outstanding?</h3><p class="body-6 muted">Ask whether the figure includes the full option pool, warrants, and convertible notes or SAFEs that have not converted yet.</p></li>
+        <li class="card"><h3 class="title-3">What was the price per share in the last round, and what is the current 409A?</h3><p class="body-6 muted">The preferred price shows what investors paid. The 409A sets your strike and the tax you owe if you exercise early.</p></li>
+        <li class="card"><h3 class="title-3">How much preference is ahead of common, and is any of it participating?</h3><p class="body-6 muted">Total raised is a starting estimate. Multiples above 1x or participation make the flat part of the payout curve longer.</p></li>
+        <li class="card"><h3 class="title-3">How long do I have to exercise after leaving?</h3><p class="body-6 muted">A short window can force a large purchase, and possibly a tax bill, within weeks of leaving. Some companies offer longer windows.</p></li>
+        <li class="card"><h3 class="title-3">Can I exercise early, before shares vest?</h3><p class="body-6 muted">Early exercise with an 83(b) election can start the capital gains clock sooner. It also puts your own money at risk. Talk to a tax advisor first.</p></li>
+        <li class="card"><h3 class="title-3">What happens to unvested shares if the company is acquired?</h3><p class="body-6 muted">Single or double trigger acceleration decides whether unvested shares vest at a sale. This calculator assumes no acceleration.</p></li>
+      </ol>
+    </section>
+
+    <section id="glossary" class="shell section reveal" aria-labelledby="glossaryTitle">
+      <div class="section-head">
+        <p class="eyebrow">Glossary</p>
+        <h2 id="glossaryTitle" class="heading-4">Terms in plain language</h2>
+      </div>
+      <dl class="glossary card">
+        <div><dt>Fully diluted shares</dt><dd>Every share that exists or could exist: common, preferred, granted options, and the unissued option pool.</dd></div>
+        <div><dt>Post money valuation</dt><dd>The company's price right after a round closes: pre money plus the cash raised.</dd></div>
+        <div><dt>Preferred stock</dt><dd>What investors usually buy. It carries a liquidation preference and other rights common stock lacks.</dd></div>
+        <div><dt>Liquidation preference</dt><dd>The amount preferred holders get back before common in a sale, usually 1x what they invested.</dd></div>
+        <div><dt>Participating</dt><dd>A preference term where investors take their money back and also share in the rest as if converted.</dd></div>
+        <div><dt>Option pool top up</dt><dd>New shares reserved for future hires, usually created in the pre money so only existing holders are diluted.</dd></div>
+        <div><dt>Stock option</dt><dd>The right to buy a share at a fixed strike price. Worth the spread between share value and strike.</dd></div>
+        <div><dt>RSU</dt><dd>Restricted stock unit. A promise of a share with no purchase price, usually taxed as income when it settles.</dd></div>
+        <div><dt>409A valuation</dt><dd>An independent appraisal of common stock that sets option strike prices for US tax purposes.</dd></div>
+        <div><dt>Cliff</dt><dd>The service period before any shares vest. With a one year cliff, a quarter of a four year grant vests at once at month twelve.</dd></div>
+        <div><dt>Pari passu</dt><dd>Paid side by side at equal priority, in proportion to each claim.</dd></div>
+        <div><dt>Exercise window</dt><dd>How long you have after leaving to buy your vested options before they expire.</dd></div>
+      </dl>
+    </section>
+  </main>
+
+  <a class="mobile-summary" id="mobileSummary" href="#results" data-show="false">
+    <span class="caption-4 muted">Payout at <span data-out="exitValue">$900M</span></span>
+    <strong data-out="miniPayout">$0</strong>
+    <span class="caption-3">See results</span>
+  </a>
+
+  <footer class="shell footer">
+    <p class="caption-2 muted">
+      An estimate, not tax, legal, or investment advice. Real cap tables have more terms than this model:
+      seniority between series, caps on participation, convertible notes, and taxes.
+    </p>
+    <p class="caption-2"><a href="../../">Back to all experiments</a></p>
+  </footer>
+</body>
+</html>
