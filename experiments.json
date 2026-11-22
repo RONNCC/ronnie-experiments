@@ -1,5 +1,65 @@
 [
   {
+    "id": "open-vs-closed-mri-textbook",
+    "title": "Open vs Closed MRI — A Visual Field Guide",
+    "description": "A picture first beginner’s guide to how MRI works, how open and closed scanners differ, and what to expect from an exam. Eight short chapters, eight figures including a scanner cutaway and a visit timeline, two interactive diagrams, myth cards, a five question practice quiz, and a filterable plain-language glossary.",
+    "path": "experiments/open-vs-closed-mri-textbook/",
+    "category": "Education",
+    "tags": [
+      "MRI",
+      "Medical Imaging",
+      "Textbook",
+      "Interactive"
+    ],
+    "date": "2026-11-19"
+  },
+  {
+    "id": "three-kingdoms-textbook",
+    "title": "Three Kingdoms and Warring States: A Field Guide to China's Most Referenced Era",
+    "description": "An illustrated, 23-chapter beginner’s textbook on the Three Kingdoms and Warring States: 16 figure profiles, famous scenes, Guan Yu’s head and the borrowed knife, diplomatic alliances, stratagems, pinyin idiom callouts and a modern-usage cheat sheet. Includes a timeline, two territory diagrams and a history-versus-novel evidence guide.",
+    "path": "experiments/three-kingdoms-textbook/",
+    "category": "Education",
+    "tags": [
+      "Chinese History",
+      "Three Kingdoms",
+      "Warring States",
+      "Literature",
+      "Idioms"
+    ],
+    "date": "2026-11-19"
+  },
+  {
+    "id": "multifamily-fieldbook",
+    "title": "The Multifamily Fieldbook — From Site Search to Underwriting",
+    "description": "A beginner’s Washington multifamily textbook with six chapters, 31 short lessons, twelve product decision rehearsals, a River North reconciliation lab, a one-hour interview route, a copyable glossary and a downloadable full-text edition. Distinguishes supplied project facts, illustrative assumptions and primary-source checks.",
+    "path": "experiments/multifamily-fieldbook/",
+    "category": "Education",
+    "tags": [
+      "Real Estate",
+      "Multifamily",
+      "Washington",
+      "Zoning",
+      "Underwriting",
+      "Interview Prep"
+    ],
+    "date": "2026-11-18"
+  },
+  {
+    "id": "hold-music-lab",
+    "title": "Why Hold Music Sounds Terrible — The Phone Audio Lab",
+    "description": "An interactive lab explaining why hold music sounds awful over the phone: the 300 to 3400 Hz telephone tunnel, 8 kHz sampling and Nyquist aliasing, mu-law companding and speech codecs, a live WebAudio listening lab with music and voice through simulated phone chains, the PSTN call path with jitter and loss, and the wideband and fullband fix. Includes spectrum, sampling, and codec visualizations, a quiz, and a glossary.",
+    "path": "experiments/hold-music-lab/",
+    "category": "Education",
+    "tags": [
+      "Telecom",
+      "Audio",
+      "Codecs",
+      "Sampling",
+      "Interactive"
+    ],
+    "date": "2026-11-17"
+  },
+  {
     "id": "brake-heat-lab",
     "title": "Brake heat lab: why brakes fade",
     "description": "An interactive lab on brake fade, heat soak, and vapor lock for every vehicle, not only race cars. Five simulations cover kinetic energy per stop, the thermal barrier from disc to fluid, fade over laps with clean versus blocked ducts, altitude and air density, and vapor lock pedal travel. Change the vehicle, altitude, airflow, and piston material, then watch the model decide whether the fluid boils.",
@@ -250,6 +310,43 @@
       "Evaluation"
     ],
     "date": "2026-10-25"
+  },
+  {
+    "id": "healthcare-system-textbook",
+    "title": "How the US Healthcare System Works — A Visual Textbook",
+    "description": "A beginner friendly, source linked book about the US healthcare system: where care happens, who provides it, how insurance and government programs pay, how claims and EOBs work, denials and appeals, prescription drugs and PBMs, and public health. Eleven illustrated chapters include an insurance cost simulator, an interactive EOB decoder, a claim-journey stepper, a broken-arm worked example with exact, tested arithmetic, a linked glossary and clearly marked future topics.",
+    "path": "experiments/healthcare-system-textbook/",
+    "category": "Education",
+    "tags": [
+      "Healthcare",
+      "Health Insurance",
+      "Medicare",
+      "Medicaid",
+      "Claims",
+      "EOB",
+      "Textbook",
+      "Interactive"
+    ],
+    "date": "2026-11-21"
+  },
+  {
+    "id": "financial-markets-textbook",
+    "title": "How Financial Markets Work — A Visual Textbook",
+    "description": "A beginner friendly, source linked book tracing claims, cash, collateral and risk through FX markets, central bank intervention, execution, settlement systems, fiat money and prime brokerage. Eleven illustrated chapters include worked balance sheets, interactive USD/KRW and leverage simulators, an Archegos case study, a linked glossary and clearly marked future topics.",
+    "path": "experiments/financial-markets-textbook/",
+    "category": "Education",
+    "tags": [
+      "Financial Markets",
+      "FX",
+      "Foreign Exchange",
+      "Prime Brokerage",
+      "Settlement",
+      "Central Banks",
+      "Leverage",
+      "Textbook",
+      "Interactive"
+    ],
+    "date": "2026-11-21"
   },
   {
     "id": "finance-interview-textbook",

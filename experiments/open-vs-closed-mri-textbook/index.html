@@ -1,0 +1,779 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#f7f5ee">
+<title>Open vs closed MRI: a visual field guide</title>
+<meta name="description" content="A picture first beginner's guide to MRI: how a scan makes pictures, how open and closed scanners differ, what magnet strength buys, what an exam feels like, and how the team matches a scanner to the question. Eight short chapters, eight figures, and a practice quiz.">
+<link rel="canonical" href="https://sghose.me/ronnie-experiments/experiments/open-vs-closed-mri-textbook/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Open vs closed MRI: a visual field guide">
+<meta property="og:description" content="Eight short chapters, eight figures, and a practice quiz on how MRI works, how open and closed scanners differ, and what to expect from an exam.">
+<meta property="og:url" content="https://sghose.me/ronnie-experiments/experiments/open-vs-closed-mri-textbook/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Open vs closed MRI: a visual field guide">
+<meta name="twitter:description" content="A picture first guide to MRI scanners, magnet strength, exam day, and safety, written for readers new to the subject.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<marker id="arrowhead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+<path d="M0 0 10 5 0 10z" fill="#56685f"></path>
+</marker>
+<marker id="arrowhead-accent" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+<path d="M0 0 10 5 0 10z" fill="#2f5d47"></path>
+</marker>
+</defs></svg>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <a class="back-link" href="../../">
+    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3.5 5.5 8l4.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    All experiments
+  </a>
+  <span class="topbar-label">Fieldnotes / Medical imaging</span>
+</header>
+
+<div class="layout">
+<aside class="toc" aria-label="Chapters">
+  <p class="toc-title">The learning atlas<span>8 chapters · 8 figures · 1 practice quiz</span></p>
+  <details id="contents" open>
+    <summary>Table of contents</summary>
+    <nav id="tocNav" aria-label="Table of contents">
+      <a href="#start">Start here</a>
+      <a href="#quick-view">The 30 second version</a>
+      <a href="#chapter-1">1. How a scan makes pictures</a>
+      <a href="#chapter-2">2. Inside a closed scanner</a>
+      <a href="#chapter-3">3. How open scanners differ</a>
+      <a href="#chapter-4">4. What magnet strength buys</a>
+      <a href="#chapter-5">5. Matching scanner to exam</a>
+      <a href="#chapter-6">6. Comfort and positioning</a>
+      <a href="#chapter-7">7. What a scan feels like</a>
+      <a href="#chapter-8">8. Safety questions and myths</a>
+      <a href="#quiz">Practice quiz</a>
+      <a href="#glossary">Glossary</a>
+      <a href="#sources">Further reading</a>
+    </nav>
+  </details>
+</aside>
+
+<main id="main">
+
+<section class="hero" id="start" tabindex="-1">
+  <p class="eyebrow">A beginner's field guide / Medical imaging</p>
+  <h1>Open vs closed<br>MRI</h1>
+  <p class="deck">One way to make pictures inside the body. Two broad scanner shapes. This guide leads with pictures: how a scan works, how the shapes differ, and why the best fit depends on both the exam and the person being scanned.</p>
+  <p class="hero-actions">
+    <a class="btn" href="#chapter-1">Start with the pictures</a>
+    <a class="btn-ghost" href="#quiz">Skip to the practice quiz</a>
+  </p>
+  <ul class="chips" aria-label="What this guide contains">
+    <li>8 short chapters</li>
+    <li>8 figures</li>
+    <li>2 interactive figures</li>
+    <li>About 15 minutes</li>
+  </ul>
+
+  <figure class="fig fig-hero reveal">
+    <div class="fig-frame fig-frame-wide">
+      <svg viewBox="0 0 880 400" role="img" aria-label="Front views side by side. On the left, a closed scanner: a round tunnel through a block of housing surrounds the table and the person lying on it. On the right, an open scanner: one plate above and one below the table, joined by a column on the right, leave both sides open around the same table and person.">
+        <!-- Closed scanner -->
+        <rect x="60" y="30" width="360" height="300" rx="20" class="f-well s-ink" stroke-width="2"></rect>
+        <circle cx="240" cy="180" r="98" fill="none" class="f-none s-mid" stroke-width="34"></circle>
+        <circle cx="240" cy="180" r="81" class="f-card s-line" stroke-width="1.5"></circle>
+        <rect x="150" y="226" width="250" height="13" rx="6" class="f-ink"></rect>
+        <circle cx="240" cy="205" r="15" class="f-body s-ink" stroke-width="1.5"></circle>
+        <ellipse cx="240" cy="221" rx="48" ry="12" class="f-body s-ink" stroke-width="1.5"></ellipse>
+        <!-- Open scanner -->
+        <rect x="500" y="52" width="330" height="42" rx="10" class="f-mid s-ink" stroke-width="2"></rect>
+        <rect x="500" y="252" width="330" height="42" rx="10" class="f-mid s-ink" stroke-width="2"></rect>
+        <rect x="784" y="52" width="46" height="242" class="f-mid s-ink" stroke-width="2"></rect>
+        <rect x="520" y="238" width="270" height="13" rx="6" class="f-ink"></rect>
+        <circle cx="655" cy="217" r="15" class="f-body s-ink" stroke-width="1.5"></circle>
+        <ellipse cx="655" cy="233" rx="48" ry="12" class="f-body s-ink" stroke-width="1.5"></ellipse>
+        <!-- Side access arrows on the open panel -->
+        <line x1="452" y1="150" x2="492" y2="150" class="s-accent" stroke-width="2" marker-end="url(#arrowhead-accent)"></line>
+        <line x1="452" y1="190" x2="492" y2="190" class="s-accent" stroke-width="2" marker-end="url(#arrowhead-accent)"></line>
+      </svg>
+    </div>
+    <figcaption><strong>Left, closed.</strong> The magnet surrounds the table on all sides inside a round tunnel. <strong>Right, open.</strong> Plates above and below leave the sides free. Front views, drawn to compare shapes, not scale.</figcaption>
+  </figure>
+  <p class="boundary">General education, not a scanner recommendation or a safety clearance.</p>
+</section>
+
+<section class="quick-view reveal" id="quick-view" aria-labelledby="quick-title">
+  <h2 id="quick-title">The 30 second version</h2>
+  <div class="quick-grid">
+    <article class="quick-card">
+      <span class="icon-circle" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="7" stroke="currentColor" stroke-width="1.75"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"></path></svg>
+      </span>
+      <h3>Signals, not light</h3>
+      <p>A strong magnet and short radio pulses make the body give off faint signals. A computer turns those signals into pictures. There are no X rays.</p>
+    </article>
+    <article class="quick-card">
+      <span class="icon-circle" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8.25" stroke="currentColor" stroke-width="3"></circle><circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="1.75"></circle></svg>
+      </span>
+      <h3>Two scanner shapes</h3>
+      <p>Closed scanners wrap a tunnel around you and often carry stronger magnets. Open scanners leave the sides free and can feel less enclosed.</p>
+    </article>
+    <article class="quick-card">
+      <span class="icon-circle" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 17h16" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"></path><circle cx="12" cy="12" r="2.5" stroke="currentColor" stroke-width="1.75"></circle><path d="M8 12H4M20 12h-4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"></path></svg>
+      </span>
+      <h3>Fit decides together</h3>
+      <p>The needed detail, safety screening, fit, and whether you can stay still all matter. The best scanner is the one that answers the question.</p>
+    </article>
+  </div>
+</section>
+
+<section class="chapter reveal" id="chapter-1" aria-labelledby="ch1-title">
+  <p class="chapter-num">Chapter 1</p>
+  <h2 id="ch1-title">How a scan makes pictures</h2>
+  <p class="lead">Magnetic resonance imaging (MRI) makes pictures with a magnet and radio waves, not X rays. The scanner listens for tiny signals from the body and uses them to build pictures.</p>
+
+  <figure class="fig" id="fig-pipeline">
+    <div class="pipeline">
+      <div class="pipe-panel">
+        <svg viewBox="0 0 240 150" role="img" aria-label="Step 1: inside a ring of magnetic field, three tiny arrows in the body point the same way, along the field.">
+          <circle cx="120" cy="78" r="56" fill="none" class="s-mid" stroke-width="12"></circle>
+          <circle cx="120" cy="78" r="36" class="f-card s-ink" stroke-width="2"></circle>
+          <g class="s-accent" stroke-width="2.5" stroke-linecap="round">
+            <line x1="102" y1="92" x2="102" y2="70" marker-end="url(#arrowhead-accent)"></line>
+            <line x1="120" y1="96" x2="120" y2="68" marker-end="url(#arrowhead-accent)"></line>
+            <line x1="138" y1="92" x2="138" y2="70" marker-end="url(#arrowhead-accent)"></line>
+          </g>
+        </svg>
+        <h3>1. Line up tiny magnets</h3>
+        <p>Hydrogen is abundant in water and fat. Each hydrogen nucleus behaves like a tiny magnet. In the scanner's magnetic field, slightly more point with the field than against it.</p>
+      </div>
+      <div class="pipe-panel">
+        <svg viewBox="0 0 240 150" role="img" aria-label="Step 2: a burst of radio waves arrives from the left and tips the aligned arrows away from their resting direction.">
+          <circle cx="132" cy="78" r="56" fill="none" class="s-mid" stroke-width="12"></circle>
+          <circle cx="132" cy="78" r="36" class="f-card s-ink" stroke-width="2"></circle>
+          <line x1="122" y1="94" x2="146" y2="62" class="s-accent" stroke-width="2.5" stroke-linecap="round" marker-end="url(#arrowhead-accent)"></line>
+          <g class="s-accent" stroke-width="2" fill="none" stroke-linecap="round">
+            <path d="M52 58a28 28 0 0 1 0 40"></path>
+            <path d="M64 50a40 40 0 0 1 0 56"></path>
+            <path d="M76 42a52 52 0 0 1 0 72"></path>
+          </g>
+        </svg>
+        <h3>2. Send a radio pulse</h3>
+        <p>A short burst of radio waves at the right frequency tips that combined magnetism away from its resting direction. That selective response is called resonance.</p>
+      </div>
+      <div class="pipe-panel">
+        <svg viewBox="0 0 240 150" role="img" aria-label="Step 3: as the arrows settle back, faint waves travel out to a receiver coil, a loop of wire placed near the body.">
+          <circle cx="112" cy="78" r="48" fill="none" class="s-mid" stroke-width="10"></circle>
+          <circle cx="112" cy="78" r="32" class="f-card s-ink" stroke-width="2"></circle>
+          <path d="M126 62q10 12 -6 24" fill="none" class="s-accent" stroke-width="2.5" stroke-linecap="round" marker-end="url(#arrowhead-accent)"></path>
+          <g class="s-accent" stroke-width="2" fill="none" stroke-linecap="round">
+            <path d="M158 58a26 26 0 0 1 0 40"></path>
+            <path d="M170 50a38 38 0 0 1 0 56"></path>
+          </g>
+          <circle cx="204" cy="78" r="16" class="f-card s-ink" stroke-width="2.5"></circle>
+          <circle cx="204" cy="78" r="7" class="f-wash s-accent" stroke-width="2"></circle>
+        </svg>
+        <h3>3. Listen for the signal</h3>
+        <p>As the magnetism returns to rest, it makes a faint electrical signal in a nearby receiver coil. Gradient coils add small field changes that leave location clues in the signal.</p>
+      </div>
+      <div class="pipe-panel">
+        <svg viewBox="0 0 240 150" role="img" aria-label="Step 4: the computer assembles the readings into picture slices through the body, where different tissues look brighter or darker.">
+          <rect x="62" y="26" width="116" height="102" rx="10" class="f-mid s-ink" stroke-width="1.5"></rect>
+          <rect x="52" y="36" width="116" height="102" rx="10" class="f-wash s-ink" stroke-width="1.5"></rect>
+          <rect x="42" y="46" width="116" height="102" rx="10" class="f-card s-ink" stroke-width="2"></rect>
+          <ellipse cx="100" cy="97" rx="34" ry="30" class="f-well s-ink" stroke-width="1.5"></ellipse>
+          <path d="M67.6 88 A 34 30 0 0 1 132.4 88 Z" class="f-mid s-ink" stroke-width="1.5"></path>
+          <ellipse cx="100" cy="103" rx="11" ry="13" class="f-card"></ellipse>
+        </svg>
+        <h3>4. Build the picture</h3>
+        <p>A computer combines many readings into slices, or views through thin layers of the body. Different tissues return toward rest at different rates, so settings can make them brighter or darker.</p>
+      </div>
+    </div>
+    <figcaption><span class="fig-num">Fig 1</span> From magnet to picture in four steps. The scanner measures signals, not light, so the final image is a computed map rather than a photograph.</figcaption>
+  </figure>
+
+  <p class="takeaway"><span>The short version</span> The scanner measures signals, not light. The image is a computed map, not a photograph.</p>
+</section>
+
+<section class="chapter reveal" id="chapter-2" aria-labelledby="ch2-title">
+  <p class="chapter-num">Chapter 2</p>
+  <h2 id="ch2-title">Inside a closed scanner</h2>
+  <p class="lead">A closed MRI is built around a round tunnel called a <a href="#term-bore"><dfn>bore</dfn></a>. It is open at both ends. Closed means the magnet surrounds the table on all sides.</p>
+  <p>The table slides in until the area being examined sits near the center, where the field is most even. Depending on the exam, you may enter head first or feet first, and for some exams the head stays near the opening or outside.</p>
+  <p>Many closed scanners use a <a href="#term-superconducting"><dfn>superconducting magnet</dfn></a>: a coil kept so cold that electric current flows through it without electrical resistance. This design holds a strong field, usually directed along the tunnel. Other coils send the radio pulses, listen for the response, and add the small field changes that locate the signal.</p>
+  <p>A wide bore is still a closed scanner, just with a larger opening. A shorter tunnel can also feel less enclosed.</p>
+
+  <figure class="fig" id="fig-cutaway">
+    <div class="fig-frame fig-frame-wide">
+      <svg viewBox="0 0 720 320" role="img" aria-label="Side view cutaway of a closed scanner. A housing holds two magnet coils around a round bore. The table slides a person to the center, where a receiver coil rests over the area being examined. Gradient coils line the bore, and a cable carries the signal to a computer that builds the pictures.">
+        <rect x="40" y="80" width="430" height="180" rx="26" class="f-well s-ink" stroke-width="2"></rect>
+        <rect x="70" y="122" width="380" height="100" rx="50" class="f-card s-line" stroke-width="1.5"></rect>
+        <rect x="128" y="88" width="32" height="164" rx="6" class="f-mid s-ink" stroke-width="1.5"></rect>
+        <rect x="362" y="88" width="32" height="164" rx="6" class="f-mid s-ink" stroke-width="1.5"></rect>
+        <rect x="118" y="122" width="300" height="10" rx="5" class="f-wash"></rect>
+        <rect x="118" y="212" width="300" height="10" rx="5" class="f-wash"></rect>
+        <rect x="14" y="192" width="440" height="13" rx="6" class="f-ink"></rect>
+        <rect x="96" y="168" width="68" height="22" rx="11" class="f-body s-ink" stroke-width="1.5"></rect>
+        <rect x="164" y="164" width="92" height="26" rx="13" class="f-body s-ink" stroke-width="1.5"></rect>
+        <circle cx="272" cy="177" r="15" class="f-body s-ink" stroke-width="1.5"></circle>
+        <rect x="182" y="142" width="66" height="24" rx="6" class="f-wash s-accent" stroke-width="2"></rect>
+        <path d="M248 154 C 320 138 420 170 516 186" fill="none" class="s-mut" stroke-width="2"></path>
+        <rect x="516" y="140" width="164" height="120" rx="12" class="f-card s-ink" stroke-width="2"></rect>
+        <rect x="534" y="158" width="128" height="72" rx="6" class="f-well s-line" stroke-width="1.5"></rect>
+        <ellipse cx="598" cy="194" rx="30" ry="26" class="f-mid"></ellipse>
+        <ellipse cx="598" cy="190" rx="13" ry="11" class="f-card"></ellipse>
+        <rect x="576" y="260" width="44" height="12" rx="4" class="f-ink"></rect>
+        <!-- Callouts -->
+        <g class="callouts">
+          <line x1="144" y1="66" x2="144" y2="86" class="s-mut" stroke-width="1.5"></line>
+          <circle cx="144" cy="56" r="13" class="f-accent"></circle><text x="144" y="61" text-anchor="middle" class="svg-t-w">1</text>
+          <line x1="92" y1="104" x2="104" y2="126" class="s-mut" stroke-width="1.5"></line>
+          <circle cx="88" cy="94" r="13" class="f-accent"></circle><text x="88" y="99" text-anchor="middle" class="svg-t-w">2</text>
+          <line x1="58" y1="238" x2="72" y2="208" class="s-mut" stroke-width="1.5"></line>
+          <circle cx="52" cy="250" r="13" class="f-accent"></circle><text x="52" y="255" text-anchor="middle" class="svg-t-w">3</text>
+          <line x1="308" y1="108" x2="308" y2="124" class="s-mut" stroke-width="1.5"></line>
+          <circle cx="308" cy="98" r="13" class="f-accent"></circle><text x="308" y="103" text-anchor="middle" class="svg-t-w">4</text>
+          <line x1="215" y1="128" x2="215" y2="142" class="s-mut" stroke-width="1.5"></line>
+          <circle cx="215" cy="118" r="13" class="f-accent"></circle><text x="215" y="123" text-anchor="middle" class="svg-t-w">5</text>
+          <line x1="598" y1="132" x2="598" y2="144" class="s-mut" stroke-width="1.5"></line>
+          <circle cx="598" cy="122" r="13" class="f-accent"></circle><text x="598" y="127" text-anchor="middle" class="svg-t-w">6</text>
+        </g>
+      </svg>
+    </div>
+    <ol class="fig-legend">
+      <li><strong>Magnet coils</strong> hold the field around the tunnel.</li>
+      <li><strong>Bore</strong> the round tunnel the table enters.</li>
+      <li><strong>Table</strong> slides the person to the center.</li>
+      <li><strong>Gradient coils</strong> add location clues to the signal.</li>
+      <li><strong>Receiver coil</strong> sits near the area being examined.</li>
+      <li><strong>Computer</strong> turns the signals into pictures.</li>
+    </ol>
+    <figcaption><span class="fig-num">Fig 2</span> Inside a closed scanner, seen from the side. Cutaway drawing; proportions are simplified.</figcaption>
+  </figure>
+
+  <p class="takeaway"><span>The short version</span> Closed describes the shape, not the strength. Wide bore and short tunnel options live inside this family.</p>
+</section>
+
+<section class="chapter reveal" id="chapter-3" aria-labelledby="ch3-title">
+  <p class="chapter-num">Chapter 3</p>
+  <h2 id="ch3-title">How open scanners differ</h2>
+  <p class="lead">An <a href="#term-open"><dfn>open MRI</dfn></a> leaves more space at the sides. A common design uses two broad plates, one above and one below the table, with the field running between them.</p>
+  <p>Some open scanners use <a href="#term-permanent"><dfn>permanent magnets</dfn></a>, which hold a field without electric current. Others use electromagnets, including superconducting ones. The shape of the magnet and the way it makes its field are separate choices.</p>
+  <p>Some systems support the magnet on one side only. Some <a href="#term-upright"><dfn>upright</dfn></a> systems place magnets beside a person who sits or stands for certain exams. Not every open scanner scans upright.</p>
+  <p>Open does not promise unlimited room. The gap between the magnets and the space taken by the receiver coil still matter. Every scanner still needs a controlled field, radio pulses, a receiver, and location clues.</p>
+
+  <figure class="fig" id="fig-front-views">
+    <div class="fig-frame fig-frame-wide">
+      <div class="lab-controls" data-controls hidden>
+        <fieldset class="chip-set">
+          <legend>Scanner design</legend>
+          <label class="chip"><input type="radio" name="shape" value="standard" checked> Standard bore</label>
+          <label class="chip"><input type="radio" name="shape" value="wide"> Wide bore</label>
+          <label class="chip"><input type="radio" name="shape" value="open"> Open sided</label>
+        </fieldset>
+      </div>
+      <svg id="geometry" viewBox="0 0 360 230" role="img" aria-label="Front view of a standard tunnel surrounding the table and the person on it">
+        <g id="geo-ring">
+          <circle id="geo-circle" cx="196" cy="112" r="74" fill="none" class="s-mid" stroke-width="26"></circle>
+          <circle id="geo-circle-inner" cx="196" cy="112" r="61" class="f-card"></circle>
+        </g>
+        <g id="geo-plates" hidden>
+          <rect x="84" y="16" width="228" height="30" rx="8" class="f-mid s-ink" stroke-width="2"></rect>
+          <rect x="84" y="178" width="228" height="30" rx="8" class="f-mid s-ink" stroke-width="2"></rect>
+          <rect x="286" y="16" width="26" height="192" class="f-mid s-ink" stroke-width="2"></rect>
+        </g>
+        <g id="geo-access" hidden>
+          <line x1="34" y1="106" x2="76" y2="106" class="s-accent" stroke-width="2" marker-end="url(#arrowhead-accent)"></line>
+          <line x1="34" y1="132" x2="76" y2="132" class="s-accent" stroke-width="2" marker-end="url(#arrowhead-accent)"></line>
+        </g>
+        <rect x="84" y="166" width="228" height="12" rx="6" class="f-ink"></rect>
+        <circle cx="196" cy="146" r="14" class="f-body s-ink" stroke-width="1.5"></circle>
+        <ellipse cx="196" cy="161" rx="44" ry="11" class="f-body s-ink" stroke-width="1.5"></ellipse>
+      </svg>
+    </div>
+    <p class="result" id="shape-note" role="status">Standard bore: the housing surrounds the table on all sides in this front view.</p>
+    <figcaption><span class="fig-num">Fig 3</span> Switch designs to compare tunnel width and side access. Front views, not to scale. The shape alone cannot tell you whether a particular scanner fits a particular person or exam.</figcaption>
+  </figure>
+
+  <div class="split-card">
+    <div>
+      <h3>What the shape can offer</h3>
+      <ul class="check-list">
+        <li>Room for staff to stand close and reach in.</li>
+        <li>Less enclosure around the face and body.</li>
+        <li>On some systems, exams while seated or standing.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>What it does not promise</h3>
+      <ul class="cross-list">
+        <li>Unlimited clearance. Plates and coils still take up room.</li>
+        <li>The same magnet strength as a closed scanner.</li>
+        <li>The right protocol for every clinical question.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="chapter reveal" id="chapter-4" aria-labelledby="ch4-title">
+  <p class="chapter-num">Chapter 4</p>
+  <h2 id="ch4-title">What magnet strength buys</h2>
+  <p class="lead">A <a href="#term-field"><dfn>tesla (T)</dfn></a> is a unit of magnetic field strength. Closed scanners commonly use 1.5 T or 3 T. Many open scanners work below 1 T, though some open designs reach 1 T or more.</p>
+
+  <figure class="fig" id="fig-ladder">
+    <div class="fig-frame fig-frame-wide">
+      <svg viewBox="0 0 720 230" role="img" aria-label="A strength scale from 0 to 3 tesla. A solid bar marks many open scanners below 1 tesla, with a dashed extension for some open designs reaching 1 tesla or more. Two markers on the scale show typical closed scanners at 1.5 and 3 tesla.">
+        <text x="60" y="28" class="svg-t">Open scanners</text>
+        <rect x="60" y="40" width="207" height="26" rx="6" class="f-wash s-accent" stroke-width="1.5"></rect>
+        <rect x="272" y="40" width="66" height="26" rx="6" class="f-none s-accent" stroke-width="1.5" stroke-dasharray="5 5"></rect>
+        <text x="60" y="88" class="svg-t-mut">many work below 1 T; some reach 1 T or more</text>
+        <text x="60" y="118" class="svg-t">Closed scanners</text>
+        <line x1="370" y1="130" x2="680" y2="130" class="s-accent" stroke-width="4"></line>
+        <circle cx="370" cy="130" r="9" class="f-accent"></circle>
+        <circle cx="680" cy="130" r="9" class="f-accent"></circle>
+        <text x="370" y="112" text-anchor="middle" class="svg-t">1.5 T</text>
+        <text x="680" y="112" text-anchor="middle" class="svg-t">3 T</text>
+        <text x="60" y="158" class="svg-t-mut">typical strengths for closed scanners</text>
+        <line x1="60" y1="180" x2="680" y2="180" class="s-ink" stroke-width="1.5"></line>
+        <g class="s-ink" stroke-width="1.5">
+          <line x1="60" y1="180" x2="60" y2="188"></line>
+          <line x1="267" y1="180" x2="267" y2="188"></line>
+          <line x1="370" y1="180" x2="370" y2="188"></line>
+          <line x1="473" y1="180" x2="473" y2="188"></line>
+          <line x1="680" y1="180" x2="680" y2="188"></line>
+        </g>
+        <g class="svg-t-mut" text-anchor="middle">
+          <text x="60" y="206">0</text>
+          <text x="267" y="206">1</text>
+          <text x="370" y="206">1.5</text>
+          <text x="473" y="206">2</text>
+          <text x="680" y="206">3 T</text>
+        </g>
+      </svg>
+    </div>
+    <figcaption><span class="fig-num">Fig 4</span> Where common scanners sit on the strength scale. Shape alone does not tell you strength, and 3 T is not automatically twice as good as 1.5 T.</figcaption>
+  </figure>
+
+  <p>A stronger field usually makes more usable signal available. That can raise the <a href="#term-snr"><dfn>signal to noise ratio</dfn></a>: how clearly the wanted signal stands out from random variation. The team can spend that advantage on finer detail, faster scans, or a cleaner picture. A lower field system may repeat measurements and average them to make up for weaker signal, which takes time.</p>
+
+  <figure class="fig" id="fig-signal">
+    <div class="fig-frame fig-frame-wide">
+      <div class="lab-controls" data-controls hidden>
+        <fieldset class="chip-set">
+          <legend>Signal level</legend>
+          <label class="chip"><input type="radio" name="signal" value="weak" checked> Weaker signal</label>
+          <label class="chip"><input type="radio" name="signal" value="strong"> Stronger signal</label>
+        </fieldset>
+      </div>
+      <svg viewBox="0 0 360 150" role="img" id="signal-plot" aria-label="A small central rise partly masked by random variation">
+        <line x1="16" y1="122" x2="344" y2="122" class="s-line" stroke-width="2"></line>
+        <line x1="16" y1="30" x2="16" y2="122" class="s-line" stroke-width="2"></line>
+        <polyline id="trace" fill="none" class="s-accent" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"
+          points="22,92 48,77 74,97 100,80 126,94 152,81 178,99 204,79 230,95 256,78 282,96 308,78 334,91"></polyline>
+      </svg>
+    </div>
+    <p class="result" id="signal-note" role="status">Weaker signal: the central rise is hard to separate from nearby bumps.</p>
+    <figcaption><span class="fig-num">Fig 5</span> Find the same pattern twice. The random variation is identical in both drawings; only the central rise changes size. A teaching sketch, not a scanner measurement and not a conversion from tesla to image quality.</figcaption>
+  </figure>
+
+  <p>Stronger fields can also worsen some <a href="#term-artifact"><dfn>artifacts</dfn></a>, distortions that do not represent the body, for example near metal cleared for scanning. Radio wave heating can also limit which settings are allowed.</p>
+  <p class="takeaway"><span>The short version</span> The right question is whether a scanner can produce the needed picture, not whether its number is higher.</p>
+</section>
+
+<section class="chapter reveal" id="chapter-5" aria-labelledby="ch5-title">
+  <p class="chapter-num">Chapter 5</p>
+  <h2 id="ch5-title">Matching the scanner to the exam</h2>
+  <p class="lead">The ordering clinician starts with a question: what must the images show? The <a href="#term-radiologist"><dfn>radiologist</dfn></a> and the scanning team choose a scanner and a <a href="#term-protocol"><dfn>protocol</dfn></a>, the set of pictures and settings needed to answer it.</p>
+
+  <figure class="fig" id="fig-flow">
+    <div class="fig-frame fig-frame-wide">
+      <svg viewBox="0 0 720 330" role="img" aria-label="A flow chart. The clinical question, what must the images show, leads to four checks: the needed detail, safety screening, fit and clearance, and whether the person can stay still. All four feed into the final choice: the scanner and protocol, picked by the imaging team.">
+        <rect x="180" y="12" width="360" height="58" rx="12" class="f-wash s-accent" stroke-width="2"></rect>
+        <text x="360" y="36" text-anchor="middle" class="svg-t">The clinical question</text>
+        <text x="360" y="56" text-anchor="middle" class="svg-t-mut">what must the images show?</text>
+        <g class="s-mut" stroke-width="1.5" fill="none">
+          <path d="M360 70 L 98 118" marker-end="url(#arrowhead)"></path>
+          <path d="M360 70 L 270 118" marker-end="url(#arrowhead)"></path>
+          <path d="M360 70 L 442 118" marker-end="url(#arrowhead)"></path>
+          <path d="M360 70 L 614 118" marker-end="url(#arrowhead)"></path>
+        </g>
+        <g>
+          <rect x="20" y="120" width="156" height="76" rx="10" class="f-card s-line" stroke-width="1.5"></rect>
+          <text x="98" y="152" text-anchor="middle" class="svg-t">the needed detail</text>
+          <rect x="192" y="120" width="156" height="76" rx="10" class="f-card s-line" stroke-width="1.5"></rect>
+          <text x="270" y="152" text-anchor="middle" class="svg-t">safety screening</text>
+          <rect x="364" y="120" width="156" height="76" rx="10" class="f-card s-line" stroke-width="1.5"></rect>
+          <text x="442" y="152" text-anchor="middle" class="svg-t">fit and clearance</text>
+          <rect x="536" y="120" width="156" height="76" rx="10" class="f-card s-line" stroke-width="1.5"></rect>
+          <text x="614" y="146" text-anchor="middle" class="svg-t">can the person</text>
+          <text x="614" y="164" text-anchor="middle" class="svg-t">stay still?</text>
+        </g>
+        <g class="s-mut" stroke-width="1.5" fill="none">
+          <path d="M98 196 L 340 258" marker-end="url(#arrowhead)"></path>
+          <path d="M270 196 L 352 258" marker-end="url(#arrowhead)"></path>
+          <path d="M442 196 L 368 258" marker-end="url(#arrowhead)"></path>
+          <path d="M614 196 L 380 258" marker-end="url(#arrowhead)"></path>
+        </g>
+        <rect x="200" y="260" width="320" height="54" rx="12" class="f-accent"></rect>
+        <text x="360" y="283" text-anchor="middle" class="svg-t-w">Scanner and protocol</text>
+        <text x="360" y="302" text-anchor="middle" class="svg-t-w">chosen by the imaging team</text>
+      </svg>
+    </div>
+    <figcaption><span class="fig-num">Fig 6</span> Four checks decide together. No single factor wins on its own.</figcaption>
+  </figure>
+
+  <p>Higher field closed scanners are often preferred when very fine detail or specialized techniques are needed, such as certain brain, heart, or blood vessel exams. An open scanner may suit some routine joint or spine exams when the site has the right equipment and protocol. This is not a fixed rule by body part: two exams of the same joint can ask very different questions.</p>
+  <p>Comfort is part of the match too. Movement can erase the advantage of a stronger signal, so a scan that succeeds beats a specification that looks better on paper.</p>
+</section>
+
+<section class="chapter reveal" id="chapter-6" aria-labelledby="ch6-title">
+  <p class="chapter-num">Chapter 6</p>
+  <h2 id="ch6-title">Comfort and positioning</h2>
+  <p class="lead"><a href="#term-claustrophobia"><dfn>Claustrophobia</dfn></a> is fear or distress in confined spaces. Open sides or a wider, shorter tunnel can help, but a nearby upper plate or a receiver coil around the head can still feel close.</p>
+
+  <figure class="fig" id="fig-comfort">
+    <div class="comfort-grid">
+      <div class="comfort-panel">
+        <svg viewBox="0 0 240 170" role="img" aria-label="Front view of an open scanner with arrows showing staff reaching in from the side.">
+          <rect x="70" y="14" width="150" height="24" rx="8" class="f-mid s-ink" stroke-width="1.5"></rect>
+          <rect x="70" y="132" width="150" height="24" rx="8" class="f-mid s-ink" stroke-width="1.5"></rect>
+          <rect x="198" y="14" width="22" height="142" class="f-mid s-ink" stroke-width="1.5"></rect>
+          <rect x="70" y="122" width="150" height="10" rx="5" class="f-ink"></rect>
+          <circle cx="148" cy="102" r="11" class="f-body s-ink" stroke-width="1.5"></circle>
+          <ellipse cx="148" cy="116" rx="32" ry="8" class="f-body s-ink" stroke-width="1.5"></ellipse>
+          <line x1="22" y1="76" x2="64" y2="76" class="s-accent" stroke-width="2" marker-end="url(#arrowhead-accent)"></line>
+          <line x1="22" y1="98" x2="64" y2="98" class="s-accent" stroke-width="2" marker-end="url(#arrowhead-accent)"></line>
+        </svg>
+        <h3>Side access</h3>
+        <p>Open sides give staff room to stand close and reach in, and let you see out.</p>
+      </div>
+      <div class="comfort-panel">
+        <svg viewBox="0 0 240 170" role="img" aria-label="An open scanner with the upper plate close above the head, and a receiver coil resting near the face, showing what can still feel close.">
+          <rect x="70" y="30" width="150" height="24" rx="8" class="f-mid s-ink" stroke-width="1.5"></rect>
+          <rect x="70" y="132" width="150" height="24" rx="8" class="f-mid s-ink" stroke-width="1.5"></rect>
+          <rect x="198" y="30" width="22" height="126" class="f-mid s-ink" stroke-width="1.5"></rect>
+          <rect x="70" y="122" width="150" height="10" rx="5" class="f-ink"></rect>
+          <circle cx="148" cy="102" r="11" class="f-body s-ink" stroke-width="1.5"></circle>
+          <ellipse cx="148" cy="116" rx="32" ry="8" class="f-body s-ink" stroke-width="1.5"></ellipse>
+          <rect x="128" y="76" width="42" height="18" rx="6" class="f-wash s-accent" stroke-width="1.5"></rect>
+          <line x1="200" y1="58" x2="200" y2="92" class="s-mut" stroke-width="1.5"></line>
+          <line x1="196" y1="58" x2="204" y2="58" class="s-mut" stroke-width="1.5"></line>
+          <line x1="196" y1="92" x2="204" y2="92" class="s-mut" stroke-width="1.5"></line>
+        </svg>
+        <h3>What can still feel close</h3>
+        <p>An upper plate or a coil near the head reduces clearance, even in an open design.</p>
+      </div>
+      <div class="comfort-panel">
+        <svg viewBox="0 0 240 170" role="img" aria-label="An upright scanner: two magnet posts on either side of a person seated on a stool between them.">
+          <rect x="26" y="18" width="34" height="132" rx="8" class="f-mid s-ink" stroke-width="1.5"></rect>
+          <rect x="180" y="18" width="34" height="132" rx="8" class="f-mid s-ink" stroke-width="1.5"></rect>
+          <rect x="96" y="128" width="48" height="10" rx="5" class="f-ink"></rect>
+          <rect x="116" y="138" width="8" height="14" class="f-ink"></rect>
+          <circle cx="120" cy="72" r="12" class="f-body s-ink" stroke-width="1.5"></circle>
+          <rect x="108" y="84" width="24" height="44" rx="10" class="f-body s-ink" stroke-width="1.5"></rect>
+          <rect x="112" y="122" width="36" height="10" rx="5" class="f-body s-ink" stroke-width="1.5"></rect>
+        </svg>
+        <h3>Seated or standing</h3>
+        <p>Some systems image particular exams while you sit or stand, so body weight presses on the joint.</p>
+      </div>
+    </div>
+    <figcaption><span class="fig-num">Fig 7</span> Comfort depends on more than the opening: clearance, coils, and position all count.</figcaption>
+  </figure>
+
+  <p>A clear explanation, a mirror where available, and easy communication with staff may also help. Useful images depend on staying still, so comfort can matter as much as equipment specifications.</p>
+  <p>For larger bodies, table weight limits and usable clearance are separate checks. The team accounts for the region being scanned, padding, and the receiver coil, not just the advertised opening.</p>
+  <p>For children, simple preparation and instructions help. A more open view does not replace deciding whether the child can stay still. <a href="#term-sedation"><dfn>Sedation</dfn></a>, medicine that reduces alertness, needs its own safety planning and monitoring.</p>
+  <p>Only some clinical questions benefit from seated or <a href="#term-weight"><dfn>weight bearing</dfn></a> views, and the equipment must support the exact position and exam.</p>
+</section>
+
+<section class="chapter reveal" id="chapter-7" aria-labelledby="ch7-title">
+  <p class="chapter-num">Chapter 7</p>
+  <h2 id="ch7-title">What a scan feels like</h2>
+  <p class="lead">Before entering the room, expect safety questions and instructions to remove items such as jewelry and electronics. A <a href="#term-technologist"><dfn>technologist</dfn></a> positions you with cushions and places a receiver coil near the area being examined.</p>
+
+  <figure class="fig" id="fig-timeline">
+    <ol class="timeline">
+      <li>
+        <span class="tl-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="3" stroke="currentColor" stroke-width="1.75"></rect><path d="M9 4.5h6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"></path><path d="M9 11h6M9 15h4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"></path></svg></span>
+        <h3>Screening</h3>
+        <p>Safety questions, and metal and electronics left outside.</p>
+      </li>
+      <li>
+        <span class="tl-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="10" width="18" height="3.5" rx="1.75" stroke="currentColor" stroke-width="1.75"></rect><circle cx="12" cy="6.5" r="2.25" stroke="currentColor" stroke-width="1.75"></circle><path d="M8 10c0-2 1.8-3.2 4-3.2s4 1.2 4 3.2" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"></path></svg></span>
+        <h3>Positioning</h3>
+        <p>Cushions and a coil settle you in place, head first or feet first.</p>
+      </li>
+      <li>
+        <span class="tl-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h2.5M8.5 8v8M12 5v14M15.5 8v8M19.5 12H22" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"></path></svg></span>
+        <h3>Knocking</h3>
+        <p>Gradient coils buzz and knock. Both scanner shapes are noisy; hearing protection comes with them.</p>
+      </li>
+      <li>
+        <span class="tl-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="8.5" y="5" width="2.75" height="14" rx="1.25" stroke="currentColor" stroke-width="1.75"></rect><rect x="13.75" y="5" width="2.75" height="14" rx="1.25" stroke="currentColor" stroke-width="1.75"></rect></svg></span>
+        <h3>Hold still</h3>
+        <p>The team talks with you by intercom and may ask for stillness or a held breath.</p>
+      </li>
+      <li>
+        <span class="tl-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8.25" stroke="currentColor" stroke-width="1.75"></circle><path d="M8.5 12.5l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+        <h3>Done</h3>
+        <p>Many exams take roughly 30 to 60 minutes. Preparation and waiting are extra.</p>
+      </li>
+    </ol>
+    <figcaption><span class="fig-num">Fig 8</span> A typical visit, from screening to done. Staff can usually talk with you throughout, and give you a way to call them.</figcaption>
+  </figure>
+
+  <aside class="aside-card">
+    <span class="icon-circle" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.5s6 6.2 6 10a6 6 0 1 1-12 0c0-3.8 6-10 6-10z" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"></path></svg>
+    </span>
+    <div>
+      <h3>When contrast is part of the plan</h3>
+      <p>Some exams use a <a href="#term-contrast"><dfn>contrast agent</dfn></a> to make certain tissues or blood vessels easier to tell apart. MRI contrast is often a <a href="#term-gadolinium"><dfn>gadolinium</dfn></a> based medicine injected into a vein. It changes how nearby hydrogen signals behave; it does not color the tissue. Many exams do not need it. The team weighs the benefit against risks, including past reactions and relevant kidney problems.</p>
+    </div>
+  </aside>
+</section>
+
+<section class="chapter reveal" id="chapter-8" aria-labelledby="ch8-title">
+  <p class="chapter-num">Chapter 8</p>
+  <h2 id="ch8-title">Safety questions and myths</h2>
+  <p class="lead">MRI does not use <a href="#term-ionizing"><dfn>ionizing radiation</dfn></a>, the kind of energy that can knock electrons off atoms as X rays can. It still has real risks, and safety screening matters on every scanner shape.</p>
+
+  <div class="myth-grid">
+    <article class="myth-card">
+      <p class="myth-tag"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"></path></svg>Myth</p>
+      <h3>No X rays means no risk.</h3>
+      <p class="fact-tag"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.5l3 3 6-6.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"></path></svg>What matters instead</p>
+      <p>Strong magnets can pull certain objects toward the scanner, radio waves can heat tissue, and noise can harm hearing without protection. The main magnet stays on even between scans. Open scanners need safety screening too.</p>
+    </article>
+    <article class="myth-card">
+      <p class="myth-tag"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"></path></svg>Myth</p>
+      <h3>Any metal rules out MRI.</h3>
+      <p class="fact-tag"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.5l3 3 6-6.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"></path></svg>What matters instead</p>
+      <p>The team needs to know what it is and where it is. Some metals can move, heat, or distort pictures. An <a href="#term-implant"><dfn>implant</dfn></a> labeled MR Conditional is safe only under specified conditions, which can include field strength and settings. A lower field or open scanner is not a workaround for an unknown device. Report fragments as well as devices.</p>
+    </article>
+    <article class="myth-card">
+      <p class="myth-tag"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"></path></svg>Myth</p>
+      <h3>Tattoos always prevent scanning.</h3>
+      <p class="fact-tag"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.5l3 3 6-6.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"></path></svg>What matters instead</p>
+      <p>Most do not. Tattoo and permanent makeup pigments can rarely warm or irritate skin during MRI. Tell staff during screening, and speak up promptly if you feel warmth or burning during the scan.</p>
+    </article>
+  </div>
+
+  <div class="split-card">
+    <div>
+      <h3>Questions worth asking your site</h3>
+      <ul class="check-list">
+        <li>Which scanner and protocol fit my exam, and why?</li>
+        <li>What should I remove or leave outside?</li>
+        <li>How will we talk during the scan?</li>
+        <li>Do I need contrast, and what does it add?</li>
+        <li>What happens if I feel uncomfortable or need to stop?</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Before the day</h3>
+      <ul class="check-list">
+        <li>Report every implant, device, and metal fragment.</li>
+        <li>Ask about options if enclosed spaces distress you.</li>
+        <li>Plan for the appointment to take longer than the scan itself.</li>
+      </ul>
+      <p class="fine-print">Your scanning site gives the instructions that apply to you. This guide is general education, not a safety clearance.</p>
+    </div>
+  </div>
+</section>
+
+<section class="quiz-section reveal" id="quiz" aria-labelledby="quiz-title">
+  <p class="eyebrow">Practice</p>
+  <h2 id="quiz-title">What would change the choice?</h2>
+  <p class="lead">Predict the answer, then reveal the reasoning. The point is to practice comparing requirements, not to pick a machine for a real exam.</p>
+
+  <article class="quiz-card" data-answer="protocol">
+    <h3>1. Very fine detail is essential, and either design is tolerable. What is worth checking first?</h3>
+    <ul class="quiz-opts">
+      <li><button type="button" data-opt="protocol">Whether a higher field system supports the needed protocol</button></li>
+      <li><button type="button" data-opt="open">Whether the scanner is open</button></li>
+      <li><button type="button" data-opt="short">Whether the exam is short</button></li>
+    </ul>
+    <p class="quiz-feedback" role="status"></p>
+    <details class="quiz-why"><summary>Reveal the reasoning</summary>
+      <p>A closed scanner is often a candidate here, but strength by itself does not establish suitability. The protocol decides.</p>
+    </details>
+  </article>
+
+  <article class="quiz-card" data-answer="comfort">
+    <h3>2. Either machine can answer the question, but staying still in a tunnel is difficult. What changes?</h3>
+    <ul class="quiz-opts">
+      <li><button type="button" data-opt="strong">The stronger magnet always wins</button></li>
+      <li><button type="button" data-opt="comfort">Comfort becomes a deciding factor</button></li>
+      <li><button type="button" data-opt="contrast">Contrast dye solves movement</button></li>
+    </ul>
+    <p class="quiz-feedback" role="status"></p>
+    <details class="quiz-why"><summary>Reveal the reasoning</summary>
+      <p>Comfort can determine whether the scan succeeds. An open or wide bore option may help, and movement can erase the advantage of a stronger signal.</p>
+    </details>
+  </article>
+
+  <article class="quiz-card" data-answer="standing">
+    <h3>3. The question concerns a structure while standing. Does any open scanner work?</h3>
+    <ul class="quiz-opts">
+      <li><button type="button" data-opt="yes-open">Yes: every open scanner scans upright</button></li>
+      <li><button type="button" data-opt="standing">No: the site needs a system that supports that position and exam</button></li>
+      <li><button type="button" data-opt="better">Yes: standing views are always better for joints</button></li>
+    </ul>
+    <p class="quiz-feedback" role="status"></p>
+    <details class="quiz-why"><summary>Reveal the reasoning</summary>
+      <p>Only some systems support sitting or standing, only some questions benefit, and the equipment must support the exact position and exam.</p>
+    </details>
+  </article>
+
+  <article class="quiz-card" data-answer="model">
+    <h3>4. An implant is labeled MR Conditional. What does the team need?</h3>
+    <ul class="quiz-opts">
+      <li><button type="button" data-opt="word">Just the word conditional</button></li>
+      <li><button type="button" data-opt="model">The exact model, checked against the specific scanner conditions</button></li>
+      <li><button type="button" data-opt="workaround">A lower field scanner as a workaround</button></li>
+    </ul>
+    <p class="quiz-feedback" role="status"></p>
+    <details class="quiz-why"><summary>Reveal the reasoning</summary>
+      <p>MR Conditional items have been shown safe only under specified conditions, which can include field strength and scan settings. The team checks the exact model, and a lower field or open scanner is not a workaround.</p>
+    </details>
+  </article>
+
+  <article class="quiz-card" data-answer="average">
+    <h3>5. Why might a lower field system take longer to build a clean picture?</h3>
+    <ul class="quiz-opts">
+      <li><button type="button" data-opt="table">Weaker magnets move the table more slowly</button></li>
+      <li><button type="button" data-opt="average">It may repeat measurements and average them to raise signal to noise</button></li>
+      <li><button type="button" data-opt="waves">Radio waves travel more slowly through weaker fields</button></li>
+    </ul>
+    <p class="quiz-feedback" role="status"></p>
+    <details class="quiz-why"><summary>Reveal the reasoning</summary>
+      <p>Averaging reduces random variation but takes time. Exam length also depends on the receiver, the settings, and whether movement forces a repeat.</p>
+    </details>
+  </article>
+</section>
+
+<section class="glossary-section reveal" id="glossary" aria-labelledby="glossary-title">
+  <p class="eyebrow">Reference</p>
+  <h2 id="glossary-title">Glossary</h2>
+  <p class="lead">Every term in the guide, in plain words. Tap a highlighted term in a chapter to jump here.</p>
+
+  <div class="gloss-tools" data-controls hidden>
+    <label for="gloss-filter">Filter terms</label>
+    <input id="gloss-filter" type="search" placeholder="e.g. bore, contrast, magnet" autocomplete="off">
+    <p class="gloss-count" id="gloss-count" role="status">29 terms</p>
+  </div>
+
+  <div class="gloss-groups" id="glossGroups">
+    <section class="gloss-group" aria-labelledby="gloss-signals">
+      <h3 id="gloss-signals">Pictures and signals</h3>
+      <dl>
+        <dt id="term-mri">MRI</dt>
+        <dd>Magnetic resonance imaging: pictures made by measuring signals produced with magnetic fields and radio waves.</dd>
+        <dt id="term-magnetic-field">Magnetic field</dt>
+        <dd>The region where a magnet has an effect.</dd>
+        <dt id="term-hydrogen">Hydrogen nucleus</dt>
+        <dd>The center of a hydrogen atom. MRI commonly measures signals from these nuclei in water and fat.</dd>
+        <dt id="term-radio">Radio wave</dt>
+        <dd>A wave that carries energy through changing electric and magnetic fields. A short burst at the right frequency tips the body's tiny magnets away from rest.</dd>
+        <dt id="term-resonance">Resonance and frequency</dt>
+        <dd>Frequency is the rate at which a wave cycles. Resonance is the selective response to a wave at the right frequency.</dd>
+        <dt id="term-coil">Receiver coil</dt>
+        <dd>A wire loop or set of loops placed near the body that detects the signal.</dd>
+        <dt id="term-gradient">Gradient</dt>
+        <dd>A controlled change in field strength across space that helps locate the signal.</dd>
+        <dt id="term-slice">Slice</dt>
+        <dd>A view through a thin layer of the body.</dd>
+        <dt id="term-tissue">Tissue</dt>
+        <dd>A body material or structure, such as muscle or fat.</dd>
+        <dt id="term-snr">Signal to noise ratio</dt>
+        <dd>How much wanted signal there is compared with unwanted random variation.</dd>
+        <dt id="term-artifact">Artifact</dt>
+        <dd>A feature or distortion in an image that does not faithfully represent the body.</dd>
+      </dl>
+    </section>
+
+    <section class="gloss-group" aria-labelledby="gloss-shapes">
+      <h3 id="gloss-shapes">Scanner shapes and strength</h3>
+      <dl>
+        <dt id="term-bore">Bore</dt>
+        <dd>The round tunnel through a closed scanner. A wide bore is a wider tunnel, not open sides.</dd>
+        <dt id="term-closed">Closed MRI</dt>
+        <dd>A scanner whose magnet surrounds the table on all sides, usually as a tunnel.</dd>
+        <dt id="term-open">Open MRI</dt>
+        <dd>A scanner that leaves more space at the sides, often with plates above and below the table.</dd>
+        <dt id="term-upright">Upright MRI</dt>
+        <dd>A system that supports some scans while a person sits or stands.</dd>
+        <dt id="term-field">Field strength and tesla (T)</dt>
+        <dd>How strong the magnetic field is, measured in units called tesla.</dd>
+        <dt id="term-electromagnet">Electromagnet</dt>
+        <dd>A magnet made by running electric current through coils.</dd>
+        <dt id="term-permanent">Permanent magnet</dt>
+        <dd>A magnet that holds its field without electric current.</dd>
+        <dt id="term-superconducting">Superconducting magnet</dt>
+        <dd>An electromagnet whose very cold coil carries current without electrical resistance.</dd>
+      </dl>
+    </section>
+
+    <section class="gloss-group" aria-labelledby="gloss-people">
+      <h3 id="gloss-people">People and planning</h3>
+      <dl>
+        <dt id="term-protocol">Protocol</dt>
+        <dd>The set of pictures and scanner settings planned for a particular exam.</dd>
+        <dt id="term-radiologist">Radiologist</dt>
+        <dd>A doctor trained to interpret medical images.</dd>
+        <dt id="term-technologist">Technologist</dt>
+        <dd>The professional who operates the scanner and helps position the person.</dd>
+      </dl>
+    </section>
+
+    <section class="gloss-group" aria-labelledby="gloss-safety">
+      <h3 id="gloss-safety">Comfort and safety</h3>
+      <dl>
+        <dt id="term-claustrophobia">Claustrophobia</dt>
+        <dd>Fear or distress in confined spaces.</dd>
+        <dt id="term-sedation">Sedation</dt>
+        <dd>Medicine used to reduce alertness or help someone stay still, under appropriate supervision.</dd>
+        <dt id="term-contrast">Contrast agent</dt>
+        <dd>A substance used to change how structures appear in the image. Many MRI exams do not need it.</dd>
+        <dt id="term-gadolinium">Gadolinium</dt>
+        <dd>A metallic element used in bound form in many MRI contrast medicines.</dd>
+        <dt id="term-ionizing">Ionizing radiation</dt>
+        <dd>Energy that can remove electrons from atoms. MRI does not use this kind of radiation.</dd>
+        <dt id="term-implant">Implant and MR Conditional</dt>
+        <dd>An implant is a device or material placed inside the body. MR Conditional means an item has been shown safe only under specified MRI conditions.</dd>
+        <dt id="term-weight">Weight bearing</dt>
+        <dd>Supporting body weight, as when standing, while the structure being examined is imaged.</dd>
+      </dl>
+    </section>
+  </div>
+</section>
+
+<section class="chapter reveal" id="sources" aria-labelledby="sources-title">
+  <h2 id="sources-title">Further reading</h2>
+  <ul class="source-list">
+    <li><a href="https://www.nibib.nih.gov/science-education/science-topics/magnetic-resonance-imaging-mri">National Institute of Biomedical Imaging and Bioengineering: how MRI works</a></li>
+    <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8505165/">Low field MRI: a review of magnet designs and imaging tradeoffs</a></li>
+    <li><a href="https://www.radiologyinfo.org/en/info/bodymr">RadiologyInfo: body MRI and what to expect</a></li>
+    <li><a href="https://www.fda.gov/radiation-emitting-products/mri-magnetic-resonance-imaging/benefits-and-risks">U.S. Food and Drug Administration: MRI benefits and risks</a></li>
+  </ul>
+</section>
+
+<footer>
+  <p>Open vs closed MRI · a visual field guide · <a href="../../">Ronnie's Experiments</a></p>
+  <p>General education only. Not a scanner recommendation or a safety clearance.</p>
+</footer>
+
+</main>
+</div>
+</body>
+</html>
