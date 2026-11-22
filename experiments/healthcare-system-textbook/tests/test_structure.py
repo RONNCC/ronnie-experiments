@@ -218,6 +218,60 @@ class TextbookTests(unittest.TestCase):
         self.assertNotIn("wrist fracture episode", HTML)
         self.assertNotIn("Maya's wrist fracture", HTML)
 
+    def test_billing_lifecycle_consolidation_npi_debt_and_drug_pricing_expansion(self):
+        for term in [
+            "term-hopd", "term-facility-fee", "term-vertical-integration", "term-private-equity",
+            "term-npi", "term-taxonomy-code", "term-medical-debt",
+            "term-charge-capture", "term-cms1500", "term-ub04", "term-drg", "term-era", "term-patient-statement",
+            "term-gross-to-net", "term-rebate-wall", "term-ira-negotiation",
+        ]:
+            self.assertIn(f'id="{term}"', HTML)
+
+        sources_section = HTML.split('id="sources"', 1)[1]
+        body_section = HTML.split('id="sources"', 1)[0]
+        expanded_sources = [
+            ("source-kff-consolidation", "https://www.kff.org/health-costs/one-or-two-health-systems-controlled-the-entire-market-for-inpatient-hospital-care-in-nearly-half-of-metropolitan-areas/"),
+            ("source-cms-pos", "https://www.cms.gov/medicare/coding-billing/place-of-service-codes/code-sets"),
+            ("source-cms-mpfs", "https://www.cms.gov/regulations-and-guidance/guidance/manuals/downloads/clm104c23.pdf"),
+            ("source-medpac-2026", "https://www.medpac.gov/wp-content/uploads/2026/03/Mar26_MedPAC_Report_To_Congress_SEC.pdf"),
+            ("source-kff-site-neutral", "https://www.kff.org/quick-insights/the-trump-administration-moves-forward-with-medicare-site-neutral-payment-reform/"),
+            ("source-ha-consolidation", "https://www.healthaffairs.org/doi/10.1377/hlthaff.2025.00493"),
+            ("source-jhf-pcp-consolidation", "https://jamanetwork.com/journals/jama-health-forum/fullarticle/2829224"),
+            ("source-jhf-pe-spending", "https://jamanetwork.com/journals/jama-health-forum/fullarticle/2795946"),
+            ("source-cms-npi", "https://www.cms.gov/files/document/icn902603npibookletpdf"),
+            ("source-nucc-taxonomy", "https://taxonomy.nucc.org/"),
+            ("source-kff-medical-debt", "https://www.kff.org/health-costs/the-burden-of-medical-debt-in-the-united-states/"),
+            ("source-kff-charity-care", "https://www.kff.org/health-costs/hospital-charity-care-how-it-works-and-why-it-matters/"),
+            ("source-cfpb-medical-debt", "https://www.consumerfinance.gov/archive/newsroom/cfpb-finds-15-million-americans-have-medical-bills-on-their-credit-reports/"),
+            ("source-cms-claims-ch1", "https://www.cms.gov/regulations-and-guidance/guidance/manuals/downloads/clm104c01.pdf"),
+            ("source-cms-1500", "https://www.cms.gov/Medicare/Billing/ElectronicBillingEDITrans/1500"),
+            ("source-cms-1450", "https://www.cms.gov/Medicare/Billing/ElectronicBillingEDITrans/1450"),
+            ("source-cms-payment-systems", "https://www.cms.gov/Outreach-and-Education/Medicare-Learning-Network-MLN/MLNProducts/html/medicare-payment-systems.html"),
+            ("source-cms-era", "https://www.cms.gov/regulations-and-guidance/guidance/manuals/downloads/clm104c22.pdf"),
+            ("source-oig-transparency", "https://oig.hhs.gov/reports/all/2024/not-all-selected-hospitals-complied-with-the-hospital-price-transparency-rule/"),
+            ("source-gao-transparency", "https://www.gao.gov/products/gao-25-106995"),
+            ("source-cms-transparency-2026", "https://www.cms.gov/files/document/mln7215754-hospital-price-transparency.pdf"),
+            ("source-kff-pa-poll", "https://www.kff.org/public-opinion/kff-health-tracking-poll-prior-authorizations-rank-as-publics-biggest-burden-when-getting-health-care/"),
+            ("source-kff-pbm", "https://www.kff.org/other-health/what-to-know-about-pharmacy-benefit-managers-pbms-and-federal-efforts-at-regulation/"),
+            ("source-ftc-pbm", "https://search.ftc.gov/system/files/ftc_gov/pdf/pharmacy-benefit-managers-staff-report.pdf"),
+            ("source-jama-insulin-bubble", "https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2806020"),
+            ("source-jama-oop-list", "https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2779442"),
+            ("source-ftc-pbm-2025", "https://search.ftc.gov/system/files/ftc_gov/pdf/PBM-6b-Second-Interim-Staff-Report.pdf"),
+            ("source-dol-pbm-rule", "https://beta.dol.gov/research-data/fact-sheets/pharmacy-benefit-manager-fee-disclosure-final-rule"),
+            ("source-kff-ira-neg", "https://www.kff.org/medicare/key-facts-about-medicare-drug-price-negotiation/"),
+            ("source-cbo-partd-2026", "https://www.cbo.gov/system/files/2026-07/62549-Medicare-Part-D.pdf"),
+        ]
+        for source_id, url in expanded_sources:
+            with self.subTest(source=source_id):
+                self.assertIn(f'id="{source_id}"', sources_section)
+                self.assertIn(url, sources_section)
+                self.assertIn(f'href="#{source_id}"', body_section)
+
+        future_section = HTML.split('id="future-topics"', 1)[1].split('id="glossary"', 1)[0]
+        self.assertNotIn("CMS-1450 vs CMS-1500", future_section)
+        self.assertNotIn("Hospital pricing transparency", future_section)
+        self.assertNotIn("Medicare Advantage prior-auth reform", future_section)
+
 
 if __name__ == "__main__":
     unittest.main()
